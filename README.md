@@ -1,8 +1,8 @@
 # Vaga - Rails fullstack
 
-Verifique a issue que lhe foi atribuida
-Crie um branch com o seu nome
-Envie o se material para um remote
+- Verifique a issue que lhe foi atribuida
+- Crie um branch com o seu nome
+- Envie o se material para um remote
 
 # Requisitos:
 - rails ~> 5
