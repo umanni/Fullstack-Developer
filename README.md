@@ -10,4 +10,4 @@
 - active job c/ sidekick para requisições que podem ser prejudicadas em alta escala
 - devise para autenticação por email simples
 - docker / docker-compose
-- Como é uma vaga de fullstack, mostre o que sabe da front e de back :)
+- Como é uma vaga de fullstack, mostre o que sabe de frontend e de backend :)
