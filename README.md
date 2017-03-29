@@ -5,7 +5,7 @@
 - Push to remote in 2 weeks (date will be checked from branch creation/assigned date)
 
 # Requirements:
-- Latest version of stack
+- Latest version of the stack
 - Write unit and integration tests 
 - Deviver with a working Dockerfile
 - Use docker-compose.yml if needed
