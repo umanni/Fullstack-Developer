@@ -1,13 +1,12 @@
-# Vaga - Rails fullstack
+# Fullstack Developer Test
 
-- Verifique a issue que lhe foi atribuida
-- Crie um branch com o seu nome
-- Envie o material para o remote até o dia 25/2/2017
+- Check your assigned issue
+- Create a branch to develop your task
+- Push to remote in 2 weeks (date will be checked from branch creation/assigned date)
 
-# Requisitos:
-- rails ~> 5
-- action cable para realtime em alguma parte pertinente
-- active job c/ sidekick para requisições que podem ser prejudicadas em alta escala
-- devise para autenticação por email simples
-- docker / docker-compose
-- Como é uma vaga de fullstack, mostre o que sabe de frontend e de backend :)
+# Requirements:
+- Latest version of stack
+- Write unit and integration tests 
+- Deviver with a working Dockerfile
+- Use docker-compose.yml if needed
+- Show your best practices ex: design patters, linters etc.
