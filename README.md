@@ -7,6 +7,6 @@
 # Requirements:
 - Latest version of the stack
 - Write unit and integration tests 
-- Deviver with a working Dockerfile
+- Deliver with a working Dockerfile
 - Use docker-compose.yml if needed
 - Show your best practices ex: design patters, linters etc.
