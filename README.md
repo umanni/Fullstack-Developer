@@ -14,7 +14,7 @@
 # The Test
 Here we'll try to simulate a "real sprint" that you'll, probably, be assigned while working as Fullstack at Umanni.
 # The Task
-- Create a responsive application with Phoenix Framework to manage users.
+- Create a responsive application to manage users.
 - A user must have:
 1- full_name
 2- email
@@ -43,15 +43,15 @@ Here we'll try to simulate a "real sprint" that you'll, probably, be assigned wh
 These one are required. Not doing one of them will invalidate your submission.
 - You must write down a README in English explaining how to build and run your app.
 - The Frontend must  have a framework Bootstrap, Foundation, MDL or any other frameworks, remember you are here as a Fullstack not a backend developer.
-- You must use channels to update all realtime related stuff (counters on Admin Dashboard, import progress, etc)
+- You must use realtime related stuff (counters on Admin Dashboard, import progress, etc)
 - You must treat errors accordingly.
-- You must use comeonin and guardian to authenticate Users.
-- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based  workflows.
+- You must use a open source lib to authenticate Users.
+- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
 # What we're expecting to see:
 - Use SASS to your CSS;
 - .gitignore, .dockerignore
 - A proper way to manage app configuration 
-- Last 2 versions for Browser support
+- Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
 - Organize & optimize your code and images
 - Form validation (frontend validation included)
 - Tests with at least 90% coverage
@@ -63,6 +63,5 @@ These one are required. Not doing one of them will invalidate your submission.
 - Stress tests
 # What will be assessed
 - Code's Semantic, Cleanness and Maintainability;
-- Use of OTP, gen_server, agents etc.
 - Understanding of REST and proper use of HTTP Methods (POST, GET, PUT, PATCH, DELETE, OPTIONS);
 - Basic Security tests against Injections, XSS/XSRF, ...
