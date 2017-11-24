@@ -2,7 +2,7 @@
 
 - Check this readme.md
 - Create a branch to develop your task
-- Push to remote in 1 weeks (date will be checked from branch creation/assigned date)
+- Push to remote in 1 week (date will be checked from branch creation/assigned date)
 
 # Requirements:
 - Latest version of the stack
@@ -38,7 +38,7 @@ Here we'll try to simulate a "real sprint" that you'll, probably, be assigned wh
 - As a Visitor, I can register myself as a normal User.
 
 # The Start.
-- Your deadline is 1 weeks after accepting this test. 
+- Your deadline is 1 week after accepting this test. 
 # The Rules
 These one are required. Not doing one of them will invalidate your submission.
 - You must write down a README in English explaining how to build and run your app.
