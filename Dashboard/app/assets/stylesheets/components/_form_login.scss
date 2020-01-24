@@ -1,0 +1,21 @@
+.form-login {
+  width: 370px;
+  background: white;
+  padding: 15px 30px;
+  margin-top: 50px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  h2 {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .btn {
+    width: 100%;
+  }
+  .profile-form {
+  display: flex;
+  justify-content: space-between;
+  }
+}

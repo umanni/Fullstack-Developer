@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <div style="top:60px;
+            position:absolute;
+            right:90px;">
+    <%= link_to 'Create a new user', new_users_admin_path, class: 'btn btn-primary' %>
+    <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-secondary' %>
+  </div>
+<h1>My list of Users</h1>
+
+  <table class='table table-striped'>
+    <thead class="head-table text-center">
+      <h5>The total number of all registered users: <%= @count %></h5>
+      <h5>The total number of admin users: <%= @admin %></h5>
+      <h5>The total number of regular users: <%= @noadmin %></h5>
+
+      <tr>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Admin</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr class="text-center">
+          <th scope="row"><%= user.first_name %></th>
+          <td><%= user.last_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.admin? ? 'Yes' : 'No' %></td>
+          <td><%= link_to 'Edit', edit_users_admin_path(id: user.id), class: 'btn btn-dark' %>
+          </td>
+          <td><%= link_to 'Delete', users_admin_path(id: user.id), method: :delete,  data: { confirm: "Are you sure?"}, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<br>

@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="offset-3 col-4">
+      <div class="form-register">
+        <h1 class="text-center">Create a new user</h1>
+
+          <%= form_for @user, url: users_admin_index_path(@user) do |f| %>
+          <fieldset>
+
+          <div class="inputs-of-form p-5">
+            <div class="profile-form">
+              <div>
+              <%= f.label :first_name %>
+              <%= f.text_field :first_name, size: 15, autofocus: true %>
+              </div>
+              <div>
+              <%= f.label :last_name %>
+              <%= f.text_field :last_name, size: 15, autofocus: true %>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <%= f.label :email %>
+              <%= f.email_field :email, size: 35 %>
+            </div>
+
+            <div class="mt-3">
+              <%= f.label :password %>
+              <%= f.password_field :password, size: 35 %>
+            </div>
+
+            <div class="mt-3">
+              <%= f.label :password_confirmation, "Confirm Password" %>
+              <%= f.password_field :password_confirmation, size: 35 %>
+            </div>
+          </div>
+        <br>
+          <%= f.button :submit, class: 'btn btn-primary' %>
+
+        </fieldset>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
