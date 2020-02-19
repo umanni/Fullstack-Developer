@@ -7,13 +7,21 @@ ruby '2.7.0'
 
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 
+gem 'activeadmin', '~> 2.6', '>= 2.6.1'
+gem 'activeadmin_addons', '~> 1.7', '>= 1.7.1'
+gem 'arctic_admin', '~> 3.1', '>= 3.1.1'
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'devise', '~> 4.7', '>= 4.7.1'
 gem 'jbuilder', '~> 2.7'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
+
+# Downgraded sprockets because of a bug with sprocket-4.0
+# https://tosbourn.com/fixing-an-issue-with-sprockets-and-feature-tests/
+gem 'sprockets', '~> 3.7.2'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
