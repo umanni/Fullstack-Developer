@@ -33,5 +33,14 @@ module UmanniTest
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # For more information about Locale Files organization, look at:
+    # https://guides.rubyonrails.org/i18n.html#organization-of-locale-files
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    # Permitted locales available for the application
+    I18n.available_locales = [:en, :'pt-BR']
+    # Set default locale to something other than :en
+    I18n.default_locale = :en
+    I18n.locale = :'pt-BR'
   end
 end
