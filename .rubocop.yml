@@ -10,3 +10,6 @@ AllCops:
     - '**/templates/**/*'
     - '**/vendor/**/*'
     - '**/node_modules/**/*'
+  RSpec:
+    Patterns:
+    - '_spec.rb$'
