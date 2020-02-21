@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>UmanniTest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no" />
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,7 +13,7 @@
 
   <body>
     <%= render 'layouts/nav_bar' %>
-
+    <%= render 'shared/flash' %>
     <div class="container">
       <%= yield %>
     </div>
