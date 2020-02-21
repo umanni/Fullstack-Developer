@@ -29,4 +29,11 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Ignore development config files
+.env
+/config/database.yml
 .editorconfig
+
+# Ignore test coverage files
+/coverage
