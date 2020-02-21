@@ -18,6 +18,8 @@ gem 'puma', '~> 4.1'
 gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
+gem 'bootstrap', '~> 4.4', '>= 4.4.1'
+gem 'jquery-rails'
 
 # Downgraded sprockets because of a bug with sprocket-4.0
 # https://tosbourn.com/fixing-an-issue-with-sprockets-and-feature-tests/
