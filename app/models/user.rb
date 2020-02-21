@@ -9,6 +9,6 @@ class User < ApplicationRecord
   validates :full_name, :role,
     presence: true
 
-  scope :non_admins, -> { where(role: non_admin) }
-  scope :admins, -> { where(role: admin) }
+  scope :non_admins, -> { where(role: "non_admin") }
+  scope :admins, -> { where(role: "admin") }
 end

@@ -30,3 +30,7 @@ en:
         unconfirmed_email: Unconfirmed email
         unlock_token: Unlock token
         updated_at: Updated at
+        role:
+          one: Role
+          non_admin: Non Admin
+          admin: Admin

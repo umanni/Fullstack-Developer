@@ -8,6 +8,10 @@ body.index #sidebar::before {
   color: #fff;
 }
 
+.status_tag {
+  &.admin { background: $primary-color; }
+}
+
 #utility_nav #home_page {
   a {
     color: transparent;

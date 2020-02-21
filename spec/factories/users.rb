@@ -3,17 +3,17 @@
 FactoryBot.define do
   factory :user do
     full_name { Faker::Name.unique.name }
-    email { Faker::Internet.safe_email(name) }
+    email { Faker::Internet.safe_email(full_name) }
     password { 'password' }
     password_confirmation { 'password' }
     created_at { Time.zone.local(2019, 1, 18, 6, 28, 0) }
 
     trait :non_admin do
-      role { 0 }
+      role { "non_admin" }
     end
 
     trait :admin do
-      role { 1 }
+      role { "admin" }
     end
   end
 end

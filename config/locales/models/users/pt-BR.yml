@@ -30,3 +30,7 @@ pt-BR:
         unconfirmed_email: Email não confirmado
         unlock_token: Token de desbloqueio
         updated_at: Atualizado em
+        role:
+          one: Nível
+          non_admin: Não Admin
+          admin: Admin
