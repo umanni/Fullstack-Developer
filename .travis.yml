@@ -20,11 +20,11 @@ install:
   - npm install --global yarn
   - yarn install
 before_script:
-  - "cp config/database.yml.example config/database.yml"
-  - "cp .env.sample .env"
+  - "cp config/database.yml-example config/database.yml"
+  - "cp .env-example .env"
   - "export DISPLAY=:99.0"
-  - "bundle exec rake --trace fulcrum:setup db:setup"
+  - "bundle exec rake --trace db:setup"
 rvm:
   - 2.7.0
 script:
-  - "bundle exec rspec'
+  - "bundle exec rspec"

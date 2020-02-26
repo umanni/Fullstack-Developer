@@ -44,9 +44,8 @@ group :test do
   gem 'apparition', '~> 0.5.0'
   gem 'capybara', '~> 3.31'
   gem 'capybara-screenshot', '~> 1.0', '>= 1.0.24'
-  gem 'coveralls', require: false
   gem 'shoulda-matchers', '~> 4.3'
-  gem 'simplecov', '~> 0.18.2', require: false
+  gem 'simplecov', '~> 0.17.1', require: false
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
