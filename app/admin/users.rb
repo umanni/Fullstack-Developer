@@ -5,6 +5,24 @@ ActiveAdmin.register User do
 
   permit_params :full_name, :email, :role, :password, :password_confirmation
 
+  action_item only: :index do
+    link_to 'Upload CSV', action: 'upload_csv'
+  end
+
+  collection_action :upload_csv do
+    render "admin/csv/upload_csv"
+  end
+
+  collection_action :import_csv, method: :post do
+    if ImportUsersCsvHelper.import_csv(params[:file])
+      flash[:notice] = "CSV imported successfully!"
+      redirect_to action: :index
+    else
+      flash[:alert] = "Error invalid CSV, please upload a valid CSV"
+      redirect_to action: 'upload_csv'
+    end
+  end
+
   scope :all, default: true
   scope :non_admins
   scope :admins
