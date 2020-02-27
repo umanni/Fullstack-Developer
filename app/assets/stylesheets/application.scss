@@ -1,6 +1,12 @@
-@import "bootstrap";
-@import "home";
+@import "users";
+@import "bootstrap/scss/bootstrap";
 
 .actions {
   margin-bottom: 16px;
+}
+
+@media (min-width: 1024px) {
+  .container{
+    max-width: 50vw;
+  }
 }
