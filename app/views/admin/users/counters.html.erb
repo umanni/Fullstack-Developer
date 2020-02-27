@@ -1,0 +1,17 @@
+<div>
+  <h4>
+    <%= I18n.t('total_users', scope: 'active_admin', count: @admins + @non_admins) %>
+  </h4>
+</div>
+
+<div>
+  <h4>
+    <%= I18n.t('admin_users', scope: 'active_admin', count: @admins) %>
+  </h4>
+</div>
+
+<div>
+  <h4>
+    <%= I18n.t('standard_users', scope: 'active_admin', count: @non_admins) %>
+  </h4>
+</div>

@@ -5,6 +5,7 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter %r{^/(?!app|lib)/}
   add_filter %r{^/app/channels/}
+  add_filter %r{^/app/mailers/}
   add_filter %r{^/app/jobs/}
   add_filter '.gems'
   add_group 'Admin', 'app/admin'

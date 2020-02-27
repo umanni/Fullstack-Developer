@@ -1,5 +1,8 @@
 pt-BR:
   active_admin:
+    total_users: Total number of Users
+    admin_users: Administradores
+    standard_users: Usuários
     csv_success: CSV importado com sucesso!
     csv_failure: Erro CSV inválido!
     back_to_home_page: Retornar a Página Principal

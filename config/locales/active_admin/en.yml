@@ -1,5 +1,8 @@
 en:
   active_admin:
+    total_users: "Total number of Users: %{count}"
+    admin_users: "Admin Users: %{count}"
+    standard_users: "Standard Users: %{count}"
     csv_success: CSV imported successfully!
     csv_failure: Error CSV invalid!
     back_to_home_page: Back to Home Page

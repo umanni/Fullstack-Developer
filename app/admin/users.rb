@@ -33,6 +33,12 @@ ActiveAdmin.register User do
   filter :current_sign_in_at
   filter :created_at
 
+  collection_action :counters do
+    @admins = User.cached_admin_counts
+    @non_admins = User.cached_non_admin_counts
+    render layout: false
+  end
+
   index do
     selectable_column
     id_column

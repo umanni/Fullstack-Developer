@@ -165,5 +165,19 @@ RSpec.feature 'admin/users' do
         expect(page).to have_link('Delete', href: "/admin/users/#{user.id}")
       end
     end
+
+    feature 'Counters' do
+      before do
+        create_list(:user, 3, :admin)
+        create_list(:user, 2, :non_admin)
+      end
+
+      scenario 'render counters' do
+        visit '/admin/users/counters'
+        expect(page).to have_text("Total number of Users: #{User.count}") &
+                        have_text("Admin Users: #{User.admin.count}") &
+                        have_text("Standard Users: #{User.non_admin.count}")
+      end
+    end
   end
 end

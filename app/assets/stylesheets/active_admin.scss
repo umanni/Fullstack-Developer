@@ -2,6 +2,7 @@
 @import "active_admin/mixins";
 @import "active_admin/colors";
 @import "arctic_admin/base";
+@import "activeadmin-async_panel";
 
 body.index #sidebar::before {
   background-color: $primary-color;
