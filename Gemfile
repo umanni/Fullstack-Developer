@@ -8,6 +8,7 @@ ruby '2.7.0'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
 
 gem 'activeadmin', '~> 2.6', '>= 2.6.1'
+gem 'activeadmin-async_panel'
 gem 'activeadmin_addons', '~> 1.7', '>= 1.7.1'
 gem 'arctic_admin', '~> 3.1', '>= 3.1.1'
 gem 'bootsnap', '>= 1.4.2', require: false

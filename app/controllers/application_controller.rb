@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   before_action :configure_sign_up_params, if: :devise_controller?
+  protect_from_forgery with: :exception
 
   def authenticate_admin_user!
     unless !current_user.nil? && current_user.admin?
