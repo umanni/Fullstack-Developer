@@ -21,4 +21,7 @@ Rails.application.routes.draw do
       root to: 'devise/sessions#new'
     end
   end
+
+  match '*unmatched_route', to: 'application#route_not_found!', via: :all
+
 end
