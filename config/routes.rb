@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users, :path_names => { sign_up: "register" }
 
-  get 'profile', to: 'users#show'
+  get 'profile', to: 'users#show', as: :profile
 
   devise_scope :user do
     get 'login', to: 'devise/sessions#new'
