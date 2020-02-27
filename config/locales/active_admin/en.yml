@@ -1,5 +1,7 @@
 en:
   active_admin:
+    csv_success: CSV imported successfully!
+    csv_failure: Error CSV invalid!
     back_to_home_page: Back to Home Page
     no_attachment_yet: No attachment yet
     dashboard: "Dashboard"

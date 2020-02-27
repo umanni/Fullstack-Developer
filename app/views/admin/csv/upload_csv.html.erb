@@ -1,0 +1,8 @@
+<%= form_with url: { action: "import_csv" },
+  html: { multipart: true } do |f| %>
+
+  <%= f.label :file %>
+  <%= f.file_field :file, accept: 'text/csv', required: true %>
+
+  <%= f.submit "Submit CSV", class: 'button', id: 'upload-csv-btn' %>
+<% end %>

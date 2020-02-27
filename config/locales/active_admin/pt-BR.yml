@@ -1,5 +1,7 @@
 pt-BR:
   active_admin:
+    csv_success: CSV importado com sucesso!
+    csv_failure: Erro CSV inválido!
     back_to_home_page: Retornar a Página Principal
     no_attachment_yet: Nenhum anexo ainda
     dashboard: "Painel Administrativo"
