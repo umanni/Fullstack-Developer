@@ -1,0 +1,5 @@
+full_name,role,email,password,password_confirmation,skip_photo
+csv_user1,admin,csv_user1@email.com,password,password,true
+csv_user2,admin,csv_user2@email.com,password,password,true
+csv_user3,admin,csv_user3@email.com,password,password,true
+csv_user4,admin,csv_user4@email.com,password,password,true
