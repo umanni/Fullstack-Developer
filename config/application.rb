@@ -26,6 +26,10 @@ module UmanniTest
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    # Rails catchall messes with ActiveStorage routes
+    # This is a fix, to load ActiveStorage first and unmatched_routes only on :all
+    config.railties_order = [ActiveStorage::Engine, :main_app, :all]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -41,5 +45,7 @@ module UmanniTest
     I18n.available_locales = [:en, :'pt-BR']
     I18n.default_locale = :en
     I18n.locale = :en
+
+    config.active_storage.variant_processor = :mini_magick
   end
 end

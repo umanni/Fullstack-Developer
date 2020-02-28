@@ -1,5 +1,5 @@
-full_name,role,email
-csv_user1,admin,csv_user1@email.com
-csv_user2,admin,csv_user2@email.com
-csv_user3,admin,csv_user3@email.com
-csv_user4,admin,csv_user4@email.com
+full_name,role,email,skip_photo
+csv_user1,admin,csv_user1@email.com,true
+csv_user2,admin,csv_user2@email.com,true
+csv_user3,admin,csv_user3@email.com,true
+csv_user4,admin,csv_user4@email.com,true

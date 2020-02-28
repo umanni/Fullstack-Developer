@@ -1,24 +1,51 @@
-# README
+# Cassiano Blonski Sampaio - 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Codeminer42 Developer
 
-Things you may want to cover:
+## Dependencies
 
-* Ruby version
+```
+Ruby 2.7.0
+Rails 6.0.2.1
+Postgres >= 9.1
+Node 12.14.1
+Bundler 2.1.2
+Yarn 1.17.3
+```
 
-* System dependencies
+## Installing
 
-* Configuration
+Copy the contents of the `.env.example` and `database.yml.example` to `.env` and `database.yml` then change with the credentials of your local environment.
 
-* Database creation
+```console
+$ cp .env.example .env
+$ cp config/database.yml.example config/database.yml
+```
 
-* Database initialization
+Install gems and packages, setup the database and run.
+```console
+$ bundle install
+$ yarn install
+$ rails db:setup
+$ bundle exec rspec
+$ rails s
+```
 
-* How to run the test suite
+## Testing
 
-* Services (job queues, cache servers, search engines, etc.)
+Running tests:
 
-* Deployment instructions
+```console
+$ bundle exec rake spec
+```
 
-* ...
+## Database
+
+After installation steps the following admin user will be created in database
+
+1. A Admin User
+
+```
+E-mail:   admin@example.com
+Password: password
+```
