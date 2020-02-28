@@ -49,3 +49,20 @@ After installation steps the following admin user will be created in database
 E-mail:   admin@example.com
 Password: password
 ```
+
+## Docker
+
+After installation steps the following admin user will be created in database
+
+```
+$ cp .env.example .env
+$ cp config/database.yml.example config/database.yml
+$ docker-compose build
+$ docker-compose run web
+
+if needed run:
+$ docker-compose run web yarn install --check-files
+and then again:
+$ docker-compose run web
+```
+
