@@ -49,6 +49,13 @@ body.index #sidebar::before {
   }
 }
 
+.attributes_table {
+  &.user td img {
+    max-width: 170px;
+    max-height: 170px;
+  }
+}
+
 #upload-csv-btn{
   display: block;
   margin-top: 1.5rem;

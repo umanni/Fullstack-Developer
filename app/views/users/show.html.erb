@@ -1,9 +1,9 @@
 <div class="card">
   <div class="card-header">
-  <img class="card-img-top"
-    id="user-show-img"
-    src="https://image.flaticon.com/icons/svg/147/147144.svg"
-    alt="Card image cap">
+
+  <%= image_tag rails_blob_url(current_user.photo),
+    class: 'user_photo',
+    alt: "Profile photo" %>
   </div>
 
   <div class="card-body">

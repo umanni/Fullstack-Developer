@@ -3,7 +3,7 @@
 ActiveAdmin.register User do
   menu priority: 15, label: User.model_name.human(count: :many)
 
-  permit_params :full_name, :email, :role, :password, :password_confirmation
+  permit_params :full_name, :email, :photo, :role, :password, :password_confirmation
 
   action_item only: :index do
     link_to 'Upload CSV', action: 'upload_csv'
@@ -52,6 +52,9 @@ ActiveAdmin.register User do
 
   show do
     attributes_table do
+      row :photo do |user|
+        image_tag(user.photo, alt: "User Photo") if user.photo.present?
+      end
       row :full_name
       row :email
       row :role do |user|
@@ -66,6 +69,9 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs do
+      f.input :photo, as: :file, hint: f.object.photo.present? \
+        ? f.object.photo.filename.to_s
+        : content_tag(:span, t("no_attachment_yet", scope: "active_admin"))
       f.input :full_name
       f.input :email
       f.input :role do |user|

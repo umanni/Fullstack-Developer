@@ -104,6 +104,7 @@ RSpec.feature 'admin/users' do
       end
 
       scenario 'must have the form working' do
+        attach_file('user[photo]', Helpers::ImageUpload.file_path)
         fill_in 'Full Name', with: 'Carlos Alberto'
         fill_in 'Email', with: 'carlos_alberto@email.com'
         find('#user_role').find(:option, 'Non admin').select_option

@@ -11,8 +11,10 @@ gem 'activeadmin', '~> 2.6', '>= 2.6.1'
 gem 'activeadmin-async_panel'
 gem 'activeadmin_addons', '~> 1.7', '>= 1.7.1'
 gem 'arctic_admin', '~> 3.1', '>= 3.1.1'
+gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise', '~> 4.7', '>= 4.7.1'
+gem 'image_processing'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'pg', '>= 0.18', '< 2.0'

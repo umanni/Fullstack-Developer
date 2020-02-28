@@ -2,10 +2,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :trackable,
          :recoverable, :rememberable, :validatable
 
+  has_one_attached :photo
+
   enum role: { non_admin: 0, admin: 1 }
+
+  attr_accessor :skip_photo
 
   validates :full_name, :role,
     presence: true
+
+  validates :photo, attached: true, unless: :skip_photo
 
   scope :non_admins, -> { where(role: "non_admin") }
   scope :admins, -> { where(role: "admin") }
