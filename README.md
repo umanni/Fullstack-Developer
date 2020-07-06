@@ -48,7 +48,7 @@ These one are required. Not doing one of them will invalidate your submission.
 - You must use a open source lib to authenticate Users.
 - And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
 # What we're expecting to see:
-- Use SASS to your CSS;
+- Use SCSS to your CSS;
 - .gitignore, .dockerignore
 - A proper way to manage app configuration 
 - Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
