@@ -1,0 +1,62 @@
+source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby '2.6.2'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.2.4'
+# Use postgresql as the database for Active Record
+gem 'pg', '>= 0.18', '< 2.0'
+# Use Puma as the app server
+gem 'puma', '~> 3.11'
+
+#Flexible authentication solution for Rails with Warden
+gem 'devise'
+
+# Authorization
+gem 'cancancan'
+
+# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
+gem 'rack-cors'
+
+# Use to protect API from external calls
+gem 'rack-attack'
+
+# jwt authentication
+gem 'knock', '~> 2.1', '>= 2.1.1'
+
+# Serializer json
+gem 'active_model_serializers'
+
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false
+
+
+group :test do
+  # Generate record based in a model
+  gem 'factory_bot_rails', "~> 4.0"
+  # Fakker datas
+  gem "ffaker"
+  # Clean db adter test
+  gem 'database_cleaner'
+end
+
+group :development, :test do
+   # Test framework
+  gem 'rspec-rails', '~> 3.5'
+  # Debbug
+  gem 'byebug', platform: :mri
+  # Rspec test auxiliar gem
+  gem 'rspec-json_expectations'
+end
+
+group :development do
+  gem 'listen', '>= 3.0.5', '< 3.2'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
