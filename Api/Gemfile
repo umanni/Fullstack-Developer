@@ -10,9 +10,6 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 
-#Flexible authentication solution for Rails with Warden
-gem 'devise'
-
 # Authorization
 gem 'cancancan'
 
@@ -21,6 +18,9 @@ gem 'rack-cors'
 
 # Use to protect API from external calls
 gem 'rack-attack'
+
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'
 
 # jwt authentication
 gem 'knock', '~> 2.1', '>= 2.1.1'
