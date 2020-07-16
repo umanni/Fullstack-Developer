@@ -2,6 +2,3 @@
 tmp/*
 logs/*
 LICENSE.md
-README.md
-docker-compose.*
-Dockerfile

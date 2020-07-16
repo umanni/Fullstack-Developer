@@ -42,6 +42,13 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  # Custom json helpers
+  config.include Requests::JsonHelpers, type: :request
+  # Custom Header helpers
+  config.include Requests::HeaderHelpers, type: :request
+  # Custom Serializer helpers
+  config.include Requests::SerializerHelpers, type: :request
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
