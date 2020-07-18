@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:10.10
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  app: &app
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: .env
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - bundle:/bundle
+      - .:/home/app/webapp
+    command: bash -c "sleep 1000000"
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  
+volumes:
+  bundle:
+  postgres:
