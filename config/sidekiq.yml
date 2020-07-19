@@ -1,9 +1,9 @@
 development:
   :concurrency: 5
   :queues:
-    - default
+    - user_manager_development_user_bulks
 
 production:
   :concurrency: 20
   :queues:
-    - default
+    - user_manager_production_user_bulks
