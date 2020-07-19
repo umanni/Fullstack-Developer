@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>User Bulks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t(:created_at, scope: 'activerecord.attributes.user_bulk') %></th>
+      <th><%= t(:state, scope: 'activerecord.attributes.user_bulk') %></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user_bulks.each do |user_bulk| %>
+      <tr>
+        <td><%= user_bulk.created_at %></td>
+        <td><%= t(user_bulk.state, scope: 'activerecord.attributes.user_bulk.states') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= will_paginate @users_bulks %>
+
+<br/>
+<%= link_to 'New User Bulk', new_admin_user_bulk_path %>
