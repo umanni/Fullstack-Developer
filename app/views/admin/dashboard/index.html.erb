@@ -1,0 +1,6 @@
+<% @total_number_of_users_grouped.each do |grouped_users_count| %>
+  <%= grouped_users_count[0] %>: <%= grouped_users_count[1] %>
+  <br/> 
+<% end %>
+<br/>
+total: <%= @total_number_of_users %>
