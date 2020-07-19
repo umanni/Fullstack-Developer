@@ -2,8 +2,12 @@ development:
   :concurrency: 5
   :queues:
     - user_manager_development_user_bulks
+    - user_manager_development_broadcast_dashboard_data
+    - user_manager_development_broadcast_user_bulks_data
 
 production:
   :concurrency: 20
   :queues:
     - user_manager_production_user_bulks
+    - user_manager_production_broadcast_dashboard_data
+    - user_manager_production_broadcast_user_bulks_data

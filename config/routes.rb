@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+  
   devise_for :users
   devise_scope :user do
     root to: "devise/sessions#new"
