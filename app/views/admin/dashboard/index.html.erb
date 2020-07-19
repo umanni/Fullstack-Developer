@@ -1,6 +1,7 @@
 <% @total_number_of_users_grouped.each do |grouped_users_count| %>
-  <%= grouped_users_count[0] %>: <%= grouped_users_count[1] %>
+  <%= grouped_users_count[0] %>: 
+  <span id="<%= grouped_users_count[0] %>"><%= grouped_users_count[1] %></span>
   <br/> 
 <% end %>
 <br/>
-total: <%= @total_number_of_users %>
+total: <span id="total_number_of_users"><%= @total_number_of_users %></span>
