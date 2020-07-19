@@ -17,12 +17,24 @@ gem 'webpacker', '4.2.2'
 gem 'turbolinks', '5.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '2.10.0'
+# Use sidekiq as job worker
+gem 'sidekiq', '6.0.7'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '4.1.3'
 # Use dotenv-rails as environment variables manager
 gem 'dotenv-rails', '2.7.5'
 # Use devise as user authentication
 gem 'devise', '4.7.2'
+# Use simple_form to help with forms
+gem 'simple_form', '5.0.2'
+# Use roo to read spreadsheets
+gem 'roo', '2.8.3'
+# Use aasm to handle with states machine
+gem 'aasm', '5.0.8'
+# Use will_paginate to paginate objects
+gem 'will_paginate', '3.3.0'
+# Use active_storage_validations to help validates active storage attachments
+gem 'active_storage_validations', '0.8.9'
 
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
