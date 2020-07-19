@@ -17,6 +17,10 @@ services:
       - bundle:/bundle
       - .:/home/app/webapp
     command: bash -c "sleep 1000000"
+  worker:
+    <<: *app
+    ports: []
+    command: bundle exec sidekiq -C config/sidekiq.yml
   redis:
     image: redis:alpine
     ports:

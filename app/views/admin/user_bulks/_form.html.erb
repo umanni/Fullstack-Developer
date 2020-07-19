@@ -1,0 +1,13 @@
+<%= simple_form_for(user_bulk, url: admin_user_bulks_path) do |f| %>
+  <%= render "shared/error_messages", resource: user_bulk %>
+
+  <div class="form-inputs">
+    <%= f.input :file %>
+  </div>
+
+  <br/>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

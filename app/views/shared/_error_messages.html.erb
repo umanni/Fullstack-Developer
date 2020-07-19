@@ -1,0 +1,12 @@
+<% if resource.errors.any? %>
+  <div id="error_explanation">
+  <div class="alert-container">
+    <div class="alert alert-top alert-danger">
+      <a class="close" data-dismiss="alert">&times;</a>
+      <%= t(:default_message, scope: 'simple_form.error_notification') %><br/>
+      <% resource.errors.full_messages.each do |msg| %>
+        <%= msg.sub(resource.class.name, '') %><br/>
+      <% end %>
+    </div>
+  </div>
+<% end %>
