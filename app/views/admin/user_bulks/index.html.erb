@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th><%= t(:id, scope: 'activerecord.attributes.user_bulk') %></th>
       <th><%= t(:created_at, scope: 'activerecord.attributes.user_bulk') %></th>
       <th><%= t(:state, scope: 'activerecord.attributes.user_bulk') %></th>
       <th></th>
@@ -14,8 +15,9 @@
   <tbody>
     <% @user_bulks.each do |user_bulk| %>
       <tr>
+        <td><%= user_bulk.id %></td>
         <td><%= user_bulk.created_at %></td>
-        <td><%= t(user_bulk.state, scope: 'activerecord.attributes.user_bulk.states') %></td>
+        <td id="user_bulk_state_id_<%= user_bulk.id %>"><%= t(user_bulk.state, scope: 'activerecord.attributes.user_bulk.states') %></td>
       </tr>
     <% end %>
   </tbody>
