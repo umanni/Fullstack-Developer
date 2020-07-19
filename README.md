@@ -62,7 +62,8 @@ Then:
 
 After this you will need to open an redis server and update the .env file with the redis ip.
 
-And then you can run the server:
+And then you will need to open 2 servers, the worker and the web:
 
+1. `$ bundle exec sidekiq -C config/sidekiq.yml`
 1. `$ bundle exec rails s`
 
