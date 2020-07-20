@@ -1,3 +1,27 @@
-<%= image_tag current_user.avatar %>
+<%= title t(:profile, scope: 'menu') %>
 
-<%= current_user.full_name %>
+<%= content_for :right do %>
+  <%= link_to t(:edit), edit_user_registration_path %>
+<% end %>
+
+<div class="col-12">
+  <% if current_user.avatar.attached? %>
+    <%= image_tag current_user.avatar, class: 'rounded-circle d-block m-auto', size: '250x200' %>
+  <% else %>
+    <%= image_tag '/default_user_avatar.png', class: 'rounded-circle d-block m-auto', size: '250x200' %>
+  <% end %>
+</div>
+
+<br/>
+
+<div class="col-6 text-center">
+  <span class="label"><%= t(:full_name, scope: 'activerecord.attributes.user') %>:</span>
+  <br/>
+  <h4><%= current_user.full_name %></h4>
+</div>
+
+<div class="col-6 text-center">
+  <span class="label"><%= t(:email, scope: 'activerecord.attributes.user') %>:</span>
+  <br/>
+  <h4><%= current_user.email %></h4>
+</div>
