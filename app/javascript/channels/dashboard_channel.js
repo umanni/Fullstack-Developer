@@ -10,7 +10,7 @@ consumer.subscriptions.create("DashboardChannel", {
   },
 
   received(data) {
-    $("#total_number_of_users").html(data.total_number_of_users)
+    $("#total_users").html(data.total_number_of_users)
     Object.keys(data.total_number_of_users_grouped).forEach(function (key, index){
       $("#" + key).html(Object.values(data.total_number_of_users_grouped)[index])
     })
