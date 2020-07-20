@@ -1,6 +1,9 @@
-<h1>Editing User</h1>
+<%= title t(:edit_resource, resource: t(:user, scope: 'activerecord.models')) %>
+
+<%= content_for :right do %>
+  <%= link_to t(:show), admin_user_path(@user) %>
+  <%= link_to t(:back), admin_users_path %>
+<% end %>
 
 <%= render 'form', user: @user %>
 
-<%= link_to 'Show', admin_user_path(@user) %> |
-<%= link_to 'Back', admin_users_path %>
