@@ -1,7 +1,28 @@
-<% @total_number_of_users_grouped.each do |grouped_users_count| %>
-  <%= grouped_users_count[0] %>: 
-  <span id="<%= grouped_users_count[0] %>"><%= grouped_users_count[1] %></span>
-  <br/> 
-<% end %>
-<br/>
-total: <span id="total_number_of_users"><%= @total_number_of_users %></span>
+<%= title t(:dashboard, scope: 'menu') %>
+
+<div class="col-4">
+  <div class="card bg-primary text-white mb-4">
+    <div class="card-body">
+      <%= t(:no_admin_users, scope: 'dashboard') %>:
+      <span id="no_admin" class="float-right">0</span>
+    </div>
+  </div>
+</div>
+
+<div class="col-4">
+  <div class="card bg-warning text-white mb-4">
+    <div class="card-body">
+      <%= t(:admin_users, scope: 'dashboard') %>:
+      <span id="admin" class="float-right">0</span>
+    </div>
+  </div>
+</div>
+
+<div class="col-4">
+  <div class="card bg-success text-white mb-4">
+    <div class="card-body">
+      <%= t(:total_users, scope: 'dashboard') %>:
+      <span id="total_users" class="float-right">0</span>
+    </div>
+  </div>
+</div>         
