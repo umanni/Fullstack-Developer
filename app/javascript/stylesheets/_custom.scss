@@ -1,0 +1,44 @@
+.right-content{
+  a{
+    @extend .btn;
+    @extend .btn-primary;
+    @extend .ml-3;
+    float: right;
+  }
+}
+.content{
+  form{
+    @extend .m-auto;
+    @extend .card;
+    @extend .bg-light;
+    padding: 3em 3em 0 3em;
+    .form-inputs{
+      @extend .text-center;
+      label{
+        display: block;
+      }
+    }
+    .form-actions{
+      @extend .text-center;
+      input{
+        @extend .btn;
+        @extend .btn-primary;
+      }
+    }
+  }
+}
+.content{
+  table{
+    @extend .table;
+    @extend .table-bordered;
+  }
+}
+.badge-enqueued{
+  @extend .badge-info;
+}
+.badge-processing{
+  @extend .badge-warning;
+}
+.badge-completed{
+  @extend .badge-success;
+}
