@@ -1,7 +1,0 @@
-pt-BR:
-  
-  errors:
-    messages:
-      blank: "em branco."
-      required: "obrigatório."
-      taken: "já existente."
