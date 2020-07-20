@@ -11,7 +11,8 @@ consumer.subscriptions.create("UserBulksChannel", {
 
   received(data) {
     data.user_bulks.forEach(function (user_bulk) {
-      $("#user_bulk_state_id_" + user_bulk.id).html(user_bulk.state)
+      $("#user_bulk_state_id_" + user_bulk.id).html(user_bulk.state);
+      $("#user_bulk_state_id_" + user_bulk.id).removeClass().addClass("badge badge-pill badge-" + user_bulk.state)
     })
   },
 
