@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title><%= t(:brand_name) %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body class="min-vh-100" style="background-image: linear-gradient(#343a40, #797979);">
+    <div class="container">
+      <div>
+        <%= render partial: "shared/flashes" %>
+      </div>
+      <div class="card border-0 my-5 col-md-4 mx-auto">
+        <div class="card-body p-5 text-center">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    <%= yield :scripts %>
+  </body>
+</html>
