@@ -27,7 +27,7 @@ class UserBulk < ApplicationRecord
     file.open do | opened_file |
       process! if may_process?
       spreadsheet = Roo::Excelx.new(opened_file, file_warning: :ignore)
-      spreadsheet.each_row_streaming do |row|
+      spreadsheet.each_row_streaming(offset: 1) do |row|
         User.create(full_name: row[0].value,
                     email: row[1].value,
                     password: row[2].value,
