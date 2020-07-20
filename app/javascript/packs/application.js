@@ -13,4 +13,6 @@ require('bootstrap');
 window.jQuery = window.$ = require("jquery")
 window.Popper = require("popper.js")
 
+import "@fortawesome/fontawesome-free/js/all";
+
 import '../stylesheets/application'
