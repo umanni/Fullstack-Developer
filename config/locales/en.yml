@@ -30,4 +30,57 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  brand_name: "User Manager"
+  back: "Back"
+  create: "Create"
+  show: "Show"
+  destroy: "Delete"
+  create_resource: "Create %{resource}"
+  edit_resource: "Edit %{resource}"
+  instructions: "Instructions"
+  creating_user_bulk_instructions_first_line: "You must upload a spreadsheet containing:"
+  creating_user_bulk_instructions_second_line: "full name, email, password and role(admin or no_admin)"
+  creating_user_bulk_instructions_third_line: "of all users in each line and in that order, or the users wont be create."
+  creating_user_bulk_instructions_fourth_line: "The first line is not read!"
+
+  activerecord:
+    models:
+      user: "User"
+      user_bulk: "Import of users"
+    attributes:
+      user:
+        id: "Id"
+        full_name: "Full name"
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        avatar: "Avatar"
+        role: "Role"
+        roles:
+          admin: "Admin user"
+          no_admin: "Normal user"
+      user_bulk:
+        id: "Id"
+        created_at: "Creation date"
+        file: "File"
+        state: "State"
+        states:
+          enqueued: "Enqueued"
+          processing: "Processing"
+          completed: "Completed"
+
+  menu:
+    dashboard: "Dashboard"
+    users: "Users"
+    user_bulks: "Import of users"
+    profile: "Profile"
+    logout: "Logout"
+
+  dashboard:
+    no_admin_users: "Normal users"
+    admin_users: "Admin users"
+    total_users: "Total users"
+
+  time:
+    formats:
+      default: "%d/%m/%Y - %H:%M"
