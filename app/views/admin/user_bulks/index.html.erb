@@ -1,31 +1,34 @@
-<p id="notice"><%= notice %></p>
+<%= title t(:user_bulks, scope: 'menu') %>
 
-<h1>User Bulks</h1>
+<%= content_for :right do %>
+  <%= link_to t(:create_resource, resource: t(:user_bulk, scope: 'activerecord.models')), new_admin_user_bulk_path %>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th><%= t(:id, scope: 'activerecord.attributes.user_bulk') %></th>
-      <th><%= t(:created_at, scope: 'activerecord.attributes.user_bulk') %></th>
-      <th><%= t(:state, scope: 'activerecord.attributes.user_bulk') %></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @user_bulks.each do |user_bulk| %>
+<div class="table-responsive">
+  <table>
+    <thead>
       <tr>
-        <td><%= user_bulk.id %></td>
-        <td><%= user_bulk.created_at %></td>
-        <td id="user_bulk_state_id_<%= user_bulk.id %>"><%= t(user_bulk.state, scope: 'activerecord.attributes.user_bulk.states') %></td>
+        <th><%= t(:id, scope: 'activerecord.attributes.user_bulk') %></th>
+        <th><%= t(:created_at, scope: 'activerecord.attributes.user_bulk') %></th>
+        <th><%= t(:state, scope: 'activerecord.attributes.user_bulk') %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= will_paginate @users_bulks %>
+    </thead>
+    <tbody>
+      <% @user_bulks.each do |user_bulk| %>
+        <tr>
+          <td><%= user_bulk.id %></td>
+          <td><%= l(user_bulk.created_at) %></td>
+          <td>
+            <span id="user_bulk_state_id_<%= user_bulk.id %>" class="badge badge-pill badge-<%= user_bulk.state %>">
+              <%= t(user_bulk.state, scope: 'activerecord.attributes.user_bulk.states') %>
+            </span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br/>
-<%= link_to 'New User Bulk', new_admin_user_bulk_path %>
+
+<%= will_paginate @users %>
