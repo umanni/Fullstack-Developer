@@ -1,5 +1,7 @@
-<h1>New User Bulk</h1>
+<%= title t(:create_resource, resource: t(:user_bulk, scope: 'activerecord.models')) %>
+
+<%= content_for :right do %>
+  <%= link_to t(:back), admin_user_bulks_path %>
+<% end %>
 
 <%= render 'form', user_bulk: @user_bulk %>
-
-<%= link_to 'Back', admin_user_bulks_path %>
