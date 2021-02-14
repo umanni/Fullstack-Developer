@@ -1,8 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Button, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Container, Button, TextField, makeStyles } from '@material-ui/core';
 
 import Api from '../services/api';
 
