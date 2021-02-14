@@ -38,6 +38,7 @@ export default () => {
         password: password.value,
         password_confirmation: password_confirmation.value,
         avatar_image: avatar_image.value,
+        admin: false,
       },
     }).then(response => {
       console.log(response);
