@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Button, TextField, makeStyles } from '@material-ui/core';
+
 import Api from '../services/api';
 
 const useStyles = makeStyles(theme => ({
@@ -17,21 +18,30 @@ const useStyles = makeStyles(theme => ({
 
 export default () => {
   const classes = useStyles();
+  const [user, setUser] = useState(null);
+  const history = useHistory();
 
-  const handleSubmit = useCallback(async event => {
-    event.preventDefault();
+  const handleSubmit = useCallback(
+    async event => {
+      event.preventDefault();
 
-    const { email, password } = event.target;
+      const { email, password } = event.target;
 
-    Api.post('users/sign_in', {
-      user: {
-        email: email.value,
-        password: password.value,
-      },
-    }).then(response => {
-      console.log(response);
-    });
-  }, []);
+      await Api.post('users/sign_in', {
+        user: {
+          email: email.value,
+          password: password.value,
+        },
+      }).then(response => {
+        setUser(response.data);
+
+        if (user) {
+          history.push('/profile');
+        }
+      });
+    },
+    [user],
+  );
 
   return (
     <Container maxWidth="sm">
