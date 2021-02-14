@@ -1,23 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { Container, Button, TextField } from '@material-ui/core';
 
-export default () => (
-  <div className="vw-100 vh-100 primary-color d-flex align-items-center justify-content-center">
-    <div className="jumbotron jumbotron-fluid bg-transparent">
-      <div className="container secondary-color">
-        <h1 className="display-4">SignIn</h1>
-        <p className="lead">
-          SignIn
-        </p>
+export default () => {
+  const handleSubmit = useCallback(async event => {
+    event.preventDefault();
+    console.log('aqui');
+  }, []);
+
+  return (
+    <Container maxWidth="sm">
+      <h1 className="display-4 text-center">Sign In</h1>
+      <form onSubmit={handleSubmit}>
+        <TextField id="" variant="outlined" label="Email" />
+        <br />
+        <br />
+        <TextField id="" variant="outlined" label="Password" type="password" />
         <hr className="my-4" />
-        <Link
-          to="/"
-          className="btn btn-lg custom-button"
-          role="button"
-        >
-          Home
+        <Button type="submit" variant="contained" color="secondary">
+          Login
+        </Button>
+        <Link to="/" role="button">
+          <Button variant="contained" color="primary">
+            Home
+          </Button>
         </Link>
-      </div>
-    </div>
-  </div>
-);
+      </form>
+    </Container>
+  );
+};
