@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Button, TextField } from '@material-ui/core';
@@ -24,12 +25,24 @@ export default () => {
     event.preventDefault();
 
     const {
-      fullName,
+      full_name,
       email,
       password,
-      repeatPassword,
-      avatarImage,
+      password_confirmation,
+      avatar_image,
     } = event.target;
+
+    Api.post('users', {
+      user: {
+        full_name: full_name.value,
+        email: email.value,
+        password: password.value,
+        password_confirmation: password_confirmation.value,
+        avatar_image: avatar_image.value,
+      },
+    }).then(response => {
+      console.log(response);
+    });
   }, []);
 
   return (
@@ -37,7 +50,7 @@ export default () => {
       <h1 className="display-4 text-center">Sign Up</h1>
       <form className={classes.root} onSubmit={handleSubmit}>
         <TextField
-          id="fullName"
+          id="full_name"
           variant="outlined"
           label="Insert your full name"
         />
@@ -49,19 +62,19 @@ export default () => {
           type="password"
         />
         <TextField
-          id="repeatPassword"
+          id="password_confirmation"
           variant="outlined"
           label="Repeat your password"
           type="password"
         />
         <TextField
-          id="avatarImage"
+          id="avatar_image"
           variant="outlined"
           label="Your avatar url"
         />
         <hr className="my-4" />
         <Button type="submit" variant="contained" color="secondary">
-          Login
+          Sign Up
         </Button>
         <Link to="/" role="button">
           <Button variant="contained" color="primary">
