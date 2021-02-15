@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import {
   Container,
   makeStyles,
@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
   },
   media: {
     height: 0,
-    paddingTop: '80%', // 16:9
+    paddingTop: '80%',
   },
   avatar: {
     backgroundColor: red[500],
@@ -35,15 +35,17 @@ const useStyles = makeStyles(() => ({
 export default () => {
   const classes = useStyles();
   const [user, setUser] = useState();
-  const id = JSON.parse(localStorage.getItem('@FullstackDeveloper:id'));
+  const { params } = useRouteMatch();
   const { signOut } = useAuth();
   const history = useHistory();
 
   useEffect(() => {
+    const { id } = params;
+
     Api.get(`users/${id}`).then(response => {
       setUser(response.data);
     });
-  }, []);
+  }, [params]);
 
   const joinDate = useMemo(() => {
     if (user) {
@@ -53,10 +55,17 @@ export default () => {
     return null;
   }, [user]);
 
+  const editLink = useMemo(() => {
+    if (user) {
+      return `/edit/${user.id}`;
+    }
+    return '/';
+  }, [user]);
+
   const handleLogout = useCallback(async () => {
     await signOut();
     history.push('/sign_in');
-  }, []);
+  }, [history, signOut]);
 
   return (
     <Container maxWidth="sm" className={classes.root}>
@@ -66,7 +75,7 @@ export default () => {
           subheader={user && joinDate}
           action={
             // eslint-disable-next-line react/jsx-wrap-multilines
-            <Link to="/sign_up">
+            <Link to={editLink}>
               <IconButton aria-label="Edit profile">
                 <EditIcon />
               </IconButton>
