@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Button, TextField, makeStyles } from '@material-ui/core';
 
-import Api from '../services/api';
 import { useAuth } from '../hooks/Auth';
 
 const useStyles = makeStyles(theme => ({
