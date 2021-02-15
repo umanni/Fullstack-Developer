@@ -13,7 +13,8 @@ export default (
         <Route path="/" exact component={Home} />
         <Route path="/sign_in" exact component={SignIn} />
         <Route path="/sign_up" exact component={SignUp} />
-        <Route path="/profile" exact component={Profile} />
+        <Route path="/profile/:id" exact component={Profile} />
+        <Route path="/edit/:id" exact component={SignUp} />
       </Switch>
     </AuthProvider>
   </Router>
