@@ -27,7 +27,6 @@ const AuthProvider = ({ children }) => {
         password,
       },
     });
-    console.log('aqui', response.data);
 
     const { id, admin } = response.data;
 
