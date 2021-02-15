@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Container, Button, TextField, makeStyles } from '@material-ui/core';
 
 import Api from '../services/api';
+import { useAuth } from '../hooks/Auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,30 +19,28 @@ const useStyles = makeStyles(theme => ({
 
 export default () => {
   const classes = useStyles();
-  const [user, setUser] = useState(null);
+  const { signIn } = useAuth();
   const history = useHistory();
 
-  const handleSubmit = useCallback(
-    async event => {
-      event.preventDefault();
+  const handleSubmit = useCallback(async event => {
+    event.preventDefault();
 
-      const { email, password } = event.target;
+    const { email, password } = event.target;
 
-      await Api.post('users/sign_in', {
-        user: {
-          email: email.value,
-          password: password.value,
-        },
-      }).then(response => {
-        setUser(response.data);
+    await signIn({
+      email: email.value,
+      password: password.value,
+    });
 
-        if (user) {
-          history.push('/profile');
-        }
-      });
-    },
-    [user],
-  );
+    const id = JSON.parse(localStorage.getItem('@FullstackDeveloper:id'));
+    const admin = JSON.parse(localStorage.getItem('@FullstackDeveloper:admin'));
+
+    if (id) {
+      if (!admin) {
+        history.push('/profile');
+      }
+    }
+  }, []);
 
   return (
     <Container maxWidth="sm">
