@@ -36,7 +36,7 @@ export default () => {
 
     if (id) {
       if (!admin) {
-        history.push('/profile');
+        history.push(`/profile/${id}`);
       }
     }
   }, []);
