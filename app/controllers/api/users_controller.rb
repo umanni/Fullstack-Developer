@@ -1,4 +1,9 @@
 class Api::UsersController < ApplicationController
+  def index
+    users = User.all()
+    render json: users, status: 200
+  end
+
   def show
     user = User.find(params[:id])
     render json: user, status: 200
@@ -7,6 +12,10 @@ class Api::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     user.update(user_params)
+  end
+
+  def destroy
+    User.delete(params[:id])
   end
 
   def user_params
