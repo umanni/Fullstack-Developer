@@ -5,7 +5,7 @@ import Route from '@/routes/Route';
 
 import MainProvider from '@/contexts/MainContext';
 import Profile from '@/pages/Profile';
-import Dashboard from '@/pages/Dashboard/index';
+import Dashboard from '@/pages/Dashboard';
 
 export default (
   <Router>
