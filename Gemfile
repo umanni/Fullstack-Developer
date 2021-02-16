@@ -21,6 +21,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Devise gem
 gem 'devise'
+# Pry gem
+gem 'pry'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
