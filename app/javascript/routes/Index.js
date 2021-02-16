@@ -11,6 +11,7 @@ export default (
   <Router>
     <MainProvider>
       <Switch>
+        <Route path="/" exact component={Profile} />
         <Route path="/profile" exact isPrivate component={Profile} />
         <Route path="/dashboard" exact isPrivate isAdmin component={Dashboard} />
       </Switch>

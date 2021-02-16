@@ -13,7 +13,7 @@ const Route = ({
   ...rest
 }) => {
   const { currentUser } = useContext(MainContext);
-  console.log(currentUser);
+
   return (
     <ReactDOMRoute
       {...rest}
