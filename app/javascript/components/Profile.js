@@ -22,8 +22,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { parseISO, format } from 'date-fns';
 
-import Api from '../services/api';
-import { useAuth } from '../hooks/Auth';
+import Api from '@/services/api';
+import {MainContext} from '@/contexts/MainContext';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -40,45 +40,26 @@ const useStyles = makeStyles(() => ({
 
 export default () => {
   const classes = useStyles();
-  const [user, setUser] = useState();
-  const { params } = useRouteMatch();
-  const { signOut } = useAuth();
+  const {currentUser} = useContext(MainContext);
   const history = useHistory();
 
-  useEffect(() => {
-    const { id } = params;
-
-    Api.get(`users/${id}`).then(response => {
-      setUser(response.data);
-    });
-  }, [params]);
-
   const joinDate = useMemo(() => {
-    if (user) {
-      const tempDate = parseISO(user.created_at.toString());
-      return format(tempDate, "'Joined' MM-dd-y 'at' HH:mm");
-    }
-    return null;
-  }, [user]);
+    if (!currentUser.created_at) return;
+
+    const tempDate = parseISO(currentUser.created_at.toString());
+    return format(tempDate, "'Joined' MM-dd-y 'at' HH:mm");
+  }, [currentUser]);
 
   const editLink = useMemo(() => {
-    if (user) {
-      return `/edit/${user.id}`;
-    }
-    return '/';
-  }, [user]);
-
-  const handleLogout = useCallback(async () => {
-    await signOut();
-    history.push('/sign_in');
-  }, [history, signOut]);
+    return `/edit/${currentUser.id}`;
+  }, [currentUser]);
 
   return (
     <Container maxWidth="sm" className={classes.root}>
       <Card className={classes.root}>
         <CardHeader
-          title={user && user.full_name}
-          subheader={user && joinDate}
+          title={currentUser.full_name}
+          subheader={joinDate}
           action={
             // eslint-disable-next-line react/jsx-wrap-multilines
             <Link to={editLink}>
@@ -88,18 +69,20 @@ export default () => {
             </Link>
           }
         />
-        <CardMedia
-          className={classes.media}
-          image={user && user.avatar_image}
-          title={user && user.full_name}
-        />
+        {currentUser.avatar_image && (
+          <CardMedia
+            className={classes.media}
+            image={currentUser.avatar_image}
+            title={currentUser.full_name}
+          />
+        )}
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {user && `Email: ${user.email}`}
+            {`Email: ${currentUser.email}`}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="Logout" onClick={handleLogout}>
+          <IconButton aria-label="Logout">
             <ExitToAppIcon />
           </IconButton>
         </CardActions>
