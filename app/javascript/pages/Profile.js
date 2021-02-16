@@ -85,11 +85,6 @@ export default () => {
               {`Email: ${currentUser.email}`}
             </Typography>
           </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="Logout">
-              <ExitToAppIcon />
-            </IconButton>
-          </CardActions>
         </Card>
       </Container>
     </>
