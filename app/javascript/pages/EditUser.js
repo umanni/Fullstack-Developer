@@ -1,7 +1,23 @@
 /* eslint-disable camelcase */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+} from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { Container, Button, TextField, makeStyles } from '@material-ui/core';
+import {
+  Container,
+  Button,
+  TextField,
+  makeStyles,
+  FormControlLabel,
+  Switch,
+  Box,
+} from '@material-ui/core';
+import { positions } from '@material-ui/system';
+
+import { MainContext } from '@/contexts/MainContext';
 
 import TopBar from '@/components/TopBar';
 
@@ -21,13 +37,14 @@ const useStyles = makeStyles(theme => ({
 
 export default () => {
   const classes = useStyles();
+  const { currentUser } = useContext(MainContext);
   const { params } = useRouteMatch();
   const [user, setUser] = useState(null);
   const [inputState, setInputState] = useState({
     full_name: '',
     email: '',
     avatar_image: '',
-    role: false,
+    admin: false,
   });
 
   useEffect(() => {
@@ -46,15 +63,21 @@ export default () => {
         full_name: user.full_name,
         email: user.email,
         avatar_image: user.avatar_image,
-        role: user.role,
+        admin: user.admin,
       });
     }
   }, [user]);
 
   const inputChange = useCallback(
     event => {
-      console.log(event.target.id, event.target.value);
       setInputState({ ...inputState, [event.target.id]: event.target.value });
+    },
+    [inputState],
+  );
+
+  const switchChange = useCallback(
+    event => {
+      setInputState({ ...inputState, [event.target.id]: event.target.checked });
     },
     [inputState],
   );
@@ -77,8 +100,10 @@ export default () => {
           full_name: full_name.value,
           email: email.value,
           avatar_image: avatar_image.value,
-          admin: false,
+          admin: admin.checked,
         },
+      }).then(() => {
+        location.reload();
       });
     },
     [params],
@@ -93,24 +118,40 @@ export default () => {
           <TextField
             id="full_name"
             variant="outlined"
-            label="Insert your full name"
+            label="Full name"
             value={inputState.full_name}
             onChange={inputChange}
           />
           <TextField
             id="email"
             variant="outlined"
-            label="Insert your email"
+            label="Email"
             value={inputState.email}
             onChange={inputChange}
           />
           <TextField
             id="avatar_image"
             variant="outlined"
-            label="Your avatar url"
+            label="Avatar url"
             value={inputState.avatar_image}
             onChange={inputChange}
           />
+          {currentUser.admin && (
+            <Box flexGrow={1} left="60%" position="absolute">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={inputState.admin}
+                    onChange={switchChange}
+                    id="admin"
+                    color="primary"
+                  />
+                }
+                label="Administrator"
+              />
+            </Box>
+          )}
+          <br/><br/><br/>
           <hr className="my-4" />
           <Button type="submit" variant="contained" color="secondary">
             Update user
