@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -12,6 +12,8 @@ import TopBar from '@/components/TopBar'
 import DashboardSimpleCard from '@/components/DashboardSimpleCard'
 import UsersList from '@/components/users/UsersList'
 
+import Api from '@/services/api';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -23,6 +25,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
+  const [infoCounters, setInfoCounters] = useState({
+    users: 0,
+    admins: 0
+  });
+
+  useEffect(() => {
+    Api.get('/api/info')
+    .then(response => {
+      setInfoCounters(response.data);
+    });
+  }, []);
 
   return (
     <>
@@ -33,14 +46,14 @@ export default () => {
             <Grid item>
               <DashboardSimpleCard
                 headerText="Users:"
-                cardValue="10"
+                cardValue={infoCounters.users}
                 customIcon={<PeopleIcon />}
               />
             </Grid>
             <Grid item>
               <DashboardSimpleCard
                 headerText="Administrators:"
-                cardValue="5"
+                cardValue={infoCounters.admins}
                 customIcon={<WarningIcon />}
               />
             </Grid>
