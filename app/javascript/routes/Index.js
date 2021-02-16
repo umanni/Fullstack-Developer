@@ -5,6 +5,7 @@ import Route from '@/routes/Route';
 
 import MainProvider from '@/contexts/MainContext';
 import Profile from '@/pages/Profile';
+import EditUser from '@/pages/EditUser';
 import Dashboard from '@/pages/Dashboard';
 
 export default (
@@ -13,6 +14,7 @@ export default (
       <Switch>
         <Route path="/" exact component={Profile} />
         <Route path="/profile" exact isPrivate component={Profile} />
+        <Route path="/edit/:id" exact isPrivate component={EditUser} />
         <Route path="/dashboard" exact isPrivate isAdmin component={Dashboard} />
       </Switch>
     </MainProvider>
