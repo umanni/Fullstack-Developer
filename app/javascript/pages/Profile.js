@@ -22,7 +22,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { parseISO, format } from 'date-fns';
 
-import Api from '@/services/api';
 import {MainContext} from '@/contexts/MainContext';
 
 const useStyles = makeStyles(() => ({
