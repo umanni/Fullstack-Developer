@@ -10,6 +10,7 @@ import WarningIcon from '@material-ui/icons/WarningOutlined';
 
 import TopBar from '@/components/TopBar'
 import DashboardSimpleCard from '@/components/DashboardSimpleCard'
+import UsersList from '@/components/users/UsersList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,7 @@ export default () => {
                 customIcon={<WarningIcon />}
               />
             </Grid>
+            <UsersList />
           </Grid>
         </Container>
       </Box>
