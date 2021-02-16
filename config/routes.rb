@@ -8,5 +8,5 @@ Rails.application.routes.draw do
     resources :main, only: :index
   end
 
-  get '*', to: 'homepage#index'
+  match '*path', to: 'homepage#index', via: [:get]
 end
