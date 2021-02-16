@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import Route from '@/routes/Route';
 
 import MainProvider from '@/contexts/MainContext';
-import Profile from '@/components/Profile';
-import Dashboard from '@/components/Dashboard';
+import Profile from '@/pages/Profile';
+import Dashboard from '@/pages/Dashboard/index';
 
 export default (
   <Router>

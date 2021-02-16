@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import SignIn from '@/components/SignIn';
+import SignIn from '@/pages/SignIn';
 
 document.addEventListener("DOMContentLoaded", () => {
   render(
