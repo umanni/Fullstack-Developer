@@ -22,10 +22,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { parseISO, format } from 'date-fns';
 
+import TopBar from '@/components/TopBar';
+
 import {MainContext} from '@/contexts/MainContext';
 
 const useStyles = makeStyles(() => ({
   root: {
+    marginTop: 80,
     maxWidth: 720,
   },
   media: {
@@ -54,38 +57,41 @@ export default () => {
   }, [currentUser]);
 
   return (
-    <Container maxWidth="sm" className={classes.root}>
-      <Card className={classes.root}>
-        <CardHeader
-          title={currentUser.full_name}
-          subheader={joinDate}
-          action={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <Link to={editLink}>
-              <IconButton aria-label="Edit profile">
-                <EditIcon />
-              </IconButton>
-            </Link>
-          }
-        />
-        {currentUser.avatar_image && (
-          <CardMedia
-            className={classes.media}
-            image={currentUser.avatar_image}
+    <>
+      <TopBar />
+      <Container maxWidth="sm" className={classes.root}>
+        <Card className={classes.root}>
+          <CardHeader
             title={currentUser.full_name}
+            subheader={joinDate}
+            action={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <Link to={editLink}>
+                <IconButton aria-label="Edit profile">
+                  <EditIcon />
+                </IconButton>
+              </Link>
+            }
           />
-        )}
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {`Email: ${currentUser.email}`}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="Logout">
-            <ExitToAppIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
-    </Container>
+          {currentUser.avatar_image && (
+            <CardMedia
+              className={classes.media}
+              image={currentUser.avatar_image}
+              title={currentUser.full_name}
+            />
+          )}
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {`Email: ${currentUser.email}`}
+            </Typography>
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton aria-label="Logout">
+              <ExitToAppIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
+      </Container>
+    </>
   );
 };
