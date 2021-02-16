@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  get 'users/update'
   root 'homepage#index'
 
-  devise_for :users, :controllers => { :sessions => 'api/sessions', :registrations => 'api/registrations'}, path: '/api/users'
+  devise_for :users
 
   namespace :api do
     resources :users, only: [:show, :update]
+    resources :main, only: :index
   end
 
-  match '*path', to: 'homepage#index', via: :all, :as => 'react_base'
+  get '*', to: 'homepage#index'
 end
