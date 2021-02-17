@@ -8,9 +8,10 @@ import {
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import WarningIcon from '@material-ui/icons/WarningOutlined';
 
-import TopBar from '@/components/TopBar'
-import DashboardSimpleCard from '@/components/DashboardSimpleCard'
-import UsersList from '@/components/users/UsersList'
+import TopBar from '@/components/TopBar';
+import DashboardSimpleCard from '@/components/DashboardSimpleCard';
+import UsersList from '@/components/users/UsersList';
+import SideBar from '@/components/sidebar/SideBar';
 
 import Api from '@/services/api';
 
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     paddingBottom: theme.spacing(3),
     paddingTop: 72,
+    marginLeft: 256
   }
 }));
 
@@ -39,7 +41,8 @@ export default () => {
 
   return (
     <>
-      <TopBar></TopBar>
+      <TopBar />
+      <SideBar />
       <Box className={classes.root}>
         <Container maxWidth={false}>
           <Grid container spacing={3}>
@@ -57,9 +60,9 @@ export default () => {
                 customIcon={<WarningIcon />}
               />
             </Grid>
-            <UsersList />
           </Grid>
         </Container>
+        <UsersList />
       </Box>
     </>
   );
