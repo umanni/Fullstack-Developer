@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createContext} from 'react';
+import React, {useState, useEffect, createContext, useCallback} from 'react';
 
 import Api from '@/services/api';
 
@@ -22,7 +22,11 @@ export default function MainProvider({children}){
     });
   }, []);
 
+  const updateValue = useCallback((user) => {
+    setCurrentUser(user);
+  });
+
   return (
-    <MainContext.Provider value={{currentUser}}>{children}</MainContext.Provider>
+    <MainContext.Provider value={{currentUser, updateValue}}>{children}</MainContext.Provider>
   );
 }
