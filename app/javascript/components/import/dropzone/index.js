@@ -10,15 +10,15 @@ export default ({ onUpload }) => {
   ) {
     if (!isDragActive) {
       return (
-        <UploadMessage>Selecione ou arraste o arquivo aqui.</UploadMessage>
+        <UploadMessage>Select or drop the file here.</UploadMessage>
       );
     }
 
     if (isDragRejest) {
-      return <UploadMessage type="error">Arquivo não suportado</UploadMessage>;
+      return <UploadMessage type="error">File not supported</UploadMessage>;
     }
 
-    return <UploadMessage type="success">Solte o arquivo aqui</UploadMessage>;
+    return <UploadMessage type="success">Drag the file here</UploadMessage>;
   }
 
   return (
