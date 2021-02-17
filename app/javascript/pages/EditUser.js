@@ -102,7 +102,7 @@ export default () => {
           full_name: full_name.value,
           email: email.value,
           avatar_image: avatar_image.value,
-          admin: admin.checked,
+          admin: admin.checked && false,
         },
       }).then(response => {
         const {id, full_name, email, avatar_image, admin} = response.data;
@@ -155,21 +155,24 @@ export default () => {
             value={inputState.avatar_image}
             onChange={inputChange}
           />
-          {currentUser.admin && (
-            <Box flexGrow={1} left="60%" position="absolute">
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={inputState.admin}
-                    onChange={switchChange}
-                    id="admin"
-                    color="primary"
-                  />
-                }
-                label="Administrator"
-              />
-            </Box>
-          )}
+          {currentUser.admin
+            ? (
+              <Box flexGrow={1} left="60%" position="absolute">
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={inputState.admin}
+                      onChange={switchChange}
+                      id="admin"
+                      color="primary"
+                    />
+                  }
+                  label="Administrator"
+                />
+              </Box>
+            )
+            : (<input type="hidden" id="admin" value="false" />)
+          }
           <br/><br/><br/>
           <hr className="my-4" />
           <Button type="submit" variant="contained" color="secondary">
