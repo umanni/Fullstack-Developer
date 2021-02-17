@@ -16,6 +16,8 @@ import {
   IconButton,
   makeStyles
 } from '@material-ui/core';
+import { parseISO, format } from 'date-fns';
+
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
@@ -41,6 +43,13 @@ const Results = ({ className, customData, ...rest }) => {
     });
   }, []);
 
+  const joinDate = useCallback((created_at) => {
+    if (!created_at) return
+
+    const tempDate = parseISO(created_at.toString());
+    return format(tempDate, "'Joined' MM-dd-y 'at' HH:mm");
+  }, []);
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -49,10 +58,18 @@ const Results = ({ className, customData, ...rest }) => {
       <PerfectScrollbar>
         <Box minWidth={1050}>
           <Table>
+            <colgroup>
+              <col width="15%"/>
+              <col width="15%"/>
+              <col width="30%"/>
+              <col width="15%"/>
+              <col width="5%"/>
+              <col width="10%"/>
+            </colgroup>
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Name
+                  User
                 </TableCell>
                 <TableCell>
                   Email
@@ -102,7 +119,7 @@ const Results = ({ className, customData, ...rest }) => {
                     {item.avatar_image}
                   </TableCell>
                   <TableCell>
-                    {item.created_at}
+                    {joinDate(item.created_at)}
                   </TableCell>
                   <TableCell>
                     {
