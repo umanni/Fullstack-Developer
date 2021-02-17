@@ -1,0 +1,4 @@
+full_name;email;avatar_image;admin;password;password_confirmation
+wilson;wilson@email.com;https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80;false;123456;123456
+lebowski;lebowski@thegreat.com;https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80;true;123456;123456
+maria;maria@email.com;https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80;false;123456;123456
