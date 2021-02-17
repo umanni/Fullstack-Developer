@@ -5,7 +5,7 @@ import React, {
   useState,
   useContext,
 } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import {
   Container,
   Button,
@@ -18,6 +18,7 @@ import {
 import { positions } from '@material-ui/system';
 
 import { MainContext } from '@/contexts/MainContext';
+import { useToast } from '@/hooks/Toast';
 
 import TopBar from '@/components/TopBar';
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
 
 export default () => {
   const classes = useStyles();
-  const { currentUser } = useContext(MainContext);
+  const { currentUser, updateValue } = useContext(MainContext);
   const { params } = useRouteMatch();
   const [user, setUser] = useState(null);
   const [inputState, setInputState] = useState({
@@ -46,6 +47,8 @@ export default () => {
     avatar_image: '',
     admin: false,
   });
+  const {addToast} = useToast();
+  const history = useHistory();
 
   useEffect(() => {
     const { id } = params;
@@ -85,7 +88,6 @@ export default () => {
   const handleSubmit = useCallback(
     async event => {
       event.preventDefault();
-      console.log('aqui');
 
       const { id } = params;
       const {
@@ -102,8 +104,25 @@ export default () => {
           avatar_image: avatar_image.value,
           admin: admin.checked,
         },
-      }).then(() => {
-        location.reload();
+      }).then(response => {
+        const {id, full_name, email, avatar_image, admin} = response.data;
+
+        if (currentUser.id == id) {
+          updateValue({
+            id,
+            full_name,
+            email,
+            avatar_image,
+            admin
+          });
+        }
+        addToast({
+          type: 'success',
+          title: 'Success!',
+          description:
+            'User updated successfuly!',
+        });
+        history.push('/');
       });
     },
     [params],
