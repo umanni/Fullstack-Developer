@@ -102,7 +102,7 @@ export default () => {
           full_name: full_name.value,
           email: email.value,
           avatar_image: avatar_image.value,
-          admin: admin.checked && false,
+          admin: admin.checked,
         },
       }).then(response => {
         const {id, full_name, email, avatar_image, admin} = response.data;
@@ -122,6 +122,7 @@ export default () => {
           description:
             'User updated successfuly!',
         });
+
         history.push('/');
       });
     },
