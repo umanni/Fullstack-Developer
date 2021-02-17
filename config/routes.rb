@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :users, only: [:index, :show, :update, :destroy]
+    resources :import, only: :create
     resources :info, only: :index
     resources :main, only: :index
   end
