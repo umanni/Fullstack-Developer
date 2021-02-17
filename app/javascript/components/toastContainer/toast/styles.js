@@ -23,6 +23,7 @@ export const Container = styled(animated.div)`
   padding: 16px 30px 16px 16px;
   border-radius: 10px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  align-items: center;
 
   display: flex;
 
@@ -57,13 +58,7 @@ export const Container = styled(animated.div)`
     color: inherit;
   }
 
-  ${props =>
-    !props.hasDescription &&
-    css`
-      align-items: center;
-
-      svg {
-        margin-top: 0px;
-      }
-    `}
+  svg {
+    margin-top: 0px;
+  }
 `;
