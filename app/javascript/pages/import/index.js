@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Container, ImportFileContainer, Footer } from './styles';
 
 import Api from '@/services/api';
+import { useToast } from '@/hooks/Toast';
 
 import FileList from '@/components/import/filelist';
 import Dropzone from '@/components/import/dropzone';
@@ -13,6 +14,7 @@ import SideBar from '@/components/sidebar/SideBar';
 export default () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const history = useHistory();
+  const {addToast} = useToast();
 
   async function handleUpload(){
     const data = new FormData();
@@ -24,10 +26,21 @@ export default () => {
 
       Api.post('/api/import', data).then(() => {
         history.push('/dashboard');
-      }).catch(() => {
+      }).then(() => {
+        addToast({
+          type: 'success',
+          title: 'Success!',
+          description:
+            'Users imported successfuly!',
+        });
       });
     } catch (err) {
-
+      addToast({
+        type: 'error',
+        title: 'File upload error!',
+        description:
+          'It was not possible to upload your file!',
+      });
     }
   }
 
