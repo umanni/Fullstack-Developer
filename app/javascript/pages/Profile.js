@@ -23,6 +23,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { parseISO, format } from 'date-fns';
 
 import TopBar from '@/components/TopBar';
+import SideBar from '@/components/sidebar/SideBar';
 
 import {MainContext} from '@/contexts/MainContext';
 
@@ -59,6 +60,7 @@ export default () => {
   return (
     <>
       <TopBar />
+      {currentUser.admin && <SideBar />}
       <Container maxWidth="sm" className={classes.root}>
         <Card className={classes.root}>
           <CardHeader
