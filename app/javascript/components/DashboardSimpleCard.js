@@ -15,7 +15,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
-    width: 512,
+    width: 517
   },
   avatar: {
     backgroundColor: colors.green[600],

@@ -55,8 +55,15 @@ export default () => {
             </Grid>
             <Grid item>
               <DashboardSimpleCard
-                headerText="Administrators:"
+                headerText="Admins:"
                 cardValue={infoCounters.admins}
+                customIcon={<WarningIcon />}
+              />
+            </Grid>
+            <Grid item>
+              <DashboardSimpleCard
+                headerText="Not admins:"
+                cardValue={infoCounters.notAdmins}
                 customIcon={<WarningIcon />}
               />
             </Grid>
