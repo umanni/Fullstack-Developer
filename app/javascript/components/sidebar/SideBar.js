@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import BackupIcon from '@material-ui/icons/Backup';
+import LockIcon from '@material-ui/icons/Lock';
 import NavItem from './SideItem';
 
 import { MainContext } from '@/contexts/MainContext';
@@ -28,6 +29,11 @@ const items = [
     href: '/import',
     icon: BackupIcon,
     title: 'Import'
+  },
+  {
+    href: '/editPassword',
+    icon: LockIcon,
+    title: 'Edit password'
   }
 ];
 
@@ -65,7 +71,7 @@ const NavBar = () => {
           className={classes.avatar}
           component={RouterLink}
           src={currentUser.avatar_image}
-          to="/app/account"
+          to="/profile"
         />
         <Typography
           className={classes.name}

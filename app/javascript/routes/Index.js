@@ -9,6 +9,7 @@ import Profile from '@/pages/Profile';
 import EditUser from '@/pages/EditUser';
 import Dashboard from '@/pages/Dashboard';
 import Import from '@/pages/import';
+import EditPassword from '@/pages/EditPassword';
 
 export default (
   <Router>
@@ -20,6 +21,7 @@ export default (
           <Route path="/edit/:id" exact isPrivate component={EditUser} />
           <Route path="/dashboard" exact isPrivate isAdmin component={Dashboard} />
           <Route path="/import" exact isPrivate isAdmin component={Import} />
+          <Route path="/editPassword" exact isPrivate isAdmin component={EditPassword} />
         </Switch>
       </ToastProvider>
     </MainProvider>
