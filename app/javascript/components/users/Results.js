@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -24,6 +24,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import Api from '@/services/api';
+import { MainContext } from '@/contexts/MainContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Results = ({ className, customData, ...rest }) => {
   const classes = useStyles();
-  const [limit, setLimit] = useState(10);
+  const [ limit, setLimit ] = useState(10);
+  const { currentUser } = useContext(MainContext);
 
   const handleUserDelete = useCallback((id) => {
     Api.delete(`/api/users/${id}`)
@@ -134,9 +136,11 @@ const Results = ({ className, customData, ...rest }) => {
                         <EditIcon />
                       </Link>
                     </IconButton>
-                    <IconButton onClick={() => {handleUserDelete(item.id)}} style={{color: 'red'}}>
-                      <DeleteIcon />
-                    </IconButton>
+                    {(currentUser.id != item.id) && (
+                      <IconButton onClick={() => {handleUserDelete(item.id)}} style={{color: 'red'}}>
+                        <DeleteIcon />
+                      </IconButton>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
