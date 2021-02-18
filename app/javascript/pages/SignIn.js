@@ -18,7 +18,7 @@ export default () => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{marginTop: 256}}>
       <h1 className="display-4 text-center">Sign In</h1>
       <form action="/users/sign_in" method="post" className={classes.root}>
         <input type="hidden" name="authenticity_token" value={csrfToken()}/>
@@ -30,9 +30,14 @@ export default () => {
           type="password"
         />
         <hr className="my-4" />
-        <Button type="submit" variant="contained" color="secondary">
+        <Button type="submit" variant="contained" color="primary">
           Login
         </Button>
+        <a href="/users/sign_up">
+          <Button type="submit" variant="contained" color="secondary">
+            Sign Up
+          </Button>
+        </a>
       </form>
     </Container>
   );

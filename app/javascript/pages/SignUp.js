@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { csrfToken } from 'rails-ujs'
 import { Container, Button, TextField, makeStyles } from '@material-ui/core';
@@ -19,7 +18,7 @@ export default () => {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{marginTop: 256}}>
       <h1 className="display-4 text-center">Sign Up</h1>
       <form action="/users" method="post" className={classes.root}>
         <input type="hidden" name="authenticity_token" value={csrfToken()}/>
@@ -52,9 +51,14 @@ export default () => {
           label="Your avatar url"
         />
         <hr className="my-4" />
-        <Button type="submit" variant="contained" color="secondary">
+        <Button type="submit" variant="contained" color="primary">
           Sign Up
         </Button>
+        <a href="/users/sign_in">
+          <Button type="submit" variant="contained" color="secondary">
+            Sign In
+          </Button>
+        </a>
       </form>
     </Container>
   );
