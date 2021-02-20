@@ -15,6 +15,7 @@ import {
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import BackupIcon from '@material-ui/icons/Backup';
 import LockIcon from '@material-ui/icons/Lock';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import NavItem from './SideItem';
 
 import { MainContext } from '@/contexts/MainContext';
@@ -29,6 +30,11 @@ const items = [
     href: '/import',
     icon: BackupIcon,
     title: 'Import'
+  },
+  {
+    href: '/createUser',
+    icon: PersonAddIcon,
+    title: 'Add user'
   },
   {
     href: '/editPassword',
@@ -52,7 +58,6 @@ const useStyles = makeStyles(() => ({
 
 const NavBar = () => {
   const classes = useStyles();
-  const location = useLocation();
   const { currentUser } = useContext(MainContext);
 
   const content = (

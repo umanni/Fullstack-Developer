@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :api do
-    resources :users, only: [:index, :show, :update, :destroy]
+    resources :users, only: [:index, :show, :create, :update, :destroy]
     resources :import, only: :create
     resources :info, only: :index
     resources :main, only: :index
