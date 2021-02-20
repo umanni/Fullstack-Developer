@@ -13,6 +13,7 @@ export default function MainProvider({children}){
     admin: false,
     created_at: '',
   });
+  const [currentPosition, setCurrentPosition] = useState('/');
 
   useEffect(() => {
     Api.get('api/main')
@@ -26,7 +27,13 @@ export default function MainProvider({children}){
     setCurrentUser(user);
   });
 
+  const setMyPosition = useCallback((position) => {
+    setCurrentPosition(position);
+  });
+
   return (
-    <MainContext.Provider value={{currentUser, updateValue}}>{children}</MainContext.Provider>
+    <MainContext.Provider value={{currentUser, updateValue, currentPosition, setMyPosition}}>
+      {children}
+    </MainContext.Provider>
   );
 }

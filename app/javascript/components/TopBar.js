@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import InputIcon from '@material-ui/icons/Input';
+import RoomIcon from '@material-ui/icons/Room';
 
 import { MainContext } from '@/contexts/MainContext';
 
@@ -29,7 +30,7 @@ const TopBar = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const { currentUser } = useContext(MainContext);
+  const { currentUser, currentPosition } = useContext(MainContext);
 
   return (
     <AppBar
@@ -41,6 +42,9 @@ const TopBar = ({
         <Link to="/">
           <HomeIcon fontSize="large" style={{color: 'white'}}/>
         </Link>
+        <Box flexGrow={1} />
+        <RoomIcon />
+        {currentPosition && currentPosition}
         <Box flexGrow={1} />
         <Link to="/profile">
           <Avatar alt={currentUser.full_name} src={currentUser.avatar_image}></Avatar>

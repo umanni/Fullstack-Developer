@@ -43,8 +43,7 @@ const useStyles = makeStyles(() => ({
 
 export default () => {
   const classes = useStyles();
-  const {currentUser} = useContext(MainContext);
-  const history = useHistory();
+  const { currentUser, setMyPosition } = useContext(MainContext);
 
   const joinDate = useMemo(() => {
     if (!currentUser.created_at) return;
@@ -56,6 +55,10 @@ export default () => {
   const editLink = useMemo(() => {
     return `/edit/${currentUser.id}`;
   }, [currentUser]);
+
+  useEffect(() => {
+    setMyPosition('Profile');
+  }, []);
 
   return (
     <>

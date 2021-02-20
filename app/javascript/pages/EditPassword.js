@@ -3,8 +3,8 @@ import React, {
   useCallback,
   useState,
   useContext,
+  useEffect
 } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   Container,
   Button,
@@ -36,13 +36,16 @@ const useStyles = makeStyles(theme => ({
 
 export default () => {
   const classes = useStyles();
-  const { currentUser } = useContext(MainContext);
+  const { currentUser, setMyPosition } = useContext(MainContext);
   const [formError, setFormError] = useState({
     password: '',
     password_confirmation: '',
   })
   const {addToast} = useToast();
-  const history = useHistory();
+
+  useEffect(() => {
+    setMyPosition('Edit password');
+  }, []);
 
   const handleSubmit = useCallback(
     async event => {

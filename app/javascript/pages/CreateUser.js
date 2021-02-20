@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import {
   Container,
@@ -17,6 +17,7 @@ import getValidationErrors from '@/utils/getValidationErrors';
 import TopBar from '@/components/TopBar';
 import SideBar from '@/components/sidebar/SideBar';
 
+import { MainContext } from '@/contexts/MainContext';
 import Api from '@/services/api';
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +44,11 @@ export default () => {
   })
   const {addToast} = useToast();
   const history = useHistory();
+  const { setMyPosition } = useContext(MainContext);
+
+  useEffect(() => {
+    setMyPosition('Add a user');
+  }, []);
 
   const handleSubmit = useCallback(
     async event => {

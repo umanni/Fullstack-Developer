@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Container, ImportFileContainer, Footer } from './styles';
 
+import { MainContext } from '@/contexts/MainContext';
 import Api from '@/services/api';
 import { useToast } from '@/hooks/Toast';
 
@@ -15,6 +16,11 @@ export default () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const history = useHistory();
   const {addToast} = useToast();
+  const { setMyPosition } = useContext(MainContext);
+
+  useEffect(() => {
+    setMyPosition('Import users');
+  }, []);
 
   async function handleUpload(){
     const data = new FormData();

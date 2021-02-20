@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Container,
   Grid,
@@ -13,6 +13,7 @@ import UsersList from '@/components/users/UsersList';
 import TopBar from '@/components/TopBar';
 import SideBar from '@/components/sidebar/SideBar';
 
+import { MainContext } from '@/contexts/MainContext';
 import Api from '@/services/api';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
+  const { setMyPosition } = useContext(MainContext);
   const [infoCounters, setInfoCounters] = useState({
     users: 0,
     admins: 0
@@ -37,6 +39,10 @@ export default () => {
     .then(response => {
       setInfoCounters(response.data);
     });
+  }, []);
+
+  useEffect(() => {
+    setMyPosition('Dashboard');
   }, []);
 
   return (
