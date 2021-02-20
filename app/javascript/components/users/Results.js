@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -25,6 +25,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import Api from '@/services/api';
 import { MainContext } from '@/contexts/MainContext';
+import { useToast } from '@/hooks/Toast';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -37,11 +38,18 @@ const Results = ({ className, customData, ...rest }) => {
   const classes = useStyles();
   const [ limit, setLimit ] = useState(10);
   const { currentUser } = useContext(MainContext);
+  const history = useHistory();
+  const {addToast} = useToast();
 
   const handleUserDelete = useCallback((id) => {
     Api.delete(`/api/users/${id}`)
     .then(() => {
-      location.reload();
+      addToast({
+        type: 'success',
+        title: 'User removed!',
+        description: 'User deleted successfuly',
+      });
+      history.push('/');
     });
   }, []);
 
