@@ -1,0 +1,36 @@
+version: "3"
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  webpack:
+    container_name: webpack
+    image: my-app
+    volumes:
+      - .:/app
+    restart: always
+    command: bundle exec ruby ./bin/webpack-dev-server -b 0.0.0.0
+    ports:
+      - "3334:3334"
+    depends_on:
+      - db
+
+  web:
+    image: my-app
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: bundle exec rails s -b 0.0.0.0 -p 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - webpack
+
+volumes:
+  db:
