@@ -33,6 +33,16 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # RSpec for Rails 5+
+  gem 'rspec-rails', '~> 4.0.1'
+  # Set of matchers and helpers to allow you test your APIs responses like a pro.
+  gem 'rspec-json_expectations'
+  # Acceptance test framework for web applications
+  gem 'capybara'
+  # Factory Bot ♥ Rails
+  gem 'factory_bot_rails'
+  # A library for generating fake data such as names, addresses, and phone numbers.
+  gem 'faker'
 end
 
 group :development do
