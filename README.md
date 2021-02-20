@@ -65,6 +65,5 @@ is invalid without full_name
 is invalid without email
 is invalid without avatar_image
 is invalid without password
-is invalid without password_confirmation
 is valid if the user is not admin
 ```

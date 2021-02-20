@@ -30,12 +30,6 @@ RSpec.describe User, type: :model do
         expect(user.errors[:password]).to include("can't be blank")
     end
 
-    it 'is invalid without password_confirmation' do
-        user = FactoryBot.build(:user, password_confirmation: nil)
-        user.valid?
-        expect(user.errors[:password_confirmation]).to include("can't be blank")
-    end
-
     it 'is valid if the user is not admin' do
         user = FactoryBot.create(:user)
         expect(user.admin).to eq(false)

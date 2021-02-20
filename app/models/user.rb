@@ -6,5 +6,4 @@ class User < ApplicationRecord
 
   validates :full_name, :presence => true
   validates :avatar_image, :presence => true
-  validates :password_confirmation, :presence => true
 end
