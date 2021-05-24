@@ -1,0 +1,11 @@
+.btn-gradient {
+    color: $light-gray;
+    padding: 1em 1.5em;
+    border-radius: 9px;
+    background: linear-gradient($blue, $gray);
+    border: 1px solid $blue;
+}
+.btn-gradient:hover {
+    background: linear-gradient($blue, $gray);
+    color: $light-gray;
+  }

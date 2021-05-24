@@ -1,0 +1,19 @@
+.card{
+    border: 2px $green solid;
+    max-width: 411px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    border-radius: 20px;
+    &:hover{
+        border: 2px $orange solid;
+        
+    }
+}
+.icons{
+    width: 12px;
+    &:hover {
+        background: $orange;
+        cursor: pointer;
+    }
+}

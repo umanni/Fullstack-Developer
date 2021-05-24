@@ -1,0 +1,16 @@
+<div class="wrapper">
+    <div class="container" style="margin-top: 20px;">
+        <% hour = Time.now.strftime("%k")%> 
+        <h1>Good <%= Time.now.hour < 12 ? 'morning,' : 'afternoon,'  %> <%= current_user.full_name %>!</h1>
+            <h2>The database currently contains <span><%= User.count %></span> Users. <br> 
+                Of these Users, 
+                    <span> 
+                    <% admin_users = User.count do |user|%>
+                        <% user.role? == true %>
+                    <% end %>
+                    <%= admin_users %>
+                    </span>
+                have Administrator rights.</h2>
+            <%= link_to "Go to full database", users_path %>
+    </div>
+</div>

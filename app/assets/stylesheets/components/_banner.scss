@@ -1,0 +1,40 @@
+.banner{
+    position: fixed;
+    color: $light-gray;
+    padding: 320px;
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+      ), url("https://images.pexels.com/photos/2422293/pexels-photo-2422293.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+  
+  
+  
+  // This is up to phone size
+  @media(max-width: 768px) {
+    .banner {
+      padding: 0;
+      width: auto;
+      height: 100%;
+      p {
+        font-size: 14px;
+      }
+      h1 {
+        font-size: 20px;
+        padding-top: 180px;
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+  }
+  
+  // This is up to tablet size
+  @media(max-width: 992px) {
+    .banner {
+    }
+  }
+  

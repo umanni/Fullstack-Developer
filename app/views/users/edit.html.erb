@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>Update user details</h1>
+  <p>Some fields are pre-completed. Leave such fields unchanged if you'd like to retain the information.</p>
+    <%= form_for @user do |f| %>
+      <% if @user.errors.any? %>
+        <div class="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+          <ul>
+          <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :Update_full_name %>
+        <%= f.text_field :full_name %><br>
+
+        <%= f.label :Update_Email_Address %>
+        <%= f.email_field :email %><br>
+
+        <%= f.label :Insert_a_new_avatar_image_url %>
+        <%= f.text_field :avatar_image %><br>
+        
+        <%= f.label :Will_this_user_have_administrator_rights_updated? %>
+        <%= f.check_box :role %>
+        
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update User" %>
+      </div>
+
+    <% end %>
+  <%= link_to "Return to full database", users_path %>
+</div>

@@ -1,0 +1,16 @@
+<div class="container">
+    <h1>Current users</h1>
+    <% if can? :index, @user %>
+        <%= link_to "Show", user_path(@user) %>
+    <% end %>
+    <div class="btn">
+        <%= link_to "Create new user", new_user_path %>
+    </div>
+    <div class="row">
+        <% @users.each do |user| %>
+            <%= render 'shared/user_card', user: user %>
+        <% end %>
+    </div>
+</div>
+    
+

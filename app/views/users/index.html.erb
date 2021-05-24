@@ -1,0 +1,13 @@
+<div class="container">
+    <h1>Users currently saved on database</h1>
+    <div class="btn">
+        <%= link_to "Add a new user", new_user_path %>
+    </div>
+    <div class="row">
+        <% @user.each do |user| %>
+            <%= render 'shared/user_card', user: user %>
+        <% end %>
+    </div>
+</div>
+    
+

@@ -1,0 +1,10 @@
+.controls{
+    white-space: nowrap;
+    display: ruby-text-container;
+    justify-content: space-evenly;
+    width: 32px;
+    & a{
+        align-content: center;
+        text-align: center;
+    }
+}

@@ -1,0 +1,16 @@
+.field{
+    color: $gray;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    & input{
+        border: 4px $yellow solid;
+        padding: 1em .7em;
+        outline: none;
+        width: 420px;
+        margin-top: 1.7em;
+        margin-left: 2em;
+        color: $red;
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,22 @@
+.navbar-lewagon {
+  justify-content: space-between;
+  background: $blue;
+  color: $light-gray;
+  font-weight: 600;
+  font-size: 20px;
+  & a:hover {
+    background:$light-gray;
+    color: $blue;
+  }
+}
+.navbar-nav mr-auto{
+  gap: 20px;
+}
+
+.navbar-lewagon .navbar-collapse {
+  flex-grow: 0;
+}
+
+.navbar-lewagon .navbar-brand img {
+  width: 40px;
+}

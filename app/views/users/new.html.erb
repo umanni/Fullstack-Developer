@@ -1,0 +1,51 @@
+<div class="container">
+  <h1>Add a new user</h1>
+
+
+  <%= form_for @user do |f| %>
+    <% if @user.errors.any? %>
+      <div class="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+        <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :Enter_Full_name %>
+      <%= f.text_field :full_name, autofocus: true %><br>
+
+      <%= f.label :Enter_Email_Address %>
+      <%= f.email_field :email, autofocus: true %><br>
+
+      <%= f.label :Enter_avatar_URL_Upload_an_Avatar_image %>
+      <%= f.text_field :avatar_image %><br>
+
+      <%= f.label :Will_this_user_be_granted_Administrator_rights? %>
+      <%= f.check_box :role %>
+    </div>
+
+    <div class="field">
+      <%= f.label :Set_a_password %>
+      <% if @validatable %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+      <%= f.password_field :password, autocomplete: "off" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :Re_type_password %>
+      <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Create User" %>
+    </div>
+
+  <% end %>
+  <%= link_to "Return to full database", users_path %>
+</div>

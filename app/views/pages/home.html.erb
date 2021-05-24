@@ -1,0 +1,16 @@
+<div class="banner">
+    <div class="container">
+        <h1>Welcome to <br> Users Managing Rails App</h1>
+        <p>Solution submitted by <em>Krista Calleja</em></p>
+        <%= link_to "Sign Up", new_user_registration_path %>
+    </div>
+</div>
+
+<% if user_signed_in? %>
+    <%= render 'shared/dashboard' %>
+<% end %>
+
+
+<%# <% if can? :manage, User %>
+	<%# <%= puts "Visible only to admins!" %> %>
+<%# <% end %> %> %>
