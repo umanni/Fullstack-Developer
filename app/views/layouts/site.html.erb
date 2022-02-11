@@ -10,18 +10,27 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-    <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-    
-    <% else %>
-    
-    <%= link_to 'Login', new_user_session_path %>
-    <%= link_to 'Sign Up', new_user_registration_path %>
-    
-    <% end %>
-    
-    <% if user_signed_in? %>
-      <%= current_user.admin %>
-    <% end %>
+
+    <div class="container h-100 mt-5">
+      <div class="d-flex h-100 justify-content-center align-items-center ">
+        <div class="card w-25 text-center">
+          <div class="card-header">
+              
+            <% if user_signed_in? %>
+            <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+            
+            <% else %>
+            
+            <%= link_to 'Login', new_user_session_path %>
+          </div>
+
+          <div class="card-footer">
+            <%= link_to 'Sign Up', new_user_registration_path %>
+            
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
