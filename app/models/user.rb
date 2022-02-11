@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
 
   def self.import(file)
-    CSV.foreach(file.path, headers: true) do |row|
+    CSV.foreach(file.path, headers: false) do |row|
       # users = find_or_create_by!(row["id"]) || new
       user_data = row[0].split(';')
       User.create({email: user_data[0], password: user_data[1], password_confirmation: user_data[2], full_name: user_data[3], avatar_image: user_data[4], admin: user_data[5] })
