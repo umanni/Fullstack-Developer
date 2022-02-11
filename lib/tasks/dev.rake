@@ -1,7 +1,7 @@
 namespace :dev do
   desc "TODO"
   desc "Configura o ambiente de desenvolvimento"
-  task setup: :environment do
+  task :setup do
     if Rails.env.development?
       %x(rails db:drop db:create db:migrate dev:add_default_user)
     else
@@ -10,13 +10,13 @@ namespace :dev do
   end
 
   desc "Adiciona o usuário padrão"
-  task add_default_user: :environment do
+  task :add_default_user do
     users=[
         {
-        email: 'adm@adm.com',
+        email: 'WanderRodriges@Umanni.com',
         password: 123456,
         password_confirmation: 123456,
-        full_name: 'Adm',
+        full_name: 'Wander Rodriges',
         avatar_image: '',
         admin: true,
       },
