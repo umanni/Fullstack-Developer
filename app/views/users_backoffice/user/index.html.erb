@@ -1,2 +1,4 @@
-<h1>UsersBackoffice::User#index</h1>
-<p>Find me in app/views/users_backoffice/user/index.html.erb</p>
+<% if user_signed_in? %>
+  <%= current_user.full_name %><br>
+  <%= current_user.email %>
+<% end %>
