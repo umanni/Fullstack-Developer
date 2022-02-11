@@ -1,0 +1,3 @@
+email;password;password_confirmation;full_name;avatar_image;admin
+user3@user.com;123456;123456;User3;;false
+user4@user.com;123456;123456;User4;;false
