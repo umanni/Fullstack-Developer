@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <h3>Importar Usuários:</h3>
+    <%= form_tag users_backoffice_admin_import_path, multipart: true, id:"import_form" do  %>
+      <%= file_field_tag 'file', class:"form-control", id:"inputGroupFile02" %>
+      <% end %>
+  </div>
+  <div class="d-flex justify-content-end mt-3">
+    <%= submit_tag "Importar", class:"btn btn-primary", form:"import_form" %>
+  </div>
+</div>
