@@ -12,7 +12,7 @@ namespace :dev do
   desc "Adiciona o usuário padrão"
   task :add_default_user do
     users=[
-        {
+      {
         email: 'WanderRodriges@Umanni.com',
         password: 123456,
         password_confirmation: 123456,
@@ -21,11 +21,19 @@ namespace :dev do
         admin: true,
       },
       {
+        email: 'Adm@Adm.com',
+        password: 123456,
+        password_confirmation: 123456,
+        full_name: 'Adm',
+        avatar_image: '',
+        admin: true,
+      },
+      {
         email: 'user1@user.com',
         password: 123456,
         password_confirmation: 123456,
         full_name: 'User1',
-        avatar_image: '',
+        avatar_image: 'https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg',
         admin: false,
       },
       {
