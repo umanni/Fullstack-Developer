@@ -1,7 +1,14 @@
 class UsersBackoffice::UserController < UsersBackofficeController
   before_action  :user_admin
+  before_action :redirect_back
 
-  def index
+  def redirect_back
+    if !user_signed_in?
+      redirect_to new_user_session_path
+    end
+  end
+
+  def show
   end
 
   def user_admin
