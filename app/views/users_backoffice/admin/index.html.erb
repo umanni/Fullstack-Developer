@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row justify-content-center">
-      <div class="mt-3 ms-3">
-        <h3>Lista de Usuários:</h3>
-      </div>
+    <div class="mt-3 ms-3">
+      <h3>Lista de Usuários:</h3>
     </div>
+  </div>
 </div>
 
 <div class="container mt-3">
@@ -33,17 +33,7 @@
     <% end %>
     <% end %>
   </tbody>
+  <%= paginate @users %>
 </table>
-
-<div class="container mt-5">
-  <div class="row justify-content-center">
-      <div class="w-50">
-        <%= form_tag users_backoffice_admin_import_path, multipart: true, class:"row" do  %>
-        <%= file_field_tag 'file', class:"form-control", id:"inputGroupFile02" %>
-        <%= submit_tag "Importar" %>
-        <% end %>
-      </div>
-    </div>
-</div>
 
 </div>
