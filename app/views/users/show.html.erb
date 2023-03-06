@@ -1,0 +1,52 @@
+<div class="user-prof">
+  <div class="card-prof">
+    <div class="container p-0">
+      <div class="row">
+        <div class="col p-0">
+          <nav aria-label="breadcrumb" class="m-3">
+            <ol class="breadcrumb">
+              <li><%= link_to "Home", root_path, class: "" %></li>
+              <li class="breadcrumb-item active" aria-current="page"></li>
+              <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div class=" container row m-0 p-0">
+        <div class="col-lg-4">
+          <div class="card-bg text-center p-1">
+            <% if current_user.photo.attached? %>
+              <%= cl_image_tag current_user.photo.key, class: "avatar-edit m-2", crop: :fill %>
+            <% else %>
+              <%= image_tag("/assets/default_profile.jpg", class: "avatar-edit m-2") %>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card-bg p-3">
+            <div class="row">
+              <p class="text-light my-0 mx-2 py-2">Full name: <%= current_user.full_name %></p>
+            </div>
+            <hr class="text-light m-2">
+            <div class="row">
+              <p class="text-light my-0 mx-2 py-2">Email: <%= current_user.email %></p>
+            </div>
+            <hr class="text-light m-2">
+            <div class="row">
+              <p class="text-light my-0 mx-2 py-2">Role:
+                <% if current_user.role? %>
+                  <%= "Administrator" %>
+                <% else %>
+                  <%= "User" %>
+                <% end %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-grid gap-2 col-12 mt-3">
+      <%= link_to "Edit Profile", edit_user_registration_path, class: 'btn btn-outline-light btn-lg' %>
+    </div>
+  </div>
+</div>

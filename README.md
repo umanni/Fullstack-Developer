@@ -1,67 +1,56 @@
-# Fullstack Developer Test
+# Umanni Manage Users<br>Change your way to manage your users! Now you can do it with efficiency.
 
-- Check this readme.md
-- Create a branch to develop your task
-- Push to remote in 1 week (date will be checked from branch creation/assigned date)
+![GitHub repo size](https://img.shields.io/github/repo-size/umanni/Fullstack-Developer?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/umanni/Fullstack-Developer?style=for-the-badge)
 
-# Requirements:
-- Latest version of the stack
-- Write unit and integration tests 
-- Deliver with a working Dockerfile
-- Use docker-compose.yml if needed
-- Show your best practices ex: design patters, linters etc.
+<div align="center">
+<img src="https://github.com/umanni/Fullstack-Developer/PedroPadilha/app/assets/images/umanni_logo.png" width="250px" alt="logo">
+</div>
 
-# The Test
-Here we'll try to simulate a "real sprint" that you'll, probably, be assigned while working as Fullstack at Umanni.
-# The Task
-- Create a responsive application to manage users.
-- A user must have:
-1- full_name
-2- email
-3- avatar_image (upload from file or url)
-4- role (admin/no-admin)
-# The App
-## Admin Use cases
-- As an Admin, I must be able to access a User Admin Dashboard.
-- As an Admin, I must be able to see on Dashboard:
-  - Total number of Users
-  - Total number of Users grouped by Role
-- As an Admin, I must be redirected to User Admin Dashboard after login
-- As an Admin, I must be able to list, create, edit and delete Users.
-- As an Admin, I must be able to toggle the User Role.
-- As an Admin, I must be able to import a Spreadsheet into the system, in order to create new Users
-- As an Admin, I must be able to see the progress of Users imports.
-## User Use Cases
-- As an User, I must be redirected to my Profile after login
-- As an User, I must be able only to see my info, edit and delete my profile.
-## Visitor Use Cases
-- As a Visitor, I can register myself as a normal User.
+> Project made for Full Stack Umanni developer vacancy test - Started Thursday (02/03/2023) and delivered on Monday (06/03/2023).
 
-# The Start.
-- Your deadline is 1 week after accepting this test. 
-# The Rules
-These one are required. Not doing one of them will invalidate your submission.
-- You must write down a README in English explaining how to build and run your app.
-- The Frontend must  have a framework Bootstrap, Foundation, MDL or any other frameworks, remember you are here as a Fullstack not a backend developer.
-- You must use realtime related stuff (counters on Admin Dashboard, import progress, etc)
-- You must treat errors accordingly.
-- You must use a open source lib to authenticate Users.
-- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
-# What we're expecting to see:
-- Use SCSS to your CSS;
-- .gitignore, .dockerignore
-- A proper way to manage app configuration 
-- Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
-- Organize & optimize your code and images
-- Form validation (frontend validation included)
-- Tests with at least 90% coverage
-- Be able to use, pjax, turbolinks, intercooler, unpoly (yes, we believe in good old server side rendering)
-# Extra points
-- Use a Dockerfile
-- docker-compose.yml
-- React in some ui components when it makes sense
-- Stress tests
-# What will be assessed
-- Code's Semantic, Cleanness and Maintainability;
-- Understanding of REST and proper use of HTTP Methods (POST, GET, PUT, PATCH, DELETE, OPTIONS);
-- Basic Security tests against Injections, XSS/XSRF, ...
+### Start:
+
+> First of all remember to run Bundle and Yarn to install all gems and frameworks
+> Do not forget about the DB too (rails db:create db:migrate db:seed)
+
+> Run: Localhost <br>
+
+> Some Logins already exist for use
+- Login-Admin: contato@umanni.com.br <br>
+- Password: 123123 <br>
+- Login-User: pedropadilha@umanni.com.br <br>
+- Password: 123123 <br>
+
+### How it works:
+
+> Visitor
+- Has access to the home page
+- Can register yourself like normal user
+
+> User
+- Can access to the home page
+- Can access your profile and see, edit or delete it
+
+> Administrator
+- Can access home page
+- Can access your profile and view, edit or delete it
+- Can access Dashboard with all user manager statistics
+- Can access all user profiles and edit or delete them
+- Can turn other user as admin as well
+- Can import a spreadsheet with new users to the system
+
+## 🤝 Developer
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/pedrofonsecapadilha">
+        <img src="https://avatars.githubusercontent.com/u/113715845?v=4" width="100px;" alt="Foto"/><br>
+        <sub>
+          <b>Pedro Padilha</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>

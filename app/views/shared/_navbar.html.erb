@@ -1,0 +1,44 @@
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+  <div class="container-fluid">
+    <%= link_to root_path, class: "navbar-brand m-0 p-0" do %>
+      <%= image_tag "https://www.umanni.com/content/images/2022/04/umanni-logo-color-whitout-tagline-transparent-1.png" %>
+    <% end %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon toggler-color"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <% if user_signed_in? %>
+          <li class="nav-item active p-2 ms-auto">
+            <p class="text-center my-0 text-light"><%= current_user.full_name %></p>
+          </li>
+          <li class="nav-item dropdown ms-auto">
+            <% if current_user.photo.attached? %>
+              <%= cl_image_tag current_user.photo.key, class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <% else %>
+              <%= image_tag("/assets/default_profile.jpg", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false) %>
+            <% end %>
+            <% if current_user.role? %>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <%= link_to "Profile", users_path, class: "dropdown-item" %>
+                <%= link_to "Dashboard", admin_root_path , class: "dropdown-item" %>
+                <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+              </div>
+            <% else %>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <%= link_to "Profile", users_path, class: "dropdown-item" %>
+                <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+              </div>
+            <% end %>
+          </li>
+        <% else %>
+          <li class="nav-item ms-auto">
+            <%= link_to "Login", new_user_session_path, class: "nav-link text-center my-0 text-light" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
