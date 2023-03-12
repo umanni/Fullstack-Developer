@@ -1,8 +1,15 @@
 <h1>Dashboard</h1>
+<% if user_signed_in? %>
+  <p class="text-cyan-800 dark:text-yellow-100">
+    Olá, <%= current_user.full_name %>.
+  </p>
+<% else %>
+  <%= link_to "Login", new_user_session_path %>
+<% end %>
 <p>Total number of Users: <%= @total_users %></p>
 <p>Number of Users grouped by Role:</p>
 <ul>
   <% @users_by_role.each do |role, count| %>
-    <li><%= role.capitalize %>: <%= count %></li>
+    <li><%= t("activerecord.attributes.user.roles.#{role}") %>: <%= count %></li>
   <% end %>
-</ul>
+</ul> 

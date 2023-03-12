@@ -55,7 +55,7 @@ gem 'roo', '~> 2.10'
 # gem 'sidekiq', '~> 7.0', '>= 7.0.6'
 
 # Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
+gem "redis", ">= 4.0.1"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -73,8 +73,8 @@ group :development, :test do
   # Use rspec for testing and handle generators
   gem 'rspec-rails', '~> 6.0', '>= 6.0.1'
 
-  # Use Rails Live Reload for faster development [https://github.com/railsjazz/rails_live_reload]
-  # gem 'rails_live_reload', '~> 0.3.2'
+  # Use Hotwire Live Reload for faster development [https://github.com/railsjazz/rails_live_reload]
+  gem 'hotwire-livereload', '~> 1.2', '>= 1.2.3'
 end
 
 group :development do
