@@ -4,9 +4,13 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :email,
+    <%= f.input :full_name,
                 required: true,
                 autofocus: true,
+                input_html: { autocomplete: "name" }
+                 %>
+    <%= f.input :email,
+                required: true,
                 input_html: { autocomplete: "email" }%>
     <%= f.input :password,
                 required: true,
@@ -15,6 +19,8 @@
     <%= f.input :password_confirmation,
                 required: true,
                 input_html: { autocomplete: "new-password" } %>
+    <%= f.label :role %>
+    <%= f.select :role, options_for_select(User.roles.map {|k, v| [User.translate_enum_name(:roles, k), k]}, nil), class: 'form-control' %>
   </div>
 
   <div class="form-actions">
