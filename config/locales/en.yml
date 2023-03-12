@@ -35,4 +35,4 @@ en:
       user:
         roles:
           admin: Admin
-          no_admin: User
+          user: User

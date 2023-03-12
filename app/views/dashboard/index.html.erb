@@ -1,0 +1,8 @@
+<h1>Dashboard</h1>
+<p>Total number of Users: <%= @total_users %></p>
+<p>Number of Users grouped by Role:</p>
+<ul>
+  <% @users_by_role.each do |role, count| %>
+    <li><%= role.capitalize %>: <%= count %></li>
+  <% end %>
+</ul>

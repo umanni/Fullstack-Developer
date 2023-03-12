@@ -6,6 +6,6 @@ class User < ApplicationRecord
 
   enum role: {
     admin: 1,
-    no_admin: 2
+    user: 2
   }
 end

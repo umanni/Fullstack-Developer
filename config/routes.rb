@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'dashboard/index'
   devise_for :users, controllers: {
     # Define custom controllers for devise
     registrations: 'users/registrations',
@@ -17,5 +18,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "articles#index"
+  root "dashboard#index"
 end
