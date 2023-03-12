@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "dashboard_main" do %>
+  <section class="flex flex-col">
+    <%= link_to "Login", new_user_session_path, data: { turbo_frame: 'dashboard_main' } %>
+    <%= link_to "Sign up", new_user_registration_path, data: { turbo_frame: 'dashboard_main' } %>  
+  </section>
+<% end %>
