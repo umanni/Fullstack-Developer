@@ -30,14 +30,35 @@ gem "cssbundling-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+# Pretty print Ruby objects with proper indentation and colors
+gem "awesome_print", "~> 1.9", ">= 1.9.2"
+
+# Use Devise for authentication
+gem 'devise', '~> 4.9'
+
+# Use Pundit for authorization
+# gem 'pundit', '~> 2.3'
+
+# Use Simple Form for forms
+gem 'simple_form', '~> 5.2'
+
+# Carrierwave for file uploads
+gem 'carrierwave', '~> 2.2', '>= 2.2.3'
+
+# Use roo for reading spreadsheets
+gem 'roo', '~> 2.10'
+
+# Use Rails Performance for performance monitoring [https://github.com/igorkasyanchuk/rails_performance]
+# gem 'rails_performance', '~> 1.0', '>= 1.0.4'
+
+# Use sideqik for background jobs
+# gem 'sidekiq', '~> 7.0', '>= 7.0.6'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
-
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -45,8 +66,16 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+group :development, :test do
+  # Use pry-byebug for debugging
+  gem 'pry-byebug', '~> 3.10', '>= 3.10.1'
+
+  # Use rspec for testing and handle generators
+  gem 'rspec-rails', '~> 6.0', '>= 6.0.1'
+
+  # Use Rails Live Reload for faster development [https://github.com/railsjazz/rails_live_reload]
+  # gem 'rails_live_reload', '~> 0.3.2'
+end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
@@ -66,4 +95,13 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+
+  # Use database_cleaner for cleaning up the database
+  gem 'database_cleaner', '~> 2.0', '>= 2.0.2'
+
+  # Use factory_bot_rails for factories
+  gem 'factory_bot_rails', '~> 6.2'
+
+  # Use faker for fake data
+  gem 'faker', '~> 3.1', '>= 3.1.1'
 end
