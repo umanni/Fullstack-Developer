@@ -7,7 +7,7 @@
       <p class="text-cyan-800 dark:text-yellow-100">
         <p class="text-xl">Hello, <%= current_user.full_name %>.</p>
         <p class="pb-4 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
-        <%= button_to "Log out", destroy_user_session_path, class: "text-xs px-4 py-2 text-blue-500 bg-white", method: :delete, data: { turbo_frame: 'dashboard_main' } %>
+        <%= button_to "Log out", destroy_user_session_path, class: "text-xs px-4 py-2 text-blue-500 bg-white", method: :delete, data: { turbo_frame: '_top' } %>
       </p>
   <% else %>
     <%= link_to "Login", new_user_session_path, data: { turbo_frame: 'dashboard_main' } %>
