@@ -16,10 +16,9 @@ We are using Docked Rails on the development, the new Rails official approach fo
 2. Navigate to the project directory.
 3. Create the docker volume with `docker volume create ruby-bundle-cache`
 4. Add the docked alias to your console with `alias docked='docker run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle -p 3000:3000 ghcr.io/rails/cli'`
-3. Run `docker-compose up` to start the project.
-4. Run the server with `docked bin/dev`
-5. Access http://localhost:3000/dashboard
-6. Migrate the database on the the browser
+5. Run the server with `docked bin/dev`
+6. Access http://localhost:3000/dashboard
+7. Migrate the database on the the browser
 
 ### Running without Docker
 
