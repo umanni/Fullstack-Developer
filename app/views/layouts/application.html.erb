@@ -12,9 +12,15 @@
   </head>
 
   <body>
+    <% if notice.present? %>
+      <div class="p-4 mb-4 text-green-800 bg-green-100">
+        <%= notice %>
+      </div>
+    <% end %>
     <div class="w-[60%] mx-auto ">
       <%= render "shared/header" %>
       <%= yield %>
     </div>
   </body>
+
 </html>

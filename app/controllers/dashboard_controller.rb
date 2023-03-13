@@ -17,12 +17,13 @@ class DashboardController < ApplicationController
 
     if @user_bulk.save
       @user_bulk.process_csv_file!
-
-      redirect_to dashboard_path, notice: 'CSV file imported successfully'
+      redirect_to dashboard_path, notice: 'CSV file imported successfully!'
     else
-      render :user_bulk
+      render :new_user_bulk
     end
   end
+
+
 
   private 
   
