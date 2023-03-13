@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
     @user_bulk = UserBulk.new(user_bulk_params)
 
     if @user_bulk.csv_file.blank?
-      redirect_to new_user_bulk_path, notice: 'Please select a file to upload'
+      redirect_back(fallback_location: new_user_bulk_path, alert: 'Please select a file to upload')
     else
       if @user_bulk.save
         @user_bulk.process_csv_file!
@@ -27,11 +27,13 @@ class DashboardController < ApplicationController
     end
   end
 
+
+
   private 
   
   def user_bulk_params
     if params[:user_bulk].present?
-      params.require(:user_bulk).permit(:csv_file) 
+      params.require(:user_bulk).permit(:csv_file)
     else
       {}
     end
