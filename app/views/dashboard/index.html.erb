@@ -7,7 +7,7 @@
     <div class="px-4 py-8 mb-6 text-white bg-blue-500">
       <% if user_signed_in? %>
           <p class="text-cyan-800 dark:text-yellow-100">
-            <p class="text-xl">Hello, <%= current_user.full_name %></p>
+            <p class="text-xl">Hello, <%= current_user.full_name %>.</p>
             <p class="pb-8 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
             <%= button_to "Log out", destroy_user_session_path, class: "text-sm px-4 py-2 text-blue-500 bg-white", method: :delete, data: { turbo_frame: 'dashboard_main' } %>
           </p>

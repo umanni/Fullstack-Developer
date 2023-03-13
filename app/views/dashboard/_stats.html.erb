@@ -1,9 +1,20 @@
-<section class="px-4">
-  <p>Total number of users: <%= @total_users %></p>
-  <p>Number of users grouped by Role:</p>
-  <ul>
-    <% @users_by_role.each do |role, count| %>
-      <li><%= t("activerecord.attributes.user.roles.#{role}") %>: <%= count %></li>
-    <% end %>
-  </ul> 
+<%= turbo_frame_tag "dashboard_users_count" do %>
+<section class="w-[300px]">
+  <div class="p-4 bg-white rounded-lg shadow-md">
+    <p class="font-medium text-gray-700 text-md">Total number of users:</p>
+    <p class="font-semibold text-gray-900 text-md"><%= @total_users %></p>
+  </div>
+
+  <div class="p-4 mt-4 bg-white rounded-lg shadow-md">
+    <p class="font-medium text-gray-700 text-md">Number of users grouped by Role:</p>
+    <ul class="mt-2 space-y-2">
+      <% @users_by_role.each do |role, count| %>
+        <li class="flex items-center justify-between">
+          <span class="text-sm font-bold text-gray-900"><%= t("activerecord.attributes.user.roles.#{role}") %></span>
+          <span class="text-sm font-medium text-gray-700"><%= count %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </section>
+<% end %>
