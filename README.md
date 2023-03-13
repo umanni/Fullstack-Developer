@@ -1,24 +1,38 @@
-# README
+# Umanni - Full Stack Developer Test
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project was created for the Umanni Full Stack Developer test.
 
-Things you may want to cover:
+## Getting started
 
-* Ruby version
+### Prerequisites
 
-* System dependencies
+- Docker
 
-* Configuration
+### Running the project
 
-* Database creation
+We are using Docked Rails on the development, the new Rails official approach for Docker. Also, Rails 7.1 bring us a official Dockerfile.
 
-* Database initialization
+1. Clone the repository.
+2. Navigate to the project directory.
+3. Create the docker volume with `docker volume create ruby-bundle-cache`
+4. Add the docked alias to your console with `alias docked='docker run --rm -it -v ${PWD}:/rails -v ruby-bundle-cache:/bundle -p 3000:3000 ghcr.io/rails/cli'`
+3. Run `docker-compose up` to start the project.
+4. Run the server with `docked bin/dev`
+5. Access http://localhost:3000/dashboard
+6. Migrate the database on the the browser
 
-* How to run the test suite
+### Running without Docker
 
-* Services (job queues, cache servers, search engines, etc.)
+1. Clone the repository.
+2. Navigate to the project directory.
+3. Run `bundle install`
+4. Run `bin/dev`
+5. Access http://localhost:3000/dashboard
+6. Migrate the database on the the browser
 
-* Deployment instructions
+### Tech Stack
 
-* ...
+- Ruby on Rails 7.1 (alpha)
+- Hotwire
+- Tailwind CSS
+- esbuild
