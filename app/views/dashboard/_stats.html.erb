@@ -1,6 +1,6 @@
-<section>
-  <p>Total number of Users: <%= @total_users %></p>
-  <p>Number of Users grouped by Role:</p>
+<section class="px-4">
+  <p>Total number of users: <%= @total_users %></p>
+  <p>Number of users grouped by Role:</p>
   <ul>
     <% @users_by_role.each do |role, count| %>
       <li><%= t("activerecord.attributes.user.roles.#{role}") %>: <%= count %></li>

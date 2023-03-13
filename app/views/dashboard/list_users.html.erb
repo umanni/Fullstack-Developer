@@ -1,0 +1,26 @@
+<%= turbo_frame_tag "dashboard_main" do %>
+  <section class="mx-auto ">
+    <div class="mb-8 overflow-x-auto border-2 border-gray-500 border-solid">
+    <%# Create a table with all users and roles %>
+      <table class="w-full min-w-full whitespace-nowrap">
+        <thead>
+          <tr class="bg-gray-50">
+            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Full name</th>
+            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
+            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="border-t border-gray-200">
+              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= user.full_name %></td>
+              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= user.email %></td>
+              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= user.role.capitalize %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= link_to "Back", dashboard_path, class: "mx-auto px-4 py-2 text-white bg-blue-500", data: { turbo_frame: 'dashboard_main' } %>  
+  </section>
+<% end %>

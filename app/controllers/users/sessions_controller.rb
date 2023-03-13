@@ -22,7 +22,8 @@ class Users::SessionsController < Devise::SessionsController
 
   # The path used after sign in.
   def after_sign_in_path_for(resource)
-    dashboard_path_url
+    # redirect to dashboard if user is admin or user
+    dashboard_path
   end
 
   # If you have extra params to permit, append them to the sanitizer.

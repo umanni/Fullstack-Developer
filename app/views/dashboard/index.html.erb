@@ -1,20 +1,28 @@
+<div class="flex justify-center mb-6">
+  <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+</div>
+
 <%= turbo_frame_tag "dashboard_main" do %>
-  <section>
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
-  </div>
-    <% if user_signed_in? %>
-      <div class="mb-6">
-        <p class="text-cyan-800 dark:text-yellow-100">
-          <p class="text-xl">Hello, <%= current_user.full_name %>.</p>
-          <p class="text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
-          <%# Create button to redirect to the dashboard %>
-        </p>
+  <section class="mx-auto ">
+    <div class="px-4 py-8 mb-6 text-white bg-blue-500">
+      <% if user_signed_in? %>
+          <p class="text-cyan-800 dark:text-yellow-100">
+            <p class="text-xl">Hello, <%= current_user.full_name %></p>
+            <p class="pb-8 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
+            <%= button_to "Log out", destroy_user_session_path, class: "text-sm px-4 py-2 text-blue-500 bg-white", method: :delete, data: { turbo_frame: 'dashboard_main' } %>
+          </p>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, data: { turbo_frame: 'dashboard_main' } %>
+      <% end %>
+    </div>
+
+    <%# If the user.role is admin, show buttons to create new users %>
+    <% if current_user&.admin? %>
+      <div class="flex justify-center mb-6">
+        <%= link_to "List users", list_users_path, class: "px-4 py-2 text-white bg-blue-500", data: { turbo_frame: 'dashboard_main' } %>
+        <%= link_to "Create new user", new_user_registration_path, class: "px-4 py-2 text-white bg-blue-500", data: { turbo_frame: 'dashboard_main' } %>
       </div>
-    <% else %>
-      <%= link_to "Login", new_user_session_path, data: { turbo_frame: 'dashboard_main' } %>
-    <% end %>
     <%= render "stats" %>
-    <%= button_to "Log out", destroy_user_session_path, method: :delete, data: { turbo_frame: 'dashboard_main' } %>
+    <% end %>    
   </section>
 <% end %>

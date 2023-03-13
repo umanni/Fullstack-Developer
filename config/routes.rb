@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
-  get 'dashboard' => 'dashboard#index', as: :dashboard_path
+  get 'dashboard' => 'dashboard#index', as: :dashboard
+  get 'list_users' => 'dashboard#list_users', as: :list_users
 
   devise_for :users, controllers: {
     # Define custom controllers for devise
