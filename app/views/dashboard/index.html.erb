@@ -8,8 +8,8 @@
       <% if user_signed_in? %>
           <p class="text-cyan-800 dark:text-yellow-100">
             <p class="text-xl">Hello, <%= current_user.full_name %>.</p>
-            <p class="pb-8 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
-            <%= button_to "Log out", destroy_user_session_path, class: "text-sm px-4 py-2 text-blue-500 bg-white", method: :delete, data: { turbo_frame: 'dashboard_main' } %>
+            <p class="pb-4 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
+            <%= button_to "Log out", destroy_user_session_path, class: "text-xs px-4 py-2 text-blue-500 bg-white", method: :delete, data: { turbo_frame: 'dashboard_main' } %>
           </p>
       <% else %>
         <%= link_to "Login", new_user_session_path, data: { turbo_frame: 'dashboard_main' } %>
@@ -18,7 +18,7 @@
 
     <%# If the user.role is admin, show buttons to create new users %>
     <% if current_user&.admin? %>
-      <div class="flex justify-center mb-6">
+      <div class="flex justify-start gap-4 mb-6">
         <%= link_to "List users", list_users_path, class: "px-4 py-2 text-white bg-blue-500", data: { turbo_frame: 'dashboard_main' } %>
         <%= link_to "Create new user", new_user_registration_path, class: "px-4 py-2 text-white bg-blue-500", data: { turbo_frame: 'dashboard_main' } %>
       </div>
