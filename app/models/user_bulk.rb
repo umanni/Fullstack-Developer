@@ -1,0 +1,2 @@
+class UserBulk < ApplicationRecord
+end
