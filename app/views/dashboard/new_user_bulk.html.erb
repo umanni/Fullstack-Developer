@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "dashboard_main" do %>
+  <%= simple_form_for @user_bulk, url: create_user_bulk_path, html: { class: 'form-horizontal', multipart: true, method: :post } do |f| %>
+    <%= f.input :csv_file, label: 'CSV File' %>
+  
+    <%= f.button :submit, 'Import', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>

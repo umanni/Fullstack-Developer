@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root "pages#home"
   get 'dashboard' => 'dashboard#index', as: :dashboard
   get 'list_users' => 'dashboard#list_users', as: :list_users
+  get 'new_user_bulk' => 'dashboard#new_user_bulk', as: :new_user_bulk
+  post 'create_user_bulk' => 'dashboard#create_user_bulk', as: :create_user_bulk
+
 
   devise_for :users, controllers: {
     # Define custom controllers for devise
