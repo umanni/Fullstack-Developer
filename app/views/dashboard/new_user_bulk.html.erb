@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "dashboard_main" do %>
-  <%= simple_form_for @user_bulk, url: create_user_bulk_path, html: { class: 'form-horizontal', multipart: true, method: :post } do |f| %>
-    <%= f.input :csv_file, label: 'CSV File' %>
+  <%= simple_form_for @user_bulk, url: create_user_bulk_path, html: { class: 'bg-white p-6 rounded-lg shadow-lg', multipart: true, method: :post } do |f| %>
+    <%= f.input :csv_file, label: 'CSV File', input_html: { class: 'block w-full mt-1' } %>
   
-    <%= f.button :submit, 'Import', class: 'btn btn-primary' %>
+    <%= f.button :submit, 'Import', class: 'bg-blue-500 text-white rounded-lg px-4 py-2 mt-4 hover:bg-blue-600' %>
   <% end %>
 <% end %>
