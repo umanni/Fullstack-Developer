@@ -10,9 +10,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    if params[:user][:avatar_image].present?
+      uploader = AvatarImageUploader.new
+      uploader.store!(params[:user][:avatar_image])
+      params[:user][:avatar_image] = uploader.url
+    end
+    super
+  end
 
   # GET /resource/edit
   # def edit

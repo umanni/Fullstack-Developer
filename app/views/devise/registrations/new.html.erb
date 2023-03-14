@@ -1,33 +1,75 @@
 <%= turbo_frame_tag "dashboard_main" do %>
-<h2>Sign up</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :full_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "name" }
-                 %>
-    <%= f.input :email,
-                required: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.label :role %>
-    <%= f.select :role, options_for_select(User.roles.map {|k, v| [User.translate_enum_name(:roles, k), k]}, nil), class: 'form-control' %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up", data: { turbo_frame: "_top" } %>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form", multipart: true}) do |f| %>
+  <div class="flex flex-col justify-center min-h-screen pb-6">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div
+        class="absolute inset-0 transform -skew-y-6 shadow-lg bg-gradient-to-r from-sky-300 to-sky-600 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+      </div>
+      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <div class="max-w-md mx-auto">
+          <div class="text-center">
+            <h2 class="text-2xl font-semibold">Sign up a new account</h2>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <div class="py-8 space-y-4 text-base leading-6 text-gray-700 sm:text-lg sm:leading-7">          
+            <div class="py-4 text-red-500">
+              <%= f.error_notification %>
+            </div>
+              <div class="relative">
+                <%= f.input :full_name,
+                            required: true,
+                            autofocus: true,
+                            label: false,
+                            input_html: { autocomplete: "name", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="full_name" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Full Name</label>
+              </div>
+              <div class="relative">
+                <%= f.input :email,
+                            required: true,
+                            label: false,
+                            input_html: { autocomplete: "email", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="email" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Email</label>
+              </div>
+              <div class="relative">
+                <%= f.input :role,
+                            required: false,
+                            label: false,
+                            include_blank: false,
+                            collection: User.roles.map {|k, v| [User.translate_enum_name(:roles, k), k]},
+                            input_html: {  class: "w-full h-8 p-1 my-2 text-sky-900 text-sm bg-sky-50 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:border-sky-800" } %>
+                <label for="role" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Role</label>
+              </div>
+              <div class="relative">
+                <%= f.input :avatar_image,
+                            required: false,
+                            label: false,
+                            input_html: { class: "my-4 w-full h-8 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600 text-sm" }, as: :file %>
+                <label for="avatar_image" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Avatar Image</label>
+              </div>
+              <div class="relative">
+                <%= f.input :password,
+                            required: true,
+                            label: false,
+                            input_html: { autocomplete: "new-password", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="password" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
+              </div>
+              <div class="relative">
+                <%= f.input :password_confirmation,
+                            required: true,
+                            label: false,
+                            input_html: { autocomplete: "new-password", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="password_confirmation" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Confirm Password</label>
+              </div>
+              <div class="relative">
+                <div class="form-actions">
+                  <%= f.button :submit, "Submit", class: "lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 uppercase lg:flex lg:text-[15px] cursor-pointer hover:bg-sky-800 transition ease-in-out", data: { turbo_frame: '_top' } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>
 <% end %>

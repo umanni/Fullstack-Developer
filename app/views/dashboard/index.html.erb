@@ -4,11 +4,12 @@
 
 <div class="px-4 py-8 mb-6 text-white rounded-md shadow-md bg-sky-500">
   <% if user_signed_in? %>
-      <p class="text-cyan-800 dark:text-yellow-100">
-        <p class="text-xl">Hello, <%= current_user.full_name %>.</p>
-        <p class="pb-4 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
-        <%= button_to "Log out", destroy_user_session_path, class: "px-2 py-1 text-sky-500 bg-white rounded-md hover:text-white hover:bg-sky-800", method: :delete, data: { turbo_frame: '_top' } %>
-      </p>
+    <%= image_tag current_user.avatar_image, class: "w-20 h-20 rounded-full mb-2" %>
+    <p class="text-cyan-800 dark:text-yellow-100">
+      <p class="text-xl">Hello, <%= current_user.full_name %>.</p>
+      <p class="pb-4 text-sm">(Logged as <%= current_user.role.capitalize %>)</p>
+      <%= button_to "Log out", destroy_user_session_path, class: "px-2 py-1 text-sky-500 bg-white rounded-md hover:text-white hover:bg-sky-800", method: :delete, data: { turbo_frame: '_top' } %>
+    </p>
   <% else %>
     <%= link_to "Login", new_user_session_path, data: { turbo_frame: 'dashboard_main' } %>
   <% end %>
