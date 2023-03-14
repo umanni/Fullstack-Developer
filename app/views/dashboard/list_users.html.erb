@@ -22,18 +22,18 @@
     <%# Create a table with all users and roles %>
       <table class="w-full min-w-full whitespace-nowrap">
         <thead>
-          <tr class="bg-gray-50">
-            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Full name</th>
-            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
-            <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Role</th>
+          <tr class="text-xs font-medium tracking-wider text-left uppercase text-sky-50 bg-sky-500">
+            <th class="px-6 py-3 border-r-2">Full name</th>
+            <th class="px-6 py-3 border-r-2">Email</th>
+            <th class="px-6 py-3">Role</th>
           </tr>
         </thead>
         <tbody>
           <% @users.each do |user| %>
-            <tr class="border-t border-gray-200">
-              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= user.full_name %></td>
-              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= user.email %></td>
-              <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap"><%= user.role.capitalize %></td>
+            <tr class="text-sm font-medium text-gray-900 border-t border-sky-200 bg-sky-50">
+              <td class="px-6 py-4 border-r-2 whitespace-nowrap"><%= user.full_name %></td>
+              <td class="px-6 py-4 border-r-2 whitespace-nowrap"><%= user.email %></td>
+              <td class="px-6 py-4 whitespace-nowrap"><%= user.role.capitalize %></td>
             </tr>
           <% end %>
         </tbody>
