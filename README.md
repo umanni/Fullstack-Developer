@@ -20,7 +20,7 @@ We are using Docked Rails on the development, the new Rails official approach fo
 6. Install Node dependencies with `docked yarn install` or `docked npm install`
 7. Run the server with `docked bin/dev`
 8. Access http://localhost:3000
-9. Migrate the database on the the browser
+9. Migrate the database on the browser
 
 ### Running without Docker
 
@@ -30,7 +30,7 @@ We are using Docked Rails on the development, the new Rails official approach fo
 5. Run `npm install` or `yarn install`
 4. Run `bin/dev`
 5. Access http://localhost:3000
-6. Migrate the database on the the browser
+6. Migrate the database on the browser
 
 ### Tech Stack
 
