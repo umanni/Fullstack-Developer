@@ -2,6 +2,12 @@ Rails.application.routes.draw do
   # Define root path route ("/")
   root 'pages#home'
 
+  # Define routes for devise
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    sessions: 'users/sessions',
+  }
+
   # Define routes for the dashboard controller
   scope '/dashboard', controller: :dashboard do
     get '/', action: :index, as: :dashboard
@@ -10,11 +16,11 @@ Rails.application.routes.draw do
     post '/create_user_bulk', action: :create_user_bulk, as: :create_user_bulk
   end
 
-  # Define routes for devise
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions'
-  }
+  # Define routes for the user profile controller
+  scope '/user_profile', controller: :user_profile do
+    get '/:id', action: :show, as: :user_profile
+    get '/edit/:id', action: :edit, as: :edit_user_profile
+  end
 
   # Define custom route for sign out in development mode only
   if Rails.env.development?

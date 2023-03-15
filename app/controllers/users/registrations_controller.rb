@@ -56,9 +56,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     devise_parameter_sanitizer.permit(:account_update, keys: [:full_name, :avatar_image, :role])
   end
 
-  # The path used after sign up.
+  # The path used after sign up. Send to dashboard if user is admin or to the user profile if user is user
   def after_sign_up_path_for(resource)
-    dashboard_path
+    if resource.role == 'admin'
+      dashboard_path
+    else
+      user_profile_path(resource)
+    end
   end
 
   # The path used after sign up for inactive accounts.

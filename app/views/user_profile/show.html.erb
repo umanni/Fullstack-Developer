@@ -1,0 +1,4 @@
+<div> <%= image_tag @user_profile.avatar_image, class: "w-20 h-20 rounded-full mb-2" if @user_profile.avatar_image.present? %> </div>
+<div> <%= @user_profile.full_name %> </div>
+<div> <%= @user_profile.role %> </div>
+<%= link_to "Edit profile", edit_user_profile_path, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
