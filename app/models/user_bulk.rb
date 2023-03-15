@@ -1,4 +1,6 @@
 class UserBulk < ApplicationRecord
+  validates :csv_file, presence: true
+
   mount_uploader :csv_file, CsvFileUploader
 
   def process_csv_file!
