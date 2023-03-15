@@ -28,7 +28,6 @@ class DashboardController < ApplicationController
   end
 
 
-
   private 
   
   def user_bulk_params
