@@ -6,9 +6,10 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
-# Add color, format and documentation for the output
 RSpec.configure do |config|
+  # Add color, format and documentation for the output
   config.color = true
+  config.tty = true
   config.formatter = :documentation
 
   # Factory Bot Configuration

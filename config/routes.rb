@@ -1,26 +1,28 @@
 Rails.application.routes.draw do
-  # Defines the root path route ("/")
-  root "pages#home"
-  get 'dashboard' => 'dashboard#index', as: :dashboard
-  get 'list_users' => 'dashboard#list_users', as: :list_users
-  get 'new_user_bulk' => 'dashboard#new_user_bulk', as: :new_user_bulk
-  post 'create_user_bulk' => 'dashboard#create_user_bulk', as: :create_user_bulk
+  # Define root path route ("/")
+  root 'pages#home'
 
+  # Define routes for the dashboard controller
+  scope '/dashboard', controller: :dashboard do
+    get '/', action: :index, as: :dashboard
+    get '/list_users', action: :list_users, as: :list_users
+    get '/new_user_bulk', action: :new_user_bulk, as: :new_user_bulk
+    post '/create_user_bulk', action: :create_user_bulk, as: :create_user_bulk
+  end
 
+  # Define routes for devise
   devise_for :users, controllers: {
-    # Define custom controllers for devise
     registrations: 'users/registrations',
-    sessions: 'users/sessions',
+    sessions: 'users/sessions'
   }
 
-  devise_scope :user do
-    if Rails.env.development?
-      # Create a get route for sign out on devise sessions controller in development mode
-      get "users/sign_out" => "users/sessions#destroy", via: :delete
+  # Define custom route for sign out in development mode only
+  if Rails.env.development?
+    devise_scope :user do
+      get 'users/sign_out', to: 'users/sessions#destroy', via: :delete
     end
   end
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # Define health check route for load balancers and uptime monitors
+  get 'up', to: 'rails/health#show', as: :rails_health_check
 end
