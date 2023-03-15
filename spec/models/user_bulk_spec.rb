@@ -17,7 +17,7 @@ RSpec.describe UserBulk, type: :model do
 
   describe '#process_csv_file!' do
     # Set up shared variables for the tests
-    let(:csv_file) { Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/sample.csv")) }
+    let(:csv_file) { Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/user_bulk_sample.csv")) }
     let(:user_bulk) { FactoryBot.create(:user_bulk, csv_file: csv_file) }
 
     # Test the success cases when the CSV file is valid
