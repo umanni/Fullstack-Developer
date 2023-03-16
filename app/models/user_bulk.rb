@@ -10,8 +10,9 @@ class UserBulk < ApplicationRecord
       email = row[0]
       full_name = row[1]
       role = row[2]
+      avatar_image = row[3]
 
-      User.create(email: email, full_name: full_name, role: role, password: '123mudar')
+      User.create(email: email, full_name: full_name, role: role, password: '123mudar', avatar_image: avatar_image)
     end
 
     true

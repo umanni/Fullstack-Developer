@@ -1,1 +1,10 @@
-q?
+<%= turbo_frame_tag "dashboard_main" do %>
+<%# create the simple form to edit the user profile %>
+<%= simple_form_for(@user_profile, url: show_user_profile, method: :patch, data: { turbo_frame: 'dashboard_main' }) do |f| %>
+  <%= f.input :full_name %>
+  <%= f.input :role %>
+  <%= f.input :avatar_image, as: :file %>
+  <%= f.button :submit, "Update" %>
+<% end %>  
+
+<% end %>

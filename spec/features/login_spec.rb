@@ -13,7 +13,7 @@ RSpec.feature 'Login', type: :feature do
     click_on 'Submit'
 
     # Expect to be redirected to the user profile or dashboard page and see success message
-    expect(page).to have_current_path(user_profile_path) if :user && :user.user?
+    expect(page).to have_current_path(show_user_profile) if :user && :user.user?
     expect(page).to have_current_path(dashboard_path) if :user && :user.admin?
     expect(page).to have_content('Signed in successfully.')
 

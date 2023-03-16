@@ -1,4 +1,8 @@
-<div> <%= image_tag @user_profile.avatar_image, class: "w-20 h-20 rounded-full mb-2" if @user_profile.avatar_image.present? %> </div>
-<div> <%= @user_profile.full_name %> </div>
-<div> <%= @user_profile.role %> </div>
-<%= link_to "Edit profile", edit_user_profile_path, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
+<%= turbo_frame_tag "dashboard_main" do %>
+  <div><%= image_tag @user_profile.avatar_image, class: "w-20 h-20 rounded-full mb-2" if @user_profile.avatar_image.present? %></div>
+  <div><%= @user_profile.full_name %></div>
+  <div><%= @user_profile.role %></div>
+  <%# pass the id to the edit action on the controller in order to satisfy the following implementation: @user = User.find(params[:id]) %>
+  <%= link_to "Edit user", edit_user_path(@user_profile.id), class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
+  <%= button_to "Delete profile", user_registration_path, method: :delete, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
+<% end %>

@@ -1,0 +1,93 @@
+<%= turbo_frame_tag "dashboard_main" do %>
+<%= simple_form_for @user, url: create_user_path, method: :post do |f| %>
+  <nav class="flex px-5 py-3 mt-12 mb-8 text-gray-700 border border-gray-200 rounded-lg bg-gray-5" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <%= link_to dashboard_path, class: "inline-flex items-center text-sm font-medium text-gray-700 hover:text-sky-600", data: { turbo_frame: 'dashboard_main' } do %>
+            <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+            </svg>
+            Dashboard
+          <% end %>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+            <p class="ml-1 text-sm font-medium text-gray-700 md:ml-2">List Users</p>
+          </div>
+        </li>
+      </ol>
+    </nav>
+  <div class="flex flex-col justify-center min-h-screen pb-6">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div
+        class="absolute inset-0 transform -skew-y-6 shadow-lg bg-gradient-to-r from-sky-300 to-sky-600 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
+      </div>
+      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <div class="max-w-md mx-auto">
+          <div class="text-center">
+            <h2 class="text-2xl font-semibold">Create a new account</h2>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <div class="py-8 space-y-4 text-base leading-6 text-gray-700 sm:text-lg sm:leading-7">          
+            <div class="py-4 text-red-500">
+              <%= f.error_notification %>
+            </div>
+              <div class="relative">
+                <%= f.input :full_name,
+                            required: true,
+                            autofocus: true,
+                            label: false,
+                            input_html: { autocomplete: "name", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="full_name" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Full Name</label>
+              </div>
+              <div class="relative">
+                <%= f.input :email,
+                            required: true,
+                            label: false,
+                            input_html: { autocomplete: "email", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="email" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Email</label>
+              </div>
+              <div class="relative">
+                <%= f.input :role,
+                            required: false,
+                            label: false,
+                            include_blank: false,
+                            collection: User.roles.map {|k, v| [User.translate_enum_name(:roles, k), k]},
+                            input_html: {  class: "w-full h-8 p-1 my-2 text-sky-900 text-sm bg-sky-50 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:border-sky-800" } %>
+                <label for="role" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Role</label>
+              </div>
+              <div class="relative">
+                <%= f.input :avatar_image,
+                            required: false,
+                            label: false,
+                            input_html: { class: "my-4 w-full h-8 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600 text-sm" }, as: :file %>
+                <label for="avatar_image" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Avatar Image</label>
+              </div>
+              <div class="relative">
+                <%= f.input :password,
+                            required: true,
+                            label: false,
+                            input_html: { autocomplete: "new-password", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="password" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
+              </div>
+              <div class="relative">
+                <%= f.input :password_confirmation,
+                            required: true,
+                            label: false,
+                            input_html: { autocomplete: "new-password", class: "w-full h-10 text-gray-900 placeholder-transparent border-b-2 border-gray-300 peer focus:outline-none focus:borer-rose-600" } %>
+                <label for="password_confirmation" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Confirm Password</label>
+              </div>
+              <div class="relative">
+                <div class="form-actions">
+                  <%= f.button :submit, "Submit", class: "lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 uppercase lg:flex lg:text-[15px] cursor-pointer hover:bg-sky-800 transition ease-in-out", data: { turbo_frame: '_top' } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<% end %>

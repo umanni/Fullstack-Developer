@@ -26,7 +26,7 @@ class Users::SessionsController < Devise::SessionsController
     if resource.role == 'admin'
       dashboard_path
     else
-      user_profile_path(resource)
+      show_user_profile(resource)
     end
   end
 

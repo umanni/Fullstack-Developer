@@ -1,35 +1,29 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<%= turbo_frame_tag "dashboard_main" do %>
+  <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
+  <%= simple_form_for(@user, url: user_registration_path(@user, id: @user.id), html: { method: :put }) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+    <div class="form-inputs">
+      <%= f.input :full_name, required: true, autofocus: true %>
+      <%= f.input :email, required: true, autofocus: true %>
+      <%= f.input :password,
+                  hint: "leave it blank if you don't want to change it",
+                  required: false,
+                  input_html: { autocomplete: "new-password" } %>
+      <%= f.input :password_confirmation,
+                  required: false,
+                  input_html: { autocomplete: "new-password" } %>
+      <%= f.input :current_password,
+                  hint: "we need your current password to confirm your changes",
+                  required: true,
+                  input_html: { autocomplete: "current-password" } %>
+    </div>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-    <% end %>
+    <div class="form-actions">
+      <%= f.button :submit, "Update", class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
+    </div>
+  <% end %>
 
-    <%= f.input :password,
-                hint: "leave it blank if you don't want to change it",
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :current_password,
-                hint: "we need your current password to confirm your changes",
-                required: true,
-                input_html: { autocomplete: "current-password" } %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Update" %>
-  </div>
+  <%= link_to "Back", :back %>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>

@@ -31,7 +31,8 @@
         <tbody>
           <% @users.each do |user| %>
             <tr class="text-sm font-medium text-gray-900 border-t border-sky-200 bg-sky-50">
-              <td class="px-6 py-4 border-r-2 whitespace-nowrap"><%= user.full_name %></td>
+              <%# Go to the specific user profile %>
+              <td class="px-6 py-4 border-r-2 whitespace-nowrap"><%= link_to user.full_name, show_user_profile_path(user.id), class: "hover:text-sky-600", data: { turbo_frame: 'dashboard_main' } %></td>
               <td class="px-6 py-4 border-r-2 whitespace-nowrap"><%= user.email %></td>
               <td class="px-6 py-4 whitespace-nowrap"><%= user.role.capitalize %></td>
             </tr>

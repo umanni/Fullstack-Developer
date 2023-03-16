@@ -23,7 +23,7 @@
     <% if current_user&.admin? %>
       <div class="flex justify-start gap-4 mb-6">
         <%= link_to "List users", list_users_path, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
-        <%= link_to "Create new user", new_user_registration_path, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
+        <%= link_to "Create new user", new_user_path, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
         <%= link_to "Create bulk users", new_user_bulk_path, class: "hover:text-white hover:bg-sky-800 lg:col-start-3 p-2 px-4 rounded-md text-white justify-self-center bg-sky-500 lg:flex lg:text-[15px", data: { turbo_frame: 'dashboard_main' } %>
       </div>
     <%= render "stats" %>
