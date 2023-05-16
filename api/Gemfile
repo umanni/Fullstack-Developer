@@ -1,0 +1,28 @@
+source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+ruby "3.1.4"
+
+# Basic
+gem "rails", "~> 7.0.4", ">= 7.0.4.3"
+gem "pg", "~> 1.1"
+gem "puma", "~> 5.0"
+gem "bootsnap", require: false
+gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
+# Auth
+gem "devise_token_auth"
+
+# CORS
+gem "rack-cors"
+
+# Rendering
+gem "jbuilder"
+
+group :development, :test do
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+end

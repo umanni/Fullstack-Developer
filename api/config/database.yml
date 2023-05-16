@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  user: <%= ENV["UMANNI_TEST_API_DATABASE_USER"] %>
+  password: <%= ENV["UMANNI_TEST_API_DATABASE_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: umanni_test_api_development
+
+test:
+  <<: *default
+  database: umanni_test_api_test
+
+production:
+  <<: *default
+  database: umanni_test_api_production
+  username: umanni_test_api
+  password: <%= ENV["UMANNI_TEST_API_DATABASE_PASSWORD"] %>
