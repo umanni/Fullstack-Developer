@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageProfile {
+  width: 128px;
+  max-height: 164px;
+  border-radius: 100%;
+}
+
+.updateForm {
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+}
+
+.saveButton {
+  margin-right: 1rem;
+}
+
+.editButton {
+  margin-top: 1rem;
+}
+
+.logoutButton {
+  margin-top: 1rem;
+}
