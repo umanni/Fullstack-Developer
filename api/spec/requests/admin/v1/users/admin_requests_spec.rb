@@ -10,15 +10,13 @@ RSpec.describe "Admin V1 Users as :admin", type: :request do
     context "without any params" do
       it "returns 10 users" do
         get url, headers: auth_header(login_user)
-        expect(json_body['users'].count).to eq 10
+        expect(json_body.length).to eq 10
       end
 
       it "returns 10 first users" do
         get url, headers: auth_header(login_user)
-        expected_users = users[0..9].as_json(
-          only: %i(id first_name last_name image email profile)
-        )
-        expect(json_body['users']).to contain_exactly *expected_users
+        expected_users = users[0..9].as_json
+        expect(json_body).to contain_exactly *expected_users
       end
 
       it "returns success status" do
@@ -42,10 +40,8 @@ RSpec.describe "Admin V1 Users as :admin", type: :request do
 
       it "returns last added User" do
         post url, headers: auth_header(login_user), params: user_params
-        expected_users = User.last.as_json(
-          only: %i(id first_name last_name image email profile)
-        )
-        expect(json_body['user']).to eq expected_users
+        expected_users = User.last.as_json
+        expect(json_body).to eq expected_users
       end
 
       it "returns success status" do
@@ -94,10 +90,8 @@ RSpec.describe "Admin V1 Users as :admin", type: :request do
       it "returns updated user" do
         patch url, headers: auth_header(login_user), params: user_params
         user.reload
-        expected_user = user.as_json(
-          only: %i(id first_name last_name image email profile)
-        )
-        expect(json_body['user']).to eq expected_user
+        expected_user = user.as_json
+        expect(json_body).to eq expected_user
       end
 
       it "returns successful status" do
