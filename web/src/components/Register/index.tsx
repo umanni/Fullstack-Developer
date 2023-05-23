@@ -16,6 +16,8 @@ type RegisterFormData = {
 function RegisterPage() {
   const navigate = useNavigate();
 
+  const [form] = Form.useForm();
+
   const handleRegister = async ({
     firstName,
     lastName,
@@ -48,6 +50,10 @@ function RegisterPage() {
               name="firstName"
               rules={[
                 { required: true, message: 'Please input your first name!' },
+                {
+                  pattern: /^[A-Za-z]+$/,
+                  message: 'Please input alphabets only!',
+                },
               ]}
             >
               <Input />
@@ -58,6 +64,10 @@ function RegisterPage() {
               name="lastName"
               rules={[
                 { required: true, message: 'Please input your last name!' },
+                {
+                  pattern: /^[A-Za-z]+$/,
+                  message: 'Please input alphabets only!',
+                },
               ]}
             >
               <Input />
@@ -66,7 +76,13 @@ function RegisterPage() {
             <Form.Item
               label="Email"
               name="email"
-              rules={[{ required: true, message: 'Please input your email!' }]}
+              rules={[
+                { required: true, message: 'Please input your email!' },
+                {
+                  pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
+                  message: 'Please enter a valid email address!',
+                },
+              ]}
             >
               <Input />
             </Form.Item>
@@ -101,7 +117,11 @@ function RegisterPage() {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={Object.values(form.getFieldsError()).some(Boolean)}
+              >
                 Register
               </Button>
               <Button type="link" onClick={() => navigate('/')}>
