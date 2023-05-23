@@ -1,67 +1,35 @@
-# Fullstack Developer Test
+# UMANNI FULLSTACK
 
-- Check this readme.md
-- Create a branch to develop your task
-- Push to remote in 1 week (date will be checked from branch creation/assigned date)
+This project consists of creating a user management application as part of the company's contracting process. [Umanni](https://www.umanni.com.br/).
 
-# Requirements:
-- Latest version of the stack
-- Write unit and integration tests 
-- Deliver with a working Dockerfile
-- Use docker-compose.yml if needed
-- Show your best practices ex: design patters, linters etc.
+## Project Requirements
+The requirements for the project is to have [Ruby](https://www.ruby-lang.org/pt/documentation/installation/) installed on the machine, since this project was developed using [Ruby on Rails](https://guides.rubyonrails.org/v5.0/getting_started.html#installing-rails), the [PostgreSQL](https://www.postgresql.org/download/) database and for the interface [Typescript](https://www.typescriptlang.org/download) was used with [React](https://react.dev/) framework and e [Ant Design](https://ant.design/docs/react/getting-started)
 
-# The Test
-Here we'll try to simulate a "real sprint" that you'll, probably, be assigned while working as Fullstack at Umanni.
-# The Task
-- Create a responsive application to manage users.
-- A user must have:
-1- full_name
-2- email
-3- avatar_image (upload from file or url)
-4- role (admin/no-admin)
-# The App
-## Admin Use cases
-- As an Admin, I must be able to access a User Admin Dashboard.
-- As an Admin, I must be able to see on Dashboard:
-  - Total number of Users
-  - Total number of Users grouped by Role
-- As an Admin, I must be redirected to User Admin Dashboard after login
-- As an Admin, I must be able to list, create, edit and delete Users.
-- As an Admin, I must be able to toggle the User Role.
-- As an Admin, I must be able to import a Spreadsheet into the system, in order to create new Users
-- As an Admin, I must be able to see the progress of Users imports.
-## User Use Cases
-- As an User, I must be redirected to my Profile after login
-- As an User, I must be able only to see my info, edit and delete my profile.
-## Visitor Use Cases
-- As a Visitor, I can register myself as a normal User.
+## Requirements Versions
 
-# The Start.
-- Your deadline is 1 week after accepting this test. 
-# The Rules
-These one are required. Not doing one of them will invalidate your submission.
-- You must write down a README in English explaining how to build and run your app.
-- The Frontend must  have a framework Bootstrap, Foundation, MDL or any other frameworks, remember you are here as a Fullstack not a backend developer.
-- You must use realtime related stuff (counters on Admin Dashboard, import progress, etc)
-- You must treat errors accordingly.
-- You must use a open source lib to authenticate Users.
-- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
-# What we're expecting to see:
-- Use SCSS to your CSS;
-- .gitignore, .dockerignore
-- A proper way to manage app configuration 
-- Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
-- Organize & optimize your code and images
-- Form validation (frontend validation included)
-- Tests with at least 90% coverage
-- Be able to use, pjax, turbolinks, intercooler, unpoly (yes, we believe in good old server side rendering)
-# Extra points
-- Use a Dockerfile
-- docker-compose.yml
-- React in some ui components when it makes sense
-- Stress tests
-# What will be assessed
-- Code's Semantic, Cleanness and Maintainability;
-- Understanding of REST and proper use of HTTP Methods (POST, GET, PUT, PATCH, DELETE, OPTIONS);
-- Basic Security tests against Injections, XSS/XSRF, ...
+* ruby 3.1.4p223 (2023-03-30 revision 957bb7cb81)
+* PostgreSQL
+* Rails 7.0.4.3
+* Typescript 5.0.2
+* React 18.2.0
+
+## Acquiring the project
+The easiest and recommended way to acquire this project is using [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). To do this, within your command line tool, navigate to the folder where you want to place the project and run: <code>git clone https://github.com/pedrohbcosta/umanni_test.git</code>. If you have ssh configured, the command is <code>git clone git@github.com:pedrohbcosta/umanni_test.git</code>. Or if you have the CLI configured, just run the command <code>gh repo clone pedrohbcosta/umanni_test</code>
+
+With the project developed in two parts, access the <code>cd api</code> project folder and install the dependencies: <code>bundle install</code>, error occurs regarding the version of the **Sprockets**, dependency, just run the command: <code>bundle update</code> and then: <code>bundle install</code>. Right after <code>cd web</code> and install the dependencies: <code>npm install</code>.
+
+## Creating the database
+A script responsible for creating the development and test banks is available and must be executed with the command: <code>rails db:create</code>.
+
+## Creating the tables
+To create the database schema, just run the responsible script through the command: <code>rails db:migrate</code>.
+
+## Running the Test Suit
+The project was fully developed using TDD. To run the test suit run: <code>bundle exec rspec</code>
+
+## Up the server
+* If the previous steps were correctly performed, everything is ready to upload the server. Just run <code>rails s</code> and wait a few moments. With the server live, the API is available at: <code>localhost:3000</code>. 
+* On the front-end, just run: <code>npm run dev</code> and the server will start at <code>localhost:5173</code>.
+
+## Execution
+If everything was done perfectly, the application will be ready for use.
