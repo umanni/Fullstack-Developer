@@ -1,9 +1,11 @@
 module Admin::V1
   class UsersController < ApiController
     before_action :load_user, only: [:update, :destroy]
+    skip_before_action :restrict_access_for_admin!, only: [:update, :destroy]
 
     def index
       @users = User.where.not(id: @current_user.id)
+      render json: @users
     end
 
     def create
@@ -37,7 +39,7 @@ module Admin::V1
 
     def save_user!
       @user.save!
-      render :show
+      render json: @user, status: :ok
     rescue
       render_error(fields: @user.errors.messages)
     end
