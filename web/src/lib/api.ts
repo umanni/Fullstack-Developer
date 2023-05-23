@@ -71,8 +71,6 @@ export const loginUser = async (email: string, password: string) => {
     email,
     password,
   });
-  const token = response.headers.authorization;
-  localStorage.setItem('token', token);
   return response.data.data;
 };
 
