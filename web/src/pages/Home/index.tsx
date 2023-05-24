@@ -18,7 +18,7 @@ function Home() {
   const handleLogin = async ({ email, password }: LoginFormData) => {
     try {
       const user = await loginUser(email, password);
-      if (user !== undefined) {
+      if (user !== undefined && setCurrentUser) {
         setCurrentUser(user);
       }
       if (user.profile === 'client') {

@@ -18,7 +18,9 @@ const ProfilePage: React.FC = () => {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      setCurrentUser(undefined);
+      if (setCurrentUser) {
+        setCurrentUser(undefined);
+      }
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -30,7 +32,9 @@ const ProfilePage: React.FC = () => {
       const updatedUser = await updateUser(currentUser.id, {
         ...values,
       });
-      setCurrentUser(updatedUser);
+      if (setCurrentUser) {
+        setCurrentUser(updatedUser);
+      }
       setIsEditing(false);
     } catch (err) {
       console.error(err);
@@ -40,7 +44,9 @@ const ProfilePage: React.FC = () => {
   const handleDelete = async () => {
     try {
       await deleteUser(currentUser.id);
-      setCurrentUser(undefined);
+      if (setCurrentUser) {
+        setCurrentUser(undefined);
+      }
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -62,10 +68,10 @@ const ProfilePage: React.FC = () => {
         style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}
       >
         <Title level={2}>User Profile</Title>
-        {currentUser && (
+        {currentUser !== undefined && (
           <>
             <h3>
-              Welcome, {currentUser.first_name} {currentUser.last_name}!
+              Welcome, {currentUser?.first_name} {currentUser?.last_name}!
             </h3>
 
             {isEditing ? (
