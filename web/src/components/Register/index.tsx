@@ -1,6 +1,7 @@
 import { createUser } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, Layout, Typography } from 'antd';
+import './styles.scss';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -41,100 +42,98 @@ function RegisterPage() {
 
   return (
     <Layout>
-      <Content style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}>
-        <div className="container">
-          <Title>Register</Title>
-          <Form
-            name="basic"
-            onFinish={handleRegister}
-            form={form}
-            autoComplete="on"
+      <Content className="container">
+        <Title>Register</Title>
+        <Form
+          className="registerForm"
+          name="basic"
+          onFinish={handleRegister}
+          form={form}
+          autoComplete="on"
+        >
+          <Form.Item
+            label="First Name"
+            name="firstName"
+            rules={[
+              { required: true, message: 'Please input your first name!' },
+              {
+                pattern: /^[A-Za-z]+$/,
+                message: 'Please input alphabets only!',
+              },
+            ]}
           >
-            <Form.Item
-              label="First Name"
-              name="firstName"
-              rules={[
-                { required: true, message: 'Please input your first name!' },
-                {
-                  pattern: /^[A-Za-z]+$/,
-                  message: 'Please input alphabets only!',
+            <Input className="firstNameInput" />
+          </Form.Item>
+
+          <Form.Item
+            label="Last Name"
+            name="lastName"
+            rules={[
+              { required: true, message: 'Please input your last name!' },
+              {
+                pattern: /^[A-Za-z]+$/,
+                message: 'Please input alphabets only!',
+              },
+            ]}
+          >
+            <Input className="lastNameInput" />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: 'Please input your email!' },
+              {
+                pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
+                message: 'Please enter a valid email address!',
+              },
+            ]}
+          >
+            <Input className="emailInput" />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password className="passwordInput" />
+          </Form.Item>
+
+          <Form.Item
+            className="passwordConfirmationForm"
+            label="Confirm Password"
+            name="passwordConfirmation"
+            dependencies={['password']}
+            rules={[
+              { required: true, message: 'Please confirm your password!' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject('The two passwords do not match!');
                 },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-            <Form.Item
-              label="Last Name"
-              name="lastName"
-              rules={[
-                { required: true, message: 'Please input your last name!' },
-                {
-                  pattern: /^[A-Za-z]+$/,
-                  message: 'Please input alphabets only!',
-                },
-              ]}
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={Object.values(form.getFieldsError()).some(Boolean)}
             >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: 'Please input your email!' },
-                {
-                  pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
-                  message: 'Please enter a valid email address!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                { required: true, message: 'Please input your password!' },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              label="Confirm Password"
-              name="passwordConfirmation"
-              dependencies={['password']}
-              rules={[
-                { required: true, message: 'Please confirm your password!' },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject('The two passwords do not match!');
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={Object.values(form.getFieldsError()).some(Boolean)}
-              >
-                Register
-              </Button>
-              <Button type="link" onClick={() => navigate('/')}>
-                Back
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+              Register
+            </Button>
+            <Button type="link" onClick={() => navigate('/')}>
+              Back
+            </Button>
+          </Form.Item>
+        </Form>
       </Content>
     </Layout>
   );

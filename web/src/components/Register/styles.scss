@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  padding: 50px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.registerForm {
+  margin-top: 1rem;
+  width: 25rem;
+}
+
+.firstNameInput {
+  margin-left: 2.8rem;
+  width: 16.6rem;
+}
+
+.lastNameInput {
+  margin-left: 2.9rem;
+  width: 16.6rem;
+}
+
+.emailInput {
+  margin-left: 4.9rem;
+  width: 16.6rem;
+}
+
+.passwordInput {
+  margin-left: 3.3rem;
+  width: 16.6rem;
+}
