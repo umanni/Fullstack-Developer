@@ -2,6 +2,7 @@ import { useUser } from '../../hooks/useUser';
 import { loginUser } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, Typography, Layout } from 'antd';
+import './styles.scss';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -34,40 +35,41 @@ function Home() {
 
   return (
     <Layout>
-      <Content style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}>
-        <div className="container">
-          <Title>Welcome visitor</Title>
-          <Form name="basic" onFinish={handleLogin} autoComplete="on">
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: 'Please input your username!' },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+      <Content className="container">
+        <Title>Welcome visitor</Title>
 
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                { required: true, message: 'Please input your password!' },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+        <Form
+          className="form"
+          name="basic"
+          onFinish={handleLogin}
+          autoComplete="on"
+        >
+          <Form.Item
+            className="textForm"
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input />
+          </Form.Item>
 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-              <Button type="link" onClick={() => navigate('/register')}>
-                Register
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            <Button type="link" onClick={() => navigate('/register')}>
+              Register
+            </Button>
+          </Form.Item>
+        </Form>
       </Content>
     </Layout>
   );

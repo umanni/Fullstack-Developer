@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  padding: 50px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.form {
+  margin-top: 1rem;
+  width: 25rem;
+}
+
+.textForm {
+  display: flex;
+  justify-content: flex-start;
+
+  input {
+    margin-left: 1.6rem;
+    width: 19.8rem;
+  }
+}
