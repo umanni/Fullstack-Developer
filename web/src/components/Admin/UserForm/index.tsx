@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Layout, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { fetchUsers } from '../../../lib/api';
-import { useUser } from '../../../hooks/useUser';
 import { DataType } from '../../../utils/DataType';
 import { Content } from 'antd/es/layout/layout';
 import UpdateButton from '../UpdateButton';
@@ -44,7 +43,6 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const UserForm: React.FC = () => {
-  const { currentUser } = useUser();
   const [data, setData] = useState<DataType[]>([]);
   const [clientCount, setClientCount] = useState(0);
   const [adminCount, setAdminCount] = useState(0);
@@ -58,15 +56,7 @@ const UserForm: React.FC = () => {
         key: user.id.toString(),
       }));
 
-      const currentUserWithKey = currentUser
-        ? { ...currentUser, key: currentUser.id.toString() }
-        : null;
-
-      setData(
-        currentUserWithKey
-          ? [currentUserWithKey, ...usersWithKeys]
-          : usersWithKeys
-      );
+      setData(usersWithKeys);
 
       const clientCount = usersWithKeys.filter(
         (user: DataType) => user.profile === 'client'
@@ -82,7 +72,7 @@ const UserForm: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     fetchData();

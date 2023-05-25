@@ -7,10 +7,11 @@ interface UserData {
   password?: string;
   password_confirmation?: string;
   image?: string;
+  profile?: string;
 }
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3000', // replace with your actual API URL
+  baseURL: 'http://localhost:3000',
 });
 
 // Add a request interceptor
@@ -30,7 +31,7 @@ api.interceptors.request.use(
 // Add a response interceptor
 api.interceptors.response.use(
   (response) => {
-    if (response.headers.authorization) {
+    if (response.headers.authorization && !localStorage.getItem('token')) {
       localStorage.setItem('token', response.headers.authorization);
     }
     return response;
@@ -48,22 +49,14 @@ export const createUser = async (
   password_confirmation: string,
   profile?: string
 ) => {
-  return await api.post(
-    '/auth/v1/user',
-    {
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      password,
-      password_confirmation,
-      profile,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }
-  );
+  return await api.post('/auth/v1/user', {
+    first_name: firstName,
+    last_name: lastName,
+    email,
+    password,
+    password_confirmation,
+    profile,
+  });
 };
 
 export const loginUser = async (email: string, password: string) => {

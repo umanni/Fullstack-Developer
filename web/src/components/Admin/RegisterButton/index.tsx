@@ -1,7 +1,7 @@
-import { Button, Modal, Input, Select } from "antd";
-import { useState } from "react";
-import { createUser } from "../../../lib/api";
-import { DataType } from "../../../utils/DataType";
+import { Button, Modal, Input, Select } from 'antd';
+import { useState } from 'react';
+import { createUser } from '../../../lib/api';
+import { DataType } from '../../../utils/DataType';
 
 const { Option } = Select;
 
@@ -42,6 +42,7 @@ const RegisterButton: React.FC = () => {
       }
 
       closeModal();
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -56,7 +57,9 @@ const RegisterButton: React.FC = () => {
 
   return (
     <>
-      <Button onClick={openModal} type="primary">Register</Button >
+      <Button onClick={openModal} type="primary">
+        Register
+      </Button>
       <Modal
         title="Register User"
         open={modalVisible}
@@ -190,14 +193,18 @@ const parseSpreadsheetData = (data: string): DataType[] => {
 const createUsers = async (users: DataType[]): Promise<void> => {
   try {
     for (const user of users) {
-      await createUser(
-        user.first_name,
-        user.last_name,
-        user.email,
-        user.password,
-        user.password_confirmation,
-        user.profile
-      );
+      try {
+        await createUser(
+          user.first_name,
+          user.last_name,
+          user.email,
+          user.password,
+          user.password_confirmation,
+          user.profile
+        );
+      } catch (error) {
+        console.error('Failed to create user:', user, error);
+      }
     }
   } catch (error) {
     throw new Error('Failed to create users.');

@@ -44,7 +44,12 @@ function RegisterPage() {
       <Content style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}>
         <div className="container">
           <Title>Register</Title>
-          <Form name="basic" onFinish={handleRegister} autoComplete="on">
+          <Form
+            name="basic"
+            onFinish={handleRegister}
+            form={form}
+            autoComplete="on"
+          >
             <Form.Item
               label="First Name"
               name="firstName"
