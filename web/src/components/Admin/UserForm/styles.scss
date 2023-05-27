@@ -1,8 +1,25 @@
+.adminHeader {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+  gap: 2rem;
+}
+
+.counters {
+  text-align: center;
+  width: 12rem;
+}
+
 .tableHeader {
   display: flex;
-  flex-direction: column;
-  // justify-content: flex-end;
-  align-items: flex-end;
-  margin: 0;
-  margin-right: 3rem;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 2rem;
+  padding: 0.2rem 1rem 0;
+  background-color: #fff;
+  border-radius: 6px 6px 0 0;
+}
+
+.dataTable {
+  padding: 0 2rem;
 }
