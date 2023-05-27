@@ -68,7 +68,6 @@ const UpdateButton: React.FC<{ record: DataType }> = ({ record }) => {
           <Form.Item
             name="firstName"
             rules={[
-              // { required: true, message: 'Please input your first name!' },
               {
                 pattern: /^[A-Za-z]+$/,
                 message: 'Please input alphabets only!',
@@ -81,7 +80,6 @@ const UpdateButton: React.FC<{ record: DataType }> = ({ record }) => {
           <Form.Item
             name="lastName"
             rules={[
-              // { required: true, message: 'Please input your first name!' },
               {
                 pattern: /^[A-Za-z]+$/,
                 message: 'Please input alphabets only!',
@@ -94,7 +92,6 @@ const UpdateButton: React.FC<{ record: DataType }> = ({ record }) => {
           <Form.Item
             name="email"
             rules={[
-              // { required: true, message: 'Please input your email!' },
               {
                 pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
                 message: 'Please enter a valid email address!',
