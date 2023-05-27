@@ -1,7 +1,8 @@
-import { Button, Modal, Input, Select } from 'antd';
+import { Button, Modal, Input, Select, Progress } from 'antd';
 import { useState } from 'react';
 import { createUser } from '../../../lib/api';
 import { DataType } from '../../../utils/DataType';
+import './styles.scss';
 
 const { Option } = Select;
 
@@ -14,6 +15,7 @@ const RegisterButton: React.FC = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [profile, setProfile] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [importProgress, setImportProgress] = useState(0);
 
   const openModal = () => {
     setModalVisible(true);
@@ -27,8 +29,7 @@ const RegisterButton: React.FC = () => {
     try {
       if (file) {
         // Handle the file and create users
-        const users = await processSpreadsheet(file);
-        await createUsers(users);
+        await processSpreadsheet(file);
       } else {
         // Create a single user
         await createUser(
@@ -55,6 +56,86 @@ const RegisterButton: React.FC = () => {
     }
   };
 
+  // Function to process the spreadsheet file
+  const processSpreadsheet = async (file: File) => {
+    const users = await parseSpreadsheetData(file);
+    const totalUsers = users.length;
+    let importedUsers = 0;
+
+    for (const user of users) {
+      try {
+        await createUser(
+          user.first_name,
+          user.last_name,
+          user.email,
+          user.password,
+          user.password_confirmation,
+          user.profile
+        );
+        importedUsers++;
+        const progress = Math.floor((importedUsers / totalUsers) * 100);
+        setImportProgress(progress);
+      } catch (error) {
+        console.error('Failed to create user:', user, error);
+      }
+    }
+  };
+
+  // Function to parse the spreadsheet data and extract user information
+  const parseSpreadsheetData = (file: File): Promise<DataType[]> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        const result = event.target?.result;
+        if (result && typeof result === 'string') {
+          const users = parseCSVData(result);
+          resolve(users);
+        } else {
+          reject(new Error('Failed to process spreadsheet.'));
+        }
+      };
+
+      reader.onerror = () => {
+        reject(new Error('Failed to read spreadsheet.'));
+      };
+
+      reader.readAsText(file);
+    });
+  };
+
+  // Function to parse the CSV data and extract user information
+  const parseCSVData = (data: string): DataType[] => {
+    const rows = data.split('\n');
+    const users: DataType[] = [];
+
+    for (let i = 1; i < rows.length; i++) {
+      const [
+        firstName,
+        lastName,
+        email,
+        password,
+        passwordConfirmation,
+        profile,
+      ] = rows[i].split(',');
+
+      const user: DataType = {
+        key: i.toString(),
+        id: i,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        profile,
+      };
+
+      users.push(user);
+    }
+
+    return users;
+  };
+
   return (
     <>
       <Button onClick={openModal} type="primary">
@@ -62,7 +143,7 @@ const RegisterButton: React.FC = () => {
       </Button>
       <Modal
         title="Register User"
-        open={modalVisible}
+        visible={modalVisible}
         onCancel={closeModal}
         footer={[
           <Button key="cancel" onClick={closeModal}>
@@ -79,9 +160,11 @@ const RegisterButton: React.FC = () => {
         ]}
       >
         {file ? (
-          <p>File: {file.name}</p>
+          <div style={{ width: 170 }}>
+            <Progress percent={importProgress} size="small" />
+          </div>
         ) : (
-          <>
+          <div className="registerModal">
             <Input
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -115,7 +198,7 @@ const RegisterButton: React.FC = () => {
               <Option value="admin">Admin</Option>
               <Option value="client">Client</Option>
             </Select>
-          </>
+          </div>
         )}
         <div>
           <label htmlFor="file-input">
@@ -132,83 +215,6 @@ const RegisterButton: React.FC = () => {
       </Modal>
     </>
   );
-};
-
-// Function to process the spreadsheet file
-const processSpreadsheet = (file: File): Promise<DataType[]> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = (event: ProgressEvent<FileReader>) => {
-      const result = event.target?.result;
-      if (result && typeof result === 'string') {
-        const users = parseSpreadsheetData(result);
-        resolve(users);
-      } else {
-        reject(new Error('Failed to process spreadsheet.'));
-      }
-    };
-
-    reader.onerror = () => {
-      reject(new Error('Failed to read spreadsheet.'));
-    };
-
-    reader.readAsText(file);
-  });
-};
-
-// Function to parse the spreadsheet data and extract user information
-const parseSpreadsheetData = (data: string): DataType[] => {
-  const rows = data.split('\n');
-  const users: DataType[] = [];
-
-  for (let i = 1; i < rows.length; i++) {
-    const [
-      firstName,
-      lastName,
-      email,
-      password,
-      passwordConfirmation,
-      profile,
-    ] = rows[i].split(',');
-
-    const user: DataType = {
-      key: i.toString(),
-      id: i,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-      profile,
-    };
-
-    users.push(user);
-  }
-
-  return users;
-};
-
-// Function to create multiple users
-const createUsers = async (users: DataType[]): Promise<void> => {
-  try {
-    for (const user of users) {
-      try {
-        await createUser(
-          user.first_name,
-          user.last_name,
-          user.email,
-          user.password,
-          user.password_confirmation,
-          user.profile
-        );
-      } catch (error) {
-        console.error('Failed to create user:', user, error);
-      }
-    }
-  } catch (error) {
-    throw new Error('Failed to create users.');
-  }
 };
 
 export default RegisterButton;

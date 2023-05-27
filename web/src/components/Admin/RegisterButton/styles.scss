@@ -1,0 +1,28 @@
+.registerModal {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  margin-top: 1rem;
+  gap: .2rem;
+  max-width: 20rem;
+}
+
+.firstNameInput,
+.lastNameInput,
+.emailInput,
+.passwordInput,
+.passwordConfirmationInput {
+  margin: 0 !important;
+}
+
+.passwordConfirmationInput {
+  width: 16.8rem;
+}
+
+.selectProfile {
+  max-width: 8rem;
+}
+
+.fileInput {
+  margin-top: 1rem;
+}
