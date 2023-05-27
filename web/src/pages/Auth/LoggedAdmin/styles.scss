@@ -3,6 +3,14 @@
   justify-content: space-around;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #fff;
+}
+
 .title {
-  margin-top: 1rem;
+  padding-top: .5rem;
 }

@@ -2,9 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../../../lib/api';
 import { Button } from 'antd';
 import { useUser } from '../../../hooks/useUser';
-import Layout, { Content } from 'antd/es/layout/layout';
+import Layout, { Content, Header } from 'antd/es/layout/layout';
 import UserForm from '../../../components/Admin/UserForm/index';
 import './styles.scss';
+import { useEffect } from 'react';
+import Title from 'antd/es/typography/Title';
 
 export function LoggedAdmin() {
   const { currentUser, setCurrentUser } = useUser();
@@ -22,13 +24,19 @@ export function LoggedAdmin() {
     }
   }
 
+  // useEffect(() => {
+  //   if (currentUser?.profile !== 'admin') {
+  //     navigate('/user/profile', { user: currentUser });
+  //   }
+  // }, [currentUser, navigate]);
+
   return (
     <Layout>
       <Content>
-        <div className="adminForm">
-          <h1 className="title">
+        <Header className='header'>
+          <Title level={2} className="title">
             Welcome Admin {currentUser?.first_name} {currentUser?.last_name}
-          </h1>
+          </Title>
           <Button
             className="logoutButton"
             type="primary"
@@ -37,7 +45,8 @@ export function LoggedAdmin() {
           >
             Logout
           </Button>
-        </div>
+        </Header>
+        <div className="adminForm"></div>
         <UserForm />
       </Content>
     </Layout>
