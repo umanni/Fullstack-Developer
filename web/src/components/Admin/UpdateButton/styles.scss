@@ -1,0 +1,15 @@
+.firstNameInput,
+.lastNameInput,
+.emailInput,
+.selectProfile {
+  margin: 0 !important;
+}
+
+.updateModal {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  margin-top: 1rem;
+  gap: .2rem;
+  max-width: 20rem;
+}
