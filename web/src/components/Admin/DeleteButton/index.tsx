@@ -2,6 +2,7 @@ import { Button, Modal } from "antd";
 import { useState } from "react";
 import { deleteUser } from "../../../lib/api";
 import { DataType } from "../../../utils/DataType";
+import { DeleteTwoTone } from '@ant-design/icons';
 
 const DeleteButton: React.FC<{ record: DataType }> = ({ record }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,7 +28,7 @@ const DeleteButton: React.FC<{ record: DataType }> = ({ record }) => {
   return (
     <>
       <Button onClick={openModal} type="default">
-        Delete
+        <DeleteTwoTone twoToneColor="#ff4d4f" />
       </Button>
       <Modal
         title="Confirm Delete"
@@ -37,7 +38,7 @@ const DeleteButton: React.FC<{ record: DataType }> = ({ record }) => {
           <Button key="cancel" onClick={closeModal}>
             Cancel
           </Button>,
-          <Button key="action" type="primary" onClick={handleDelete}>
+          <Button key="action" type="primary" danger onClick={handleDelete}>
             Delete
           </Button>,
         ]}
