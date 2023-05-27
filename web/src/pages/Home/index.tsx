@@ -35,7 +35,7 @@ function Home() {
 
   return (
     <Layout>
-      <Content className="container">
+      <Content className="homeContainer">
         <Title>Welcome visitor</Title>
 
         <Form
