@@ -42,7 +42,7 @@ function RegisterPage() {
 
   return (
     <Layout>
-      <Content className="container">
+      <Content className="registerContainer">
         <Title>Register</Title>
         <Form
           className="registerForm"
@@ -52,7 +52,7 @@ function RegisterPage() {
           autoComplete="on"
         >
           <Form.Item
-            label="First Name"
+            label="First name"
             name="firstName"
             rules={[
               { required: true, message: 'Please input your first name!' },
@@ -62,11 +62,11 @@ function RegisterPage() {
               },
             ]}
           >
-            <Input className="firstNameInput" />
+            <Input className="firstNameInput" placeholder="First Name" />
           </Form.Item>
 
           <Form.Item
-            label="Last Name"
+            label="Last name"
             name="lastName"
             rules={[
               { required: true, message: 'Please input your last name!' },
@@ -76,11 +76,11 @@ function RegisterPage() {
               },
             ]}
           >
-            <Input className="lastNameInput" />
+            <Input className="lastNameInput" placeholder="Last Name" />
           </Form.Item>
 
           <Form.Item
-            label="Email"
+            label="Email Address"
             name="email"
             rules={[
               { required: true, message: 'Please input your email!' },
@@ -90,7 +90,7 @@ function RegisterPage() {
               },
             ]}
           >
-            <Input className="emailInput" />
+            <Input className="emailInput" placeholder="Email Address" />
           </Form.Item>
 
           <Form.Item
@@ -98,11 +98,10 @@ function RegisterPage() {
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <Input.Password className="passwordInput" />
+            <Input.Password className="passwordInput" placeholder="Password" />
           </Form.Item>
 
           <Form.Item
-            className="passwordConfirmationForm"
             label="Confirm Password"
             name="passwordConfirmation"
             dependencies={['password']}
@@ -118,10 +117,13 @@ function RegisterPage() {
               }),
             ]}
           >
-            <Input.Password />
+            <Input.Password
+              className="passwordConfirmationInput"
+              placeholder="Password Confirmation"
+            />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Form.Item className="buttons" wrapperCol={{ offset: 8, span: 16 }}>
             <Button
               type="primary"
               htmlType="submit"
