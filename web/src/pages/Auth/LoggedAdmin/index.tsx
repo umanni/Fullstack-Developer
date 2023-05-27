@@ -5,7 +5,6 @@ import { useUser } from '../../../hooks/useUser';
 import Layout, { Content, Header } from 'antd/es/layout/layout';
 import UserForm from '../../../components/Admin/UserForm/index';
 import './styles.scss';
-import { useEffect } from 'react';
 import Title from 'antd/es/typography/Title';
 
 export function LoggedAdmin() {
@@ -23,12 +22,6 @@ export function LoggedAdmin() {
       console.error(err);
     }
   }
-
-  // useEffect(() => {
-  //   if (currentUser?.profile !== 'admin') {
-  //     navigate('/user/profile', { user: currentUser });
-  //   }
-  // }, [currentUser, navigate]);
 
   return (
     <Layout>
