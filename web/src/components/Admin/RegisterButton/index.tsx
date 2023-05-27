@@ -143,7 +143,7 @@ const RegisterButton: React.FC = () => {
       </Button>
       <Modal
         title="Register User"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={closeModal}
         footer={[
           <Button key="cancel" onClick={closeModal}>
