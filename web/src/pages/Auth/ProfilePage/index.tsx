@@ -29,13 +29,15 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdate = async (values: any) => {
     try {
-      const updatedUser = await updateUser(currentUser.id, {
-        ...values,
-      });
-      if (setCurrentUser) {
-        setCurrentUser(updatedUser);
+      if (currentUser !== undefined) {
+        const updatedUser = await updateUser(currentUser.id, {
+          ...values,
+        });
+        if (setCurrentUser) {
+          setCurrentUser(updatedUser);
+        }
+        setIsEditing(false);
       }
-      setIsEditing(false);
     } catch (err) {
       console.error(err);
     }
@@ -43,11 +45,13 @@ const ProfilePage: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      await deleteUser(currentUser.id);
-      if (setCurrentUser) {
-        setCurrentUser(undefined);
+      if (currentUser !== undefined) {
+        await deleteUser(currentUser.id);
+        if (setCurrentUser) {
+          setCurrentUser(undefined);
+        }
+        navigate('/');
       }
-      navigate('/');
     } catch (err) {
       console.error(err);
     }
@@ -63,17 +67,9 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Layout>
-      <Content
-        className="container"
-        style={{ padding: '50px', maxWidth: '800px', margin: '0 auto' }}
-      >
-        <Title level={2}>User Profile</Title>
+      <Content className="profileContainer">
         {currentUser !== undefined && (
           <>
-            <h3>
-              Welcome, {currentUser?.first_name} {currentUser?.last_name}!
-            </h3>
-
             {isEditing ? (
               <Form
                 className="updateForm"
@@ -81,39 +77,94 @@ const ProfilePage: React.FC = () => {
                 onFinish={handleUpdate}
                 initialValues={currentUser}
               >
-                <Form.Item label="First Name" name="first_name">
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Last Name" name="last_name">
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Email" name="email">
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Image" name="image">
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Password" name="password">
-                  <Input.Password />
-                </Form.Item>
+                <div className="updateFormTitle">
+                  <Title level={3}>Update your profile</Title>
+                </div>
                 <Form.Item
-                  label="Password Confirmation"
-                  name="password_confirmation"
+                  name="first_name"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your first name!',
+                    },
+                    {
+                      pattern: /^[A-Za-z]+$/,
+                      message: 'Please input alphabets only!',
+                    },
+                  ]}
                 >
-                  <Input.Password />
+                  <Input className="firstNameInput" placeholder="First Name" />
+                </Form.Item>
+
+                <Form.Item
+                  name="last_name"
+                  rules={[
+                    {
+                      pattern: /^[A-Za-z]+$/,
+                      message: 'Please input alphabets only!',
+                    },
+                  ]}
+                >
+                  <Input className="lastNameInput" placeholder="Last Name" />
+                </Form.Item>
+
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      pattern:
+                        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
+                      message: 'Please enter a valid email address!',
+                    },
+                  ]}
+                >
+                  <Input className="emailInput" placeholder="Email Address" />
+                </Form.Item>
+
+                <Form.Item name="image">
+                  <Input className="imageInput" placeholder="Image URL" />
+                </Form.Item>
+
+                <Form.Item name="password">
+                  <Input.Password
+                    className="passwordInput"
+                    placeholder="Password"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name="password_confirmation"
+                  rules={[
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          'The two passwords do not match!'
+                        );
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    className="passwordConfirmationInput"
+                    placeholder="Password Confirmation"
+                  />
                 </Form.Item>
                 <Form.Item>
-                  <Button
-                    className="saveButton"
-                    type="primary"
-                    htmlType="submit"
-                    disabled={!form.isFieldsTouched(true)}
-                  >
-                    Save
-                  </Button>
-                  <Button type="default" onClick={() => setIsEditing(false)}>
-                    Cancel
-                  </Button>
+                  <div className="updateProfileSaveButtons">
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      disabled={!form.isFieldsTouched(true)}
+                    >
+                      Save
+                    </Button>
+                    <Button type="default" onClick={() => setIsEditing(false)}>
+                      Cancel
+                    </Button>
+                  </div>
                 </Form.Item>
               </Form>
             ) : (
@@ -123,28 +174,41 @@ const ProfilePage: React.FC = () => {
                   className="imageProfile"
                   alt="Profile Image"
                 />
-                <Button
-                  className="editButton"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit Details
-                </Button>
+
+                <Title className="nameContainer" level={3}>
+                  Welcome, {currentUser?.first_name} {currentUser?.last_name}!
+                </Title>
+
+                <div className="buttonsContainer">
+                  <Button
+                    className="profileEditButton"
+                    type="primary"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    Edit Details
+                  </Button>
+                  <Button
+                    className="profileLogoutButton"
+                    type="primary"
+                    danger
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                  <Button className="profileDeleteButton" danger onClick={openModal}>
+                    Delete User
+                  </Button>
+                  <Modal
+                    title="Confirm Delete"
+                    open={modalVisible}
+                    onOk={handleDelete}
+                    onCancel={closeModal}
+                  >
+                    <p>Are you sure you want to delete your user account?</p>
+                  </Modal>
+                </div>
               </>
             )}
-            <Button className="logoutButton" onClick={handleLogout}>
-              Logout
-            </Button>
-            <Button className="deleteButton" onClick={openModal}>
-              Delete User
-            </Button>
-            <Modal
-              title="Confirm Delete"
-              open={modalVisible}
-              onOk={handleDelete}
-              onCancel={closeModal}
-            >
-              <p>Are you sure you want to delete your user account?</p>
-            </Modal>
           </>
         )}
       </Content>

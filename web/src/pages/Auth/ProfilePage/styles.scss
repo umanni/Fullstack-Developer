@@ -1,28 +1,54 @@
-.container {
+.profileContainer {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  height: 100vh;
 }
 
 .imageProfile {
   width: 128px;
   max-height: 164px;
   border-radius: 100%;
+  margin-top: 5rem;
+}
+
+.nameContainer {
+  margin-top: 2rem;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
 .updateForm {
   display: flex;
   flex-direction: column;
-  width: 25rem;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 20rem;
 }
 
-.saveButton {
-  margin-right: 1rem;
+.updateFormTitle {
+  margin-bottom: 2rem;
 }
 
-.editButton {
+.imageInput {
+  width: 16.6rem;
+}
+
+.updateProfileSaveButtons {
+  display: flex;
+  gap: 8.5rem;
   margin-top: 1rem;
 }
 
-.logoutButton {
-  margin-top: 1rem;
+.profileEditButton,
+.profileLogoutButton,
+.profileDeleteButton {
+  height: 6rem;
+  width: 6rem;
+  text-align: center;
 }
