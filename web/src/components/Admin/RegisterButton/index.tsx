@@ -1,4 +1,4 @@
-import { Button, Modal, Input, Select, Progress } from 'antd';
+import { Button, Modal, Input, Select, Progress, Form } from 'antd';
 import { useState } from 'react';
 import { createUser } from '../../../lib/api';
 import { DataType } from '../../../utils/DataType';
@@ -165,42 +165,104 @@ const RegisterButton: React.FC = () => {
           </div>
         ) : (
           <div className="registerModal">
-            <Input
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
-            />
-            <Input
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
-            />
-            <Input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
-            />
-            <Input.Password
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-            <Input.Password
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              placeholder="Confirm Password"
-            />
-            <Select
-              value={profile}
-              onChange={setProfile}
-              placeholder="Select Profile"
-            >
-              <Option value="admin">Admin</Option>
-              <Option value="client">Client</Option>
-            </Select>
+            <Form>
+              <Form.Item
+                name="firstName"
+                rules={[
+                  {
+                    pattern: /^[A-Za-z]+$/,
+                    message: 'Please input alphabets only!',
+                  },
+                ]}
+              >
+                <Input
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="First Name"
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="lastName"
+                rules={[
+                  {
+                    pattern: /^[A-Za-z]+$/,
+                    message: 'Please input alphabets only!',
+                  },
+                ]}
+              >
+                <Input
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Last Name"
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    pattern:
+                      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i,
+                    message: 'Please enter a valid email address!',
+                  },
+                ]}
+              >
+                <Input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="password"
+                rules={[
+                  { required: true, message: 'Please input your password!' },
+                ]}
+              >
+                <Input.Password
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="passwordConfirmation"
+                dependencies={['password']}
+                rules={[
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject('The two passwords do not match!');
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  value={passwordConfirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  placeholder="Confirm Password"
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <Select
+                  value={profile}
+                  onChange={setProfile}
+                  placeholder="Select Profile"
+                >
+                  <Option value="admin">Admin</Option>
+                  <Option value="client">Client</Option>
+                </Select>
+              </Form.Item>
+            </Form>
           </div>
         )}
-        <div>
+        <div className="spreadSheetContainer">
           <label htmlFor="file-input">
             Upload Spreadsheet
             <input
