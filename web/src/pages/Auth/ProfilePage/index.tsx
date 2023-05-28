@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { useUser } from '../../../hooks/useUser';
-import { Form, Input, Button, Typography, Layout, Image, Modal } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Layout,
+  Image,
+  Modal,
+  Avatar,
+} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser, updateUser, deleteUser } from '../../../lib/api';
 import './styles.scss';
@@ -169,7 +178,8 @@ const ProfilePage: React.FC = () => {
               </Form>
             ) : (
               <>
-                <Image
+                <Avatar
+                  size={128}
                   src={currentUser.image}
                   className="imageProfile"
                   alt="Profile Image"
@@ -195,7 +205,11 @@ const ProfilePage: React.FC = () => {
                   >
                     Logout
                   </Button>
-                  <Button className="profileDeleteButton" danger onClick={openModal}>
+                  <Button
+                    className="profileDeleteButton"
+                    danger
+                    onClick={openModal}
+                  >
                     Delete User
                   </Button>
                   <Modal
