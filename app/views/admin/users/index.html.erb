@@ -1,0 +1,58 @@
+<%=
+  render("index_header",
+    resources: resources,
+    search_term: search_term,
+    page: page,
+    show_search_bar: show_search_bar,
+    filters: filters,
+  )
+%>
+
+<%= content_for(:before_main) %>
+
+<% content_for :title do %>
+  Usuários
+<% end %>
+ 
+
+<div class="admin-counters" style="display:flex; gap:12px; margin:12px 0; align-items:baseline;">
+  <div class="admin-counter" style="padding:8px 12px; background:#f5f7fb; border-radius:6px;">
+    <div style="font-size:18px; font-weight:600;"><%= @users_count || 0 %></div>
+    <div style="font-size:12px; color:#666;">Total users</div>
+  </div>
+
+  <div class="admin-counter" style="padding:8px 12px; background:#eef7f6; border-radius:6px;">
+    <div style="font-size:18px; font-weight:600;"><%= @admins_count || 0 %></div>
+    <div style="font-size:12px; color:#666;">Admins</div>
+  </div>
+
+  <div class="admin-counter" style="padding:8px 12px; background:#fff7ea; border-radius:6px;">
+    <div style="font-size:18px; font-weight:600;"><%= @normal_users_count || 0 %></div>
+    <div style="font-size:12px; color:#666;">Normal Users</div>
+  </div>
+</div>
+
+<div style="margin-bottom: 15px;">
+  <%= link_to "Import Users",
+              import_form_admin_users_path,
+              class: "button button--primary" %>
+</div>
+
+<% if content_for?(:main) %>
+  <%= content_for(:main) %>
+<% else %>
+  <section class="main-content__body main-content__body--flush">
+    <%= render(
+      "collection",
+      collection_presenter: page,
+      collection_field_name: resource_name,
+      page: page,
+      resources: resources,
+      table_title: "Usuários"
+    ) %>
+
+    <%= render("pagination", resources: resources) %>
+  </section>
+<% end %>
+
+<%= content_for(:after_main) %>

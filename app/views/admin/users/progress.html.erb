@@ -1,0 +1,36 @@
+<h2>Progresso da Importação</h2>
+
+<p id="progress-text">Iniciando importação...</p>
+<div style="width: 100%; height: 20px; border: 1px solid #ccc;">
+  <div id="progress-bar" style="background-color: #3B82F6; width: 0%; height: 100%;"></div>
+</div>
+
+<script>
+  const progressId = "<%= @progress.id %>";
+
+  function updateProgress() {
+    fetch(`/admin/import_progress/${progressId}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        document.getElementById("progress-text").innerText =
+          `${data.processed} de ${data.total} (${data.percent}%) - ${data.status}`;
+        document.getElementById("progress-bar").style.width = `${data.percent}%`;
+
+        if (data.status === "completed" || data.status === "failed") {
+          clearInterval(interval);
+        }
+      })
+      .catch(err => {
+        console.error('Erro ao carregar progresso:', err);
+        const el = document.getElementById("progress-text");
+        el.innerText = `Erro ao carregar progresso (${err.message}). Tente recarregar a página.`;
+        clearInterval(interval);
+      });
+  }
+
+  const interval = setInterval(updateProgress, 1500);
+  updateProgress();
+</script>

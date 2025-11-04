@@ -1,0 +1,8 @@
+<%= f.file_field field.attribute, direct_upload: true %>
+
+<% if field.data.attached? %>
+  <div style="margin-top: 10px;">
+    <strong>Imagem atual:</strong><br>
+    <%= image_tag url_for(field.data), style: "max-height: 100px; border-radius: 8px;" %>
+  </div>
+<% end %>

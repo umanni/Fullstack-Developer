@@ -1,0 +1,74 @@
+<div class="edit-container d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+  <div class="edit-card p-4 rounded shadow-sm bg-white animate-fade-in" style="max-width: 500px; width: 100%;">
+    <h2 class="text-center text-primary fw-bold mb-4">Edit <%= resource_name.to_s.humanize %></h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, multipart: true }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div class="alert alert-warning">
+          Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.label :password, class: "form-label" %>
+        <i class="text-muted">(leave blank if you don't want to change it)</i>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control form-control-lg" %>
+        <% if @minimum_password_length %>
+          <small class="text-muted"><%= @minimum_password_length %> characters minimum</small>
+        <% end %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autocomplete: "email", class: "form-control form-control-lg" %>
+      </div>
+
+
+
+      <div class="mb-3">
+        <%= f.label :password_confirmation, class: "form-label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control form-control-lg" %>
+      </div>
+
+          <div class="mb-3">
+      <%= f.label :avatar_image, class: "form-label" %>
+
+      <% if resource.avatar_image.attached? && resource.avatar_image.persisted? %>
+        <div class="mb-2">
+          <%= image_tag url_for(resource.avatar_image.variant(resize_to_fill: [120, 120])),
+                        class: "rounded-circle",
+                        style: "object-fit:cover;" %>
+        </div>
+      <% else %>
+        <div class="mb-2">
+          <%= image_tag "default-avatar.png",
+                        class: "rounded-circle",
+                        style: "width:120px; height:120px; object-fit:cover;" %>
+        </div>
+      <% end %>
+
+      <%= f.file_field :avatar_image, class: "form-control" %>
+    </div>
+
+
+      <div class="mb-3">
+        <%= f.label :current_password, class: "form-label" %>
+        <i class="text-muted">(we need your current password to confirm your changes)</i>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control form-control-lg" %>
+      </div>
+
+      <div class="d-grid mb-3">
+        <%= f.submit "Update", class: "btn btn-primary btn-lg btn-hover" %>
+      </div>
+    <% end %>
+    <div class="mb-3">
+      <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger btn-hover" %>
+    </div>
+
+    <div class="text-center mt-3">
+      <%= link_to "Back", :back, class: "text-decoration-none text-primary btn-hover" %>
+    </div>
+  </div>
+</div>

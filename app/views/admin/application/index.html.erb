@@ -1,0 +1,75 @@
+<%#
+# Index
+
+This view is the template for the index page.
+It is responsible for rendering the search bar, header and pagination.
+It renders the `_table` partial to display details about the resources.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Collection][1].
+  Contains helper methods to help display a table,
+  and knows which attributes should be displayed in the resource's table.
+- `resources`:
+  An instance of `ActiveRecord::Relation` containing the resources
+  that match the user's search criteria.
+  By default, these resources are passed to the table partial to be displayed.
+- `search_term`:
+  A string containing the term the user has searched for, if any.
+- `show_search_bar`:
+  A boolean that determines if the search bar should be shown.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
+%>
+
+<%=
+  render("index_header",
+    resources: resources,
+    search_term: search_term,
+    page: page,
+    show_search_bar: show_search_bar,
+    filters: filters,
+  )
+%>
+
+<%= content_for(:before_main) %>
+
+
+<% if defined?(@users_count) %>
+  <div style="display:flex; gap:12px; margin:12px 0; align-items:baseline;">
+    <div style="padding:8px 12px; background:#f5f7fb; border-radius:6px;">
+      <div style="font-size:18px; font-weight:600;"><%= @users_count || 0 %></div>
+      <div style="font-size:12px; color:#666;">Total users</div>
+    </div>
+
+    <div style="padding:8px 12px; background:#eef7f6; border-radius:6px;">
+      <div style="font-size:18px; font-weight:600;"><%= @admins_count || 0 %></div>
+      <div style="font-size:12px; color:#666;">Admins</div>
+    </div>
+
+    <div style="padding:8px 12px; background:#fff7ea; border-radius:6px;">
+      <div style="font-size:18px; font-weight:600;"><%= @normal_users_count || 0 %></div>
+      <div style="font-size:12px; color:#666;">Normal users</div>
+    </div>
+  </div>
+<% end %>
+
+<% if content_for?(:main) %>
+  <%= content_for(:main) %>
+<% else %>
+  <section class="main-content__body main-content__body--flush">
+    <%= render(
+      "collection",
+      collection_presenter: page,
+      collection_field_name: resource_name,
+      page: page,
+      resources: resources,
+      table_title: "page-title"
+    ) %>
+
+    <%= render("pagination", resources: resources) %>
+  </section>
+<% end %>
+
+<%= content_for(:after_main) %>

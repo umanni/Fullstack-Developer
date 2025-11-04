@@ -1,0 +1,23 @@
+<div class="home-container text-center d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+  <div class="home-content p-4 rounded shadow-sm bg-white animate-fade-in">
+    <h1 class="display-4 fw-bold text-primary mb-3">Welcome</h1>
+    <p class="lead text-muted mb-4">User manager</p>
+
+    <% if user_signed_in? %>
+      <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+        <%= link_to "Edit", edit_user_registration_path, class: "btn btn-outline-primary btn-lg btn-hover" %>
+        <% if current_user.admin? %>
+            <%= link_to "Dashboard", admin_users_path, class: "btn btn-outline-primary btn-lg btn-hover" %>
+          <%end%>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-danger btn-lg btn-hover" %>
+          
+      </div>
+    <% else %>
+      <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+        <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-primary btn-lg btn-hover" %>
+        <%= link_to "Sign in", new_user_session_path, class: "btn btn-outline-dark btn-lg btn-hover" %>
+      
+      </div>
+    <% end %>
+  </div>
+</div>

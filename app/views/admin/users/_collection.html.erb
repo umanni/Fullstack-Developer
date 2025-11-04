@@ -1,0 +1,7 @@
+<%= render partial: "administrate/application/collection", locals: {
+  collection_field_name: (local_assigns[:collection_field_name] || nil),
+  resources: (local_assigns[:resources] || []),
+  page: (local_assigns[:page] || nil),
+  collection_presenter: (local_assigns[:collection_presenter] || nil),
+  table_title: (local_assigns[:table_title] || "Recursos")
+} %>
