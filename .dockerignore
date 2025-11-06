@@ -1,0 +1,57 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README.md
+CHANGELOG.md
+
+# Logs
+log/*
+tmp/*
+*.log
+
+# Environment files
+.env*
+!.env.example
+
+# Dependencies
+node_modules/
+vendor/bundle/
+
+# Test coverage
+coverage/
+
+# Database
+*.sqlite3
+*.sqlite3-journal
+postgres-data/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp/
+/storage/
+
+# Assets (will be built in container)
+/public/assets/
+/public/packs/
+/app/assets/builds/

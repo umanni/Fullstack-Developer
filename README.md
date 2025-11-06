@@ -1,67 +1,193 @@
-# Fullstack Developer Test
+# 📋 Checklist - Desafio Fullstack Umanni
 
-- Check this readme.md
-- Create a branch to develop your task
-- Push to remote in 1 week (date will be checked from branch creation/assigned date)
+## Fase 1: Configuração e Planejamento Inicial
 
-# Requirements:
-- Latest version of the stack
-- Write unit and integration tests 
-- Deliver with a working Dockerfile
-- Use docker-compose.yml if needed
-- Show your best practices ex: design patters, linters etc.
+### Stack e Ferramentas
+* [x] **Backend:** Ruby on Rails 7.1.6
+* [x] **Frontend Framework:** React.js 18.x (integrado ao Rails)
+* [x] **Database:** PostgreSQL 16
+* [x] **Containerização:** Docker + Docker Compose
+* [x] **Autenticação:** Devise
+* [x] **Testes:** RSpec 7.1 + Capybara + FactoryBot
+* [x] **Linter:** Rubocop Rails Omakase
+* [x] **Cobertura:** SimpleCov (≥90%)
+* [x] **CSS:** SCSS/Sass
+* [x] **CSS Framework:** Bulma
+* [x] **Real-time:** ActionCable (WebSockets)
 
-# The Test
-Here we'll try to simulate a "real sprint" that you'll, probably, be assigned while working as Fullstack at Umanni.
-# The Task
-- Create a responsive application to manage users.
-- A user must have:
-1- full_name
-2- email
-3- avatar_image (upload from file or url)
-4- role (admin/no-admin)
-# The App
-## Admin Use cases
-- As an Admin, I must be able to access a User Admin Dashboard.
-- As an Admin, I must be able to see on Dashboard:
-  - Total number of Users
-  - Total number of Users grouped by Role
-- As an Admin, I must be redirected to User Admin Dashboard after login
-- As an Admin, I must be able to list, create, edit and delete Users.
-- As an Admin, I must be able to toggle the User Role.
-- As an Admin, I must be able to import a Spreadsheet into the system, in order to create new Users
-- As an Admin, I must be able to see the progress of Users imports.
-## User Use Cases
-- As an User, I must be redirected to my Profile after login
-- As an User, I must be able only to see my info, edit and delete my profile.
-## Visitor Use Cases
-- As a Visitor, I can register myself as a normal User.
+### Arquivos e Configurações
+* [x] Dockerfile funcional
+* [x] docker-compose.yml funcional
+* [x] .gitignore configurado
+* [x] .dockerignore configurado
+* [x] Gerenciamento de configuração (variáveis de ambiente)
+* [x] Banco de dados criado
 
-# The Start.
-- Your deadline is 1 week after accepting this test. 
-# The Rules
-These one are required. Not doing one of them will invalidate your submission.
-- You must write down a README in English explaining how to build and run your app.
-- The Frontend must  have a framework Bootstrap, Foundation, MDL or any other frameworks, remember you are here as a Fullstack not a backend developer.
-- You must use realtime related stuff (counters on Admin Dashboard, import progress, etc)
-- You must treat errors accordingly.
-- You must use a open source lib to authenticate Users.
-- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
-# What we're expecting to see:
-- Use SCSS to your CSS;
-- .gitignore, .dockerignore
-- A proper way to manage app configuration 
-- Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
-- Organize & optimize your code and images
-- Form validation (frontend validation included)
-- Tests with at least 90% coverage
-- Be able to use, pjax, turbolinks, intercooler, unpoly (yes, we believe in good old server side rendering)
-# Extra points
-- Use a Dockerfile
-- docker-compose.yml
-- React in some ui components when it makes sense
-- Stress tests
-# What will be assessed
-- Code's Semantic, Cleanness and Maintainability;
-- Understanding of REST and proper use of HTTP Methods (POST, GET, PUT, PATCH, DELETE, OPTIONS);
-- Basic Security tests against Injections, XSS/XSRF, ...
+---
+
+## Fase 2: Desenvolvimento Backend (API Rails)
+
+### User Stories - Autenticação e Autorização
+* [ ] Como visitante, posso me cadastrar como usuário normal
+* [ ] Como usuário, posso fazer login com email e senha
+* [ ] Como usuário, posso fazer logout
+* [ ] Como sistema, redireciono admin para dashboard após login
+* [ ] Como sistema, redireciono usuário comum para perfil após login
+* [ ] Como sistema, implemento autorização baseada em roles (admin/user)
+
+### User Stories - Modelo User
+* [ ] Como sistema, tenho modelo User com: full_name, email, password, role (enum: admin/user)
+* [ ] Como sistema, tenho Active Storage configurado para avatares
+* [ ] Como usuário, posso fazer upload de avatar via arquivo
+* [ ] Como usuário, posso adicionar avatar via URL
+* [ ] Como sistema, valido todos os campos obrigatórios
+* [ ] Como sistema, tenho factory e testes para User model
+
+### User Stories - Perfil do Usuário
+* [ ] Como usuário, posso visualizar meu próprio perfil
+* [ ] Como usuário, posso editar meu próprio perfil (nome, email, avatar)
+* [ ] Como usuário, posso deletar minha própria conta
+* [ ] Como usuário, não posso acessar perfis de outros usuários
+* [ ] Como sistema, tenho testes de integração para estas funcionalidades
+
+### User Stories - Dashboard Admin
+* [ ] Como admin, posso acessar painel de administração
+* [ ] Como admin, vejo número total de usuários em tempo real
+* [ ] Como admin, vejo número de usuários agrupados por role em tempo real
+* [ ] Como sistema, uso ActionCable para atualizar contadores em tempo real
+* [ ] Como sistema, tenho testes para dashboard e métricas
+
+### User Stories - CRUD de Usuários (Admin)
+* [ ] Como admin, posso listar todos os usuários com paginação
+* [ ] Como admin, posso buscar/filtrar usuários
+* [ ] Como admin, posso criar novos usuários
+* [ ] Como admin, posso editar qualquer usuário
+* [ ] Como admin, posso deletar qualquer usuário
+* [ ] Como admin, posso alternar role de qualquer usuário (admin ↔ user)
+* [ ] Como sistema, tenho testes de integração para CRUD completo
+
+### User Stories - Importação de Usuários (Admin)
+* [ ] Como admin, posso fazer upload de planilha (CSV/Excel)
+* [ ] Como sistema, valido formato e conteúdo da planilha
+* [ ] Como sistema, processo importação em background (ActiveJob)
+* [ ] Como admin, posso acompanhar progresso da importação em tempo real
+* [ ] Como sistema, uso ActionCable para atualizar progresso
+* [ ] Como sistema, exibo erros de importação se houver
+* [ ] Como sistema, crio usuários em lote após validação
+* [ ] Como sistema, tenho testes para importação e progresso
+
+### Segurança e Qualidade Backend
+* [ ] Como sistema, previno SQL Injection (ActiveRecord parameterizado)
+* [ ] Como sistema, previno XSS (sanitização de inputs)
+* [ ] Como sistema, uso CSRF tokens (Rails padrão)
+* [ ] Como sistema, uso Strong Parameters em todos controllers
+* [ ] Como sistema, valido uploads de arquivos (tipo, tamanho)
+* [ ] Como sistema, trato erros com rescue_from e error handlers
+* [ ] Como sistema, tenho cobertura de testes ≥90%
+
+---
+
+## Fase 3: Desenvolvimento Frontend (UI e UX)
+
+### User Stories - Layout e Design
+* [ ] Como sistema, tenho layout responsivo base com framework CSS escolhido
+* [ ] Como sistema, suporto Edge, Chrome, Firefox e Safari
+* [ ] Como sistema, tenho código e imagens otimizados
+* [ ] Como sistema, uso SCSS para estilos
+
+### User Stories - Autenticação UI
+* [ ] Como visitante, vejo formulário de cadastro com validação frontend
+* [ ] Como visitante, vejo formulário de login com validação frontend
+* [ ] Como usuário, vejo mensagens de erro claras
+* [ ] Como sistema, tenho testes Capybara para fluxo de cadastro e login
+
+### User Stories - Perfil UI
+* [ ] Como usuário, vejo meu perfil com todas informações
+* [ ] Como usuário, vejo formulário de edição com validação frontend
+* [ ] Como usuário, vejo preview de avatar antes de salvar
+* [ ] Como usuário, posso escolher entre upload de arquivo ou URL
+* [ ] Como usuário, vejo confirmação antes de deletar conta
+* [ ] Como sistema, tenho testes Capybara para fluxo de perfil
+
+### User Stories - Dashboard Admin UI
+* [ ] Como admin, vejo dashboard com contadores atualizados em tempo real
+* [ ] Como admin, vejo gráficos/cards visuais das métricas
+* [ ] Como sistema, uso React para componente de dashboard (tempo real)
+* [ ] Como sistema, tenho testes Capybara para dashboard
+
+### User Stories - CRUD Usuários UI
+* [ ] Como admin, vejo tabela de usuários com paginação
+* [ ] Como admin, vejo campo de busca/filtro funcionando
+* [ ] Como admin, vejo formulários de criar/editar com validação frontend
+* [ ] Como admin, vejo botão de alternar role funcionando
+* [ ] Como admin, vejo confirmação antes de deletar usuário
+* [ ] Como sistema, tenho testes Capybara para CRUD completo
+
+### User Stories - Importação UI
+* [ ] Como admin, vejo interface de upload de planilha
+* [ ] Como admin, vejo validação de formato de arquivo no frontend
+* [ ] Como admin, vejo barra de progresso em tempo real durante importação
+* [ ] Como admin, vejo status da importação (processando, concluída, erro)
+* [ ] Como admin, vejo lista de erros se importação falhar
+* [ ] Como sistema, uso React para componente de progresso (tempo real)
+* [ ] Como sistema, tenho testes Capybara para fluxo de importação
+
+### Tecnologias Frontend
+* [ ] Como sistema, uso Hotwire/Turbo para renderização server-side
+* [ ] Como sistema, uso React apenas em componentes específicos (dashboard, progresso)
+* [ ] Como sistema, implemento validação de formulários em JS
+* [ ] Como sistema, tenho testes frontend ≥90% cobertura
+
+---
+
+## Fase 4: Ajustes Finais
+
+### Qualidade de Código
+* [ ] Executar Rubocop e corrigir todas offenses
+* [ ] Revisar código (nomenclatura, semântica, DRY, SOLID)
+* [ ] Remover código comentado, debugs e console.logs
+* [ ] Verificar cobertura de testes ≥90% (SimpleCov)
+* [ ] Executar todos os testes: `docker-compose run --rm web rspec`
+
+### Testes Finais
+* [ ] Testar aplicação manualmente (todos os fluxos)
+* [ ] Testar responsividade (mobile, tablet, desktop)
+* [ ] Testar em Edge, Chrome, Firefox, Safari
+* [ ] **[Bônus]** Executar testes de estresse
+
+### Docker e Deploy
+* [ ] Validar Dockerfile para produção
+* [ ] Validar docker-compose.yml
+* [ ] Testar build: `docker-compose build`
+* [ ] Testar execução: `docker-compose up`
+
+### Documentação
+* [ ] Escrever README.md em inglês contendo:
+  * [ ] Project description
+  * [ ] Technologies and versions used
+  * [ ] Prerequisites (Docker, Docker Compose)
+  * [ ] How to clone repository
+  * [ ] How to setup (build and run with Docker)
+  * [ ] How to run tests
+  * [ ] How to check test coverage
+  * [ ] Project structure
+  * [ ] Technical decisions
+  * [ ] Screenshots (opcional)
+
+### Entrega
+* [ ] Commit final: `git add . && git commit -m "feat: complete fullstack challenge"`
+* [ ] Push: `git push origin feat/gmarcos`
+* [ ] Abrir Pull Request no GitHub
+* [ ] Verificar se GitHub Actions/CI passa
+* [ ] Prazo: 1 semana a partir da criação da branch
+
+---
+
+## 📊 Progresso Atual
+
+- **Fase 1:** ✅ 100%
+- **Fase 2:** ⏳ 0%
+- **Fase 3:** ⏳ 0%
+- **Fase 4:** ⏳ 20%
+
+**Total:** ~20% concluído
