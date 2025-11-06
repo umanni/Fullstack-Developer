@@ -1,0 +1,19 @@
+<% total = import.total_count.to_i
+processed = import.processed_count.to_i
+percentage = total.zero? ? 0 : (processed.to_f / total * 100).round %>
+
+<strong class="text-gray-700"><%= processed %>
+  /
+  <%= total %>
+  Users Imported</strong>
+<div class="w-full bg-gray-200 rounded-full h-4 mt-2">
+  <div
+    class="
+      bg-blue-600 h-4 rounded-full flex items-center justify-center text-xs
+      font-medium text-white
+    "
+    style="width: <%= percentage %>%;"
+  >
+    <%= percentage %>%
+  </div>
+</div>

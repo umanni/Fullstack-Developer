@@ -1,0 +1,22 @@
+<% status_color =
+  case user_import.status
+  when "processing"
+    "bg-blue-600"
+  when "completed"
+    "bg-green-600"
+  when "failed"
+    "bg-red-600"
+  else
+    "bg-gray-500"
+  end %>
+<h3 class="text-xl font-semibold mb-4">
+  Status:
+  <span
+    class="
+      px-3 py-1 text-sm font-medium text-white <%= status_color %>
+      rounded-full
+    "
+  >
+    <%= user_import.status.humanize %>
+  </span>
+</h3>

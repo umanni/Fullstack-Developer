@@ -1,0 +1,31 @@
+<div>
+  <h1 class="text-3xl font-bold mb-6">My Profile</h1>
+  <div class="bg-white shadow-md rounded-lg overflow-hidden max-w-2xl">
+    <div class="md:flex">
+      <div class="md:shrink-0">
+        <% if @user_profile.avatar_image.attached? %>
+          <%= image_tag @user_profile.avatar_image,
+          class: "h-48 w-full object-cover md:h-full md:w-48" %>
+        <% else %>
+          <img
+            src="https://placehold.in/200@2x"
+            class="h-48 w-full object-cover md:h-full md:w-48"
+          >
+        <% end %>
+      </div>
+      <div class="p-8">
+        <h5 class="text-2xl font-semibold text-gray-800"><%= @user_profile.full_name %></h5>
+        <p class="text-gray-600">
+          <small class="text-muted"><%= @user_profile.email %></small>
+        </p>
+        <p class="mt-4">
+          <strong>Role:</strong><%= @user_profile.role.humanize %>
+        </p>
+        <%= link_to "Edit my profile",
+        edit_profile_path,
+        class:
+          "mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+      </div>
+    </div>
+  </div>
+</div>

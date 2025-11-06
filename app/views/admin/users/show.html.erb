@@ -1,0 +1,61 @@
+<%# <% unless current_user.admin? %>
+<div>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">User Details</h1>
+    <%= link_to "Back to User List",
+    admin_users_path,
+    class: "text-gray-600 hover:text-gray-900" %>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden max-w-2xl">
+    <div class="md:flex">
+      <div class="md:shrink-0">
+        <% if @user.avatar_image.attached? %>
+          <%= image_tag @user.avatar_image,
+          class: "h-48 w-full object-cover md:h-full md:w-48" %>
+        <% else %>
+          <img
+            src="https://via.placeholder.com/200"
+            class="h-48 w-full object-cover md:h-full md:w-48"
+            alt="Default Avatar"
+          >
+        <% end %>
+      </div>
+      <div class="p-8">
+        <h5 class="text-2xl font-semibold text-gray-800"><%= @user.full_name %></h5>
+        <p class="text-gray-600"><%= @user.email %></p>
+
+        <p class="mt-4">
+          <span class="font-semibold">Role:</span>
+          <% if @user.admin? %>
+            <span
+              class="
+                inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full uppercase
+                font-semibold tracking-wide
+              "
+            >
+              Admin
+            </span>
+          <% else %>
+            <span
+              class="
+                inline-block bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded-full uppercase
+                font-semibold tracking-wide
+              "
+            >
+              User
+            </span>
+          <% end %>
+        </p>
+
+        <div class="mt-6">
+          <%= link_to "Edit This User",
+          edit_admin_user_path(@user),
+          class:
+            "inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

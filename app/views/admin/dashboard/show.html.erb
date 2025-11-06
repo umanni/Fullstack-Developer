@@ -1,0 +1,9 @@
+<div>
+  <h1 class="title-h1">Admin Dashboard</h1>
+  <%= turbo_stream_from "admin_dashboard_stats" %>
+  <%= turbo_frame_tag "admin_dashboard_stats" do %>
+    <%= render "admin/dashboard/stats",
+    total_users: @total_users,
+    users_by_role: @users_by_role %>
+  <% end %>
+</div>

@@ -1,0 +1,67 @@
+<%= form_with(model: [:admin, user]) do |f| %>
+  <% if user.errors.any? %>
+    <div
+      class="
+        bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-5
+      "
+      role="alert"
+    >
+      <strong class="font-bold"><%= pluralize(user.errors.count, "error") %>
+        prohibited this user from being saved:</strong>
+      <ul class="list-disc list-inside mt-2">
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :full_name, class: "form.label" %>
+    <%= f.text_field :full_name, class: "form-input" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :email, class: "form.label" %>
+    <%= f.email_field :email, class: "form-input" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :role, class: "form.label" %>
+    <%= f.select :role,
+             User.roles.keys.map { |r| [r.humanize, r] },
+             {},
+             class: "form-input" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :avatar_image, "Upload New Avatar", class: "form.label" %>
+    <%= f.file_field :avatar_image,
+                 class:
+                   "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+  </div>
+
+  <hr class="my-6">
+
+  <div class="mb-4 mt-4">
+    <%= f.label :password, class: "form.label" %>
+    <%= f.password_field :password,
+                     class: "form-input",
+                     autocomplete: "new-password",
+                     placeholder: "Leave blank to keep unchanged" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :password_confirmation, class: "form.label" %>
+    <%= f.password_field :password_confirmation,
+                     class: "form-input",
+                     autocomplete: "new-password" %>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <%= f.submit "Save User",
+             class:
+               "bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 cursor-pointer" %>
+    <%= link_to "Cancel", admin_users_path, class: "text-gray-600 hover:text-gray-900" %>
+  </div>
+<% end %>
