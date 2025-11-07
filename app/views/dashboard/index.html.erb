@@ -1,0 +1,11 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title">Welcome, <%= @user.full_name %>!</h1>
+    <p class="subtitle">Role: <span class="tag is-primary"><%= @user.role %></span></p>
+    
+    <div class="buttons">
+      <%= link_to 'Edit Profile', edit_user_registration_path, class: 'button is-info' %>
+      <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'button is-danger' %>
+    </div>
+  </div>
+</section>
