@@ -22,7 +22,7 @@ RSpec.describe 'Authentication', type: :request do
 
       it 'redirects to authenticated root' do
         post user_registration_path, params: valid_attributes
-        expect(response).to redirect_to(authenticated_root_path)
+        expect(response).to redirect_to(dashboard_index_path)
       end
 
       it 'creates user with default role' do
@@ -60,7 +60,7 @@ RSpec.describe 'Authentication', type: :request do
         post user_session_path, params: {
           user: { email: 'test@example.com', password: 'password123' }
         }
-        expect(response).to redirect_to(authenticated_root_path)
+        expect(response).to redirect_to(dashboard_index_path)
       end
     end
 

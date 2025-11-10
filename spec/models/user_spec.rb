@@ -87,4 +87,27 @@ RSpec.describe User, type: :model do
       expect(user.errors[:avatar]).to include('must be a JPEG, PNG, or GIF')
     end
   end
+
+  describe 'authorization helpers' do
+    let(:user) { create(:user) }
+    let(:admin) { create(:user, :admin) }
+
+    it 'user cannot be admin' do
+      expect(user.admin?).to be false
+    end
+
+    it 'admin is admin' do
+      expect(admin.admin?).to be true
+    end
+
+    it 'can change user to admin' do
+      user.admin!
+      expect(user.admin?).to be true
+    end
+
+    it 'can change admin to user' do
+      admin.user!
+      expect(admin.user?).to be true
+    end
+  end
 end

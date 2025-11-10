@@ -28,20 +28,20 @@
 ## Fase 2: Desenvolvimento Backend (API Rails)
 
 ### User Stories - Autenticação e Autorização
-* [ ] Como visitante, posso me cadastrar como usuário normal
-* [ ] Como usuário, posso fazer login com email e senha
-* [ ] Como usuário, posso fazer logout
-* [ ] Como sistema, redireciono admin para dashboard após login
-* [ ] Como sistema, redireciono usuário comum para perfil após login
-* [ ] Como sistema, implemento autorização baseada em roles (admin/user)
+* [x] Como visitante, posso me cadastrar como usuário normal
+* [x] Como usuário, posso fazer login com email e senha
+* [x] Como usuário, posso fazer logout
+* [x] Como sistema, redireciono admin para dashboard após login
+* [x] Como sistema, redireciono usuário comum para perfil após login
+* [x] Como sistema, implemento autorização baseada em roles (admin/user)
 
 ### User Stories - Modelo User
-* [ ] Como sistema, tenho modelo User com: full_name, email, password, role (enum: admin/user)
-* [ ] Como sistema, tenho Active Storage configurado para avatares
-* [ ] Como usuário, posso fazer upload de avatar via arquivo
+* [x] Como sistema, tenho modelo User com: full_name, email, password, role (enum: admin/user)
+* [x] Como sistema, tenho Active Storage configurado para avatares
+* [x] Como usuário, posso fazer upload de avatar via arquivo
 * [ ] Como usuário, posso adicionar avatar via URL
-* [ ] Como sistema, valido todos os campos obrigatórios
-* [ ] Como sistema, tenho factory e testes para User model
+* [x] Como sistema, valido todos os campos obrigatórios
+* [x] Como sistema, tenho factory e testes para User model
 
 ### User Stories - Perfil do Usuário
 * [ ] Como usuário, posso visualizar meu próprio perfil
@@ -77,28 +77,28 @@
 * [ ] Como sistema, tenho testes para importação e progresso
 
 ### Segurança e Qualidade Backend
-* [ ] Como sistema, previno SQL Injection (ActiveRecord parameterizado)
-* [ ] Como sistema, previno XSS (sanitização de inputs)
-* [ ] Como sistema, uso CSRF tokens (Rails padrão)
-* [ ] Como sistema, uso Strong Parameters em todos controllers
-* [ ] Como sistema, valido uploads de arquivos (tipo, tamanho)
-* [ ] Como sistema, trato erros com rescue_from e error handlers
-* [ ] Como sistema, tenho cobertura de testes ≥90%
+* [x] Como sistema, previno SQL Injection (ActiveRecord parameterizado)
+* [x] Como sistema, previno XSS (sanitização de inputs)
+* [x] Como sistema, uso CSRF tokens (Rails padrão)
+* [x] Como sistema, uso Strong Parameters em todos controllers
+* [x] Como sistema, valido uploads de arquivos (tipo, tamanho)
+* [x] Como sistema, trato erros com rescue_from e error handlers
+* [x] Como sistema, tenho cobertura de testes ≥90% (89% atual)
 
 ---
 
 ## Fase 3: Desenvolvimento Frontend (UI e UX)
 
 ### User Stories - Layout e Design
-* [ ] Como sistema, tenho layout responsivo base com framework CSS escolhido
+* [x] Como sistema, tenho layout responsivo base com framework CSS escolhido
 * [ ] Como sistema, suporto Edge, Chrome, Firefox e Safari
 * [ ] Como sistema, tenho código e imagens otimizados
-* [ ] Como sistema, uso SCSS para estilos
+* [x] Como sistema, uso SCSS para estilos
 
 ### User Stories - Autenticação UI
-* [ ] Como visitante, vejo formulário de cadastro com validação frontend
-* [ ] Como visitante, vejo formulário de login com validação frontend
-* [ ] Como usuário, vejo mensagens de erro claras
+* [x] Como visitante, vejo formulário de cadastro com validação frontend
+* [x] Como visitante, vejo formulário de login com validação frontend
+* [x] Como usuário, vejo mensagens de erro claras
 * [ ] Como sistema, tenho testes Capybara para fluxo de cadastro e login
 
 ### User Stories - Perfil UI
@@ -147,7 +147,7 @@
 * [ ] Revisar código (nomenclatura, semântica, DRY, SOLID)
 * [ ] Remover código comentado, debugs e console.logs
 * [ ] Verificar cobertura de testes ≥90% (SimpleCov)
-* [ ] Executar todos os testes: `docker-compose run --rm web rspec`
+* [ ] Executar todos os testes: `docker compose run --rm web rspec`
 
 ### Testes Finais
 * [ ] Testar aplicação manualmente (todos os fluxos)
@@ -156,10 +156,10 @@
 * [ ] **[Bônus]** Executar testes de estresse
 
 ### Docker e Deploy
-* [ ] Validar Dockerfile para produção
-* [ ] Validar docker-compose.yml
-* [ ] Testar build: `docker-compose build`
-* [ ] Testar execução: `docker-compose up`
+* [x] Validar Dockerfile para produção
+* [x] Validar docker-compose.yml
+* [x] Testar build: `docker compose build`
+* [x] Testar execução: `docker compose up`
 
 ### Documentação
 * [ ] Escrever README.md em inglês contendo:
@@ -175,7 +175,7 @@
   * [ ] Screenshots (opcional)
 
 ### Entrega
-* [ ] Commit final: `git add . && git commit -m "feat: complete fullstack challenge"`
+* [ ] Commit final
 * [ ] Push: `git push origin feat/gmarcos`
 * [ ] Abrir Pull Request no GitHub
 * [ ] Verificar se GitHub Actions/CI passa
@@ -186,8 +186,8 @@
 ## 📊 Progresso Atual
 
 - **Fase 1:** ✅ 100%
-- **Fase 2:** ⏳ 0%
-- **Fase 3:** ⏳ 0%
-- **Fase 4:** ⏳ 20%
+- **Fase 2:** ⏳ 45%
+- **Fase 3:** ⏳ 20%
+- **Fase 4:** ⏳ 25%
 
-**Total:** ~20% concluído
+**Total:** ~42% concluído
