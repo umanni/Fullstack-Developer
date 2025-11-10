@@ -1,0 +1,24 @@
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/date-3.5.0/ext/date
+/usr/share/rvm/rubies/ruby-3.4.4/bin/ruby extconf.rb
+checking for rb_category_warn()... yes
+checking for timezone in time.h with -Werror... yes
+checking for altzone in time.h with -Werror... no
+creating Makefile
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/date-3.5.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-w7dnff sitelibdir\=./.gem.20251101-12255-w7dnff clean
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/date-3.5.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-w7dnff sitelibdir\=./.gem.20251101-12255-w7dnff
+compiling date_core.c
+compiling date_parse.c
+compiling date_strftime.c
+compiling date_strptime.c
+linking shared-object date_core.so
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/date-3.5.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-w7dnff sitelibdir\=./.gem.20251101-12255-w7dnff install
+/usr/bin/install -m 0755 date_core.so ./.gem.20251101-12255-w7dnff
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/date-3.5.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-w7dnff sitelibdir\=./.gem.20251101-12255-w7dnff clean

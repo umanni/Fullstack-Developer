@@ -1,0 +1,102 @@
+append_cflags: checking for whether -Wall is accepted as CFLAGS... -------------------- yes
+
+LD_LIBRARY_PATH=.:/usr/share/rvm/rubies/ruby-3.4.4/lib ASAN_OPTIONS=detect_leaks=0 "gcc -o conftest -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/x86_64-linux -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/backward -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0 -I.    -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdiv-by-zero -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wold-style-definition -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -Wmisleading-indentation -Wundef  -fPIC conftest.c -L. -L/usr/share/rvm/rubies/ruby-3.4.4/lib -Wl,-rpath,/usr/share/rvm/rubies/ruby-3.4.4/lib -L. -fstack-protector-strong -rdynamic -Wl,-export-dynamic -Wl,--no-as-needed     -Wl,-rpath,'/../lib' -Wl,-rpath,'/../lib' -lruby  -lm -lpthread  -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+LD_LIBRARY_PATH=.:/usr/share/rvm/rubies/ruby-3.4.4/lib ASAN_OPTIONS=detect_leaks=0 "gcc -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/x86_64-linux -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/backward -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0 -I.    -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdiv-by-zero -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wold-style-definition -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -Wmisleading-indentation -Wundef  -fPIC  -Wall -Werror -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+--------------------
+
+append_cflags: checking for whether -O3 is accepted as CFLAGS... -------------------- yes
+
+LD_LIBRARY_PATH=.:/usr/share/rvm/rubies/ruby-3.4.4/lib ASAN_OPTIONS=detect_leaks=0 "gcc -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/x86_64-linux -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/backward -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0 -I.    -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdiv-by-zero -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wold-style-definition -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -Wmisleading-indentation -Wundef  -fPIC -Wall  -O3 -Werror -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+--------------------
+
+append_cflags: checking for whether -pedantic is accepted as CFLAGS... -------------------- yes
+
+LD_LIBRARY_PATH=.:/usr/share/rvm/rubies/ruby-3.4.4/lib ASAN_OPTIONS=detect_leaks=0 "gcc -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/x86_64-linux -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/backward -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0 -I.    -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdiv-by-zero -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wold-style-definition -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -Wmisleading-indentation -Wundef  -fPIC -Wall -O3  -pedantic -Werror -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+--------------------
+
+append_cflags: checking for whether -std=c99 is accepted as CFLAGS... -------------------- no
+
+LD_LIBRARY_PATH=.:/usr/share/rvm/rubies/ruby-3.4.4/lib ASAN_OPTIONS=detect_leaks=0 "gcc -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/x86_64-linux -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/backward -I/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0 -I.    -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2  -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wdeprecated-declarations -Wdiv-by-zero -Wduplicated-cond -Wimplicit-function-declaration -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wold-style-definition -Wimplicit-fallthrough=0 -Wmissing-noreturn -Wno-cast-function-type -Wno-constant-logical-operand -Wno-long-long -Wno-missing-field-initializers -Wno-overlength-strings -Wno-packed-bitfield-compat -Wno-parentheses-equality -Wno-self-assign -Wno-tautological-compare -Wno-unused-parameter -Wno-unused-value -Wsuggest-attribute=format -Wsuggest-attribute=noreturn -Wunused-variable -Wmisleading-indentation -Wundef  -fPIC -Wall -O3 -pedantic  -std=c99 -Werror -c conftest.c"
+In file included from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/ruby.h:15,
+                 from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from conftest.c:1:
+/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/internal/config.h:139:50: error: __VA_OPT__ is not available until C++2a [-Werror]
+  139 | # define RBIMPL_TEST2(...)          RBIMPL_TEST3(__VA_OPT__(,),1,0,0)
+      |                                                  ^
+In file included from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/internal/attr/pure.h:25,
+                 from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/backward/2/attributes.h:43,
+                 from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/defines.h:73,
+                 from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/ruby.h:25,
+                 from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from conftest.c:1:
+/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/assert.h:162:34: error: __VA_OPT__ is not available until C++2a [-Werror]
+  162 | # define RBIMPL_VA_OPT_ARGS(...) __VA_OPT__(,) __VA_ARGS__
+      |                                  ^
+/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/assert.h:165:24: error: __VA_OPT__ is not available until C++2a [-Werror]
+  165 |     rb_assert_failure##__VA_OPT__(_detail)( \
+      |                        ^
+In file included from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/ruby.h:46,
+                 from /usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from conftest.c:1:
+/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/internal/scan_args.h:502:41: error: __VA_OPT__ is not available until C++2a [-Werror]
+  502 |         (rb_scan_args)(argc, argvp, fmt __VA_OPT__(, __VA_ARGS__)))
+      |                                         ^
+/usr/share/rvm/rubies/ruby-3.4.4/include/ruby-3.4.0/ruby/internal/scan_args.h:510:53: error: __VA_OPT__ is not available until C++2a [-Werror]
+  510 |         (rb_scan_args_kw)(kw_flag, argc, argvp, fmt __VA_OPT__(, __VA_ARGS__)))
+      |                                                     ^
+cc1: error: unrecognized command line option ‘-Wno-self-assign’ [-Werror]
+cc1: error: unrecognized command line option ‘-Wno-parentheses-equality’ [-Werror]
+cc1: error: unrecognized command line option ‘-Wno-constant-logical-operand’ [-Werror]
+cc1: all warnings being treated as errors
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return !!argv[argc];
+6: }
+/* end */
+
+--------------------
+

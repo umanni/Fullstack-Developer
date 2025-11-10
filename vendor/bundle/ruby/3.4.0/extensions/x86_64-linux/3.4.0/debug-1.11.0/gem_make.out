@@ -1,0 +1,19 @@
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/debug-1.11.0/ext/debug
+/usr/share/rvm/rubies/ruby-3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-smrnp7 sitelibdir\=./.gem.20251101-12255-smrnp7 clean
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-smrnp7 sitelibdir\=./.gem.20251101-12255-smrnp7
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-smrnp7 sitelibdir\=./.gem.20251101-12255-smrnp7 install
+/usr/bin/install -m 0755 debug.so ./.gem.20251101-12255-smrnp7/debug
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/debug-1.11.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-smrnp7 sitelibdir\=./.gem.20251101-12255-smrnp7 clean

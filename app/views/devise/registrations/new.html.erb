@@ -1,0 +1,41 @@
+<div class="d-flex flex-column align-items-center mt-5">
+  <h2><%= t("devise.sign_up.title") %></h2>
+  
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="d-grid gap-3 mb-3">
+      <div class="field">
+        <%= f.label :full_name, class: "form-lable" %>
+        <%= f.text_field :full_name, autofocus: true, autocomplete: "full-name", class: "form-control", required: true %>
+      </div>
+
+      <div class="field">
+        <%= f.label :email, class: "form-lable" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, class: "form-lable" %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: true %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, class: "form-lable" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: true %>
+      </div>
+
+      <div class="field">
+        <%= f.label :avatar_image, class: "form-lable" %>
+        <%= f.file_field :avatar_image, accept:"image/png, image/jpg, image/jpeg", class: "form-control", required: true %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit t("devise.sign_up.submit"), class: "btn btn-primary w-100" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,67 @@
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
+en:
+  app_name: Users Management App
+  devise:
+    cancel_account: "Cancel my account"
+    edit:
+      avatar_image:
+          info: "(leave blank if you don't want to change it)"
+      new_password:
+        info: "(leave blank if you don't want to change it)"
+        min_characters: "characters minimum"
+      cancel: "Cancel"
+    sign_in:
+      link: "Sign In"
+      submit: "Sign in"
+      title: "Sign In"
+    sign_out: 
+      link: "Sign Out"
+    sign_up:
+      link: "Sign Up"
+      submit: "Sign up"
+      title: "Sign Up"
+  messages:
+    errors:
+      image:
+        content_type: "must be a JPG, JPEG or PNG"
+      upload_csv:
+        no_file_selected: "Please select a CSV file to upload."
+        content_type: "Please select a CSV file instead."
+      restricted_area: "Restricted area"
+      update_last_admin_to_no_admin: "In order to change this user's role, please create another administrator."
+    destroy_user_success: "The user has been removed successfully."
+    destroy_user_last_admin: "In order to remove this user, please create another administrator."
+    welcome: "Welcome, folks!"
+    update_user_success: "The user has been updated successfully."
+    users_successfully_uploaded: 
+      one: "%{count} user were successfully imported."
+      other: "%{count} users were successfully imported."
+    turbo_confirm: "Are you sure?"

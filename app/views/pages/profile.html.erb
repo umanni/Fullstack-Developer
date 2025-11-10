@@ -1,0 +1,16 @@
+<div class="position-relative">
+  <div class="card my-3 position-absolute top-0 start-50 translate-middle-x" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <%= image_tag current_user.avatar_image.variant(:medium) || "/default-avatar-medium.png", class: "img-fluid rounded-start", alt: "avatar" %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= current_user.full_name %></h5>
+          <p class="card-text text-body-secondary"><%= current_user.email %></p>
+          <%= link_to t("user.edit.button"), edit_user_registration_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

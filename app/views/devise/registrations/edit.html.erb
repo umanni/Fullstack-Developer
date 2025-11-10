@@ -1,0 +1,56 @@
+<div class="d-flex flex-column align-items-center mt-5">
+  <h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="d-grid gap-3 mb-3">
+      <div class="field">
+        <%= f.label :full_name, class: "form-lable" %>
+        <%= f.text_field :full_name, autofocus: true, autocomplete: "full-name", class: "form-control", required: true %>
+      </div>
+
+      <div class="field">
+        <%= f.label :email, class: "form-lable" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :avatar_image, class: "form-lable" %> <i><%= t("devise.edit.avatar_image.info") %></i>
+        <%= f.file_field :avatar_image, accept:"image/png, image/jpg, image/jpeg", class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, class: "form-lable" %> <i><%= t("devise.edit.new_password.info") %></i>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+        <% if @minimum_password_length %>
+          <em><%= @minimum_password_length %> <%= t("devise.edit.new_password.min_characters") %></em>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, class: "form-lable" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :current_password, class: "form-lable" %> <i>(we need your current password to confirm your changes)</i>
+        <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", required: true %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update", class: "btn btn-primary w-100" %>
+      </div>
+        <%= link_to t("devise.edit.cancel"), profile_path, class: "btn btn-secondary w-100" %>
+    </div>
+  <% end %>
+  <br>
+  <div class="d-grid gap-3 mb-3"> 
+    <h3><%= t("devise.cancel_account") %></h3>
+    <%= button_to t("devise.cancel_account"), registration_path(resource_name), data: { confirm: t("messages.turbo_confirm"), turbo_confirm: t("messages.turbo_confirm") }, method: :delete, class: "btn btn-danger w-100" %>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+/usr/share/rvm/rubies/ruby-3.4.4/bin/ruby extconf.rb
+checking for rb_ext_ractor_safe() in ruby.h... yes
+creating Makefile
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-p3betp sitelibdir\=./.gem.20251101-12255-p3betp clean
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-p3betp sitelibdir\=./.gem.20251101-12255-p3betp
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-p3betp sitelibdir\=./.gem.20251101-12255-p3betp install
+/usr/bin/install -m 0755 escape.so ./.gem.20251101-12255-p3betp/erb
+
+current directory: /home/raphaelly/Fullstack-Developer/vendor/bundle/ruby/3.4.0/gems/erb-5.1.3/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20251101-12255-p3betp sitelibdir\=./.gem.20251101-12255-p3betp clean

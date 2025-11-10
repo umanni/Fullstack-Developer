@@ -1,0 +1,9 @@
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <li class="nav-item">
+    <%= link_to t("user.profile.title"), profile_path, class: "nav-link #{ 'active' if current_page?(profile_path) }" %>
+  </li>
+  <% if current_user.admin? %>
+    <%= render 'layouts/admin_navbar_links' %>
+  <% end %>
+</ul>
+<%= button_to t("devise.sign_out.link"), destroy_user_session_path, method: :delete, class: "btn btn-outline-secondary me-2" %>

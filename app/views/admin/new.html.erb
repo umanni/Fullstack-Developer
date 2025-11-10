@@ -1,0 +1,30 @@
+<div class="d-flex flex-column align-items-center mt-5">
+  <h2><%= t('user.new.title') %></h2>
+  
+  <%= form_for(@user, url: admin_index_path, method: :post) do |f| %>
+    <%= render "devise/shared/error_messages", resource: @user %>
+
+    <div class="d-grid gap-3 mb-3">
+      <div>
+        <%= f.label :full_name, class: "form-lable" %>
+        <%= f.text_field :full_name, autofocus: true, autocomplete: "full-name", class: "form-control", required: true %>
+      </div>
+
+      <div>
+        <%= f.label :email, class: "form-lable" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+
+      <div>
+        <%= f.label :avatar_image, class: "form-lable" %>
+        <%= f.file_field :avatar_image, class: "form-control", accept:"image/png, image/jpg, image/jpeg", required: true %>
+      </div>
+
+      <div>
+        <%= f.submit t("user.new.submit_button"), class: "btn btn-primary w-100" %>
+      </div>
+
+      <%= link_to t("user.new.cancel_button"), admin_dashboard_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

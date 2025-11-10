@@ -1,0 +1,38 @@
+en:
+  user:
+      admin:
+        dashboard:
+          link: "Dashboard"
+          create_new_user: "Create new user"
+          admin_role: "admin"
+          import_button: "Upload Users"
+          import_button_loading: "Uploading..."
+        remove_user:
+          title: "Remove this user"
+          button: "Remove user"
+      edit:
+        title: "Edit User"
+        button: "Edit"
+        submit_button: "Update"
+        cancel_button: "Cancel"
+      new:
+        link: "Create new user"
+        title: "New User"
+        submit_button: "Create user"
+        cancel_button: "Cancel"
+      profile:
+        title: "Profile"
+      remove_user: "Remove user"
+  activerecord:
+    models:
+      user: 
+        one: "user"
+        other: "users"
+    attributes:
+      role:
+        admin:
+          one: "administrator"
+          other: "administrators"
+        no_admin:
+          one: "regular user"
+          other: "regular users"

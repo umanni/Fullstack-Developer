@@ -1,0 +1,39 @@
+<div class="d-flex flex-column align-items-center mt-5">
+  <h2><%= t('user.edit.title') %></h2>
+  
+  <%= form_for(@user, url: admin_path(@user), method: :patch) do |f| %>
+    <%= render "devise/shared/error_messages", resource: @user %>
+
+    <div class="d-grid gap-3 mb-3">
+      <div class="text-center">
+        <%= image_tag @user.avatar_image.variant(:medium) || "/default-avatar-medium.png", class: "img-thumbnail rounded-circle", alt: "avatar", style: "max-height: 150px;" %>
+      </div>
+
+      <div>
+        <%= f.label :full_name, class: "form-lable" %>
+        <%= f.text_field :full_name, autofocus: true, autocomplete: "full-name", class: "form-control", required: true %>
+      </div>
+
+      <div>
+        <%= f.label :email, class: "form-lable" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+
+      <div>
+        <%= f.label :avatar_image, class: "form-lable" %>
+        <%= f.file_field :avatar_image, accept:"image/png, image/jpg, image/jpeg", class: "form-control" %>
+      </div>
+
+      <div>
+        <%= f.label :role, class: "form-lable" %>
+        <%= f.select :role, @roles_options.map { |w| [User.human_attribute_name("role.#{w}"), w] }, {}, { class: "form-select" } %>
+      </div>
+
+      <div>
+        <%= f.submit t("user.edit.submit_button"), class: "btn btn-primary w-100" %>
+      </div>
+
+      <%= link_to t("user.edit.cancel_button"), admin_dashboard_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-sm-4 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title"><%= @total_users %></h5>
+          <p class="card-text"><%= User.model_name.human(count: @total_users) %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title"><%= @total_no_admins %></h5>
+          <p class="card-text"><%= User.human_attribute_name("role.no_admin", count: @total_no_admins) %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title"><%= @total_admins %></h5>
+          <p class="card-text"><%= User.human_attribute_name("role.admin", count: @total_admins) %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

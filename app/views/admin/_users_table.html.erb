@@ -1,0 +1,46 @@
+<table class="table table-striped mt-4 table align-middle">
+  <thead class="table-light">
+    <tr>
+      <th scope="col"></th>
+      <th scope="col"><%= User.model_name.human.capitalize %></th>
+      <th scope="col"><%= User.human_attribute_name("role") %></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @records.each do |user| %>
+      <tr>
+        <td class="text-end">
+          <%= image_tag user.avatar_image.variant(:thumb) || "/default-avatar-thumb.png", class: "img-thumbnail rounded-circle", alt: "avatar" %>
+        <td>
+          <p class="fs-6"><%= user.full_name %></p>
+          <p class="text-body-secondary fs-6"><%= user.email %></p>
+        </td>
+        <td><%= User.human_attribute_name("role.#{user.role}") %></td>
+        <td>
+          <div class="dropdown">
+            <button name="Options" class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical inline"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to edit_admin_path(user), class: "dropdown-item" do %>
+                  <i class="bi bi-pencil-fill"></i>
+                  <span><%= t("user.edit.button") %></span>
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li class="text-center">
+                <%= button_to t("user.admin.remove_user.button"), admin_path(user.id), method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: t("messages.turbo_confirm") } } %>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-center">
+  <%== @pagy.series_nav(:bootstrap) %>
+</div>

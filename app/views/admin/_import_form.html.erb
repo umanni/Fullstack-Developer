@@ -1,0 +1,8 @@
+<%= form_with url: import_admin_index_path, class: "row g-3 mt-3", method: :post do |f| %>
+  <div class="col-auto">
+    <%= f.file_field :file, accept: ".csv", class: "form-control" %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit t("user.admin.dashboard.import_button"), data: { turbo_submits_with: t("user.admin.dashboard.import_button_loading") }, class: "btn btn-primary" %>
+  </div>
+<% end %>
