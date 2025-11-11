@@ -1,5 +1,7 @@
 module Admin
   class UsersController < ApplicationController
+    layout 'admin'
+    
     include Authorizable
     before_action :require_admin!
 

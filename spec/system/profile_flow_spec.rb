@@ -11,13 +11,13 @@ RSpec.describe 'Profile management', type: :system do
     expect(page).to have_content(user.email)
 
     click_link 'Editar'
-    fill_in 'Full name', with: 'Usuário Atualizado'
+    fill_in 'Nome completo', with: 'Usuário Atualizado'
     click_button 'Salvar'
 
     expect(page).to have_content('Perfil atualizado com sucesso')
     expect(page).to have_content('Usuário Atualizado')
 
-    click_link 'Excluir conta'
+    click_button 'Excluir Conta'
     expect(page).to have_content('Conta excluída com sucesso')
   end
 end

@@ -1,35 +1,80 @@
-<h1>Editar Perfil</h1>
+<section class="section">
+  <div class="container">
+    <div class="card p-6">
+      <h1 class="title has-text-primary mb-5">Editar Perfil</h1>
 
-<%= form_with model: current_user, url: profile_path, method: :patch, local: true, html: { multipart: true } do |f| %>
-  <div class="field">
-    <%= f.label :full_name, 'Full name' %>
-    <div class="control">
-      <%= f.text_field :full_name, class: 'input' %>
+      <%= form_with model: @user, url: profile_path, local: true, html: { multipart: true } do |f| %>
+        <div class="field mb-4">
+          <%= f.label :full_name, 'Nome completo', class: 'label has-text-weight-semibold' %>
+          <div class="control has-icons-left">
+            <%= f.text_field :full_name, class: 'input', placeholder: 'Seu nome completo' %>
+            <span class="icon is-left"><i class="fa fa-user"></i></span>
+          </div>
+        </div>
+
+        <div class="field mb-4">
+          <%= f.label :email, 'Email', class: 'label has-text-weight-semibold' %>
+          <div class="control has-icons-left">
+            <%= f.email_field :email, class: 'input', placeholder: 'email@exemplo.com' %>
+            <span class="icon is-left"><i class="fa fa-envelope"></i></span>
+          </div>
+        </div>
+
+        <div class="field mb-5">
+          <%= f.label :avatar, 'Foto de Perfil', class: 'label has-text-weight-semibold' %>
+          <div class="file has-name is-boxed is-fullwidth">
+            <label class="file-label">
+              <%= f.file_field :avatar, id: 'user_avatar', class: 'file-input' %>
+              <span class="file-cta">
+                <span class="file-icon"><i class="fa fa-upload"></i></span>
+                <span class="file-label">Escolher imagem…</span>
+              </span>
+              <span class="file-name" id="file-name">Nenhum arquivo selecionado</span>
+            </label>
+          </div>
+
+          <figure class="image is-128x128 mt-4">
+            <% if @user.avatar.attached? %>
+              <%= image_tag(@user.avatar, id: 'avatar-preview', class: 'is-rounded has-shadow') %>
+            <% else %>
+              <img id="avatar-preview" class="is-rounded has-shadow" style="display:none;">
+            <% end %>
+          </figure>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <%= f.submit 'Salvar alterações', class: 'button is-primary is-medium' %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
+</section>
 
-  <div class="field">
-    <%= f.label :email %>
-    <div class="control">
-      <%= f.email_field :email, class: 'input' %>
-    </div>
-  </div>
+<script>
+  // Mostra o nome do arquivo e pré-visualiza o avatar
+  document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('user_avatar');
+    const fileName = document.getElementById('file-name');
+    const preview = document.getElementById('avatar-preview');
 
-  <div class="field">
-    <%= f.label :avatar, 'Upload avatar' %>
-    <div class="control">
-      <%= f.file_field :avatar, class: 'input' %>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= f.label :avatar_url, 'Or avatar URL' %>
-    <div class="control">
-      <%= f.text_field :avatar_url, class: 'input' %>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= f.submit 'Salvar', class: 'button is-primary' %>
-  </div>
-<% end %>
+    if (fileInput) {
+      fileInput.addEventListener('change', e => {
+        const file = e.target.files[0];
+        if (file) {
+          fileName.textContent = file.name;
+          const reader = new FileReader();
+          reader.onload = e => {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          fileName.textContent = 'Nenhum arquivo selecionado';
+          preview.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>

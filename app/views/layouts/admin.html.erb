@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Umanni Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav class="navbar is-dark">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="<%= admin_dashboard_path %>">
+          <strong>Admin</strong>
+        </a>
+      </div>
+
+      <div class="navbar-menu is-active">
+        <div class="navbar-start">
+          <%= link_to 'Usuários', admin_users_path, class: 'navbar-item' %>
+          <%= link_to 'Dashboard', admin_dashboard_path, class: 'navbar-item' %>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <%= link_to 'Voltar ao App', authenticated_root_path, class: 'button is-light' %>
+            <%= button_to 'Sair', destroy_user_session_path, method: :delete, class: 'button is-danger ml-2' %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="container">
+        <% flash.each do |key, message| %>
+          <div class="notification is-<%= key == 'notice' ? 'success' : 'danger' %>">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <div class="card mt-5">
+          <div class="card-content">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Admin Panel — Umanni</p>
+    </footer>
+  </body>
+</html>

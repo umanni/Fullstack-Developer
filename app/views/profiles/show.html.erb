@@ -1,18 +1,26 @@
-<h1>Meu Perfil</h1>
+<section class="section">
+  <div class="container">
+    <div class="card has-text-centered p-6">
+      <h1 class="title has-text-primary mb-5">Meu Perfil</h1>
 
-<p><strong>Nome:</strong> <%= current_user.full_name %></p>
-<p><strong>Email:</strong> <%= current_user.email %></p>
+      <figure class="image is-128x128 is-inline-block mb-4">
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar, class: 'is-rounded has-shadow' %>
+        <% else %>
+          <img src="https://via.placeholder.com/128" class="is-rounded has-shadow">
+        <% end %>
+      </figure>
 
-<% if current_user.avatar.attached? %>
-  <div class="avatar">
-    <%= image_tag url_for(current_user.avatar.variant(resize_to_limit: [150, 150])) %>
-  </div>
-<% end %>
+      <p class="mb-2"><strong>Nome:</strong> <%= @user.full_name %></p>
+      <p class="mb-4"><strong>Email:</strong> <%= @user.email %></p>
 
-<div class="buttons">
-  <%= link_to 'Editar', edit_profile_path, class: 'button is-link' %>
-  <%= link_to 'Excluir conta', profile_path,
+      <div class="buttons is-centered mt-5">
+        <%= link_to 'Editar Perfil', edit_profile_path, class: 'button is-primary' %>
+        <%= button_to 'Excluir Conta', profile_path,
               method: :delete,
-              data: { confirm: 'Tem certeza?' },
+              data: { confirm: 'Tem certeza que deseja excluir sua conta?' },
               class: 'button is-danger' %>
-</div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,11 +1,36 @@
-<section class="section">
+<section class="section" style="background: linear-gradient(135deg, #1e1f3b 0%, #5a4fcf 100%); min-height: 100vh; display: flex; align-items: center;">
   <div class="container">
-    <h1 class="title">Welcome, <%= @user.full_name %>!</h1>
-    <p class="subtitle">Role: <span class="tag is-primary"><%= @user.role %></span></p>
-    
-    <div class="buttons">
-      <%= link_to 'Edit Profile', edit_user_registration_path, class: 'button is-info' %>
-      <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'button is-danger' %>
+    <div class="card p-6 has-text-centered" style="border-radius: 16px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); background-color: #ffffff;">
+      
+      <h1 class="title mb-3" style="color: #2b2d42; font-weight: 700;">
+        Welcome, <%= @user.full_name %>!
+      </h1>
+
+      <p class="subtitle mb-5" style="color: #4a4a4a;">
+        Role: 
+        <span class="tag" style="background-color: #e5e4fa; color: #5a4fcf; font-weight: 600; border-radius: 8px; padding: 0.4em 0.8em;">
+          <%= @user.role %>
+        </span>
+      </p>
+
+      <div class="buttons is-centered mt-5">
+        <%= link_to 'Edit Profile', edit_user_registration_path, class: 'button', style: 'background-color: #5a4fcf; color: white; border: none; font-weight: 500; border-radius: 8px; padding: 0.75em 1.5em; transition: 0.3s;' %>
+
+        <%= button_to 'Logout', destroy_user_session_path, method: :delete,
+              class: 'button',
+              style: 'background-color: #e63946; color: white; border: none; font-weight: 500; border-radius: 8px; padding: 0.75em 1.5em; transition: 0.3s;' %>
+      </div>
+
     </div>
   </div>
 </section>
+
+<script>
+  // Efeito de hover suave para os botões (JS inline por simplicidade)
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".button").forEach(btn => {
+      btn.addEventListener("mouseenter", () => btn.style.opacity = "0.85");
+      btn.addEventListener("mouseleave", () => btn.style.opacity = "1");
+    });
+  });
+</script>
