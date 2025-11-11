@@ -1,0 +1,74 @@
+<section class="section">
+  <div class="container">
+    <div class="card p-6">
+      <h1 class="title has-text-primary has-text-centered mb-5">Gerenciamento de Usuários</h1>
+
+      <!-- Barra de busca e botão -->
+      <div class="level">
+        <div class="level-left is-flex-grow-1">
+          <%= form_with url: admin_users_path, method: :get, local: true, class: "is-fullwidth" do |f| %>
+            <div class="field has-addons is-fullwidth">
+              <div class="control is-expanded">
+                <%= f.text_field :q, value: @query, placeholder: "Buscar por nome ou email", class: "input is-rounded" %>
+              </div>
+              <div class="control">
+                <%= f.submit "Buscar", class: "button is-primary" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="level-right">
+          <div class="control">
+            <%= link_to "Novo Usuário", new_admin_user_path, class: "button is-link is-rounded" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela estilizada -->
+      <div class="table-container mt-5">
+        <table class="table is-fullwidth is-hoverable is-striped has-text-centered">
+          <thead style="background-color: #5a4fcf; color: white;">
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Função</th>
+              <th class="has-text-centered">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><strong><%= user.full_name %></strong></td>
+                <td><%= user.email %></td>
+                <td>
+                  <% if user.admin? %>
+                    <span class="tag is-primary is-light">admin</span>
+                  <% else %>
+                    <span class="tag is-info is-light">user</span>
+                  <% end %>
+                </td>
+                <td class="has-text-centered">
+                  <%= link_to edit_admin_user_path(user), class: "button is-small is-info is-light mr-2" do %>
+                    <span class="icon"><i class="fas fa-edit"></i></span>
+                  <% end %>
+
+                  <%= link_to admin_user_path(user),
+                              method: :delete,
+                              data: { confirm: "Tem certeza que deseja excluir #{user.full_name}?" },
+                              class: "button is-small is-danger is-light" do %>
+                    <span class="icon"><i class="fas fa-trash"></i></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <% if @users.empty? %>
+        <p class="has-text-centered has-text-grey mt-5">Nenhum usuário encontrado.</p>
+      <% end %>
+    </div>
+  </div>
+</section>

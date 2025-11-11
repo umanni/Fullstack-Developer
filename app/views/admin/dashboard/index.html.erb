@@ -1,0 +1,38 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title has-text-centered">Painel Administrativo</h1>
+    <p class="subtitle has-text-centered">Visão geral do sistema</p>
+
+    <div class="columns is-multiline mt-5">
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-primary">
+            <i class="fas fa-users fa-2x"></i>
+          </span>
+          <h2 class="title is-4 mt-2">Usuários Totais</h2>
+          <p class="is-size-3 has-text-weight-bold"><%= User.count %></p>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-info">
+            <i class="fas fa-user fa-2x"></i>
+          </span>
+          <h2 class="title is-4 mt-2">Usuários Comuns</h2>
+          <p class="is-size-3 has-text-weight-bold"><%= User.user.count %></p>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="box has-text-centered">
+          <span class="icon is-large has-text-danger">
+            <i class="fas fa-user-shield fa-2x"></i>
+          </span>
+          <h2 class="title is-4 mt-2">Administradores</h2>
+          <p class="is-size-3 has-text-weight-bold"><%= User.admin.count %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

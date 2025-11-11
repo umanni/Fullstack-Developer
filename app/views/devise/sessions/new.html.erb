@@ -1,0 +1,48 @@
+<section class="section" style="background: linear-gradient(135deg, #232946 0%, #5a4fcf 100%); min-height: 100vh; display: flex; align-items: center;">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+        <div class="card p-5" style="border-radius: 14px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);">
+          <h2 class="title has-text-centered has-text-primary mb-5">Log in</h2>
+
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="field mb-4">
+              <%= f.label :email, class: 'label has-text-weight-semibold' %>
+              <div class="control has-icons-left">
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input is-medium', placeholder: 'your@email.com' %>
+                <span class="icon is-left"><i class="fa fa-envelope"></i></span>
+              </div>
+            </div>
+
+            <div class="field mb-4">
+              <%= f.label :password, class: 'label has-text-weight-semibold' %>
+              <div class="control has-icons-left">
+                <%= f.password_field :password, autocomplete: "current-password", class: 'input is-medium', placeholder: '••••••••' %>
+                <span class="icon is-left"><i class="fa fa-lock"></i></span>
+              </div>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+              <div class="field mb-4">
+                <label class="checkbox has-text-grey-dark">
+                  <%= f.check_box :remember_me %>
+                  Remember me
+                </label>
+              </div>
+            <% end %>
+
+            <div class="field">
+              <div class="control">
+                <%= f.submit "Log in", class: 'button is-primary is-fullwidth is-medium' %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="has-text-centered mt-4">
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

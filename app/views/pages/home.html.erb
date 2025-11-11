@@ -1,0 +1,23 @@
+<section class="hero is-fullheight" style="background: linear-gradient(120deg, #5a4fcf, #232946); color: white;">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title is-1 mb-4" style="color: white;">Umanni Fullstack Challenge</h1>
+      <p class="subtitle is-4" style="color: #eebbc3;">Sistema de Gestão de Usuários</p>
+
+      <% if user_signed_in? %>
+        <div class="buttons is-centered mt-6">
+          <%= link_to "Meu Perfil", profile_path, class: "button is-light is-medium" %>
+          <% if current_user.admin? %>
+            <%= link_to "Painel Admin", admin_dashboard_path, class: "button is-primary is-medium" %>
+          <% end %>
+          <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "button is-danger is-medium" %>
+        </div>
+      <% else %>
+        <div class="buttons is-centered mt-6">
+          <%= link_to "Entrar", new_user_session_path, class: "button is-primary is-medium" %>
+          <%= link_to "Cadastrar", new_user_registration_path, class: "button is-light is-medium" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

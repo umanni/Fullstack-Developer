@@ -1,0 +1,26 @@
+<section class="section">
+  <div class="container">
+    <div class="card has-text-centered p-6">
+      <h1 class="title has-text-primary mb-5">Meu Perfil</h1>
+
+      <figure class="image is-128x128 is-inline-block mb-4">
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar, class: 'is-rounded has-shadow' %>
+        <% else %>
+          <img src="https://via.placeholder.com/128" class="is-rounded has-shadow">
+        <% end %>
+      </figure>
+
+      <p class="mb-2"><strong>Nome:</strong> <%= @user.full_name %></p>
+      <p class="mb-4"><strong>Email:</strong> <%= @user.email %></p>
+
+      <div class="buttons is-centered mt-5">
+        <%= link_to 'Editar Perfil', edit_profile_path, class: 'button is-primary' %>
+        <%= button_to 'Excluir Conta', profile_path,
+              method: :delete,
+              data: { confirm: 'Tem certeza que deseja excluir sua conta?' },
+              class: 'button is-danger' %>
+      </div>
+    </div>
+  </div>
+</section>
