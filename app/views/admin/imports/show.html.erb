@@ -1,0 +1,229 @@
+<% content_for :title, "Import Details - #{@import.file_name}" %>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1>Import Details</h1>
+      <p class="text-muted">
+        <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+        <%= @import.file_name %>
+      </p>
+    </div>
+    <%= link_to admin_imports_path, class: "btn btn-outline-secondary" do %>
+      <i class="bi bi-arrow-left me-2"></i>Back to Imports
+    <% end %>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-graph-up me-2"></i>Import Progress
+            </h5>
+            <% if @import.processing? %>
+              <span class="live-indicator">Live Updates</span>
+            <% end %>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <% case @import.status %>
+            <% when 'pending' %>
+              <span class="badge bg-warning fs-6">
+                <i class="bi bi-clock me-2"></i>Waiting to Start
+              </span>
+            <% when 'processing' %>
+              <span class="badge bg-primary fs-6">
+                <i class="bi bi-gear me-2"></i>Processing
+              </span>
+            <% when 'completed' %>
+              <span class="badge bg-success fs-6">
+                <i class="bi bi-check-circle me-2"></i>Completed Successfully
+              </span>
+            <% when 'failed' %>
+              <span class="badge bg-danger fs-6">
+                <i class="bi bi-x-circle me-2"></i>Failed
+              </span>
+            <% end %>
+          </div>
+
+          <div class="import-progress-section">
+            <div class="import-status">
+              <span class="status-text" id="progress-text">
+                <%= @import.processed_rows %> of <%= @import.total_rows %> rows processed
+              </span>
+              <span class="status-percentage" id="progress-percentage">
+                <%= @import.progress.round(1) %>%
+              </span>
+            </div>
+            <div class="progress progress-import">
+              <div class="progress-bar bg-primary" 
+                   role="progressbar" 
+                   style="width: <%= @import.progress %>%"
+                   id="progress-bar"
+                   data-import-id="<%= @import.id %>">
+                <%= @import.progress.round(1) %>%
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-3">
+              <div class="text-center">
+                <h4 class="text-primary mb-1" id="total-rows"><%= @import.total_rows %></h4>
+                <small class="text-muted">Total Rows</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-center">
+                <h4 class="text-success mb-1" id="successful-rows"><%= @import.successful_rows %></h4>
+                <small class="text-muted">Successful</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-center">
+                <h4 class="text-danger mb-1" id="failed-rows"><%= @import.failed_rows %></h4>
+                <small class="text-muted">Failed</small>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="text-center">
+                <h4 class="text-info mb-1" id="success-rate">
+                  <%= @import.success_rate.round(1) %>%
+                </h4>
+                <small class="text-muted">Success Rate</small>
+              </div>
+            </div>
+          </div>
+
+          <% if @import.processing? && @import.estimated_time_remaining %>
+            <div class="mt-3 p-3 bg-light rounded">
+              <small class="text-muted">
+                <i class="bi bi-clock me-2"></i>
+                Estimated time remaining: 
+                <span id="estimated-time">
+                  <%= distance_of_time_in_words(@import.estimated_time_remaining) %>
+                </span>
+              </small>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="bi bi-info-circle me-2"></i>Import Details
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label class="form-label">File Name</label>
+            <p class="mb-0"><%= @import.file_name %></p>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Started By</label>
+            <p class="mb-0"><%= @import.user.display_name %></p>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Started At</label>
+            <p class="mb-0">
+              <%= @import.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+            </p>
+          </div>
+          
+          <% if @import.completed? || @import.failed? %>
+            <div class="mb-3">
+              <label class="form-label">
+                <%= @import.completed? ? 'Completed At' : 'Failed At' %>
+              </label>
+              <p class="mb-0">
+                <%= @import.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+              </p>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Duration</label>
+              <p class="mb-0">
+                <%= distance_of_time_in_words(@import.created_at, @import.updated_at) %>
+              </p>
+            </div>
+          <% end %>
+          <% if @import.file.attached? %>
+            <%= link_to @import.file, 
+                  class: "btn btn-outline-primary",
+                  download: @import.file_name do %>
+              <i class="bi bi-download me-2"></i>Download Original File
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @import.error_details.present? %>
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="card-title mb-0">
+          <i class="bi bi-exclamation-triangle me-2"></i>Error Details
+        </h5>
+      </div>
+      <div class="card-body">
+        <pre class="bg-light p-3 rounded"><%= @import.error_details %></pre>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @import.processing? %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const importId = <%= @import.id %>;
+
+      App.importProgress = App.cable.subscriptions.create({
+        channel: "ImportProgressChannel",
+        import_id: importId
+      }, {
+        received: function(data) {
+          if (data.type === 'progress_update') {
+            updateProgress(data.import);
+          }
+        }
+      });
+
+      setInterval(function() {
+        fetch('/admin/imports/<%= @import.id %>.json')
+          .then(response => response.json())
+          .then(data => updateProgress(data))
+          .catch(error => console.error('Error:', error));
+      }, 5000);
+    });
+    
+    function updateProgress(importData) {
+
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const progressPercentage = document.getElementById('progress-percentage');
+      
+      progressBar.style.width = importData.progress + '%';
+      progressBar.textContent = importData.progress.toFixed(1) + '%';
+      progressText.textContent = importData.processed_rows + ' of ' + importData.total_rows + ' rows processed';
+      progressPercentage.textContent = importData.progress.toFixed(1) + '%';
+
+      document.getElementById('successful-rows').textContent = importData.successful_rows;
+      document.getElementById('failed-rows').textContent = importData.failed_rows;
+      document.getElementById('success-rate').textContent = importData.success_rate.toFixed(1) + '%';
+
+      if (importData.status === 'completed' || importData.status === 'failed') {
+        setTimeout(() => window.location.reload(), 2000);
+      }
+    }
+  </script>
+<% end %>

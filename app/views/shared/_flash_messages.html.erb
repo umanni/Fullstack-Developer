@@ -1,0 +1,70 @@
+<% if notice || alert || flash.any? %>
+  <% 
+    # Check if we're in an authentication page
+    is_auth_page = params[:controller]&.include?('devise') || 
+                   request.path.include?('/sign_in') || 
+                   request.path.include?('/sign_up') || 
+                   request.path.include?('/password')
+  %>
+  
+  <div class="flash-messages-container <%= 'auth-page' if is_auth_page %>" id="flashMessages">
+    <div class="container">
+      <% flash.each do |type, message| %>
+        <% 
+          # Map Rails flash types to Bootstrap alert classes
+          alert_class = case type.to_s
+                       when 'notice' then 'alert-success'
+                       when 'alert' then 'alert-danger'
+                       when 'error' then 'alert-danger'
+                       when 'warning' then 'alert-warning'
+                       when 'info' then 'alert-info'
+                       else 'alert-info'
+                       end
+        %>
+        <div class="alert <%= alert_class %> alert-dismissible fade show auto-hide" role="alert">
+          <% case type.to_s %>
+          <% when 'notice' %>
+            <i class="bi bi-check-circle me-2"></i>
+          <% when 'alert', 'error' %>
+            <i class="bi bi-exclamation-triangle me-2"></i>
+          <% when 'warning' %>
+            <i class="bi bi-exclamation-circle me-2"></i>
+          <% when 'info' %>
+            <i class="bi bi-info-circle me-2"></i>
+          <% end %>
+          <%= message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Auto-hide flash messages after 5 seconds
+      const alerts = document.querySelectorAll('.alert.auto-hide');
+      alerts.forEach(function(alert) {
+        setTimeout(function() {
+          const bsAlert = new bootstrap.Alert(alert);
+          bsAlert.close();
+        }, 5000);
+      });
+      
+      // Remove flash messages container when empty
+      const flashContainer = document.getElementById('flashMessages');
+      if (flashContainer) {
+        const observer = new MutationObserver(function(mutations) {
+          const alerts = flashContainer.querySelectorAll('.alert');
+          if (alerts.length === 0) {
+            flashContainer.remove();
+          }
+        });
+        
+        observer.observe(flashContainer, {
+          childList: true,
+          subtree: true
+        });
+      }
+    });
+  </script>
+<% end %>

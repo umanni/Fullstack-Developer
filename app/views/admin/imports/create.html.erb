@@ -1,0 +1,327 @@
+<% content_for :title, "Import Started" %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <% if @import&.persisted? %>
+        <div class="card text-center">
+          <div class="card-body py-5">
+            <div class="success-icon mb-4">
+              <i class="bi bi-check-circle text-success" style="font-size: 4rem;"></i>
+            </div>
+            
+            <h2 class="mb-3">Import Started Successfully</h2>
+            <p class="text-muted mb-4">
+              Your file "<strong><%= @import.file_name %></strong>" has been uploaded and is now being processed.
+            </p>
+            
+            <div class="row justify-content-center mb-4">
+              <div class="col-md-8">
+                <div class="import-info bg-light rounded p-3">
+                  <div class="row text-center">
+                    <div class="col-4">
+                      <h5 class="text-primary mb-1"><%= @import.total_rows %></h5>
+                      <small class="text-muted">Total Rows</small>
+                    </div>
+                    <div class="col-4">
+                      <h5 class="text-warning mb-1">
+                        <%= @import.status.humanize %>
+                      </h5>
+                      <small class="text-muted">Current Status</small>
+                    </div>
+                    <div class="col-4">
+                      <h5 class="text-info mb-1">
+                        <%= time_ago_in_words(@import.created_at) %> ago
+                      </h5>
+                      <small class="text-muted">Started</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex gap-3 justify-content-center">
+              <%= link_to admin_import_path(@import), class: "btn btn-primary" do %>
+                <i class="bi bi-eye me-2"></i>View Progress
+              <% end %>
+              
+              <%= link_to admin_imports_path, class: "btn btn-outline-secondary" do %>
+                <i class="bi bi-list me-2"></i>All Imports
+              <% end %>
+              
+              <%= link_to admin_users_path, class: "btn btn-outline-success" do %>
+                <i class="bi bi-people me-2"></i>Manage Users
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-info-circle me-2"></i>What Happens Next?
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="timeline">
+              <div class="timeline-item active">
+                <div class="timeline-marker">
+                  <i class="bi bi-check-circle text-success"></i>
+                </div>
+                <div class="timeline-content">
+                  <h6>File Uploaded</h6>
+                  <p class="text-muted mb-0">Your file has been successfully uploaded and validated.</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <i class="bi bi-gear text-primary"></i>
+                </div>
+                <div class="timeline-content">
+                  <h6>Processing Rows</h6>
+                  <p class="text-muted mb-0">Each row is being processed and new users are being created.</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <i class="bi bi-envelope text-info"></i>
+                </div>
+                <div class="timeline-content">
+                  <h6>Notifications Sent</h6>
+                  <p class="text-muted mb-0">Welcome emails will be sent to newly created users.</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item">
+                <div class="timeline-marker">
+                  <i class="bi bi-flag text-success"></i>
+                </div>
+                <div class="timeline-content">
+                  <h6>Import Complete</h6>
+                  <p class="text-muted mb-0">You'll receive a summary of the import results.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-broadcast me-2"></i>Live Progress Updates
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-info mb-3">
+              <i class="bi bi-lightning me-2"></i>
+              <strong>Real-time Updates:</strong> This page will automatically update as your import progresses.
+            </div>
+            
+            <div class="import-status-widget">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span>Current Progress</span>
+                <span class="text-muted" id="progress-text">
+                  <%= @import.processed_rows %> / <%= @import.total_rows %> rows
+                </span>
+              </div>
+              
+              <div class="progress">
+                <div class="progress-bar bg-primary" 
+                     role="progressbar" 
+                     style="width: <%= @import.progress %>%"
+                     id="progress-bar"
+                     data-import-id="<%= @import.id %>">
+                  <%= @import.progress.round(1) %>%
+                </div>
+              </div>
+              
+              <div class="d-flex justify-content-between mt-2">
+                <small class="text-muted">
+                  Status: <span id="status-text"><%= @import.status.humanize %></span>
+                </small>
+                <small class="text-muted">
+                  <span id="success-rate"><%= @import.success_rate.round(1) %>%</span> success rate
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      <% else %>
+        <div class="card text-center">
+          <div class="card-body py-5">
+            <div class="error-icon mb-4">
+              <i class="bi bi-exclamation-triangle text-danger" style="font-size: 4rem;"></i>
+            </div>
+            
+            <h2 class="mb-3">Import Failed to Start</h2>
+            <p class="text-muted mb-4">
+              There was an error processing your file. Please check the requirements and try again.
+            </p>
+            
+            <% if @import&.errors&.any? %>
+              <div class="alert alert-danger text-start mb-4">
+                <h6><i class="bi bi-exclamation-circle me-2"></i>Errors:</h6>
+                <ul class="mb-0">
+                  <% @import.errors.full_messages.each do |error| %>
+                    <li><%= error %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            
+            <div class="d-flex gap-3 justify-content-center">
+              <%= link_to admin_imports_path, class: "btn btn-primary" do %>
+                <i class="bi bi-arrow-repeat me-2"></i>Try Again
+              <% end %>
+              
+              <%= link_to admin_users_path, class: "btn btn-outline-secondary" do %>
+                <i class="bi bi-people me-2"></i>Manage Users
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-tools me-2"></i>Troubleshooting
+            </h5>
+          </div>
+          <div class="card-body">
+            <h6>Common Issues:</h6>
+            <ul class="mb-3">
+              <li><strong>File Format:</strong> Make sure your file is in CSV, XLS, or XLSX format</li>
+              <li><strong>File Size:</strong> Files must be under 10MB in size</li>
+              <li><strong>Required Columns:</strong> Ensure your file has 'full_name' and 'email' columns</li>
+              <li><strong>Email Format:</strong> All email addresses must be valid</li>
+              <li><strong>Unique Emails:</strong> Email addresses must be unique in your file</li>
+            </ul>
+            
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle me-2"></i>
+              <strong>Need Help?</strong> Check our documentation or contact support for assistance with file formatting.
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% if @import&.persisted? %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const importId = <%= @import.id %>;
+
+      if (typeof App !== 'undefined' && App.cable) {
+        App.importProgress = App.cable.subscriptions.create({
+          channel: "ImportProgressChannel",
+          import_id: importId
+        }, {
+          received: function(data) {
+            if (data.type === 'progress_update') {
+              updateProgress(data.import);
+            }
+          }
+        });
+      }
+
+      const updateInterval = setInterval(function() {
+        fetch(`/admin/imports/${importId}.json`)
+          .then(response => response.json())
+          .then(data => {
+            updateProgress(data);
+
+            if (data.status === 'completed' || data.status === 'failed') {
+              clearInterval(updateInterval);
+              setTimeout(() => {
+                window.location.href = `/admin/imports/${importId}`;
+              }, 3000);
+            }
+          })
+          .catch(error => console.error('Error fetching progress:', error));
+      }, 3000);
+
+      setTimeout(() => {
+        window.location.href = `/admin/imports/${importId}`;
+      }, 30000);
+    });
+    
+    function updateProgress(importData) {
+
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const statusText = document.getElementById('status-text');
+      const successRate = document.getElementById('success-rate');
+      
+      if (progressBar) {
+        progressBar.style.width = importData.progress + '%';
+        progressBar.textContent = importData.progress.toFixed(1) + '%';
+      }
+      
+      if (progressText) {
+        progressText.textContent = `${importData.processed_rows} / ${importData.total_rows} rows`;
+      }
+      
+      if (statusText) {
+        statusText.textContent = importData.status.charAt(0).toUpperCase() + importData.status.slice(1);
+      }
+      
+      if (successRate) {
+        successRate.textContent = importData.success_rate.toFixed(1) + '%';
+      }
+    }
+  </script>
+<% end %>
+
+<style>
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+  border-left: 2px solid #e9ecef;
+}
+
+.timeline-item:last-child {
+  border-left: none;
+}
+
+.timeline-item.active {
+  border-left-color: #0d6efd;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -0.6rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.timeline-content {
+  padding-left: 1rem;
+}
+
+.timeline-content h6 {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.import-status-widget {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.375rem;
+}
+</style>

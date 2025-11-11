@@ -1,0 +1,89 @@
+<% content_for :title, "Sign In" %>
+
+<div class="auth-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="auth-card">
+          <div class="auth-header">
+            <div class="auth-icon">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to your account</p>
+          </div>
+
+          <%= render 'devise/shared/flash_messages' %>
+          <%= render 'devise/shared/error_messages', resource: resource %>
+
+          <%= form_with model: resource, 
+                as: resource_name, 
+                url: session_path(resource_name), 
+                local: true,
+                html: { class: "auth-form needs-validation", novalidate: true } do |f| %>
+            
+            <div class="form-group">
+              <%= f.label :email, class: "form-label" %>
+              <%= f.email_field :email, 
+                    class: "form-control",
+                    placeholder: "Enter your email",
+                    autofocus: true,
+                    autocomplete: "email",
+                    required: true %>
+              <div class="invalid-feedback">
+                Please enter a valid email address.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :password, class: "form-label" %>
+              <%= f.password_field :password, 
+                    class: "form-control",
+                    placeholder: "Enter your password",
+                    autocomplete: "current-password",
+                    required: true %>
+              <div class="invalid-feedback">
+                Please enter your password.
+              </div>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+              <div class="form-check mb-3">
+                <%= f.check_box :remember_me, class: "form-check-input" %>
+                <%= f.label :remember_me, "Keep me signed in", class: "form-check-label" %>
+              </div>
+            <% end %>
+
+            <div class="d-grid">
+              <%= f.submit "Sign In", class: "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+
+          <div class="auth-divider">
+            <span>or</span>
+          </div>
+
+          <div class="auth-links">
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Form validation
+  const form = document.querySelector('.auth-form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  }
+});
+</script>

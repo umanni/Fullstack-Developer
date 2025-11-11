@@ -1,0 +1,43 @@
+# Development Dockerfile
+ARG RUBY_VERSION=3.4.4
+FROM docker.io/library/ruby:$RUBY_VERSION-slim
+
+# Rails app lives here
+WORKDIR /rails
+
+# Install base packages for development
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential \
+    curl \
+    git \
+    libpq-dev \
+    libvips \
+    libyaml-dev \
+    pkg-config \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Set development environment
+ENV RAILS_ENV="development" \
+    BUNDLE_PATH="/usr/local/bundle"
+
+# Copy Gemfile and install gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Copy application code
+COPY . .
+
+# Copy entrypoint script
+COPY docker-entrypoint.dev.sh /usr/bin/
+RUN chmod +x /usr/bin/docker-entrypoint.dev.sh
+
+# Set entrypoint
+ENTRYPOINT ["/usr/bin/docker-entrypoint.dev.sh"]
+
+# Expose port
+EXPOSE 3000
+
+# Default command
+CMD ["rails", "server", "-b", "0.0.0.0"]

@@ -1,0 +1,45 @@
+<%- if controller_name != 'sessions' %>
+  <%= link_to new_session_path(resource_name), class: "btn btn-outline-primary w-100" do %>
+    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+  <% end %>
+<% end %>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%= link_to new_registration_path(resource_name), class: "btn btn-outline-success w-100 mt-2" do %>
+    <i class="bi bi-person-plus me-2"></i>Create Account
+  <% end %>
+<% end %>
+
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+  <div class="text-center mt-3">
+    <%= link_to new_password_path(resource_name), class: "text-decoration-none" do %>
+      <i class="bi bi-key me-1"></i>Forgot your password?
+    <% end %>
+  </div>
+<% end %>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <div class="text-center mt-2">
+    <%= link_to new_confirmation_path(resource_name), class: "text-decoration-none" do %>
+      <i class="bi bi-envelope me-1"></i>Didn't receive confirmation instructions?
+    <% end %>
+  </div>
+<% end %>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <div class="text-center mt-2">
+    <%= link_to new_unlock_path(resource_name), class: "text-decoration-none" do %>
+      <i class="bi bi-unlock me-1"></i>Didn't receive unlock instructions?
+    <% end %>
+  </div>
+<% end %>
+
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= button_to omniauth_authorize_path(resource_name, provider), 
+          class: "btn btn-outline-secondary w-100 mt-2",
+          data: { turbo: false } do %>
+      <i class="bi bi-globe me-2"></i>Sign in with <%= OmniAuth::Utils.camelize(provider) %>
+    <% end %>
+  <% end %>
+<% end %>

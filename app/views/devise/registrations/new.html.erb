@@ -1,0 +1,175 @@
+<% content_for :title, "Create Account" %>
+
+<div class="auth-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-4">
+        <div class="auth-card ">
+          <div class="auth-header ">
+            <div class="auth-icon">
+              <i class="bi bi-person-plus"></i>
+            </div>
+            <h2 class="auth-title">Create Account</h2>
+            <p class="auth-subtitle">Join our platform today</p>
+          </div>
+
+          <%= render 'devise/shared/flash_messages' %>
+          <%= render 'devise/shared/error_messages', resource: resource %>
+
+          <%= form_with model: resource, 
+                as: resource_name, 
+                url: registration_path(resource_name), 
+                local: true,
+                html: { 
+                  class: "auth-form needs-validation", 
+                  novalidate: true,
+                  multipart: true 
+                } do |f| %>
+            
+            <div class="form-group">
+              <%= f.label :full_name, class: "form-label" %>
+              <%= f.text_field :full_name, 
+                    class: "form-control #{'is-invalid' if resource.errors[:full_name].present?}",
+                    placeholder: "Enter your full name",
+                    autofocus: true,
+                    required: true %>
+              <% if resource.errors[:full_name].present? %>
+                <div class="invalid-feedback">
+                  <%= resource.errors[:full_name].first %>
+                </div>
+              <% else %>
+                <div class="invalid-feedback">
+                  Please enter your full name.
+                </div>
+              <% end %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :email, class: "form-label" %>
+              <%= f.email_field :email, 
+                    class: "form-control #{'is-invalid' if resource.errors[:email].present?}",
+                    placeholder: "Enter your email address",
+                    autocomplete: "email",
+                    required: true %>
+              <% if resource.errors[:email].present? %>
+                <div class="invalid-feedback">
+                  <%= resource.errors[:email].first %>
+                </div>
+              <% else %>
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
+              <% end %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :password, class: "form-label" %>
+              <%= f.password_field :password, 
+                    class: "form-control #{'is-invalid' if resource.errors[:password].present?}",
+                    placeholder: "Create a password",
+                    autocomplete: "new-password",
+                    required: true,
+                    minlength: (@minimum_password_length || 6) %>
+              <% if resource.errors[:password].present? %>
+                <div class="invalid-feedback">
+                  <%= resource.errors[:password].first %>
+                </div>
+              <% else %>
+                <div class="form-text">
+                  <% if @minimum_password_length %>
+                    Minimum <%= @minimum_password_length %> characters required.
+                  <% else %>
+                    Choose a strong password.
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+              <%= f.password_field :password_confirmation, 
+                    class: "form-control #{'is-invalid' if resource.errors[:password_confirmation].present?}",
+                    placeholder: "Confirm your password",
+                    autocomplete: "new-password",
+                    required: true %>
+              <% if resource.errors[:password_confirmation].present? %>
+                <div class="invalid-feedback">
+                  <%= resource.errors[:password_confirmation].first %>
+                </div>
+              <% else %>
+                <div class="invalid-feedback">
+                  Please confirm your password.
+                </div>
+              <% end %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :avatar, "Profile Picture (Optional)", class: "form-label" %>
+              <%= f.file_field :avatar, 
+                    class: "form-control #{'is-invalid' if resource.errors[:avatar].present?}",
+                    accept: "image/*" %>
+              <% if resource.errors[:avatar].present? %>
+                <div class="invalid-feedback">
+                  <%= resource.errors[:avatar].first %>
+                </div>
+              <% else %>
+                <div class="form-text">
+                  Upload a profile picture (JPG, PNG, or GIF). Max size: 5MB.
+                </div>
+              <% end %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Create Account", class: "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+
+          <div class="auth-divider">
+            <span>or</span>
+          </div>
+
+          <div class="auth-links">
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Form validation
+  const form = document.querySelector('.auth-form');
+  const passwordField = document.querySelector('#user_password');
+  const confirmField = document.querySelector('#user_password_confirmation');
+  
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  }
+
+  // Password confirmation validation
+  if (passwordField && confirmField) {
+    function validatePasswordMatch() {
+      if (passwordField.value !== '' && confirmField.value !== '') {
+        if (passwordField.value !== confirmField.value) {
+          confirmField.setCustomValidity('Passwords do not match');
+          confirmField.classList.add('is-invalid');
+        } else {
+          confirmField.setCustomValidity('');
+          confirmField.classList.remove('is-invalid');
+        }
+      }
+    }
+    
+    passwordField.addEventListener('input', validatePasswordMatch);
+    confirmField.addEventListener('input', validatePasswordMatch);
+  }
+});
+</script>

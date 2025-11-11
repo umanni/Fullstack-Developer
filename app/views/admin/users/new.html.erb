@@ -1,0 +1,313 @@
+<% content_for :title, "Create New User" %>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1>Create New User</h1>
+      <p class="text-muted">Add a new user to the system</p>
+    </div>
+    <div>
+      <%= link_to admin_users_path, class: "btn btn-outline-secondary" do %>
+        <i class="bi bi-arrow-left me-2"></i>Back to Users
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-8">
+      <%= form_with model: [:admin, @user], local: true, html: { 
+            multipart: true, 
+            class: "needs-validation", 
+            novalidate: true,
+            id: "new-user-form"
+          } do |form| %>
+
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-person me-2"></i>Personal Information
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <%= form.label :full_name, class: "form-label required" %>
+                <%= form.text_field :full_name, 
+                      class: "form-control #{'is-invalid' if @user.errors[:full_name].present?}",
+                      placeholder: "Enter full name",
+                      required: true,
+                      autofocus: true %>
+                <% if @user.errors[:full_name].present? %>
+                  <div class="invalid-feedback">
+                    <%= @user.errors[:full_name].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">User's full name as it will appear throughout the system.</div>
+                <% end %>
+              </div>
+              
+              <div class="col-md-6">
+                <%= form.label :email, class: "form-label required" %>
+                <%= form.email_field :email, 
+                      class: "form-control #{'is-invalid' if @user.errors[:email].present?}",
+                      placeholder: "Enter email address",
+                      required: true %>
+                <% if @user.errors[:email].present? %>
+                  <div class="invalid-feedback">
+                    <%= @user.errors[:email].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">Must be a valid email address.</div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <%= form.label :role, class: "form-label required" %>
+                <%= form.select :role, 
+                      options_for_select([
+                        ['Regular User', 'user', { 'data-description': 'Standard user with basic permissions' }],
+                        ['Administrator', 'admin', { 'data-description': 'Full system access and user management' }]
+                      ], @user.role || 'user'),
+                      {},
+                      { 
+                        class: "form-select #{'is-invalid' if @user.errors[:role].present?}",
+                        id: "user_role"
+                      } %>
+                <% if @user.errors[:role].present? %>
+                  <div class="invalid-feedback">
+                    <%= @user.errors[:role].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text" id="role-description">
+                    Standard user with basic permissions
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="col-md-6">
+                <%= form.label :avatar, "Profile Picture", class: "form-label" %>
+                <%= form.file_field :avatar, 
+                      class: "form-control #{'is-invalid' if @user.errors[:avatar].present?}",
+                      accept: "image/*",
+                      id: "avatar-upload" %>
+                <% if @user.errors[:avatar].present? %>
+                  <div class="invalid-feedback">
+                    <%= @user.errors[:avatar].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">
+                    Optional: Upload a profile picture (JPG, PNG, or GIF). Max size: 5MB.
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-shield-lock me-2"></i>Password Setup
+            </h5>
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-md-6">
+                <%= form.label :password, class: "form-label required" %>
+                <%= form.password_field :password, 
+                      class: "form-control #{'is-invalid' if @user.errors[:password].present?}",
+                      placeholder: "Enter password",
+                      required: true,
+                      autocomplete: "new-password",
+                      id: "password-field" %>
+                <% if @user.errors[:password].present? %>
+                  <div class="invalid-feedback">
+                    <%= @user.errors[:password].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">
+                    Password must be at least 6 characters long.
+                  </div>
+                <% end %>
+              </div>
+              
+              <div class="col-md-6">
+                <%= form.label :password_confirmation, class: "form-label required" %>
+                <%= form.password_field :password_confirmation, 
+                      class: "form-control #{'is-invalid' if @user.errors[:password_confirmation].present?}",
+                      placeholder: "Confirm password",
+                      required: true,
+                      autocomplete: "new-password",
+                      id: "password-confirmation-field" %>
+                <% if @user.errors[:password_confirmation].present? %>
+                  <div class="invalid-feedback">
+                    <%= @user.errors[:password_confirmation].first %>
+                  </div>
+                <% else %>
+                  <div class="form-text">
+                    Re-enter the password to confirm.
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <label class="form-label">Password Strength</label>
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar" id="password-strength" role="progressbar" style="width: 0%"></div>
+              </div>
+              <small class="form-text" id="password-feedback">Enter a password to see strength</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3">
+            <%= form.submit "Create User", 
+                  class: "btn btn-primary",
+                  id: "submit-btn" do %>
+              <i class="bi bi-plus-lg me-2"></i>Create User
+            <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const fullNameField = document.querySelector('#user_full_name');
+  const emailField = document.querySelector('#user_email');
+  const roleSelect = document.getElementById('user_role');
+  const roleDescription = document.getElementById('role-description');
+  const passwordField = document.getElementById('password-field');
+  const confirmField = document.getElementById('password-confirmation-field');
+  const avatarUpload = document.getElementById('avatar-upload');
+  const form = document.getElementById('new-user-form');
+  
+  const previewName = document.getElementById('preview-name');
+  const previewEmail = document.getElementById('preview-email');
+  const previewRole = document.getElementById('preview-role');
+  const previewAvatar = document.getElementById('preview-avatar');
+  const previewInitials = document.getElementById('preview-initials');
+
+  function updatePreview() {
+    if (fullNameField && previewName) {
+      previewName.textContent = fullNameField.value || 'User Name';
+      if (fullNameField.value) {
+        const initials = fullNameField.value.split(' ')
+          .map(word => word.charAt(0).toUpperCase())
+          .slice(0, 2)
+          .join('');
+        previewInitials.textContent = initials || '??';
+      }
+    }
+    
+    if (emailField && previewEmail) {
+      previewEmail.textContent = emailField.value || 'user@example.com';
+    }
+    
+    if (roleSelect && previewRole) {
+      const roleValue = roleSelect.value;
+      previewRole.textContent = roleValue === 'admin' ? 'Administrator' : 'Regular User';
+      previewRole.className = roleValue === 'admin' ? 'badge bg-danger' : 'badge bg-primary';
+    }
+  }
+
+  if (roleSelect && roleDescription) {
+    roleSelect.addEventListener('change', function() {
+      const selectedOption = this.options[this.selectedIndex];
+      const description = selectedOption.getAttribute('data-description');
+      if (description) {
+        roleDescription.textContent = description;
+      }
+      updatePreview();
+    });
+  }
+
+  function checkPasswordStrength(password) {
+    let strength = 0;
+    let feedback = 'Enter a password to see strength';
+    
+    if (password.length >= 6) strength += 20;
+    if (password.length >= 10) strength += 20;
+    if (/[a-z]/.test(password)) strength += 20;
+    if (/[A-Z]/.test(password)) strength += 20;
+    if (/[0-9]/.test(password)) strength += 10;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+    
+    if (strength < 40) {
+      feedback = 'Weak password';
+      document.getElementById('password-strength').className = 'progress-bar bg-danger';
+    } else if (strength < 70) {
+      feedback = 'Medium password';
+      document.getElementById('password-strength').className = 'progress-bar bg-warning';
+    } else {
+      feedback = 'Strong password';
+      document.getElementById('password-strength').className = 'progress-bar bg-success';
+    }
+    
+    document.getElementById('password-strength').style.width = strength + '%';
+    document.getElementById('password-feedback').textContent = feedback;
+  }
+
+  function validatePasswordMatch() {
+    if (passwordField.value !== '' && confirmField.value !== '') {
+      if (passwordField.value !== confirmField.value) {
+        confirmField.setCustomValidity('Passwords do not match');
+        confirmField.classList.add('is-invalid');
+      } else {
+        confirmField.setCustomValidity('');
+        confirmField.classList.remove('is-invalid');
+      }
+    }
+  }
+
+  if (fullNameField) {
+    fullNameField.addEventListener('input', updatePreview);
+  }
+  
+  if (emailField) {
+    emailField.addEventListener('input', updatePreview);
+  }
+  
+  if (passwordField) {
+    passwordField.addEventListener('input', function() {
+      checkPasswordStrength(this.value);
+      validatePasswordMatch();
+    });
+  }
+  
+  if (confirmField) {
+    confirmField.addEventListener('input', validatePasswordMatch);
+  }
+
+  if (avatarUpload) {
+    avatarUpload.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewAvatar.innerHTML = `<img src="${e.target.result}" class="user-avatar" alt="Avatar preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  }
+
+  updatePreview();
+});
+</script>

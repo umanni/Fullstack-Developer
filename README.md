@@ -1,67 +1,119 @@
-# Fullstack Developer Test
+# 🚀 Sistema de Gerenciamento de Usuários
 
-- Check this readme.md
-- Create a branch to develop your task
-- Push to remote in 1 week (date will be checked from branch creation/assigned date)
+Um sistema completo de gerenciamento de usuários em Ruby on Rails com funcionalidades avançadas de autenticação, autorização baseada em roles e importação de usuários via CSV com processamento em background e atualizações em tempo real.
 
-# Requirements:
-- Latest version of the stack
-- Write unit and integration tests 
-- Deliver with a working Dockerfile
-- Use docker-compose.yml if needed
-- Show your best practices ex: design patters, linters etc.
+## ✨ Funcionalidades
 
-# The Test
-Here we'll try to simulate a "real sprint" that you'll, probably, be assigned while working as Fullstack at Umanni.
-# The Task
-- Create a responsive application to manage users.
-- A user must have:
-1- full_name
-2- email
-3- avatar_image (upload from file or url)
-4- role (admin/no-admin)
-# The App
-## Admin Use cases
-- As an Admin, I must be able to access a User Admin Dashboard.
-- As an Admin, I must be able to see on Dashboard:
-  - Total number of Users
-  - Total number of Users grouped by Role
-- As an Admin, I must be redirected to User Admin Dashboard after login
-- As an Admin, I must be able to list, create, edit and delete Users.
-- As an Admin, I must be able to toggle the User Role.
-- As an Admin, I must be able to import a Spreadsheet into the system, in order to create new Users
-- As an Admin, I must be able to see the progress of Users imports.
-## User Use Cases
-- As an User, I must be redirected to my Profile after login
-- As an User, I must be able only to see my info, edit and delete my profile.
-## Visitor Use Cases
-- As a Visitor, I can register myself as a normal User.
+### 🔐 **Autenticação e Autorização**
+- ✅ Sistema completo de autenticação com **Devise**
+- ✅ **Roles** hierárquicos (Admin, Manager, User)
+- ✅ Controle de acesso granular por funcionalidade
+- ✅ Rastreamento de login para auditoria
+- ✅ Proteção contra ataques comuns (CSRF, XSS)
 
-# The Start.
-- Your deadline is 1 week after accepting this test. 
-# The Rules
-These one are required. Not doing one of them will invalidate your submission.
-- You must write down a README in English explaining how to build and run your app.
-- The Frontend must  have a framework Bootstrap, Foundation, MDL or any other frameworks, remember you are here as a Fullstack not a backend developer.
-- You must use realtime related stuff (counters on Admin Dashboard, import progress, etc)
-- You must treat errors accordingly.
-- You must use a open source lib to authenticate Users.
-- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
-# What we're expecting to see:
-- Use SCSS to your CSS;
-- .gitignore, .dockerignore
-- A proper way to manage app configuration 
-- Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
-- Organize & optimize your code and images
-- Form validation (frontend validation included)
-- Tests with at least 90% coverage
-- Be able to use, pjax, turbolinks, intercooler, unpoly (yes, we believe in good old server side rendering)
-# Extra points
-- Use a Dockerfile
-- docker-compose.yml
-- React in some ui components when it makes sense
-- Stress tests
-# What will be assessed
-- Code's Semantic, Cleanness and Maintainability;
-- Understanding of REST and proper use of HTTP Methods (POST, GET, PUT, PATCH, DELETE, OPTIONS);
-- Basic Security tests against Injections, XSS/XSRF, ...
+### 👥 **Gerenciamento de Usuários**
+- ✅ **CRUD completo** para administradores
+- ✅ **Perfil editável** pelos próprios usuários
+- ✅ **Busca avançada** (nome, email, role, status)
+- ✅ **Filtros dinâmicos** com paginação
+- ✅ **Validações robustas** e feedback de erros
+
+### 📊 **Dashboard Administrativo**
+- ✅ **Métricas em tempo real** via WebSockets
+- ✅ **Estatísticas do sistema** (usuários, roles, atividade)
+- ✅ **Interface responsiva** com Bootstrap 5
+- ✅ **Atualizações automáticas** sem refresh
+
+### 📁 **Importação CSV**
+- ✅ **Upload de arquivos** com validação
+- ✅ **Processamento assíncrono** em background
+- ✅ **Progress tracking** em tempo real
+- ✅ **Relatórios de erro** detalhados
+- ✅ **Histórico de importações** com status
+
+## 🛠️ Tecnologias
+
+### Backend
+- **Ruby 3.2.0**
+- **Rails 7.x**
+- **SQLite** (desenvolvimento)
+- **Devise** (autenticação)
+
+### Frontend
+- **Bootstrap 5** (UI Framework)
+- **Stimulus** (JavaScript framework)
+- **Turbo** (SPA-like experience)
+- **Simple Form** (formulários)
+- **Importmap** (ES6 modules)
+
+### Ferramentas
+- **Docker** (containerização)
+- **Git** (controle de versão)
+- **Rubocop** (linting)
+- **Brakeman** (security scanning)
+
+## 🚀 Instalação
+
+### Setup Local
+
+1. **Clone o repositório:**
+```bash
+git clone https://github.com/lucasleandro1/Fullstack-Developer.git
+cd Fullstack-Developer
+```
+2. **Rode os comandos:**
+```bash
+cp .env.example .env
+```
+## Adicione sua master key no .env
+```bash
+docker compose build
+docker compose up
+```
+
+5. **Acesse a aplicação:**
+```
+http://localhost:3000
+```
+6. **Entre com:**
+```
+admin@example.com
+password123
+```
+
+## 📖 Como Usar
+
+### 1. **Login no Sistema**
+- Acesse `/users/sign_in`
+- Use um dos usuários de teste ou registre-se
+
+### 2. **Dashboard (Admin/Manager)**
+- Visualize métricas em tempo real
+- Monitore atividade do sistema
+- Acesse relatórios
+
+### 3. **Gerenciamento de Usuários (Admin)**
+- **Listar:** Veja todos os usuários com filtros
+- **Criar:** Adicione novos usuários manualmente
+- **Editar:** Modifique informações e roles
+- **Excluir:** Remove usuários do sistema
+
+### 4. **Importação CSV (Admin)**
+- Acesse "Importações" no menu
+- Faça upload de arquivo CSV
+- Acompanhe o progresso em tempo real
+- Veja relatório de resultados
+
+**Formato do CSV:**
+```csv
+first_name,last_name,email,role
+João,Silva,joao@example.com,user
+Maria,Santos,maria@example.com,manager
+```
+
+### 5. **Perfil do Usuário**
+- Edite suas informações pessoais
+- Altere senha
+- Visualize histórico de login
+
+⭐ **Se este projeto foi útil, considere dar uma estrela!**

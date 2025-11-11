@@ -1,0 +1,218 @@
+<% content_for :title, "User Imports" %>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1>User Imports</h1>
+      <p class="text-muted">Manage user data imports from spreadsheets</p>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
+      <i class="bi bi-upload me-2"></i>Import Users
+    </button>
+  </div>
+
+
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card stats-card">
+        <div class="card-body">
+          <div class="stats-icon stats-warning">
+            <i class="bi bi-clock"></i>
+          </div>
+          <div class="stats-content">
+            <h3 class="stats-number"><%= @pending_imports %></h3>
+            <p class="stats-label">Pending Imports</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stats-card">
+        <div class="card-body">
+          <div class="stats-icon stats-primary">
+            <i class="bi bi-gear"></i>
+          </div>
+          <div class="stats-content">
+            <h3 class="stats-number"><%= @processing_imports %></h3>
+            <p class="stats-label">Processing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stats-card">
+        <div class="card-body">
+          <div class="stats-icon stats-success">
+            <i class="bi bi-list-ul"></i>
+          </div>
+          <div class="stats-content">
+            <h3 class="stats-number"><%= @imports.total_count %></h3>
+            <p class="stats-label">Total Imports</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title mb-0">
+        <i class="bi bi-table me-2"></i>Import History
+      </h5>
+    </div>
+    <div class="card-body">
+      <% if @imports.any? %>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Rows</th>
+                <th>Success Rate</th>
+                <th>Started By</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @imports.each do |import| %>
+                <tr>
+                  <td>
+                    <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+                    <%= import.file_name %>
+                  </td>
+                  <td>
+                    <% case import.status %>
+                    <% when 'pending' %>
+                      <span class="badge bg-warning">
+                        <i class="bi bi-clock me-1"></i>Pending
+                      </span>
+                    <% when 'processing' %>
+                      <span class="badge bg-primary">
+                        <i class="bi bi-gear me-1"></i>Processing
+                      </span>
+                    <% when 'completed' %>
+                      <span class="badge bg-success">
+                        <i class="bi bi-check-circle me-1"></i>Completed
+                      </span>
+                    <% when 'failed' %>
+                      <span class="badge bg-danger">
+                        <i class="bi bi-x-circle me-1"></i>Failed
+                      </span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <% if import.processing? %>
+                      <div class="progress" style="width: 100px;">
+                        <div class="progress-bar" 
+                             role="progressbar" 
+                             style="width: <%= import.progress %>%"
+                             data-import-id="<%= import.id %>">
+                          <%= import.progress.round(1) %>%
+                        </div>
+                      </div>
+                    <% else %>
+                      <span class="text-muted"><%= import.progress.round(1) %>%</span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <small class="text-muted">
+                      <%= import.processed_rows %>/<%= import.total_rows %>
+                    </small>
+                  </td>
+                  <td>
+                    <% if import.processed_rows > 0 %>
+                      <span class="<%= import.success_rate > 80 ? 'text-success' : import.success_rate > 50 ? 'text-warning' : 'text-danger' %>">
+                        <%= import.success_rate.round(1) %>%
+                      </span>
+                    <% else %>
+                      <span class="text-muted">-</span>
+                    <% end %>
+                  </td>
+                  <td>
+                    <small class="text-muted">
+                      <%= import.user.display_name %>
+                    </small>
+                  </td>
+                  <td>
+                    <small class="text-muted">
+                      <%= time_ago_in_words(import.created_at) %> ago
+                    </small>
+                  </td>
+                  <td>
+                    <%= link_to admin_import_path(import), 
+                          class: "btn btn-sm btn-outline-primary",
+                          title: "View Details" do %>
+                      <i class="bi bi-eye"></i>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        
+        <%= paginate @imports if respond_to?(:paginate) %>
+      <% else %>
+        <div class="text-center py-5">
+          <i class="bi bi-upload display-1 text-muted"></i>
+          <h4 class="mt-3">No imports yet</h4>
+          <p class="text-muted">Upload a CSV or Excel file to start importing users.</p>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
+            <i class="bi bi-upload me-2"></i>Import Users
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="importModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="bi bi-upload me-2"></i>Import Users
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <%= form_with url: admin_imports_path, method: :post, multipart: true, local: true do |form| %>
+        <div class="modal-body">
+          <div class="mb-3">
+            <%= form.label :file, class: "form-label" %>
+            <%= form.file_field :file, 
+                  class: "form-control", 
+                  accept: ".csv,.xls,.xlsx",
+                  required: true %>
+            <div class="form-text">
+              Supported formats: CSV, XLS, XLSX. Maximum file size: 10MB.
+            </div>
+          </div>
+          
+          <div class="alert alert-info">
+            <h6><i class="bi bi-info-circle me-2"></i>Required Columns:</h6>
+            <ul class="mb-0">
+              <li><strong>full_name</strong> - User's full name</li>
+              <li><strong>email</strong> - User's email address</li>
+            </ul>
+          </div>
+          
+          <div class="alert alert-secondary">
+            <h6><i class="bi bi-gear me-2"></i>Optional Columns:</h6>
+            <ul class="mb-0">
+              <li><strong>role</strong> - "admin" or "user" (defaults to "user")</li>
+              <li><strong>avatar_url</strong> - URL to user's avatar image</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <%= form.submit "Start Import", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

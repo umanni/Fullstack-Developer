@@ -1,0 +1,18 @@
+<% if resource.errors.any? %>
+  <div class="alert alert-danger mb-3" role="alert" data-turbo-cache="false">
+    <div class="d-flex align-items-center mb-2">
+      <i class="bi bi-exclamation-triangle me-2 flex-shrink-0"></i>
+      <strong>
+        <%= I18n.t("errors.messages.not_saved",
+                   count: resource.errors.count,
+                   resource: resource.class.model_name.human.downcase)
+         %>
+      </strong>
+    </div>
+    <ul class="mb-0 ps-3">
+      <% resource.errors.full_messages.each do |message| %>
+        <li class="small"><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

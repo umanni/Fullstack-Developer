@@ -1,0 +1,26 @@
+<% flash.each do |type, message| %>
+  <% 
+    # Map Rails flash types to Bootstrap alert classes
+    alert_class = case type.to_s
+                 when 'notice' then 'alert-success'
+                 when 'alert' then 'alert-danger'
+                 when 'error' then 'alert-danger'
+                 when 'warning' then 'alert-warning'
+                 when 'info' then 'alert-info'
+                 else 'alert-info'
+                 end
+  %>
+  <div class="alert <%= alert_class %> mb-3" role="alert">
+    <% case type.to_s %>
+    <% when 'notice' %>
+      <i class="bi bi-check-circle me-2"></i>
+    <% when 'alert', 'error' %>
+      <i class="bi bi-exclamation-triangle me-2"></i>
+    <% when 'warning' %>
+      <i class="bi bi-exclamation-circle me-2"></i>
+    <% when 'info' %>
+      <i class="bi bi-info-circle me-2"></i>
+    <% end %>
+    <%= message %>
+  </div>
+<% end %>

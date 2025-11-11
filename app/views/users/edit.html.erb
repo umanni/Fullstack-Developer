@@ -1,0 +1,207 @@
+<% content_for :title, "Edit Profile" %>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1>Edit Profile</h1>
+          <p class="text-muted">Update your personal information</p>
+        </div>
+        <%= link_to profile_path, class: "btn btn-outline-secondary" do %>
+          <i class="bi bi-arrow-left me-2"></i>Back to Profile
+        <% end %>
+      </div>
+
+      <!-- Profile Form -->
+      <div class="form-container">
+        <%= simple_form_for @user, url: profile_path, method: :patch, multipart: true do |f| %>
+          <div class="row">
+            <!-- Avatar Section -->
+            <div class="col-12 text-center mb-4">
+              <div class="avatar-upload-section">
+                <% if @user.avatar %>
+                  <%= image_tag @user.avatar, class: "avatar-lg rounded-circle mb-3", alt: @user.display_name, id: "avatar-preview" %>
+                <% else %>
+                  <div class="avatar-lg rounded-circle mx-auto mb-3 bg-secondary d-flex align-items-center justify-content-center" id="avatar-preview">
+                    <i class="bi bi-person text-white" style="font-size: 3rem;"></i>
+                  </div>
+                <% end %>
+                
+                <h6>Profile Picture</h6>
+                <p class="text-muted small">Choose how you want to set your profile picture</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Avatar Upload Options -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h6 class="mb-0">
+                <i class="bi bi-image me-2"></i>Avatar Options
+              </h6>
+            </div>
+            <div class="card-body">
+              <!-- File Upload -->
+              <div class="mb-3">
+                <%= f.input :avatar_image, 
+                      label: "Upload Image",
+                      input_html: { 
+                        class: "form-control",
+                        accept: "image/*",
+                        onchange: "previewFile(this)"
+                      } %>
+                <div class="form-text">
+                  Supported formats: JPG, PNG, GIF. Maximum size: 5MB.
+                </div>
+              </div>
+
+              <div class="text-center my-3">
+                <span class="text-muted">— OR —</span>
+              </div>
+
+              <!-- URL Input -->
+              <div class="mb-3">
+                <%= f.input :avatar_url, 
+                      label: "Image URL",
+                      placeholder: "https://example.com/avatar.jpg",
+                      input_html: { 
+                        class: "form-control",
+                        onchange: "previewUrl(this)"
+                      } %>
+                <div class="form-text">
+                  Enter a direct link to an image online.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Information -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h6 class="mb-0">
+                <i class="bi bi-person me-2"></i>Personal Information
+              </h6>
+            </div>
+            <div class="card-body">
+              <%= f.input :full_name, 
+                    label: "Full Name",
+                    required: true,
+                    input_html: { class: "form-control" } %>
+
+              <%= f.input :email, 
+                    label: "Email Address",
+                    required: true,
+                    input_html: { class: "form-control", readonly: true },
+                    hint: "Contact an administrator to change your email address" %>
+            </div>
+          </div>
+
+          <!-- Password Section -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h6 class="mb-0">
+                <i class="bi bi-shield-lock me-2"></i>Change Password
+              </h6>
+            </div>
+            <div class="card-body">
+              <p class="text-muted small mb-3">
+                Leave blank to keep your current password
+              </p>
+              
+              <%= f.input :password, 
+                    label: "New Password",
+                    input_html: { class: "form-control", autocomplete: "new-password" },
+                    hint: "Minimum 6 characters" %>
+
+              <%= f.input :password_confirmation, 
+                    label: "Confirm New Password",
+                    input_html: { class: "form-control", autocomplete: "new-password" } %>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="d-flex justify-content-between">
+            <%= link_to profile_path, class: "btn btn-outline-secondary" do %>
+              <i class="bi bi-x-circle me-2"></i>Cancel
+            <% end %>
+            
+            <%= f.submit "Update Profile", class: "btn btn-primary" do %>
+              <i class="bi bi-check-circle me-2"></i>Update Profile
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Preview uploaded file
+  function previewFile(input) {
+    const file = input.files[0];
+    const preview = document.getElementById('avatar-preview');
+    
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.innerHTML = `<img src="${e.target.result}" class="avatar-lg rounded-circle" alt="Preview">`;
+      }
+      reader.readAsDataURL(file);
+      
+      // Clear URL field
+      document.getElementById('user_avatar_url').value = '';
+    }
+  }
+  
+  // Preview URL image
+  function previewUrl(input) {
+    const url = input.value;
+    const preview = document.getElementById('avatar-preview');
+    
+    if (url) {
+      // Test if URL is valid image
+      const img = new Image();
+      img.onload = function() {
+        preview.innerHTML = `<img src="${url}" class="avatar-lg rounded-circle" alt="Preview">`;
+      }
+      img.onerror = function() {
+        preview.innerHTML = `
+          <div class="avatar-lg rounded-circle mx-auto bg-danger d-flex align-items-center justify-content-center">
+            <i class="bi bi-exclamation-triangle text-white" style="font-size: 3rem;"></i>
+          </div>
+        `;
+      }
+      img.src = url;
+      
+      // Clear file field
+      document.getElementById('user_avatar_image').value = '';
+    }
+  }
+  
+  // Form validation
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const passwordField = document.getElementById('user_password');
+    const confirmField = document.getElementById('user_password_confirmation');
+    
+    function validatePasswords() {
+      if (passwordField.value || confirmField.value) {
+        if (passwordField.value !== confirmField.value) {
+          confirmField.setCustomValidity("Passwords don't match");
+        } else if (passwordField.value.length < 6) {
+          passwordField.setCustomValidity("Password must be at least 6 characters");
+        } else {
+          passwordField.setCustomValidity("");
+          confirmField.setCustomValidity("");
+        }
+      } else {
+        passwordField.setCustomValidity("");
+        confirmField.setCustomValidity("");
+      }
+    }
+    
+    passwordField.addEventListener('input', validatePasswords);
+    confirmField.addEventListener('input', validatePasswords);
+  });
+</script>

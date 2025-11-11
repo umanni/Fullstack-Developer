@@ -1,0 +1,79 @@
+// Form styles
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.form-text {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+// File input styling
+.form-file {
+  .form-file-input {
+    border-radius: 0.5rem;
+  }
+  
+  .form-file-label {
+    border-radius: 0.5rem;
+  }
+}
+
+// Checkbox and radio styling
+.form-check {
+  padding-left: 1.75rem;
+  
+  .form-check-input {
+    &:checked {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+  }
+  
+  .form-check-label {
+    font-weight: 500;
+  }
+}
+
+// Error states
+.is-invalid {
+  border-color: var(--danger-color);
+  
+  &:focus {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+  }
+}
+
+.invalid-feedback {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--danger-color);
+  margin-top: 0.25rem;
+}

@@ -1,0 +1,214 @@
+<% content_for :title, "Admin Dashboard" %>
+
+<div class="dashboard-container">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="dashboard-title">Admin Dashboard</h1>
+        <p class="dashboard-subtitle">
+          Welcome back, <%= current_user.display_name %>! 
+          <span class="live-indicator">Live</span>
+        </p>
+      </div>
+      <div>
+        <%= link_to admin_users_path, class: "btn btn-primary" do %>
+          <i class="bi bi-people me-2"></i>Manage Users
+        <% end %>
+        <%= link_to admin_imports_path, class: "btn btn-outline-primary ms-2" do %>
+          <i class="bi bi-upload me-2"></i>Import Users
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="dashboard-stats">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card stats-card">
+            <div class="card-body">
+              <div class="stats-icon stats-primary">
+                <i class="bi bi-people"></i>
+              </div>
+              <div class="stats-content">
+                <h2 class="stats-number" id="total-users"><%= @user_stats[:total] %></h2>
+                <p class="stats-label">Total Users</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card stats-card">
+            <div class="card-body">
+              <div class="stats-icon stats-success">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <div class="stats-content">
+                <h2 class="stats-number" id="admin-users"><%= @user_stats[:admins] %></h2>
+                <p class="stats-label">Admin Users</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="card stats-card">
+            <div class="card-body">
+              <div class="stats-icon stats-warning">
+                <i class="bi bi-person"></i>
+              </div>
+              <div class="stats-content">
+                <h2 class="stats-number" id="regular-users"><%= @user_stats[:users] %></h2>
+                <p class="stats-label">Regular Users</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">
+                <i class="bi bi-clock-history me-2"></i>Recent Users
+              </h5>
+            </div>
+            <div class="card-body">
+              <% if @recent_users.any? %>
+                <div class="table-responsive">
+                  <table class="table table-hover user-table">
+                    <thead>
+                      <tr>
+                        <th>Avatar</th>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Joined</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @recent_users.each do |user| %>
+                        <tr>
+                          <td class="user-avatar-cell">
+                            <% if user.avatar %>
+                              <%= image_tag user.avatar, class: "user-avatar", alt: user.display_name %>
+                            <% else %>
+                              <div class="user-avatar bg-secondary d-flex align-items-center justify-content-center">
+                                <i class="bi bi-person text-white"></i>
+                              </div>
+                            <% end %>
+                          </td>
+                          <td class="user-info-cell">
+                            <div class="user-name"><%= user.display_name %></div>
+                            <div class="user-email"><%= user.email %></div>
+                          </td>
+                          <td class="user-role-cell">
+                            <span class="role-badge role-<%= user.role %>">
+                              <%= user.role.humanize %>
+                            </span>
+                          </td>
+                          <td>
+                            <small class="text-muted">
+                              <%= time_ago_in_words(user.created_at) %> ago
+                            </small>
+                          </td>
+                          <td class="actions-cell">
+                            <%= link_to admin_user_path(user), class: "btn btn-sm btn-outline-primary" do %>
+                              <i class="bi bi-eye"></i>
+                            <% end %>
+                            <%= link_to edit_admin_user_path(user), class: "btn btn-sm btn-outline-secondary" do %>
+                              <i class="bi bi-pencil"></i>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="text-center mt-3">
+                  <%= link_to "View All Users", admin_users_path, class: "btn btn-primary" %>
+                </div>
+              <% else %>
+                <div class="text-center py-4">
+                  <i class="bi bi-people display-1 text-muted"></i>
+                  <h4 class="mt-3">No users yet</h4>
+                  <p class="text-muted">Users will appear here once they register.</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">
+                <i class="bi bi-graph-up me-2"></i>Quick Actions
+              </h5>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                <%= link_to admin_users_path, class: "btn btn-outline-primary" do %>
+                  <i class="bi bi-people me-2"></i>View All Users
+                <% end %>
+                
+                <%= link_to new_admin_user_path, class: "btn btn-outline-success" do %>
+                  <i class="bi bi-person-plus me-2"></i>Add New User
+                <% end %>
+                
+                <%= link_to admin_imports_path, class: "btn btn-outline-info" do %>
+                  <i class="bi bi-upload me-2"></i>Import Users
+                <% end %>
+                
+                <%= link_to admin_users_path(role: 'admin'), class: "btn btn-outline-warning" do %>
+                  <i class="bi bi-shield-check me-2"></i>View Admins
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof App !== 'undefined' && App.cable) {
+      App.dashboard = App.cable.subscriptions.create("DashboardChannel", {
+        received: function(data) {
+          if (data.type === 'stats_update') {
+            updateDashboardStats(data.stats);
+          }
+        }
+      });
+    }
+    
+    function updateDashboardStats(stats) {
+      animateNumber('total-users', stats.total_users);
+      animateNumber('admin-users', stats.admin_users);
+      animateNumber('regular-users', stats.users);
+    }
+    
+    function animateNumber(elementId, newValue) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const currentValue = parseInt(element.textContent);
+      const difference = newValue - currentValue;
+      
+      if (difference !== 0) {
+        element.style.color = difference > 0 ? '#28a745' : '#dc3545';
+        element.textContent = newValue;
+        
+        setTimeout(() => {
+          element.style.color = '';
+        }, 2000);
+      }
+    }
+  });
+</script>

@@ -1,0 +1,68 @@
+// Custom variables
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+}
+
+// Global styles
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.main-content {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+// Utility classes
+.text-truncate-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2; // Standard property for compatibility
+  -webkit-box-orient: vertical;
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+
+.avatar-md {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+
+.avatar-lg {
+  width: 128px;
+  height: 128px;
+  object-fit: cover;
+}
+
+// Loading spinner
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+// Progress bars
+.progress-import {
+  height: 2rem;
+  
+  .progress-bar {
+    font-size: 0.875rem;
+    line-height: 2rem;
+  }
+}
