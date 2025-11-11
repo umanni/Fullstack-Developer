@@ -31,7 +31,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: umanni_development
-      RAILS_ENV: development
+      RAILS_ENV: ${RAILS_ENV:-development}
     stdin_open: true
     tty: true
 

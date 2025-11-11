@@ -17,6 +17,13 @@
   </head>
 
   <body>
+    <% if notice %>
+      <div class="notification is-success"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="notification is-danger"><%= alert %></div>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>

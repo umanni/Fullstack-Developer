@@ -1,0 +1,35 @@
+<h1>Editar Perfil</h1>
+
+<%= form_with model: current_user, url: profile_path, method: :patch, local: true, html: { multipart: true } do |f| %>
+  <div class="field">
+    <%= f.label :full_name, 'Full name' %>
+    <div class="control">
+      <%= f.text_field :full_name, class: 'input' %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %>
+    <div class="control">
+      <%= f.email_field :email, class: 'input' %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :avatar, 'Upload avatar' %>
+    <div class="control">
+      <%= f.file_field :avatar, class: 'input' %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.label :avatar_url, 'Or avatar URL' %>
+    <div class="control">
+      <%= f.text_field :avatar_url, class: 'input' %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= f.submit 'Salvar', class: 'button is-primary' %>
+  </div>
+<% end %>

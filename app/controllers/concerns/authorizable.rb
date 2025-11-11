@@ -8,8 +8,13 @@ module Authorizable
   private
 
   def require_admin!
-    unless user_signed_in? && current_user.admin?
-      redirect_to root_path, alert: 'Access denied. Admin privileges required.'
+    unless user_signed_in?
+      redirect_to new_user_session_path, alert: 'Você precisa fazer login antes de continuar.'
+      return
+    end
+
+    unless current_user.admin?
+      redirect_to root_path, alert: 'Acesso restrito a administradores'
     end
   end
 
@@ -18,7 +23,7 @@ module Authorizable
   end
 
   def user_not_authorized
-    flash[:alert] = 'You are not authorized to perform this action.'
+    flash[:alert] = 'Você não tem autorização para realizar esta ação.'
     redirect_to(request.referrer || root_path)
   end
 end

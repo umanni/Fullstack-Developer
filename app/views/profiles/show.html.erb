@@ -1,0 +1,18 @@
+<h1>Meu Perfil</h1>
+
+<p><strong>Nome:</strong> <%= current_user.full_name %></p>
+<p><strong>Email:</strong> <%= current_user.email %></p>
+
+<% if current_user.avatar.attached? %>
+  <div class="avatar">
+    <%= image_tag url_for(current_user.avatar.variant(resize_to_limit: [150, 150])) %>
+  </div>
+<% end %>
+
+<div class="buttons">
+  <%= link_to 'Editar', edit_profile_path, class: 'button is-link' %>
+  <%= link_to 'Excluir conta', profile_path,
+              method: :delete,
+              data: { confirm: 'Tem certeza?' },
+              class: 'button is-danger' %>
+</div>
