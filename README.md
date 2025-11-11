@@ -39,23 +39,23 @@
 * [x] Como sistema, tenho modelo User com: full_name, email, password, role (enum: admin/user)
 * [x] Como sistema, tenho Active Storage configurado para avatares
 * [x] Como usuário, posso fazer upload de avatar via arquivo
-* [ ] Como usuário, posso adicionar avatar via URL
+* [x] Como usuário, posso adicionar avatar via URL
 * [x] Como sistema, valido todos os campos obrigatórios
 * [x] Como sistema, tenho factory e testes para User model
 
 ### User Stories - Perfil do Usuário
-* [ ] Como usuário, posso visualizar meu próprio perfil
-* [ ] Como usuário, posso editar meu próprio perfil (nome, email, avatar)
-* [ ] Como usuário, posso deletar minha própria conta
-* [ ] Como usuário, não posso acessar perfis de outros usuários
-* [ ] Como sistema, tenho testes de integração para estas funcionalidades
+* [x] Como usuário, posso visualizar meu próprio perfil
+* [x] Como usuário, posso editar meu próprio perfil (nome, email, avatar)
+* [x] Como usuário, posso deletar minha própria conta
+* [x] Como usuário, não posso acessar perfis de outros usuários
+* [x] Como sistema, tenho testes de integração para estas funcionalidades
 
 ### User Stories - Dashboard Admin
-* [ ] Como admin, posso acessar painel de administração
-* [ ] Como admin, vejo número total de usuários em tempo real
-* [ ] Como admin, vejo número de usuários agrupados por role em tempo real
+* [x] Como admin, posso acessar painel de administração
+* [x] Como admin, vejo número total de usuários em tempo real
+* [x] Como admin, vejo número de usuários agrupados por role em tempo real
 * [ ] Como sistema, uso ActionCable para atualizar contadores em tempo real
-* [ ] Como sistema, tenho testes para dashboard e métricas
+* [x] Como sistema, tenho testes para dashboard e métricas
 
 ### User Stories - CRUD de Usuários (Admin)
 * [ ] Como admin, posso listar todos os usuários com paginação
@@ -186,8 +186,8 @@
 ## 📊 Progresso Atual
 
 - **Fase 1:** ✅ 100%
-- **Fase 2:** ⏳ 45%
-- **Fase 3:** ⏳ 20%
-- **Fase 4:** ⏳ 25%
+- **Fase 2:** ⏳ 80%
+- **Fase 3:** ⏳ 35%
+- **Fase 4:** ⏳ 40%
 
-**Total:** ~42% concluído
+**Total:** ~66% concluído

@@ -88,6 +88,33 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'avatar via URL' do
+    let(:user) { build(:user, full_name: 'Marcos', email: 'marcos@example.com', password: '123456') }
+
+    context 'when URL is valid' do
+      it 'attaches avatar from given URL' do
+        # simula download da imagem com StringIO
+        fake_image = StringIO.new('fake image data')
+        allow(URI).to receive(:open).and_return(fake_image)
+
+        user.avatar_url = 'https://example.com/avatar.png'
+        user.save
+
+        expect(user.avatar).to be_attached
+      end
+    end
+
+    context 'when URL is invalid' do
+      it 'adds error and aborts save' do
+        allow(URI).to receive(:open).and_raise(OpenURI::HTTPError.new('404 Not Found', nil))
+
+        user.avatar_url = 'https://invalid-url.com/avatar.png'
+        expect(user.save).to eq(false)
+        expect(user.errors[:avatar_url]).to include('não pôde ser carregado')
+      end
+    end
+  end
+
   describe 'authorization helpers' do
     let(:user) { create(:user) }
     let(:admin) { create(:user, :admin) }
