@@ -1,0 +1,42 @@
+<h1>Editar Usuário</h1>
+
+<% if flash[:alert] %>
+  <div class="notification is-danger"><%= flash[:alert] %></div>
+<% end %>
+
+<% if @user.errors.any? %>
+  <div class="notification is-warning">
+    <p><strong><%= pluralize(@user.errors.count, "erro") %> encontrado(s):</strong></p>
+    <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: [:admin, @user], local: true do |f| %>
+  <div>
+    <%= f.label :full_name, 'Nome completo' %>
+    <%= f.text_field :full_name %>
+  </div>
+
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :password, 'Nova senha (opcional)' %>
+    <%= f.password_field :password %>
+  </div>
+
+  <div>
+    <%= f.label :role, 'Função' %>
+    <%= f.select :role, User.roles.keys.map { |r| [r.humanize, r] } %>
+  </div>
+
+  <div>
+    <%= f.submit 'Atualizar Usuário' %>
+  </div>
+<% end %>

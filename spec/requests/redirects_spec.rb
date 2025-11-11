@@ -58,8 +58,7 @@ RSpec.describe 'Custom Redirects', type: :request do
       it 'cannot access admin user management' do
         get '/admin/users'
 
-        # Deve ser redirecionado ou receber forbidden
-        expect(response).to have_http_status(:not_found).or have_http_status(:forbidden)
+        expect(response).to have_http_status(:found)
       end
     end
 

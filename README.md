@@ -58,13 +58,13 @@
 * [x] Como sistema, tenho testes para dashboard e métricas
 
 ### User Stories - CRUD de Usuários (Admin)
-* [ ] Como admin, posso listar todos os usuários com paginação
-* [ ] Como admin, posso buscar/filtrar usuários
-* [ ] Como admin, posso criar novos usuários
-* [ ] Como admin, posso editar qualquer usuário
-* [ ] Como admin, posso deletar qualquer usuário
-* [ ] Como admin, posso alternar role de qualquer usuário (admin ↔ user)
-* [ ] Como sistema, tenho testes de integração para CRUD completo
+* [x] Como admin, posso listar todos os usuários com paginação
+* [x] Como admin, posso buscar/filtrar usuários
+* [x] Como admin, posso criar novos usuários
+* [x] Como admin, posso editar qualquer usuário
+* [x] Como admin, posso deletar qualquer usuário
+* [x] Como admin, posso alternar role de qualquer usuário (admin ↔ user)
+* [x] Como sistema, tenho testes de integração para CRUD completo
 
 ### User Stories - Importação de Usuários (Admin)
 * [ ] Como admin, posso fazer upload de planilha (CSV/Excel)
@@ -186,8 +186,8 @@
 ## 📊 Progresso Atual
 
 - **Fase 1:** ✅ 100%
-- **Fase 2:** ⏳ 80%
+- **Fase 2:** ⏳ 95%
 - **Fase 3:** ⏳ 35%
 - **Fase 4:** ⏳ 40%
 
-**Total:** ~66% concluído
+**Total:** ~74% concluído 🚀

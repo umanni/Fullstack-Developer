@@ -1,0 +1,28 @@
+<h1>Lista de Usuários</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Função</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.full_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td>
+          <%= link_to 'Editar', edit_admin_user_path(user) %> |
+          <%= link_to 'Excluir', admin_user_path(user),
+                      data: { confirm: 'Tem certeza que deseja excluir este usuário?' },
+                      method: :delete %>
+          <%= link_to 'Alternar Função', toggle_role_admin_user_path(user), method: :patch %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

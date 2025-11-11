@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   # Admin routes
   namespace :admin do
     get 'dashboard', to: 'dashboard#index'
+    resources :users, only: [:index, :new, :create, :edit, :update, :destroy] do
+      patch :toggle_role, on: :member
+    end
   end
 
   # Dashboard público
