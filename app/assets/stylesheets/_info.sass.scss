@@ -1,0 +1,71 @@
+@use "sass:color";
+
+$primary-blue: #002b5b;
+$secondary-blue: #007bff;
+$border-blue: #dcdfe3;
+$primary-white: #ffffff;
+$shadow-blue: #06193047;
+
+.info-container {
+  padding: 20px 20px;
+  background: $primary-white;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px 10px $shadow-blue;
+  color: $shadow-blue;
+
+  h2 {
+    margin-bottom: 10px;
+    color: $primary-blue;
+    font-weight: bolder;
+    font-size: 2rem;
+  }
+
+  p {
+    color: $primary-blue;
+    font-size: 1rem;
+  }
+
+  .field {
+    margin-bottom: 1rem;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: $primary-blue;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem 0.5rem;
+      border: 1px solid $border-blue;
+      border-radius: 0.4rem;
+      font-size: 1rem;
+      transition: border-color 0.5s, box-shadow 0.5s;
+
+      &:focus {
+        outline: none;
+        border-color: $secondary-blue;
+        box-shadow: inset 0 0 5px 2px $shadow-blue;
+      }
+    }
+  }
+
+  .actions {
+    input[type="submit"] {
+      background-color: $primary-blue;
+      color: $primary-white;
+      border: none;
+      border-radius: 0.8rem;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.5s ease, transform 0.5s ease;
+
+      &:hover {
+        background-color: color.scale($secondary-blue, $lightness: -20%);
+      }
+    }
+  }
+}

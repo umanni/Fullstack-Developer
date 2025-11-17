@@ -1,0 +1,69 @@
+<div class="info-container">   
+  <h2>All Users</h2>
+
+  <div class="links">
+    <%= link_to "Create User", new_admin_user_path(page: params[:page]) %><br /><br />
+  </div>
+
+  <%= form_with url: admin_user_imports_path(page: params[:page]),
+        method: :post, local: true do |f| %>
+    <div class="field">
+      <%= f.label "Import Users"%>
+      <%= f.file_field :file, accept: "text/csv" %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Import CSV file"%>
+    </div>
+  <% end %>
+</div><br /><br />
+
+<div class="table-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Avatar</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td>
+          <td>
+            <% if user.avatar.attached? %>
+              <%= image_tag(user.avatar, class: "avatar-image") %>
+            <% else %>
+              <%= image_tag "default-avatar.png", class: "avatar-image" %>
+            <% end %>
+          </td>
+          <td><%= user.full_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.admin? ? "🥷 (admin)" : "👤 (user)" %></td>
+          <td class="links">
+            <%= link_to "View", admin_user_path(user) %>
+            <%= link_to "Edit", edit_admin_user_path(user, page: params[:page]) %>
+            <%= link_to "Delete", admin_user_path(user, page: params[:page]), 
+                  data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?", 
+                  turbo_method: :delete } %>
+            <%= link_to (user.admin? ? "Make User" : "Make Admin"),
+                  admin_role_path(user, page: params[:page]),
+                  data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?",
+                  turbo_method: :patch } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div><br />
+
+<div class="links">
+  <%= paginate @users %><br />
+</div>
+
+<div class="links">
+  <%= link_to "Back", admin_dashboard_index_path %>
+</div>

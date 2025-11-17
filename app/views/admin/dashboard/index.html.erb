@@ -1,0 +1,27 @@
+<div class="info-container">   
+  <h2>Dashboard</h2>
+  <p><strong>User:</strong> <%= current_user.full_name %> </p>
+</div><br /><br />
+
+<div class="table-container">
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Admin Users</td>
+        <td><%= @total_admins %></td>
+      </tr>
+      <tr>
+        <td>Regular Users</td>
+        <td><%= @total_regulars %></td>
+      </tr>
+      <tr>
+        <td><strong>Total Users</strong></td>
+        <td><strong><%= @total_users %></strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div><br /><br />
+
+<div class="links">
+  <%= link_to "List Users", admin_users_path %><br /><br />
+</div>

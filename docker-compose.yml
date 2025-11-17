@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - .:/rails
+    environment:
+      POSTGRES_USER: umanni_test_fullstack_developer
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: umanni_test_fullstack_developer
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umanni_test_fullstack_developer"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  rails:
+    build: .
+    command: bash -c "bin/rails db:migrate && bin/rails s -p 3000 -b 0.0.0.0"
+    volumes:
+      - .:/app
+      - .:/rails:cached
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://umanni_test_fullstack_developer:1234@db/umanni_test_fullstack_developer_development
+volumes:
+  postgres_data:
+  bundle_cache:

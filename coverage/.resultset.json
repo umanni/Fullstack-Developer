@@ -1,0 +1,405 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/admin/dashboard_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/admin/roles_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/admin/user_imports_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/admin/users_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/application_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/home_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/helpers/users_helper.rb": {
+        "lines": [
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/models/user.rb": {
+        "lines": [
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          53,
+          null,
+          3,
+          3,
+          1,
+          null,
+          null,
+          3,
+          1,
+          null,
+          null,
+          null
+        ],
+        "branches": {
+          "[:unless, 0, 15, 4, 15, 34]": {
+            "[:else, 1, 15, 4, 15, 34]": 3,
+            "[:then, 2, 15, 4, 15, 10]": 50
+          },
+          "[:unless, 3, 18, 4, 20, 7]": {
+            "[:else, 4, 18, 4, 20, 7]": 2,
+            "[:then, 5, 19, 6, 19, 56]": 1
+          },
+          "[:if, 6, 22, 4, 24, 7]": {
+            "[:then, 7, 23, 6, 23, 56]": 1,
+            "[:else, 8, 22, 4, 24, 7]": 2
+          }
+        }
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/models/application_record.rb": {
+        "lines": [
+          1,
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/services/csv_import_users_service.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          6,
+          6,
+          null,
+          6,
+          10,
+          null,
+          null,
+          9,
+          null,
+          null,
+          null,
+          null,
+          null,
+          9,
+          null,
+          null,
+          null
+        ],
+        "branches": {
+          "[:if, 0, 9, 6, 9, 55]": {
+            "[:then, 1, 9, 6, 9, 10]": 1,
+            "[:else, 2, 9, 6, 9, 55]": 9
+          }
+        }
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/admin/dashboard_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          9,
+          null,
+          null,
+          1,
+          16,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null
+        ],
+        "branches": {
+          "[:unless, 0, 13, 4, 13, 77]": {
+            "[:else, 1, 13, 4, 13, 77]": 14,
+            "[:then, 2, 13, 4, 13, 50]": 2
+          },
+          "[:if, 3, 22, 4, 26, 7]": {
+            "[:then, 4, 23, 6, 23, 32]": 0,
+            "[:else, 5, 25, 6, 25, 25]": 0
+          }
+        }
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/admin/roles_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/admin/user_imports_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          3,
+          3,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          3,
+          1,
+          1,
+          null,
+          null,
+          2,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null
+        ],
+        "branches": {
+          "[:unless, 0, 7, 4, 7, 44]": {
+            "[:else, 1, 7, 4, 7, 44]": 1,
+            "[:then, 2, 7, 4, 7, 10]": 2
+          },
+          "[:if, 3, 19, 4, 22, 7]": {
+            "[:then, 4, 20, 6, 21, 18]": 1,
+            "[:else, 5, 19, 4, 22, 7]": 2
+          },
+          "[:unless, 6, 24, 4, 27, 7]": {
+            "[:else, 7, 24, 4, 27, 7]": 1,
+            "[:then, 8, 25, 6, 26, 18]": 1
+          }
+        }
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/admin/users_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          2,
+          2,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          2,
+          1,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          1,
+          4,
+          4,
+          null,
+          4,
+          2,
+          2,
+          2,
+          null,
+          null,
+          null,
+          4,
+          null,
+          null
+        ],
+        "branches": {
+          "[:if, 0, 20, 4, 25, 7]": {
+            "[:then, 1, 21, 6, 21, 80]": 1,
+            "[:else, 2, 23, 6, 24, 48]": 1
+          },
+          "[:if, 3, 32, 4, 36, 7]": {
+            "[:then, 4, 33, 6, 33, 80]": 1,
+            "[:else, 5, 35, 6, 35, 49]": 1
+          },
+          "[:if, 6, 50, 4, 55, 7]": {
+            "[:then, 7, 51, 6, 54, 9]": 2,
+            "[:else, 8, 50, 4, 55, 7]": 2
+          },
+          "[:if, 9, 51, 6, 54, 9]": {
+            "[:then, 10, 52, 8, 53, 50]": 2,
+            "[:else, 11, 51, 6, 54, 9]": 0
+          }
+        }
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/home_controller.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          null
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/controllers/users_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1,
+          null,
+          1,
+          3,
+          1,
+          null,
+          null,
+          null
+        ],
+        "branches": {
+          "[:unless, 0, 12, 4, 14, 7]": {
+            "[:else, 1, 12, 4, 14, 7]": 2,
+            "[:then, 2, 13, 6, 13, 52]": 1
+          }
+        }
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/jobs/application_job.rb": {
+        "lines": [
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0
+        ],
+        "branches": {}
+      },
+      "/home/ivan-pagani/repos/Rails_Projects/umanni-test-fullstack-developer/app/mailers/application_mailer.rb": {
+        "lines": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "branches": {}
+      }
+    },
+    "timestamp": 1763331781
+  }
+}

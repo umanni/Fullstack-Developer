@@ -1,0 +1,57 @@
+<div class="form-container"> 
+    <h2><%= @user.persisted? ? "Edit User" : "Create User" %></h2>
+
+    <%= form_with model: [:admin, @user], local: true, multipart: true do |f| %>
+        <div class="field">
+            <%= f.label :full_name %>
+            <%= f.text_field :full_name, autofocus: true, required: true %>
+
+            <% @user.errors.full_messages_for(:full_name).each do |message| %>
+                <div class="errors"><small><%= message %></small></div>
+            <% end %>
+        </div>
+
+        <div class="field">
+            <%= f.label :email %>
+            <%= f.email_field :email %>
+
+            <% @user.errors.full_messages_for(:email).each do |message| %>
+                <div class="errors"><small><%= message %></small></div>
+            <% end %>
+        </div>
+
+        <div class="field">
+            <%= f.label :password %> (leave blank if unchanged)
+            <%= f.password_field :password %>
+
+            <% @user.errors.full_messages_for(:password).each do |message| %>
+                <div class="errors"><small><%= message %></small></div>
+            <% end %>
+        </div>
+
+        <div class="field">
+            <%= f.label :password_confirmation %>
+            <%= f.password_field :password_confirmation %>
+
+            <% @user.errors.full_messages_for(:password_confirmation).each do |message| %>
+                <div class="errors"><small><%= message %></small></div>
+            <% end %>
+        </div>
+
+        <div class="field">
+            <%= f.label :avatar %>
+            <%= f.file_field :avatar, accept: "image/png,image/jpeg,image/jpg" %>
+
+            <% @user.errors.full_messages_for(:avatar).each do |message| %>
+                <div class="errors"><small><%= message %></small></div>
+            <% end %>
+        </div>
+
+        <div class="actions">
+            <%= f.submit "Submit"%>
+        </div>
+    <% end %>
+    <div class="links">
+        <%= link_to "Back", admin_users_path(page: params[:page]) %>
+    </div>
+</div>

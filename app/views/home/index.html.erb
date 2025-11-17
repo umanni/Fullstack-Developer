@@ -1,0 +1,17 @@
+<div class="landing-container">
+
+  <div class="landing-card">
+    <% if user_signed_in? %>
+      <h1>Welcome, <%= current_user.full_name %>!</h1>
+      <p class="subtitle">We're glad to have you at Umanni.</p>
+
+    <% else %>
+      <h1>Welcome to Umanni</h1>
+      <p class="subtitle">A smart platform to manage employees, users and workflows.</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="landing-container image-section">
+  <%= image_tag "umanni_logo.png", class: "umanni-image" %>
+</div>

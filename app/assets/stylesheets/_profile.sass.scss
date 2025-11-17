@@ -1,0 +1,45 @@
+@use "sass:color";
+
+$primary-color: #002b5b;
+$secondary-color: #007bff;
+$primary-bgc: #f5f7fa;
+$secondary-bgc: #ffffff;
+$shadow-blue: #06193047;
+
+.profile-container {
+  max-width: 32rem;
+  margin: auto;
+  padding: 2rem;
+  background: $secondary-bgc;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px 10px $shadow-blue;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-weight: bolder;
+    color: $primary-color;
+  }
+
+  .profile-avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+
+    .avatar-image {
+      width: 120px;
+      height: 120px;
+      border: 3px solid $secondary-color;
+    }
+  }
+
+  .profile-field {
+    margin-bottom: 5px;
+    color: #000000;
+
+    strong {
+      color: $primary-color;
+    }
+  }
+}

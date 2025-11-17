@@ -1,0 +1,48 @@
+@use "sass:color";
+
+$table-bg: #ffffff;
+$table-border: #dcdfe3;
+$table-header-bg: color.scale(#007bff, $lightness: 60%);
+$table-row-hover: color.scale(#007bff, $lightness: 80%);
+$table-shadow: #06193047;
+$table-text: #002b5b;
+
+.table-container {
+  background: $table-bg;
+  padding: 10px;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px 10px $table-shadow;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  color: $table-text;
+
+  thead {
+    background: $table-header-bg;
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: bold;
+      border-bottom: 2px solid $table-border;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $table-border;
+
+      &:hover {
+        background: $table-row-hover;
+      }
+    }
+
+    td {
+      padding: 0.5rem;
+    }
+  }
+}

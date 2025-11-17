@@ -1,0 +1,85 @@
+// Entry point for your Sass build
+
+@use "form.sass.scss";
+@use "table.sass.scss";
+@use "profile.sass.scss";
+@use "info.sass.scss";
+@use "landing.sass.scss";
+@use "sass:color";
+
+$primary-color: #001aff;
+$secondary-color: #007bff;
+$primary-bgc: #f5f7fa;
+$secondary-bgc: #ffffff;
+$progress-bar-color: #ffd900;
+$success-color: #28a745;
+$attention-color: #e61429;
+$shadow-blue: #06193047;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $primary-bgc;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: $secondary-bgc;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px 10px $shadow-blue;
+
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.avatar-image {
+  width: 50px;
+  height: 50px;
+  border: 2px solid $secondary-color;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.turbo-progress-bar {
+  height: 10px;
+  background-color: $progress-bar-color;
+  margin: 0 10px;
+}
+
+.links {
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.5s;
+
+    &:hover {
+      color: color.scale($secondary-color, $lightness: -20%);
+      text-decoration: underline;
+    }
+  }
+}
+
+.notice {
+  color: $success-color;
+}
+
+.alert {
+  color: $attention-color;
+}
+
+.errors {
+  color: $attention-color;
+}
