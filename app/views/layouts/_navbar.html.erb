@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <li class="nav-item">
+              <%= link_to admin_root_path, class: "nav-link #{'active' if request.path == admin_root_path || request.path == '/admin/dashboard'}" do %>
+                Dashboard
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to admin_users_path, class: "nav-link #{'active' if request.path.start_with?('/admin/users')}" do %>
+                Users
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to admin_imports_path, class: "nav-link #{'active' if request.path.start_with?('/admin/imports')}" do %>
+                Imports
+              <% end %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link_to profile_path, class: "nav-link #{'active' if request.path == profile_path}" do %>
+              My Profile
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <ul class="navbar-nav">
+        <% if user_signed_in? %>
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle border-0 bg-transparent text-white d-flex align-items-center" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" style="cursor: pointer;" onclick="(function(btn){var dropdown=btn.closest('.dropdown');if(!dropdown)return false;var menu=dropdown.querySelector('.dropdown-menu');if(!menu)return false;var isOpen=menu.classList.contains('show');document.querySelectorAll('.dropdown-menu.show').forEach(function(m){if(m!==menu){m.classList.remove('show');var t=m.closest('.dropdown')?.querySelector('[data-bs-toggle]');if(t)t.setAttribute('aria-expanded','false');}});if(isOpen){menu.classList.remove('show');btn.setAttribute('aria-expanded','false');}else{menu.classList.add('show');btn.setAttribute('aria-expanded','true');}event.stopPropagation();return false;})(this);">
+              <%= avatar_image_tag(current_user, class: 'avatar-small me-2') %>
+              <span class="navbar-user-name"><%= current_user.full_name %></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <%= link_to profile_path, class: 'dropdown-item user-dropdown-item' do %>
+                  <i class="bi bi-person-circle me-2"></i>
+                  <span>My Profile</span>
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= button_to destroy_user_session_path, method: :delete, form_class: 'd-inline user-dropdown-form', class: 'dropdown-item user-dropdown-item' do %>
+                  <i class="bi bi-box-arrow-right me-2"></i>
+                  <span>Sign Out</span>
+                <% end %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Sign In', new_user_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign Up', new_user_registration_path, class: 'nav-link' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+

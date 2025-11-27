@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# This command will automatically be run when you run "rails" with Rails 8 gems installed from the root directory of your application.
+
+APP_PATH = File.expand_path("../config/application", __dir__)
+require_relative "../config/boot"
+require "rails/commands"
+

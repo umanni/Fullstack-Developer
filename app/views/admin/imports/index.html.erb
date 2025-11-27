@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>User Imports</h1>
+  <%= link_to 'New Import', new_admin_import_path, class: 'btn btn-primary' %>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Total Rows</th>
+            <th>Processed</th>
+            <th>Success</th>
+            <th>Errors</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @imports.each do |import| %>
+            <tr>
+              <td><%= import.id %></td>
+              <td>
+                <span class="badge <%= status_badge_class(import.status) %>">
+                  <%= import.status.capitalize %>
+                </span>
+              </td>
+              <td><%= import.total_rows %></td>
+              <td><%= import.processed_rows %></td>
+              <td class="text-success"><%= import.success_count %></td>
+              <td class="text-danger"><%= import.error_count %></td>
+              <td><%= import.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+              <td>
+                <%= link_to 'View', admin_import_path(import), class: 'btn btn-sm btn-outline-primary' %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

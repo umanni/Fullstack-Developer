@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin - Fullstack Developer</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render 'layouts/navbar' %>
+
+    <main class="container-fluid mt-4">
+      <%= render 'layouts/flash_messages' %>
+
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
+
+    <%= render 'layouts/footer' %>
+  </body>
+</html>
+

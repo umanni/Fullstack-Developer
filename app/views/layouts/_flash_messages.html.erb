@@ -1,0 +1,7 @@
+<% flash.each do |type, message| %>
+  <div class="alert <%= flash_class(type) %> alert-dismissible fade show" role="alert" data-alert-dismissible="true">
+    <%= message %>
+    <button type="button" class="btn-close" aria-label="Close" onclick="(function(btn){var alert=btn.closest('.alert');if(alert){alert.style.transition='opacity 0.15s linear';alert.style.opacity='0';setTimeout(function(){alert.remove();},150);}return false;})(this);"></button>
+  </div>
+<% end %>
+

@@ -1,0 +1,64 @@
+<%= form_with model: user, url: url, local: true, data: { turbo: false } do |form| %>
+  <% if user.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><%= pluralize(user.errors.count, 'error') %> prohibited this user from being saved:</h5>
+      <ul class="mb-0">
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :full_name, class: 'form-label' %>
+    <%= form.text_field :full_name, class: 'form-control', required: true, minlength: 2, maxlength: 100 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :email, class: 'form-label' %>
+    <%= form.email_field :email, class: 'form-control', required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :role, class: 'form-label' %>
+    <%= form.select :role, options_for_select([['User', 'user'], ['Admin', 'admin']], user.role), {}, class: 'form-select' %>
+  </div>
+
+  <% if user.new_record? %>
+    <div class="mb-3">
+      <%= form.label :password, class: 'form-label' %>
+      <%= form.password_field :password, class: 'form-control', required: true, minlength: 6 %>
+      <small class="form-text text-muted">Minimum 6 characters</small>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :password_confirmation, class: 'form-label' %>
+      <%= form.password_field :password_confirmation, class: 'form-control', required: true, minlength: 6 %>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :avatar_url, 'Avatar URL (optional)', class: 'form-label' %>
+    <%= form.url_field :avatar_url, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :avatar_image, 'Or upload avatar image', class: 'form-label' %>
+    <%= form.file_field :avatar_image, accept: 'image/jpeg,image/jpg,image/png,image/gif,image/webp', class: 'form-control' %>
+    <small class="form-text text-muted">JPEG, PNG, GIF or WebP, max 5MB</small>
+  </div>
+
+  <% if user.avatar_image.attached? %>
+    <div class="mb-3">
+      <p>Current avatar:</p>
+      <%= image_tag user.avatar_image, class: 'avatar-preview' %>
+    </div>
+  <% end %>
+
+  <div class="d-flex gap-2">
+    <%= form.submit class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', admin_users_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>
+

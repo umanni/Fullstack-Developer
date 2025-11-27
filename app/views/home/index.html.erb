@@ -1,0 +1,38 @@
+<div class="auth-container auth-container-light">
+  <div class="auth-card auth-card-light">
+    <div class="auth-header">
+      <h1 class="auth-title">User Management</h1>
+      <p class="auth-subtitle">Welcome!</p>
+      <p class="auth-description">Choose an option to continue</p>
+    </div>
+
+    <div class="auth-actions">
+      <%= link_to new_user_session_path, class: 'auth-button auth-button-primary' do %>
+        <i class="bi bi-box-arrow-in-right me-2"></i>
+        Sign In
+      <% end %>
+    </div>
+
+    <div class="auth-divider">
+      <span>or</span>
+    </div>
+
+    <div class="auth-actions">
+      <%= form_with url: guest_session_path, method: :post, local: true, class: 'd-inline w-100' do |form| %>
+        <button type="submit" class="auth-button auth-button-secondary">
+          <i class="bi bi-person-badge me-2"></i>
+          Guest Access
+        </button>
+      <% end %>
+    </div>
+
+    <div class="auth-footer">
+      <p class="auth-footer-text">
+        New here? 
+        <%= link_to 'Create an account and try it for free', new_user_registration_path, class: 'auth-link' %>
+      </p>
+      <p class="auth-copyright">© 2025 Fullstack Developer Test. All rights reserved.</p>
+    </div>
+  </div>
+</div>
+

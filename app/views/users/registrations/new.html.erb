@@ -1,0 +1,87 @@
+<div class="auth-container auth-container-light">
+  <div class="auth-card auth-card-light">
+    <div class="auth-header">
+      <h1 class="auth-title">User Management</h1>
+      <p class="auth-subtitle">Create Account</p>
+      <p class="auth-description">Fill in the information below to create your account</p>
+    </div>
+
+    <%= form_with model: resource, as: resource_name, url: registration_path(resource_name), local: true, data: { turbo: false }, class: 'auth-form' do |form| %>
+      <% if resource.errors.any? %>
+        <div class="auth-alert">
+          <strong>Error creating account:</strong>
+          <ul class="mb-0 mt-2">
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="auth-input-group">
+        <i class="bi bi-person auth-icon"></i>
+        <%= form.text_field :full_name, autofocus: true, class: 'auth-input', placeholder: 'Enter your full name', required: true, minlength: 2, maxlength: 100 %>
+      </div>
+
+      <div class="auth-input-group">
+        <i class="bi bi-envelope auth-icon"></i>
+        <%= form.email_field :email, autocomplete: 'email', class: 'auth-input', placeholder: 'Enter your email', required: true %>
+      </div>
+
+      <div class="auth-input-group">
+        <i class="bi bi-lock auth-icon"></i>
+        <%= form.password_field :password, autocomplete: 'new-password', class: 'auth-input', placeholder: 'Enter your password', required: true, minlength: 6, id: 'password-field' %>
+        <i class="bi bi-eye auth-icon-right" id="toggle-password" style="cursor: pointer;"></i>
+        <% if @minimum_password_length %>
+          <small class="auth-input-hint">Minimum <%= @minimum_password_length %> characters</small>
+        <% end %>
+      </div>
+
+      <div class="auth-input-group">
+        <i class="bi bi-lock-fill auth-icon"></i>
+        <%= form.password_field :password_confirmation, autocomplete: 'new-password', class: 'auth-input', placeholder: 'Confirm your password', required: true, minlength: 6, id: 'password-confirmation-field' %>
+        <i class="bi bi-eye auth-icon-right" id="toggle-password-confirmation" style="cursor: pointer;"></i>
+      </div>
+
+      <div class="auth-actions">
+        <%= form.submit 'Create Account', class: 'auth-button auth-button-primary' %>
+      </div>
+    <% end %>
+
+    <div class="auth-footer">
+      <p class="auth-footer-text">
+        Already have an account? 
+        <%= link_to 'Sign in here', new_user_session_path, class: 'auth-link' %>
+      </p>
+      <p class="auth-copyright">© 2025 Fullstack Developer Test. All rights reserved.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password-field');
+    const togglePasswordConfirmation = document.getElementById('toggle-password-confirmation');
+    const passwordConfirmationField = document.getElementById('password-confirmation-field');
+    
+    if (togglePassword && passwordField) {
+      togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        togglePassword.classList.toggle('bi-eye');
+        togglePassword.classList.toggle('bi-eye-slash');
+      });
+    }
+    
+    if (togglePasswordConfirmation && passwordConfirmationField) {
+      togglePasswordConfirmation.addEventListener('click', function() {
+        const type = passwordConfirmationField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordConfirmationField.setAttribute('type', type);
+        togglePasswordConfirmation.classList.toggle('bi-eye');
+        togglePasswordConfirmation.classList.toggle('bi-eye-slash');
+      });
+    }
+  });
+</script>
+

@@ -1,0 +1,19 @@
+{
+  "name": "fullstack-developer",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@hotwired/turbo-rails": "^8.0.0",
+    "@hotwired/stimulus": "^3.2.0",
+    "@rails/actioncable": "^8.0.0",
+    "bootstrap": "^5.3.0"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.js --bundle --sourcemap --outdir=app/assets/builds",
+    "watch": "esbuild app/javascript/*.js --bundle --sourcemap --outdir=app/assets/builds --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.0"
+  }
+}
+

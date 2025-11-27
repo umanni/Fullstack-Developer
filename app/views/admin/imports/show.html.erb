@@ -1,0 +1,326 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Import #<%= @import.id %></h1>
+  <%= link_to 'Back to Imports', admin_imports_path, class: 'btn btn-secondary' %>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Import Details</h5>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th>Status:</th>
+            <td>
+              <span class="badge <%= status_badge_class(@import.status) %>" id="import-status">
+                <%= @import.status.capitalize %>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th>Total Rows:</th>
+            <td id="total-rows-detail"><%= @import.total_rows %></td>
+          </tr>
+          <tr>
+            <th>Processed Rows:</th>
+            <td id="processed-rows-detail"><%= @import.processed_rows %></td>
+          </tr>
+          <tr>
+            <th>Success Count:</th>
+            <td class="text-success" id="success-count"><%= @import.success_count %></td>
+          </tr>
+          <tr>
+            <th>Error Count:</th>
+            <td class="text-danger" id="error-count"><%= @import.error_count %></td>
+          </tr>
+          <tr>
+            <th>Created At:</th>
+            <td><%= @import.created_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" id="progress-card" style="<%= 'display: none;' if @import.finished? %>">
+      <div class="card-header">
+        <h5 class="mb-0">Progress</h5>
+      </div>
+      <div class="card-body">
+        <div id="processing-indicator" style="<%= 'display: none;' if @import.finished? %>" class="mb-3 text-center">
+          <div class="spinner-border text-primary me-2" role="status">
+            <span class="visually-hidden">Processing...</span>
+          </div>
+          <span class="processing-text" style="font-size: 1.1rem; font-weight: 500; color: #0d6efd;">
+            Processing<span class="processing-dots">...</span>
+          </span>
+        </div>
+        <div class="progress mb-3" style="height: 30px;">
+          <div class="progress-bar progress-bar-striped <%= 'progress-bar-animated' unless @import.finished? %>" 
+               role="progressbar" 
+               id="progress-bar"
+               aria-valuenow="<%= @import.progress_percentage %>"
+               aria-valuemin="0"
+               aria-valuemax="100"
+               style="width: <%= @import.progress_percentage %>%;">
+              <%= @import.progress_percentage %>%
+          </div>
+        </div>
+        <p class="mb-0">
+          Processed: <strong id="processed-rows"><%= @import.processed_rows %></strong> / 
+          <strong id="total-rows"><%= @import.total_rows %></strong>
+        </p>
+      </div>
+    </div>
+
+    <% if @import.error_messages.any? %>
+      <div class="card mt-4">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">Errors</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled">
+            <% @import.error_messages.each do |error| %>
+              <li class="text-danger">• <%= error %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+    (function() {
+      let statusInterval = null;
+      let channel = null;
+      
+      function updateUI(data) {
+        // Mostrar card de progresso se estiver processando
+        if (data.status === 'processing' || data.status === 'pending') {
+          const progressCard = document.getElementById('progress-card');
+          if (progressCard) progressCard.style.display = 'block';
+        }
+        
+        // Atualizar indicador de processamento
+        const processingIndicator = document.getElementById('processing-indicator');
+        if (processingIndicator) {
+          if (data.status === 'processing' || data.status === 'pending') {
+            processingIndicator.style.display = 'block';
+            // Iniciar animação se ainda não estiver rodando
+            if (!dotsInterval) {
+              animateProcessingDots();
+            }
+          } else {
+            processingIndicator.style.display = 'none';
+            stopAnimateProcessingDots();
+          }
+        }
+        
+        // Atualizar barra de progresso
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar && data.progress !== undefined) {
+          const progress = Math.max(0, Math.min(100, data.progress));
+          progressBar.style.width = progress + '%';
+          progressBar.textContent = progress.toFixed(1) + '%';
+          progressBar.setAttribute('aria-valuenow', progress);
+          
+          // Adicionar animação se estiver processando
+          if (data.status === 'processing' || data.status === 'pending') {
+            progressBar.classList.add('progress-bar-animated');
+          } else {
+            progressBar.classList.remove('progress-bar-animated');
+          }
+        }
+        
+        // Atualizar valores de texto
+        if (data.processed_rows !== undefined) {
+          const processedRows = document.getElementById('processed-rows');
+          if (processedRows) processedRows.textContent = data.processed_rows;
+          
+          const processedRowsDetail = document.getElementById('processed-rows-detail');
+          if (processedRowsDetail) processedRowsDetail.textContent = data.processed_rows;
+        }
+        
+        if (data.total_rows !== undefined) {
+          const totalRows = document.getElementById('total-rows');
+          if (totalRows) totalRows.textContent = data.total_rows;
+          
+          const totalRowsDetail = document.getElementById('total-rows-detail');
+          if (totalRowsDetail) totalRowsDetail.textContent = data.total_rows;
+        }
+        
+        if (data.success_count !== undefined) {
+          const successCount = document.getElementById('success-count');
+          if (successCount) successCount.textContent = data.success_count;
+        }
+        
+        if (data.error_count !== undefined) {
+          const errorCount = document.getElementById('error-count');
+          if (errorCount) errorCount.textContent = data.error_count;
+        }
+        
+        if (data.status) {
+          const statusBadge = document.getElementById('import-status');
+          if (statusBadge) {
+            statusBadge.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+            // Atualizar classe do badge
+            statusBadge.className = 'badge ' + getStatusBadgeClass(data.status);
+          }
+        }
+      }
+      
+      function getStatusBadgeClass(status) {
+        const classes = {
+          'pending': 'bg-secondary',
+          'processing': 'bg-primary',
+          'completed': 'bg-success',
+          'failed': 'bg-danger'
+        };
+        return classes[status] || 'bg-secondary';
+      }
+      
+      function fetchStatus() {
+        fetch('<%= status_admin_import_path(@import) %>')
+          .then(response => response.json())
+          .then(data => {
+            updateUI({
+              processed_rows: data.processed_rows,
+              total_rows: data.total_rows,
+              success_count: data.success_count,
+              error_count: data.error_count,
+              status: data.status,
+              progress: data.progress
+            });
+            
+            if (data.status === 'completed' || data.status === 'failed') {
+              // Ocultar indicador de processamento e parar animação
+              const processingIndicator = document.getElementById('processing-indicator');
+              if (processingIndicator) processingIndicator.style.display = 'none';
+              stopAnimateProcessingDots();
+              
+              // Parar polling e desconectar
+              if (statusInterval) {
+                clearInterval(statusInterval);
+                statusInterval = null;
+              }
+              if (channel) {
+                channel.unsubscribe();
+                channel = null;
+              }
+              
+              // Recarregar página após 1.5 segundos para mostrar resultado final
+              setTimeout(() => {
+                window.location.reload();
+              }, 1500);
+            }
+          })
+          .catch(error => console.error('Error fetching status:', error));
+      }
+      
+      // Animação dos pontinhos
+      let dotsInterval = null;
+      function animateProcessingDots() {
+        const dotsElement = document.querySelector('.processing-dots');
+        if (!dotsElement) return;
+        
+        let dotsCount = 0;
+        dotsInterval = setInterval(() => {
+          dotsCount = (dotsCount % 3) + 1;
+          dotsElement.textContent = '.'.repeat(dotsCount);
+        }, 500);
+      }
+      
+      function stopAnimateProcessingDots() {
+        if (dotsInterval) {
+          clearInterval(dotsInterval);
+          dotsInterval = null;
+        }
+      }
+      
+      function initProgressUpdates() {
+        // Evitar múltiplas inicializações
+        if (statusInterval !== null) return;
+        
+        // Verificar se import já está finalizado
+        const statusBadge = document.getElementById('import-status');
+        if (statusBadge) {
+          const currentStatus = statusBadge.textContent.toLowerCase().trim();
+          if (currentStatus === 'completed' || currentStatus === 'failed') {
+            return; // Não iniciar se já finalizado
+          }
+        }
+        
+        // Iniciar animação dos pontinhos
+        animateProcessingDots();
+        
+        // Inicializar ActionCable
+        if (typeof ActionCable !== 'undefined') {
+          const consumer = ActionCable.createConsumer();
+          channel = consumer.subscriptions.create({
+            channel: 'ImportProgressChannel',
+            import_id: <%= @import.id %>
+          }, {
+            received(data) {
+              console.log('ActionCable received:', data);
+              if (data.type === 'progress') {
+                updateUI(data);
+              } else if (data.type === 'completed') {
+                // Atualizar UI com dados finais
+                updateUI({
+                  ...data,
+                  progress: 100
+                });
+                
+                // Ocultar indicador de processamento e parar animação
+                const processingIndicator = document.getElementById('processing-indicator');
+                if (processingIndicator) processingIndicator.style.display = 'none';
+                stopAnimateProcessingDots();
+                
+                // Parar polling
+                if (statusInterval) {
+                  clearInterval(statusInterval);
+                  statusInterval = null;
+                }
+                
+                // Recarregar página após 1.5 segundos para mostrar resultado final
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+              } else if (data.type === 'error') {
+                console.error('Import error:', data.message);
+                alert('Error: ' + data.message);
+              }
+            }
+          });
+        }
+        
+        // Polling para garantir atualização mesmo se ActionCable falhar
+        fetchStatus(); // Primeira chamada imediata
+        statusInterval = setInterval(fetchStatus, 1000); // Atualizar a cada 1 segundo
+      }
+      
+      // Inicializar quando página carregar
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initProgressUpdates);
+      } else {
+        initProgressUpdates();
+      }
+      
+      // Reinicializar quando Turbo carregar (mas apenas se não estiver já inicializado)
+      document.addEventListener('turbo:load', function() {
+        if (statusInterval === null) {
+          initProgressUpdates();
+        }
+      });
+      
+      // Limpar intervalo quando página sair
+      window.addEventListener('beforeunload', () => {
+        if (statusInterval) clearInterval(statusInterval);
+        if (channel) channel.unsubscribe();
+        stopAnimateProcessingDots();
+      });
+    })();
+<% end %>
+

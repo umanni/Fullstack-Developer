@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fullstack Developer - User Management</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <% auth_paths = [root_path, new_user_session_path, new_user_registration_path, new_user_password_path] %>
+    <%= render 'layouts/navbar' unless auth_paths.include?(request.path) %>
+
+    <main class="<%= 'container mt-4' unless auth_paths.include?(request.path) %>">
+      <%= render 'layouts/flash_messages' %>
+
+      <%= yield %>
+    </main>
+
+    <%= render 'layouts/footer' unless auth_paths.include?(request.path) %>
+  </body>
+</html>
+

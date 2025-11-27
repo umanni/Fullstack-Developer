@@ -1,0 +1,358 @@
+<% content_for :title, 'Admin Dashboard' %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Admin Dashboard</h1>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card bg-primary text-white">
+      <div class="card-body">
+        <h5 class="card-title">Total Users</h5>
+        <h2 class="mb-0" id="total-users"><%= @total_users %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card bg-success text-white">
+      <div class="card-body">
+        <h5 class="card-title">Total Admins</h5>
+        <h2 class="mb-0" id="total-admins"><%= @total_admins %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card bg-info text-white">
+      <div class="card-body">
+        <h5 class="card-title">Regular Users</h5>
+        <h2 class="mb-0" id="total-regular-users"><%= @total_regular_users %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card bg-warning text-white">
+      <div class="card-body">
+        <h5 class="card-title">Total Guests</h5>
+        <h2 class="mb-0" id="total-guests"><%= @total_guests %></h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h5 class="mb-0">Users by Role</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="fw-semibold">Admins</span>
+          <span class="badge bg-success"><%= @total_admins %></span>
+        </div>
+        <div class="progress" style="height: 25px;">
+          <div class="progress-bar bg-success" role="progressbar" style="width: <%= @total_users > 0 ? (@total_admins.to_f / @total_users * 100) : 0 %>%" aria-valuenow="<%= @total_admins %>" aria-valuemin="0" aria-valuemax="<%= @total_users %>">
+            <%= @total_users > 0 ? "#{(@total_admins.to_f / @total_users * 100).round(1)}%" : "0%" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="fw-semibold">Regular Users</span>
+          <span class="badge bg-info"><%= @total_regular_users %></span>
+        </div>
+        <div class="progress" style="height: 25px;">
+          <div class="progress-bar bg-info" role="progressbar" style="width: <%= @total_users > 0 ? (@total_regular_users.to_f / @total_users * 100) : 0 %>%" aria-valuenow="<%= @total_regular_users %>" aria-valuemin="0" aria-valuemax="<%= @total_users %>">
+            <%= @total_users > 0 ? "#{(@total_regular_users.to_f / @total_users * 100).round(1)}%" : "0%" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="fw-semibold">Guests</span>
+          <span class="badge bg-warning"><%= @total_guests %></span>
+        </div>
+        <div class="progress" style="height: 25px;">
+          <div class="progress-bar bg-warning" role="progressbar" style="width: <%= @total_users > 0 ? (@total_guests.to_f / @total_users * 100) : 0 %>%" aria-valuenow="<%= @total_guests %>" aria-valuemin="0" aria-valuemax="<%= @total_users %>">
+            <%= @total_users > 0 ? "#{(@total_guests.to_f / @total_users * 100).round(1)}%" : "0%" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="fw-semibold">Total</span>
+          <span class="badge bg-primary"><%= @total_users %></span>
+        </div>
+        <div class="progress" style="height: 25px;">
+          <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="<%= @total_users %>" aria-valuemin="0" aria-valuemax="<%= @total_users %>">
+            100%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Users Distribution (Pie Chart)</h5>
+      </div>
+      <div class="card-body">
+        <canvas id="users-pie-chart" height="300"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Users by Role (Bar Chart)</h5>
+      </div>
+      <div class="card-body">
+        <canvas id="users-bar-chart" height="300"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  let pieChart = null;
+  let barChart = null;
+
+  // Carrega Chart.js dinamicamente
+  function loadChartJS() {
+    if (typeof Chart !== 'undefined') {
+      initializeCharts();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+    script.onload = function() {
+      initializeCharts();
+    };
+    document.head.appendChild(script);
+  }
+
+  function initializeCharts() {
+    const pieCtx = document.getElementById('users-pie-chart');
+    const barCtx = document.getElementById('users-bar-chart');
+
+    if (!pieCtx || !barCtx || typeof Chart === 'undefined') {
+      // Aguarda Chart.js carregar
+      setTimeout(initializeCharts, 100);
+      return;
+    }
+
+    // Dados iniciais
+    const initialData = {
+      admins: <%= @total_admins %>,
+      regularUsers: <%= @total_regular_users %>,
+      guests: <%= @total_guests %>
+    };
+
+    // Gráfico de Pizza
+    if (pieChart) {
+      pieChart.destroy();
+    }
+    pieChart = new Chart(pieCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Admins', 'Regular Users', 'Guests'],
+        datasets: [{
+          label: 'Users by Role',
+          data: [initialData.admins, initialData.regularUsers, initialData.guests],
+          backgroundColor: [
+            '#28a745', // verde para admins
+            '#17a2b8', // azul claro para regular users
+            '#ffc107'  // amarelo para guests
+          ],
+          borderColor: [
+            '#1e7e34',
+            '#117a8b',
+            '#e0a800'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                return label + ': ' + value + ' (' + percentage + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Gráfico de Barras
+    if (barChart) {
+      barChart.destroy();
+    }
+    barChart = new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Admins', 'Regular Users', 'Guests'],
+        datasets: [{
+          label: 'Number of Users',
+          data: [initialData.admins, initialData.regularUsers, initialData.guests],
+          backgroundColor: [
+            '#28a745',
+            '#17a2b8',
+            '#ffc107'
+          ],
+          borderColor: [
+            '#1e7e34',
+            '#117a8b',
+            '#e0a800'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.dataset.label + ': ' + context.parsed.y;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function updateCharts(data) {
+    if (!pieChart || !barChart) return;
+
+    const admins = data.total_admins || 0;
+    const regularUsers = data.total_regular_users || 0;
+    const guests = data.total_guests || 0;
+
+    // Atualiza gráfico de pizza
+    pieChart.data.datasets[0].data = [admins, regularUsers, guests];
+    pieChart.update();
+
+    // Atualiza gráfico de barras
+    barChart.data.datasets[0].data = [admins, regularUsers, guests];
+    barChart.update();
+  }
+
+  let actionCableChannel = null;
+
+  // Inicializa gráficos e ActionCable
+  function initializeDashboard() {
+    loadChartJS();
+    
+    // Cria conexão ActionCable apenas uma vez
+    if (!actionCableChannel) {
+      const consumer = ActionCable.createConsumer();
+      actionCableChannel = consumer.subscriptions.create('AdminDashboardChannel', {
+      received(data) {
+        if (data.total_users !== undefined) {
+          const totalUsers = data.total_users;
+          document.getElementById('total-users').textContent = totalUsers;
+          
+          // Atualiza as barras de progresso e badges
+          if (data.total_admins !== undefined) {
+            document.getElementById('total-admins').textContent = data.total_admins;
+            const adminPercent = totalUsers > 0 ? (data.total_admins / totalUsers * 100) : 0;
+            const adminProgressContainer = document.querySelectorAll('.progress-bar.bg-success')[0]?.closest('.progress').previousElementSibling;
+            if (adminProgressContainer) {
+              const adminBadge = adminProgressContainer.querySelector('.badge');
+              if (adminBadge) adminBadge.textContent = data.total_admins;
+            }
+            const adminBar = document.querySelectorAll('.progress-bar.bg-success')[0];
+            if (adminBar) {
+              adminBar.style.width = adminPercent + '%';
+              adminBar.textContent = adminPercent.toFixed(1) + '%';
+              adminBar.setAttribute('aria-valuenow', data.total_admins);
+            }
+          }
+          
+          if (data.total_regular_users !== undefined) {
+            document.getElementById('total-regular-users').textContent = data.total_regular_users;
+            const regularPercent = totalUsers > 0 ? (data.total_regular_users / totalUsers * 100) : 0;
+            const regularProgressContainer = document.querySelectorAll('.progress-bar.bg-info')[0]?.closest('.progress').previousElementSibling;
+            if (regularProgressContainer) {
+              const regularBadge = regularProgressContainer.querySelector('.badge');
+              if (regularBadge) regularBadge.textContent = data.total_regular_users;
+            }
+            const regularBar = document.querySelectorAll('.progress-bar.bg-info')[0];
+            if (regularBar) {
+              regularBar.style.width = regularPercent + '%';
+              regularBar.textContent = regularPercent.toFixed(1) + '%';
+              regularBar.setAttribute('aria-valuenow', data.total_regular_users);
+            }
+          }
+          
+          if (data.total_guests !== undefined) {
+            document.getElementById('total-guests').textContent = data.total_guests;
+            const guestPercent = totalUsers > 0 ? (data.total_guests / totalUsers * 100) : 0;
+            const guestProgressContainer = document.querySelectorAll('.progress-bar.bg-warning')[0]?.closest('.progress').previousElementSibling;
+            if (guestProgressContainer) {
+              const guestBadge = guestProgressContainer.querySelector('.badge');
+              if (guestBadge) guestBadge.textContent = data.total_guests;
+            }
+            const guestBar = document.querySelectorAll('.progress-bar.bg-warning')[0];
+            if (guestBar) {
+              guestBar.style.width = guestPercent + '%';
+              guestBar.textContent = guestPercent.toFixed(1) + '%';
+              guestBar.setAttribute('aria-valuenow', data.total_guests);
+            }
+          }
+          
+          // Atualiza badge do total na seção Users by Role
+          const totalSection = document.querySelector('.card-body .row');
+          if (totalSection) {
+            const totalBadge = totalSection.querySelector('.badge.bg-primary');
+            if (totalBadge) {
+              totalBadge.textContent = totalUsers;
+            }
+          }
+          
+          // Atualiza os gráficos
+          updateCharts(data);
+        }
+      }
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initializeDashboard);
+  
+  // Também inicializa quando Turbo carrega
+  document.addEventListener('turbo:load', function() {
+    if (!pieChart || !barChart) {
+      initializeDashboard();
+    }
+  });
+<% end %>
+

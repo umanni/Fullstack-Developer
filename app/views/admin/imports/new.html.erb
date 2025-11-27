@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <div class="card">
+      <div class="card-header">
+        <h4>Import Users from Spreadsheet</h4>
+      </div>
+      <div class="card-body">
+        <%= form_with model: @import, url: admin_imports_path, local: true, data: { turbo: false } do |form| %>
+          <% if @import.errors.any? %>
+            <div class="alert alert-danger">
+              <h5><%= pluralize(@import.errors.count, 'error') %> prohibited this import from being saved:</h5>
+              <ul class="mb-0">
+                <% @import.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mb-3">
+            <%= form.label :spreadsheet_file, 'Spreadsheet File', class: 'form-label' %>
+            <div class="file-input-wrapper" style="position: relative;">
+              <%= form.file_field :spreadsheet_file, accept: '.xlsx,.xls,.csv', class: 'form-control', required: true, id: 'spreadsheet_file_input' %>
+              <button type="button" class="file-input-custom-button" onclick="document.getElementById('spreadsheet_file_input').click()">Choose File</button>
+              <span class="file-input-english-text" id="file-name-display">No file chosen</span>
+            </div>
+            <small class="form-text text-muted">
+              Accepted formats: Excel (.xlsx, .xls) or CSV (.csv).<br>
+              Required columns: full_name, email (optional: role, avatar_url)
+            </small>
+          </div>
+
+          <div class="d-flex gap-2">
+            <%= form.submit 'Start Import', class: 'btn btn-primary' %>
+            <%= link_to 'Cancel', admin_imports_path, class: 'btn btn-secondary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag do %>
+  (function() {
+    const fileInput = document.getElementById('spreadsheet_file_input');
+    const fileNameDisplay = document.getElementById('file-name-display');
+    
+    if (fileInput && fileNameDisplay) {
+      // Função para atualizar o nome do arquivo
+      function updateFileName() {
+        if (fileInput.files && fileInput.files.length > 0) {
+          const fileName = fileInput.files[0].name;
+          fileNameDisplay.textContent = fileName;
+          fileNameDisplay.style.color = '#212529';
+          fileNameDisplay.title = fileName;
+        } else {
+          fileNameDisplay.textContent = 'No file chosen';
+          fileNameDisplay.style.color = '#6c757d';
+          fileNameDisplay.title = '';
+        }
+      }
+      
+      // Adicionar listener para mudanças no input
+      fileInput.addEventListener('change', updateFileName);
+      
+      // Atualizar inicialmente
+      updateFileName();
+    }
+  })();
+<% end %>
+

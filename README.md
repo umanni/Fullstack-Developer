@@ -1,67 +1,272 @@
-# Fullstack Developer Test
+# Fullstack Developer Test - User Management System
 
-- Check this readme.md
-- Create a branch to develop your task
-- Push to remote in 1 week (date will be checked from branch creation/assigned date)
+## Overview
 
-# Requirements:
-- Latest version of the stack
-- Write unit and integration tests 
-- Deliver with a working Dockerfile
-- Use docker-compose.yml if needed
-- Show your best practices ex: design patters, linters etc.
+This is a full-stack Ruby on Rails application for managing users with admin dashboard, real-time updates, and spreadsheet import functionality.
 
-# The Test
-Here we'll try to simulate a "real sprint" that you'll, probably, be assigned while working as Fullstack at Umanni.
-# The Task
-- Create a responsive application to manage users.
-- A user must have:
-1- full_name
-2- email
-3- avatar_image (upload from file or url)
-4- role (admin/no-admin)
-# The App
-## Admin Use cases
-- As an Admin, I must be able to access a User Admin Dashboard.
-- As an Admin, I must be able to see on Dashboard:
-  - Total number of Users
-  - Total number of Users grouped by Role
-- As an Admin, I must be redirected to User Admin Dashboard after login
-- As an Admin, I must be able to list, create, edit and delete Users.
-- As an Admin, I must be able to toggle the User Role.
-- As an Admin, I must be able to import a Spreadsheet into the system, in order to create new Users
-- As an Admin, I must be able to see the progress of Users imports.
-## User Use Cases
-- As an User, I must be redirected to my Profile after login
-- As an User, I must be able only to see my info, edit and delete my profile.
-## Visitor Use Cases
-- As a Visitor, I can register myself as a normal User.
+## Tech Stack
 
-# The Start.
-- Your deadline is 1 week after accepting this test. 
-# The Rules
-These one are required. Not doing one of them will invalidate your submission.
-- You must write down a README in English explaining how to build and run your app.
-- The Frontend must  have a framework Bootstrap, Foundation, MDL or any other frameworks, remember you are here as a Fullstack not a backend developer.
-- You must use realtime related stuff (counters on Admin Dashboard, import progress, etc)
-- You must treat errors accordingly.
-- You must use a open source lib to authenticate Users.
-- And, of course, if you're doing this test, we assume that you have knowledge of git (clone, commit, push, pull, fetch, rebase, merge, stash), and be acquainted with github niceties such as Pull Request based on workflows.
-# What we're expecting to see:
-- Use SCSS to your CSS;
-- .gitignore, .dockerignore
-- A proper way to manage app configuration 
-- Consider multiple Browser support ex: Edge, Chrome, Firefox and Safari.
-- Organize & optimize your code and images
-- Form validation (frontend validation included)
-- Tests with at least 90% coverage
-- Be able to use, pjax, turbolinks, intercooler, unpoly (yes, we believe in good old server side rendering)
-# Extra points
-- Use a Dockerfile
-- docker-compose.yml
-- React in some ui components when it makes sense
-- Stress tests
-# What will be assessed
-- Code's Semantic, Cleanness and Maintainability;
-- Understanding of REST and proper use of HTTP Methods (POST, GET, PUT, PATCH, DELETE, OPTIONS);
-- Basic Security tests against Injections, XSS/XSRF, ...
+- **Backend**: Ruby on Rails 8.0.3
+- **Database**: PostgreSQL 15
+- **Authentication**: Devise
+- **Authorization**: Pundit
+- **Background Jobs**: Sidekiq with Redis
+- **Realtime**: ActionCable
+- **Server-Side Rendering**: Turbo (Hotwire)
+- **File Uploads**: Active Storage
+- **Spreadsheet Processing**: Roo
+- **Frontend**: Bootstrap 5 + SCSS
+- **Testing**: RSpec with 90%+ coverage
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Ruby 3.3.0 (if running locally)
+- PostgreSQL 15
+- Redis
+- Node.js and npm
+
+## Quick Start with Docker
+
+### Using Docker Compose (Recommended)
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd Fullstack-Developer
+```
+
+2. Build and start the services:
+```bash
+docker-compose up --build
+```
+
+3. Create and seed the database:
+```bash
+docker-compose exec web rails db:create db:migrate
+```
+
+4. Create an admin user (optional):
+```bash
+docker-compose exec web rails console
+```
+
+In the Rails console:
+```ruby
+User.create!(
+  full_name: 'Admin User',
+  email: 'admin@example.com',
+  password: 'password123',
+  password_confirmation: 'password123',
+  role: :admin
+)
+```
+
+5. Access the application:
+- Web: http://localhost:3000
+- Sidekiq UI: Add to routes (see configuration below)
+
+## Local Development Setup
+
+### 1. Install Dependencies
+
+```bash
+bundle install
+npm install
+```
+
+### 2. Database Setup
+
+```bash
+# Create database
+rails db:create
+
+# Run migrations
+rails db:migrate
+
+# (Optional) Seed data
+rails db:seed
+```
+
+### 3. Environment Variables
+
+Create a `.env` file or set environment variables:
+
+```bash
+DATABASE_HOST=localhost
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+REDIS_URL=redis://localhost:6379/0
+SECRET_KEY_BASE=your_secret_key_here
+```
+
+### 4. Start Services
+
+In separate terminals:
+
+```bash
+# Start Redis
+redis-server
+
+# Start Sidekiq
+bundle exec sidekiq
+
+# Start Rails server
+rails server
+```
+
+### 5. Create Admin User
+
+```bash
+rails console
+```
+
+```ruby
+User.create!(
+  full_name: 'Admin User',
+  email: 'admin@example.com',
+  password: 'password123',
+  password_confirmation: 'password123',
+  role: :admin
+)
+```
+
+## Running Tests
+
+```bash
+# Run all tests
+bundle exec rspec
+
+# Run with coverage report
+COVERAGE=true bundle exec rspec
+
+# Run specific test file
+bundle exec rspec spec/models/user_spec.rb
+```
+
+Test coverage is configured to require 90% minimum coverage.
+
+## Features
+
+### Admin Features
+- Admin dashboard with real-time user statistics
+- CRUD operations for users
+- Toggle user roles
+- Import users from Excel/CSV spreadsheets
+- Real-time progress tracking for imports
+
+### User Features
+- View and edit own profile
+- Upload avatar image or provide URL
+- Delete own account
+
+### Visitor Features
+- Register as a new user
+- Sign in/Sign out
+
+## Spreadsheet Import Format
+
+The spreadsheet import accepts Excel (.xlsx, .xls) or CSV files with the following columns:
+
+- **full_name** (required): User's full name
+- **email** (required): User's email address
+- **role** (optional): "admin" or "user" (defaults to "user")
+- **avatar_url** (optional): URL for user avatar
+
+Example CSV:
+```csv
+full_name,email,role
+John Doe,john@example.com,user
+Jane Admin,jane@example.com,admin
+```
+
+## Docker Commands
+
+```bash
+# Build images
+docker-compose build
+
+# Start services
+docker-compose up
+
+# Start in background
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs -f web
+
+# Run Rails commands
+docker-compose exec web rails <command>
+
+# Run tests
+docker-compose exec web bundle exec rspec
+
+# Access Rails console
+docker-compose exec web rails console
+```
+
+## Project Structure
+
+```
+app/
+  channels/          # ActionCable channels
+  controllers/       # Controllers (admin, profiles, users)
+  jobs/             # Background jobs (Sidekiq)
+  models/           # ActiveRecord models
+  policies/         # Pundit authorization policies
+  services/         # Service objects
+  views/            # ERB templates
+
+config/
+  initializers/     # Initializers (devise, sidekiq, etc.)
+
+spec/               # RSpec tests
+  factories/        # FactoryBot factories
+  models/           # Model specs
+  controllers/      # Controller specs
+  policies/         # Policy specs
+```
+
+## Security Features
+
+- CSRF protection
+- XSS prevention (input sanitization)
+- Strong parameters
+- Authorization with Pundit
+- Password encryption with bcrypt
+- SQL injection prevention (ActiveRecord)
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Troubleshooting
+
+### Database Connection Issues
+- Ensure PostgreSQL is running
+- Check database credentials in `config/database.yml`
+- Verify Docker containers are healthy: `docker-compose ps`
+
+### Redis Connection Issues
+- Ensure Redis is running
+- Check `REDIS_URL` environment variable
+
+### Asset Compilation Issues
+- Run `rails assets:precompile`
+- Check Node.js version (should be 18+)
+
+### Sidekiq Not Processing Jobs
+- Check Sidekiq is running: `docker-compose ps sidekiq`
+- Check Redis connection
+- View Sidekiq logs: `docker-compose logs sidekiq`
+
+## License
+
+This project is a test assignment for full-stack developer position.
+
