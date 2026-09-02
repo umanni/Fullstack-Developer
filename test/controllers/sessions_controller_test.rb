@@ -24,6 +24,13 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert cookies[:session_id]
   end
 
+  test "normalizes email casing and whitespace before authentication" do
+    post session_path, params: { email: "  #{@user.email.upcase}  ", password: "SecurePass123!" }
+
+    assert_redirected_to profile_url
+    assert cookies[:session_id]
+  end
+
   test "redirects an administrator to dashboard" do
     post session_path, params: { email: users(:admin).email, password: "SecurePass123!" }
 

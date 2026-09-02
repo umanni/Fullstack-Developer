@@ -13,6 +13,10 @@ class UserTest < ActiveSupport::TestCase
     assert_nil user.avatar_image_url
   end
 
+  test "normalizes email values used for account lookup" do
+    assert_equal "member@example.com", User.normalized_email("  MEMBER@EXAMPLE.COM  ")
+  end
+
   test "defaults to standard user role" do
     assert_predicate User.new, :user?
   end

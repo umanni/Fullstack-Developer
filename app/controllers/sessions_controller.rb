@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
 
   def create
     email, password = params.expect(:email, :password)
+    email = User.normalized_email(email)
 
     if user = User.authenticate_by(email:, password:)
       start_new_session_for user

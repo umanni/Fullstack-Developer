@@ -22,4 +22,8 @@ module ApplicationHelper
 
     tag.span(label, class: "inline-flex rounded-full px-2.5 py-1 text-xs font-semibold #{colors.fetch(status.to_s, colors['queued'])}")
   end
+
+  def import_creator_name(user_import)
+    user_import.created_by&.full_name || "Deleted user"
+  end
 end

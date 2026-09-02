@@ -8,7 +8,7 @@ class UserImport < ApplicationRecord
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   ].freeze
 
-  belongs_to :created_by, class_name: "User", inverse_of: :created_imports
+  belongs_to :created_by, class_name: "User", inverse_of: :created_imports, optional: true
   has_many :rows, class_name: "UserImportRow", dependent: :destroy, inverse_of: :user_import
   has_one_attached :spreadsheet
 
@@ -21,6 +21,7 @@ class UserImport < ApplicationRecord
   }, default: :queued, validate: true
 
   validates :spreadsheet, presence: true
+  validates :created_by, presence: true, on: :create
   validate :spreadsheet_is_supported
 
   scope :recent_first, -> { order(created_at: :desc) }

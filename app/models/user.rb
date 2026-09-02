@@ -1,16 +1,18 @@
 class User < ApplicationRecord
   AVATAR_CONTENT_TYPES = %w[image/jpeg image/png image/webp].freeze
   MAX_AVATAR_SIZE = 5.megabytes
+  NORMALIZE_EMAIL = ->(value) { value.to_s.strip.downcase }.freeze
 
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :created_imports, class_name: "UserImport", foreign_key: :created_by_id,
-    inverse_of: :created_by, dependent: :restrict_with_error
+    inverse_of: :created_by, dependent: :nullify
+  has_many :import_rows, class_name: "UserImportRow", dependent: :nullify
   has_one_attached :avatar_image
 
   enum :role, { user: 0, admin: 1 }, default: :user, validate: true
 
-  normalizes :email, with: ->(email) { email.strip.downcase }
+  normalizes :email, with: NORMALIZE_EMAIL
   normalizes :full_name, with: ->(name) { name.strip.gsub(/\s+/, " ") }
   normalizes :avatar_image_url, with: ->(url) { url.strip.presence }
 
@@ -24,6 +26,10 @@ class User < ApplicationRecord
 
   def initials
     full_name.split.filter_map { |part| part[0] }.first(2).join.upcase
+  end
+
+  def self.normalized_email(value)
+    NORMALIZE_EMAIL.call(value)
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_02_224000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_231500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,7 +69,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_224000) do
 
   create_table "user_imports", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.bigint "created_by_id", null: false
+    t.bigint "created_by_id"
     t.integer "failed_rows", default: 0, null: false
     t.text "failure_message"
     t.datetime "finished_at"
@@ -104,6 +104,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_224000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "sessions", "users"
   add_foreign_key "user_import_rows", "user_imports"
-  add_foreign_key "user_import_rows", "users"
-  add_foreign_key "user_imports", "users", column: "created_by_id"
+  add_foreign_key "user_import_rows", "users", on_delete: :nullify
+  add_foreign_key "user_imports", "users", column: "created_by_id", on_delete: :nullify
 end

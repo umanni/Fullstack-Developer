@@ -72,6 +72,19 @@ class Admin::UserImportsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to profile_path
   end
 
+  test "renders preserved imports after their creator is deleted" do
+    creator = User.create!(valid_user_attributes(email: "former-admin@example.com", role: :admin))
+    user_import = UserImport.create!(created_by: creator, spreadsheet: {
+      io: StringIO.new("placeholder"), filename: "users.csv", content_type: "text/csv"
+    })
+    creator.destroy!
+
+    get admin_user_import_path(user_import)
+
+    assert_response :success
+    assert_select "p", /Deleted user/
+  end
+
   private
     def create_import
       UserImport.create!(created_by: users(:admin), spreadsheet: {

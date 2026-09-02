@@ -24,6 +24,16 @@ class UserImportTest < ActiveSupport::TestCase
     assert_includes user_import.errors[:spreadsheet], "can't be blank"
   end
 
+  test "requires a creator when an import is first persisted" do
+    user_import = UserImport.new
+    user_import.spreadsheet.attach(
+      io: File.open(file_fixture("valid_users.csv")), filename: "valid_users.csv", content_type: "text/csv"
+    )
+
+    assert_not user_import.save
+    assert_includes user_import.errors[:created_by], "can't be blank"
+  end
+
   test "accepts CSV and XLSX spreadsheet attachments" do
     csv_import = build_import("valid_users.csv", "text/csv")
     xlsx_import = build_import(

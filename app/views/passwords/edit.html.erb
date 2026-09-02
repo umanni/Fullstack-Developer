@@ -6,6 +6,7 @@
     <h1 class="mt-2 text-3xl font-black tracking-tight text-slate-950">Choose a new password</h1>
     <p class="mt-2 text-sm leading-6 text-slate-500">Use at least 12 characters. All existing sessions will be revoked after the change.</p>
     <%= form_with url: password_path(params[:token]), method: :put, scope: :user, class: "mt-7 space-y-5", data: { controller: "password-visibility" } do |form| %>
+      <%= render "shared/errors", record: @user %>
       <div>
         <%= form.label :password, "New password", class: "text-sm font-semibold text-slate-800" %>
         <%= form.password_field :password, required: true, autofocus: true, minlength: 12, autocomplete: "new-password", class: field_classes, data: { password_visibility_target: "input" } %>

@@ -20,7 +20,8 @@ module Admin
     end
 
     def show
-      @user_import = UserImport.with_attached_spreadsheet.includes(:created_by, rows: :user).find(params[:id])
+      @user_import = UserImport.with_attached_spreadsheet.includes(:created_by).find(params[:id])
+      @failed_rows = @user_import.rows.failed.order(:row_number).limit(100)
     end
 
     private

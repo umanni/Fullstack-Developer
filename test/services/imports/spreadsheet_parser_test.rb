@@ -1,4 +1,5 @@
 require "test_helper"
+require "tempfile"
 
 class Imports::SpreadsheetParserTest < ActiveSupport::TestCase
   test "parses CSV headers and rows" do
@@ -54,7 +55,42 @@ class Imports::SpreadsheetParserTest < ActiveSupport::TestCase
       Imports::SpreadsheetParser.call(import_with_csv("full_name,email,avatar_image_url\n\"unterminated"))
     end
 
-    assert_match "could not be parsed", error.message
+    assert_equal "The spreadsheet could not be parsed. Verify the file format and try again.", error.message
+  end
+
+  test "rejects a sparse XLSX sheet before iterating an unbounded row range" do
+    sheet = Struct.new(:last_row).new(Imports::SpreadsheetParser::MAX_ROWS + 2)
+    parser = Imports::SpreadsheetParser.new(import_with_fixture(
+      "valid_users.xlsx",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ))
+
+    error = assert_raises(Imports::SpreadsheetParser::Error) do
+      parser.send(:reject_oversized_sheet!, sheet)
+    end
+
+    assert_match "cannot contain more than 1000", error.message
+  end
+
+  test "rejects an XLSX archive with an excessive expanded size" do
+    parser = Imports::SpreadsheetParser.new(import_with_fixture(
+      "valid_users.xlsx",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ))
+
+    Tempfile.create([ "oversized", ".xlsx" ]) do |file|
+      Zip::OutputStream.open(file.path) do |archive|
+        archive.put_next_entry("xl/oversized.xml")
+        chunk = "0" * 1.megabyte
+        26.times { archive.write(chunk) }
+      end
+
+      error = assert_raises(Imports::SpreadsheetParser::Error) do
+        parser.send(:validate_xlsx_archive!, file.path)
+      end
+
+      assert_match "expands beyond the 25 MB safety limit", error.message
+    end
   end
 
   private

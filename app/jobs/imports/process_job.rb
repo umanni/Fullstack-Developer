@@ -7,11 +7,13 @@ module Imports
 
     after_discard do |job, error|
       user_import = job.arguments.first
-      next unless user_import&.persisted?
+      next unless user_import&.persisted? && !user_import.terminal?
+
+      Rails.error.report(error, handled: true, severity: :error, context: { user_import_id: user_import.id })
 
       user_import.update!(
         status: :failed,
-        failure_message: "Unexpected processing failure: #{error.message}".truncate(500),
+        failure_message: "The import could not be completed after multiple attempts.",
         finished_at: Time.current
       )
       ProgressBroadcaster.call(user_import)

@@ -15,6 +15,14 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_path
   end
 
+  test "normalizes email casing and whitespace for password recovery" do
+    assert_enqueued_email_with PasswordsMailer, :reset, args: [ @user ] do
+      post passwords_path, params: { email: "  #{@user.email.upcase}  " }
+    end
+
+    assert_redirected_to new_session_path
+  end
+
   test "returns identical response for an unknown email" do
     assert_no_enqueued_emails do
       post passwords_path, params: { email: "missing@example.com" }
@@ -56,6 +64,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to edit_password_path(token)
+    assert_response :unprocessable_entity
+    assert_select "[role=alert]", /confirmation/
   end
 end

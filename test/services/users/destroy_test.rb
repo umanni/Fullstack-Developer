@@ -33,4 +33,40 @@ class Users::DestroyTest < ActiveSupport::TestCase
       Users::Destroy.call(user: admin)
     end
   end
+
+  test "preserves import history when its administrator is deleted" do
+    admin = users(:admin)
+    user_import = UserImport.create!(created_by: admin, spreadsheet: {
+      io: StringIO.new("full_name,email,avatar_image_url\n"), filename: "users.csv", content_type: "text/csv"
+    })
+
+    assert_difference "User.count", -1 do
+      assert_no_difference "UserImport.count" do
+        Users::Destroy.call(user: admin)
+      end
+    end
+
+    assert_nil user_import.reload.created_by
+  end
+
+  test "deletes an imported user without deleting its row history" do
+    user = users(:member)
+    user_import = UserImport.create!(created_by: users(:admin), spreadsheet: {
+      io: StringIO.new("full_name,email,avatar_image_url\n"), filename: "users.csv", content_type: "text/csv"
+    })
+    import_row = user_import.rows.create!(
+      row_number: 2,
+      payload: { "full_name" => user.full_name, "email" => user.email },
+      status: :succeeded,
+      user:
+    )
+
+    assert_difference "User.count", -1 do
+      assert_no_difference "UserImportRow.count" do
+        Users::Destroy.call(user:)
+      end
+    end
+
+    assert_nil import_row.reload.user
+  end
 end

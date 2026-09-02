@@ -18,16 +18,27 @@
 
   <div class="mt-8 rounded-2xl border border-slate-200 bg-white shadow-sm">
     <div class="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-      <div><h2 class="font-bold text-slate-950">Recent imports</h2><p class="text-xs text-slate-500">The five most recent spreadsheet jobs</p></div>
+      <div>
+        <h2 class="font-bold text-slate-950">Recent imports</h2>
+        <p class="text-xs text-slate-500">The five most recent spreadsheet jobs</p>
+      </div>
       <%= link_to "View all", admin_user_imports_path, class: "text-sm font-semibold text-indigo-600 hover:text-indigo-800" %>
     </div>
     <% if @recent_imports.any? %>
       <ul class="divide-y divide-slate-100">
         <% @recent_imports.each do |user_import| %>
-          <li><%= link_to admin_user_import_path(user_import), class: "flex flex-wrap items-center justify-between gap-3 px-5 py-4 transition hover:bg-slate-50" do %>
-            <span><span class="block text-sm font-semibold text-slate-900"><%= user_import.spreadsheet.filename %></span><span class="block text-xs text-slate-500"><%= time_ago_in_words(user_import.created_at) %> ago</span></span>
-            <span class="flex items-center gap-3"><%= status_badge(user_import.status) %><span class="text-sm tabular-nums text-slate-600"><%= user_import.progress_percentage %>%</span></span>
-          <% end %></li>
+          <li>
+            <%= link_to admin_user_import_path(user_import), class: "flex flex-wrap items-center justify-between gap-3 px-5 py-4 transition hover:bg-slate-50" do %>
+              <span>
+                <span class="block text-sm font-semibold text-slate-900"><%= user_import.spreadsheet.filename %></span>
+                <span class="block text-xs text-slate-500"><%= time_ago_in_words(user_import.created_at) %> ago</span>
+              </span>
+              <span class="flex items-center gap-3">
+                <%= status_badge(user_import.status) %>
+                <span class="text-sm tabular-nums text-slate-600"><%= user_import.progress_percentage %>%</span>
+              </span>
+            <% end %>
+          </li>
         <% end %>
       </ul>
     <% else %>

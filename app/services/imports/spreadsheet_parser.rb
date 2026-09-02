@@ -7,6 +7,8 @@ module Imports
     REQUIRED_HEADERS = %w[full_name email avatar_image_url].freeze
     OPTIONAL_HEADERS = %w[role].freeze
     MAX_ROWS = 1_000
+    MAX_XLSX_ENTRIES = 1_000
+    MAX_XLSX_UNCOMPRESSED_SIZE = 25.megabytes
     Row = Data.define(:number, :attributes)
 
     def self.call(user_import)
@@ -26,8 +28,8 @@ module Imports
 
         rows
       end
-    rescue CSV::MalformedCSVError, Roo::Error, Zip::Error => error
-      raise Error, "The spreadsheet could not be parsed: #{error.message}"
+    rescue CSV::MalformedCSVError, Roo::Error, Zip::Error
+      raise Error, "The spreadsheet could not be parsed. Verify the file format and try again."
     end
 
     private
@@ -45,7 +47,9 @@ module Imports
       end
 
       def xlsx_rows(path)
+        validate_xlsx_archive!(path)
         sheet = Roo::Excelx.new(path).sheet(0)
+        reject_oversized_sheet!(sheet)
         headers = normalized_headers(sheet.row(1))
         validate_headers!(headers)
 
@@ -53,6 +57,23 @@ module Imports
           attributes = headers.zip(sheet.row(row_number)).to_h
           build_row(row_number, attributes) unless blank_row?(attributes)
         end
+      end
+
+      def validate_xlsx_archive!(path)
+        Zip::File.open(path) do |archive|
+          raise Error, "The XLSX archive contains too many entries." if archive.size > MAX_XLSX_ENTRIES
+
+          uncompressed_size = archive.sum(&:size)
+          if uncompressed_size > MAX_XLSX_UNCOMPRESSED_SIZE
+            raise Error, "The XLSX archive expands beyond the 25 MB safety limit."
+          end
+        end
+      end
+
+      def reject_oversized_sheet!(sheet)
+        return if sheet.last_row.to_i <= MAX_ROWS + 1
+
+        raise Error, "The spreadsheet cannot contain more than #{MAX_ROWS} data rows."
       end
 
       def normalized_headers(headers)

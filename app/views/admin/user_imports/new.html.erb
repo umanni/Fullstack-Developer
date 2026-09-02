@@ -12,14 +12,22 @@
         <%= form.file_field :spreadsheet, required: true, accept: ".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", class: "mt-2 block w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-3 text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-indigo-100 file:px-3 file:py-2 file:font-semibold file:text-indigo-700 hover:file:bg-indigo-200" %>
         <p class="mt-2 text-xs text-slate-500">Maximum 5 MB and 1,000 data rows.</p>
       </div>
-      <div class="flex items-center justify-end gap-3"><%= link_to "Cancel", admin_user_imports_path, class: "rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100" %><%= form.submit "Queue import", class: "cursor-pointer rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %></div>
+      <div class="flex items-center justify-end gap-3">
+        <%= link_to "Cancel", admin_user_imports_path, class: "rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100" %>
+        <%= form.submit "Queue import", class: "cursor-pointer rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %>
+      </div>
     <% end %>
   </div>
 
   <aside class="rounded-3xl bg-slate-950 p-6 text-slate-200 shadow-xl sm:p-8">
     <h2 class="text-lg font-bold text-white">Required columns</h2>
     <div class="mt-4 overflow-x-auto rounded-xl bg-white/5 p-3 font-mono text-xs"><code>full_name,email,avatar_image_url,role</code></div>
-    <ul class="mt-5 space-y-3 text-sm leading-6 text-slate-300"><li><strong class="text-white">full_name</strong>, <strong class="text-white">email</strong>, and <strong class="text-white">avatar_image_url</strong> are required.</li><li><strong class="text-white">role</strong> is optional and accepts <code>admin</code>, <code>user</code>, or <code>no-admin</code>.</li><li>Existing emails fail safely and are never overwritten.</li><li>Invalid rows do not roll back successful rows.</li></ul>
+    <ul class="mt-5 space-y-3 text-sm leading-6 text-slate-300">
+      <li><strong class="text-white">full_name</strong>, <strong class="text-white">email</strong>, and <strong class="text-white">avatar_image_url</strong> are required.</li>
+      <li><strong class="text-white">role</strong> is optional and accepts <code>admin</code>, <code>user</code>, or <code>no-admin</code>.</li>
+      <li>Existing emails fail safely and are never overwritten.</li>
+      <li>Invalid rows do not roll back successful rows.</li>
+    </ul>
     <div class="mt-6 flex flex-wrap gap-2">
       <%= link_to "Download CSV template", "/user_import_template.csv", download: true, class: "inline-flex rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 hover:bg-slate-100" %>
       <%= link_to "Download XLSX template", "/user_import_template.xlsx", download: true, class: "inline-flex rounded-xl border border-white/20 px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10" %>
