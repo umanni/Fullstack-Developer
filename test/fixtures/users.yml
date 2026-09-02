@@ -1,0 +1,22 @@
+<% password_digest = BCrypt::Password.create("SecurePass123!", cost: 4) %>
+
+admin:
+  full_name: Ada Admin
+  email: admin@example.com
+  password_digest: <%= password_digest %>
+  role: 1
+  avatar_image_url: https://example.com/ada.png
+
+member:
+  full_name: Grace Member
+  email: member@example.com
+  password_digest: <%= password_digest %>
+  role: 0
+  avatar_image_url: https://example.com/grace.png
+
+second_admin:
+  full_name: Linus Admin
+  email: linus@example.com
+  password_digest: <%= password_digest %>
+  role: 1
+  avatar_image_url: https://example.com/linus.png
