@@ -9,11 +9,11 @@ x-app: &app
     RAILS_ENV: production
     DB_HOST: database
     DB_PORT: 5432
-    DB_USERNAME: postgres
-    DB_PASSWORD: postgres
-    SECRET_KEY_BASE: local-compose-secret-key-base-that-must-never-be-used-in-production
-    APP_HOST: localhost
-    APP_PROTOCOL: http
+    DB_USERNAME: ${DB_USERNAME:-postgres}
+    DB_PASSWORD: ${DB_PASSWORD:-postgres}
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:-local-compose-secret-key-base-that-must-never-be-used-in-production}
+    APP_HOST: ${APP_HOST:-localhost}
+    APP_PROTOCOL: ${APP_PROTOCOL:-http}
   depends_on:
     database:
       condition: service_healthy
@@ -24,10 +24,10 @@ services:
   database:
     image: postgres:17-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\""]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -66,8 +66,8 @@ services:
       RAILS_ENV: test
       DB_HOST: database
       DB_PORT: 5432
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
       CHROME_BIN: /usr/bin/chromium
     depends_on:
       database:
@@ -84,4 +84,4 @@ networks:
   default:
     ipam:
       config:
-        - subnet: 198.18.113.0/24
+        - subnet: ${DOCKER_SUBNET:-198.18.113.0/24}
