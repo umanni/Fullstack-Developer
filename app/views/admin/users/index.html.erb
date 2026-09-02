@@ -1,0 +1,54 @@
+<% content_for :title, "Users · Umanni Users" %>
+
+<section>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <p class="text-sm font-bold text-indigo-600">Directory</p>
+      <h1 class="mt-1 text-3xl font-black tracking-tight text-slate-950">Manage users</h1>
+      <p class="mt-2 text-sm text-slate-500"><%= pluralize(@search.total_count, "account") %> in this result.</p>
+    </div>
+    <%= link_to "Add user", new_admin_user_path, class: "rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %>
+  </div>
+
+  <%= form_with url: admin_users_path, method: :get, class: "mt-6 flex gap-2", role: "search" do |form| %>
+    <%= form.search_field :query, value: @search.query, class: field_classes, placeholder: "Search by name or email", aria: { label: "Search users" } %>
+    <%= form.submit "Search", class: "mt-2 cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50" %>
+  <% end %>
+
+  <div class="mt-5 hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:block">
+    <table class="w-full text-left text-sm">
+      <caption class="sr-only">User accounts</caption>
+      <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+        <tr>
+          <th class="px-5 py-3">User</th>
+          <th class="px-5 py-3">Role</th>
+          <th class="px-5 py-3">Created</th>
+          <th class="px-5 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <%= render partial: "user_row", collection: @search.records, as: :user %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-5 space-y-3 md:hidden">
+    <%= render partial: "user_card", collection: @search.records, as: :user %>
+  </div>
+
+  <% if @search.records.none? %>
+    <div class="mt-5 rounded-2xl border border-dashed border-slate-300 bg-white px-5 py-12 text-center text-sm text-slate-500">
+      No users match that search.
+    </div>
+  <% end %>
+
+  <% if @search.total_pages > 1 %>
+    <nav class="mt-6 flex items-center justify-between text-sm" aria-label="Pagination">
+      <span class="text-slate-500">Page <%= @search.page %> of <%= @search.total_pages %></span>
+      <div class="flex gap-2">
+        <%= link_to "Previous", admin_users_path(query: @search.query, page: @search.page - 1), class: "rounded-lg border border-slate-300 bg-white px-3 py-2 font-semibold #{'pointer-events-none opacity-40' if @search.page == 1}", aria: { disabled: @search.page == 1 } %>
+        <%= link_to "Next", admin_users_path(query: @search.query, page: @search.page + 1), class: "rounded-lg border border-slate-300 bg-white px-3 py-2 font-semibold #{'pointer-events-none opacity-40' if @search.page == @search.total_pages}", aria: { disabled: @search.page == @search.total_pages } %>
+      </div>
+    </nav>
+  <% end %>
+</section>

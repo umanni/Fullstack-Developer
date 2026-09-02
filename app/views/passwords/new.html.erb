@@ -1,0 +1,17 @@
+<% content_for :title, "Reset password · Umanni Users" %>
+
+<section class="mx-auto max-w-md py-8 sm:py-14">
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
+    <p class="text-sm font-bold text-indigo-600">Account recovery</p>
+    <h1 class="mt-2 text-3xl font-black tracking-tight text-slate-950">Reset your password</h1>
+    <p class="mt-2 text-sm leading-6 text-slate-500">If the email exists, we will send a secure link. The response never reveals whether an account is registered.</p>
+    <%= form_with url: passwords_path, class: "mt-7 space-y-5" do |form| %>
+      <div>
+        <%= form.label :email, class: "text-sm font-semibold text-slate-800" %>
+        <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username", maxlength: 254, class: field_classes %>
+      </div>
+      <%= form.submit "Send reset instructions", class: "w-full cursor-pointer rounded-xl bg-indigo-600 px-4 py-3 font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-100" %>
+    <% end %>
+    <%= link_to "Back to sign in", new_session_path, class: "mt-5 block text-center text-sm font-semibold text-indigo-600 hover:text-indigo-800" %>
+  </div>
+</section>

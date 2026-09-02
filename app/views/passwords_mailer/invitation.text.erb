@@ -1,0 +1,8 @@
+Hello <%= @user.full_name %>,
+
+An administrator created an Umanni Users account for you.
+
+Set up your password:
+<%= edit_password_url(@user.password_reset_token) %>
+
+This secure link expires in <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.

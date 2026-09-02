@@ -1,0 +1,16 @@
+<tr class="hover:bg-slate-50/70" data-testid="user-row">
+  <td class="px-5 py-4">
+    <div class="flex items-center gap-3">
+      <%= render "shared/avatar", user:, size: "size-11" %>
+      <span>
+        <span class="block font-semibold text-slate-900"><%= user.full_name %></span>
+        <span class="block text-xs text-slate-500"><%= user.email %></span>
+      </span>
+    </div>
+  </td>
+  <td class="px-5 py-4">
+    <span class="rounded-full px-2.5 py-1 text-xs font-semibold <%= user.admin? ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-700' %>"><%= user.role %></span>
+  </td>
+  <td class="px-5 py-4 text-slate-500"><%= user.created_at.to_date.to_fs(:medium) %></td>
+  <td class="px-5 py-4"><%= render "actions", user:, mobile: false %></td>
+</tr>

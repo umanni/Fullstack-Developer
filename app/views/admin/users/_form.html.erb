@@ -1,0 +1,10 @@
+<%= form_with model: [ :admin, user ], class: "mt-7" do |form| %>
+  <%= render "shared/user_fields", form:, user: %>
+  <div class="mt-7 flex flex-wrap items-center justify-between gap-3">
+    <p class="max-w-md text-xs leading-5 text-slate-500">New users receive a secure password setup email. Roles are changed separately from the users list to make privilege changes explicit.</p>
+    <div class="flex items-center gap-3">
+      <%= link_to "Cancel", admin_users_path, class: "rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100" %>
+      <%= form.submit user.persisted? ? "Save user" : "Create user", class: "cursor-pointer rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %>
+    </div>
+  </div>
+<% end %>

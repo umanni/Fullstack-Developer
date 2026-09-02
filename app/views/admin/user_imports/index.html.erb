@@ -1,0 +1,24 @@
+<% content_for :title, "Imports · Umanni Users" %>
+
+<section>
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div><p class="text-sm font-bold text-indigo-600">Background processing</p><h1 class="mt-1 text-3xl font-black tracking-tight text-slate-950">Spreadsheet imports</h1><p class="mt-2 text-sm text-slate-500">Audit every CSV and XLSX import, including row-level failures.</p></div>
+    <%= link_to "New import", new_admin_user_import_path, class: "rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %>
+  </div>
+
+  <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <% if @user_imports.any? %>
+      <ul class="divide-y divide-slate-100">
+        <% @user_imports.each do |user_import| %>
+          <li><%= link_to admin_user_import_path(user_import), class: "grid gap-3 px-5 py-4 transition hover:bg-slate-50 sm:grid-cols-[1fr_auto_auto] sm:items-center" do %>
+            <span><span class="block font-semibold text-slate-950"><%= user_import.spreadsheet.filename %></span><span class="block text-xs text-slate-500">Uploaded by <%= user_import.created_by.full_name %> · <%= user_import.created_at.to_fs(:short) %></span></span>
+            <span class="text-sm tabular-nums text-slate-600"><%= user_import.processed_rows %>/<%= user_import.total_rows %> rows</span>
+            <%= status_badge(user_import.status) %>
+          <% end %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="px-5 py-14 text-center"><p class="font-semibold text-slate-800">No imports yet</p><p class="mt-1 text-sm text-slate-500">Upload a CSV or XLSX template to create users asynchronously.</p></div>
+    <% end %>
+  </div>
+</section>

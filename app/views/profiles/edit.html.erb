@@ -1,0 +1,15 @@
+<% content_for :title, "Edit profile · Umanni Users" %>
+
+<section class="mx-auto max-w-2xl">
+  <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/50 sm:p-8">
+    <p class="text-sm font-bold text-indigo-600">Personal settings</p>
+    <h1 class="mt-2 text-3xl font-black tracking-tight text-slate-950">Edit your profile</h1>
+    <%= form_with model: @user, url: profile_path, class: "mt-7" do |form| %>
+      <%= render "shared/user_fields", form:, user: @user %>
+      <div class="mt-7 flex items-center justify-end gap-3">
+        <%= link_to "Cancel", profile_path, class: "rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100" %>
+        <%= form.submit "Save profile", class: "cursor-pointer rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %>
+      </div>
+    <% end %>
+  </div>
+</section>

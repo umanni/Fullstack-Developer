@@ -1,0 +1,9 @@
+<div class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8" aria-live="polite">
+  <% flash.each do |type, message| %>
+    <% colors = type.to_s == "alert" ? "border-rose-200 bg-rose-50 text-rose-900" : "border-emerald-200 bg-emerald-50 text-emerald-900" %>
+    <div class="flex items-start justify-between gap-4 rounded-xl border px-4 py-3 text-sm shadow-sm <%= colors %>" data-controller="dismiss" role="<%= type.to_s == 'alert' ? 'alert' : 'status' %>">
+      <p><%= message %></p>
+      <button type="button" class="rounded p-1 opacity-70 hover:opacity-100" data-action="dismiss#remove" aria-label="Dismiss notification">×</button>
+    </div>
+  <% end %>
+</div>

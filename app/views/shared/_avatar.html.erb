@@ -1,0 +1,14 @@
+<% size_classes = local_assigns.fetch(:size, "size-12") %>
+<% if user.avatar_image.attached? %>
+  <span class="relative inline-grid <%= size_classes %>">
+    <span class="grid size-full place-items-center rounded-2xl bg-indigo-100 font-bold text-indigo-700" aria-hidden="true"><%= user.initials %></span>
+    <%= image_tag user.avatar_image, class: "absolute inset-0 size-full rounded-2xl object-cover ring-1 ring-slate-200", alt: "#{user.full_name}'s avatar", data: { controller: "image-fallback", action: "error->image-fallback#hide" } %>
+  </span>
+<% elsif user.avatar_image_url.present? %>
+  <span class="relative inline-grid <%= size_classes %>">
+    <span class="grid size-full place-items-center rounded-2xl bg-indigo-100 font-bold text-indigo-700" aria-hidden="true"><%= user.initials %></span>
+    <%= image_tag user.avatar_image_url, class: "absolute inset-0 size-full rounded-2xl object-cover ring-1 ring-slate-200", alt: "#{user.full_name}'s avatar", loading: "lazy", referrerpolicy: "no-referrer", data: { controller: "image-fallback", action: "error->image-fallback#hide" } %>
+  </span>
+<% else %>
+  <span class="grid <%= size_classes %> place-items-center rounded-2xl bg-indigo-100 font-bold text-indigo-700" aria-label="<%= user.full_name %> initials"><%= user.initials %></span>
+<% end %>
