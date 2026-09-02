@@ -10,7 +10,7 @@ Command:
 docker compose --profile tools run --rm test bin/ci
 ```
 
-Result: passed in 41.22 seconds.
+Result: passed in 34.38 seconds.
 
 | Check | Result |
 | --- | --- |
@@ -18,9 +18,11 @@ Result: passed in 41.22 seconds.
 | bundler-audit | 0 known vulnerable gems |
 | importmap audit | 0 vulnerable packages |
 | Brakeman 8.0.6 | 0 errors, 0 security warnings |
-| Rails model/service/query/job/controller tests | 107 tests, 445 assertions, 0 failures/errors/skips |
-| Parallel coverage | 96.78% lines, 87.31% branches |
+| Zeitwerk eager loading | passed, no warnings |
+| Rails model/service/query/job/controller tests | 116 tests, 474 assertions, 0 failures/errors/skips |
+| Parallel coverage | 96.73% lines, 87.32% branches |
 | Capybara/Selenium system tests | 4 tests, 26 assertions, 0 failures/errors/skips |
+| Merged coverage after system tests | 98.54% lines, 88.02% branches |
 | Seed replant | passed |
 
 The enforced thresholds are 90% line and 80% branch coverage. The Rails suite used 14 parallel processes; browser tests remained serialized to avoid shared-driver state.
@@ -31,7 +33,10 @@ The enforced thresholds are 90% line and 80% branch coverage. The Rails suite us
 - Production assets were compiled through Propshaft/Tailwind without a runtime secret.
 - The final image runs as UID/GID 1000 and excludes development/test gem groups.
 - PostgreSQL prepared independent application, cache, queue, and cable databases.
+- The latest primary-database migration completed an explicit down/up round trip in both test and production containers.
+- PostgreSQL inspection confirmed `ON DELETE SET NULL` for import creators and imported-user audit references; deleting a real imported QA user preserved and anonymized its row history.
 - `/up` returned HTTP 200 and the web container reached healthy state.
+- `/`, `/manifest`, and `/service-worker` each returned HTTP 200 from the rebuilt final image.
 - `/service-worker` returned HTTP 200 from the final production image.
 - The dedicated Solid Queue supervisor started dispatcher, worker, and scheduler processes.
 - Runtime inspection confirmed `RubyVM::ZJIT.enabled? == true`.
@@ -43,15 +48,18 @@ The enforced thresholds are 90% line and 80% branch coverage. The Rails suite us
 
 The production Docker application was reviewed interactively in the in-app Chromium browser in addition to the repeatable Selenium suite.
 
-### Desktop (1,280 × 720)
+### Desktop (1,400 × 1,000)
 
 - Landing page hierarchy, navigation, CTA, cards, and footer rendered correctly.
 - Admin login persisted through the Turbo redirect and landed on `/admin`.
+- Login and password recovery accepted deliberately uppercased, whitespace-padded email input after canonicalization.
+- A mismatched password confirmation rendered inline validation with HTTP 422; a valid token reset the password, revoked prior sessions, and allowed login with the new password.
 - An unreachable remote avatar produced the intentional “Preview unavailable” state and hid the broken image before submission.
 - Dashboard rendered accurate role totals and no browser console warnings/errors.
-- Creating and then removing a scoped QA record through the application service changed the open dashboard from 2 → 3 → 2 without a reload, proving the Solid Queue → Solid Cable → Turbo Stream path.
+- Creating and then removing a scoped QA record through the application service changed the open dashboard from 4 → 5 → 4 without a reload, proving the Solid Queue → Solid Cable → Turbo Stream path.
 - User search reduced the desktop table to the expected record.
 - Admin creation form exposed the intended attributes and kept role mutation separate.
+- An import whose administrator had been deleted remained readable and displayed anonymized authorship as `Deleted user`.
 
 ### Mobile (375 × 812)
 
@@ -66,6 +74,7 @@ The production Docker application was reviewed interactively in the in-app Chrom
 
 - A queued two-row CSV transitioned to completed with 100%, 2/2 processed, 2 created, and 0 failed on the already-open page.
 - A duplicate-email CSV transitioned to completed-with-errors with 100%, 1/1 processed, and an escaped row-level `Email has already been taken` message.
+- A fresh one-row CSV uploaded through the native browser file chooser completed asynchronously and created its user.
 - The browser observed both state changes without reload while the separate production Solid Queue worker processed them.
 - Browser console inspection after the journeys returned no warnings or errors.
 

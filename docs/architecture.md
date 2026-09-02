@@ -21,14 +21,14 @@ Controllers authenticate, authorize, coerce structural parameters with `params.e
 
 - `User` owns identity normalization, credential policy, role semantics, and avatar invariants.
 - `Session` is a revocable server-side authentication record.
-- `UserImport` is the durable import aggregate with counters and lifecycle state.
-- `UserImportRow` is an auditable per-row result and idempotency marker.
+- `UserImport` is the durable import aggregate with counters and lifecycle state. Its creator reference is required at creation but can be anonymized later, so deleting an account does not erase operational history.
+- `UserImportRow` is an auditable per-row result and idempotency marker. Its optional user reference is anonymized if that account is deleted.
 - PostgreSQL constraints mirror the critical role, length, counter, status, uniqueness, and relationship invariants.
 
 ### Use-case services
 
 - `Users::Create`, `Users::Update`, `Users::Destroy`, and `Users::ToggleRole` own account mutations and side effects.
-- `Imports::SpreadsheetParser` turns CSV/XLSX content into a normalized immutable row representation.
+- `Imports::SpreadsheetParser` bounds XLSX archive expansion and sparse sheet dimensions before turning CSV/XLSX content into a normalized immutable row representation.
 - `Imports::RowProcessor` maps external role values, creates an invited user, and isolates validation/uniqueness errors.
 - `Imports::ProgressUpdater` derives counters from persisted row states rather than trusting in-memory increments.
 - `Imports::ProgressBroadcaster` publishes the server-rendered progress component.

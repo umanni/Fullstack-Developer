@@ -41,6 +41,7 @@ The application treats browser parameters, uploaded files, spreadsheet cells, re
 - Avatar uploads accept only JPEG, PNG, or WebP and are limited to 5 MB.
 - Remote avatars require HTTPS, a host, and no embedded username/password.
 - Spreadsheet uploads require CSV/XLSX extension and content type and are limited to 5 MB.
+- XLSX archives are bounded by entry count, expanded size, and physical sheet rows before cell iteration to limit archive-expansion and sparse-sheet denial of service.
 - Parsed imports require explicit columns and at least one but no more than 1,000 data rows.
 - Imported attributes are sliced to an allowlist; role values use an explicit mapping.
 - Uniqueness races are handled at both model and database-index layers.
@@ -50,6 +51,7 @@ The application treats browser parameters, uploaded files, spreadsheet cells, re
 ### Persistence and secrets
 
 - PostgreSQL foreign keys and check constraints defend critical invariants below the model layer.
+- Import history survives creator or imported-user deletion through nullable audit references and database-level `ON DELETE SET NULL` foreign keys.
 - No production credential or key is committed. `.env`, Rails master keys, and Kamal secrets are ignored.
 - SMTP may be read from encrypted Rails credentials or environment variables. Environment variables take precedence.
 - The final container runs as an unprivileged user and contains no development/test gem group.

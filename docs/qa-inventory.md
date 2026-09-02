@@ -33,6 +33,13 @@ This inventory defines the user-visible claims and controls that must be checked
 - Pages have no unintended horizontal overflow at 375 px mobile and 1,400 px desktop widths.
 - Primary content, navigation, actions, tables/cards, progress bars, and footer remain visually legible at both widths.
 
+## Exploratory and edge-case scenarios
+
+- Authentication and password recovery normalize surrounding whitespace and email casing without weakening the generic anti-enumeration response.
+- Spreadsheet parsing rejects sparse or oversized workbooks before iterating an unbounded row range, and a retried job does not duplicate successful users.
+- Deleting a non-final administrator preserves completed import history without leaving a broken creator reference in the import list or detail view.
+- Authenticated users who revisit guest-only login or registration routes are returned to their role-appropriate destination.
+
 ## Verification matrix
 
 | Layer | Coverage |

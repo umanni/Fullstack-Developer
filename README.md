@@ -113,6 +113,7 @@ No real secret is committed. Environment variables configure the runtime, while 
 | `SMTP_USERNAME`, `SMTP_PASSWORD` | Optional SMTP credentials | none |
 | `RAILS_MAX_THREADS` | Rails database/web concurrency | `5` |
 | `JOB_CONCURRENCY` | Solid Queue worker processes | `1` |
+| `DOCKER_SUBNET` | Override the isolated Compose network if it conflicts with a local VPN | `198.18.113.0/24` |
 
 For encrypted SMTP configuration:
 
@@ -135,7 +136,7 @@ Download either template from the import screen or use:
 
 Required columns are `full_name`, `email`, and `avatar_image_url`. Optional `role` accepts `admin`, `user`, `no-admin`, `true`, `false`, `1`, or `0`. Files are limited to 5 MB and 1,000 data rows.
 
-An import persists its status and every row before broadcasting. Valid rows commit independently; invalid or duplicate rows are displayed with an actionable error and never overwrite an existing account. Retrying a partially processed job skips rows already marked successful, and a terminal import is a no-op.
+An import persists its status and every row before broadcasting. Valid rows commit independently; invalid or duplicate rows are displayed with an actionable error and never overwrite an existing account. Retrying a partially processed job skips rows already marked successful, and a terminal import is a no-op. XLSX archives are checked for entry count, expanded size, and bounded sheet rows before parsing. If an administrator is later deleted, completed import history remains available with anonymized authorship.
 
 ## Tests and quality gates
 
