@@ -1,0 +1,24 @@
+<% page_title "Edit profile" %>
+
+<section class="mx-auto max-w-2xl space-y-6">
+  <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
+    <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Edit profile</h1>
+    <p class="mt-2 text-sm text-slate-600">You can update your info or delete your account.</p>
+    <div class="mt-6">
+      <%= render "shared/user_form",
+            user: @user,
+            url: profile_path,
+            method: :patch,
+            submit_label: "Save changes",
+            cancel_path: profile_path %>
+    </div>
+  </div>
+
+  <div class="rounded-3xl border border-rose-200 bg-rose-50/80 p-6">
+    <h2 class="font-semibold text-rose-900">Danger zone</h2>
+    <p class="mt-1 text-sm text-rose-800">Deleting your profile is permanent.</p>
+    <%= button_to "Delete my profile", profile_path, method: :delete,
+          form: { data: { turbo_confirm: "Delete your account permanently?" } },
+          class: "mt-4 rounded-xl bg-rose-700 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-800" %>
+  </div>
+</section>

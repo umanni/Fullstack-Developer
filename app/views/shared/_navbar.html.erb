@@ -1,0 +1,26 @@
+<header class="border-b border-slate-200/80 bg-white/70 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+    <%= link_to root_path, class: "group flex items-center gap-3" do %>
+      <span class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-700 text-sm font-bold text-white shadow-sm transition group-hover:bg-teal-800">UU</span>
+      <span>
+        <span class="block font-[family-name:var(--font-display)] text-lg leading-none text-slate-900">Umanni Users</span>
+        <span class="text-xs text-slate-500">People operations console</span>
+      </span>
+    <% end %>
+
+    <nav class="flex items-center gap-2 text-sm" aria-label="Primary">
+      <% if authenticated? %>
+        <% if current_user.admin? %>
+          <%= link_to "Dashboard", admin_root_path, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+          <%= link_to "Users", admin_users_path, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+          <%= link_to "Imports", admin_imports_path, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+        <% end %>
+        <%= link_to "Profile", profile_path, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+        <%= button_to "Sign out", session_path, method: :delete, class: "rounded-lg bg-slate-900 px-3 py-2 font-medium text-white hover:bg-slate-800" %>
+      <% else %>
+        <%= link_to "Sign in", new_session_path, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+        <%= link_to "Register", new_registration_path, class: "rounded-lg bg-teal-700 px-3 py-2 font-medium text-white hover:bg-teal-800" %>
+      <% end %>
+    </nav>
+  </div>
+</header>
