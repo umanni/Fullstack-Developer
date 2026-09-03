@@ -10,6 +10,9 @@ gem "tailwindcss-rails"
 gem "turbo-rails"
 
 # Database and server
+# Password hashing for the built-in Rails authentication
+gem "bcrypt", "~> 3.1"
+
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 

@@ -28,4 +28,18 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+
+  sessions:
+    throttled: "Too many attempts. Please try again later."
+    invalid_credentials: "Try another email address or password."
+
+  passwords:
+    throttled: "Too many attempts. Please try again later."
+    reset_instructions_sent: "Password reset instructions sent (if an account with that email address exists)."
+    reset: "Your password has been reset."
+    mismatch: "Passwords did not match."
+    invalid_token: "That password reset link is invalid or has expired."
+
+  passwords_mailer:
+    reset:
+      subject: "Reset your password"
