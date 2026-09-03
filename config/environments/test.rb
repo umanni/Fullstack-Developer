@@ -36,6 +36,11 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  # A missing key renders a humanised guess instead of raising, which reads as
+  # correct English and silently ships untranslated pages. Failing the suite is
+  # the only reliable way to catch it.
+  config.i18n.raise_on_missing_translations = true
+
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "example.com" }
 

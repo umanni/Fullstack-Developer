@@ -72,6 +72,10 @@ Rails/SkipsModelValidations:
 # ── RSpec ────────────────────────────────────────────────────────────────────
 RSpec/ExampleLength:
   Max: 12
+  Exclude:
+    # System specs walk a whole journey; splitting one into five examples would
+    # mean re-driving the browser five times to assert the same thing once.
+    - "spec/system/**/*_spec.rb"
 
 RSpec/MultipleExpectations:
   # A request spec legitimately asserts on status, redirect and side effect.
@@ -79,3 +83,12 @@ RSpec/MultipleExpectations:
 
 RSpec/NestedGroups:
   Max: 4
+
+# ── Screenshot helper ────────────────────────────────────────────────────────
+# spec/system/screenshots_spec.rb produces the README images. save_screenshot is
+# the entire point of that file; treating it as a stray debugging call is the
+# right default everywhere else.
+Lint/Debugger:
+  Exclude:
+    - "spec/system/screenshots_spec.rb"
+

@@ -79,16 +79,16 @@ en:
 
   admin:
     dashboard:
-      title: "Dashboard"
-      subtitle: "An overview of the people in the system"
       overview: "Overview"
-      users: "Users"
-
       total: "Total users"
       administrators: "Administrators"
       regular_users: "Users"
-      manage: "Manage"
-      manage_copy: "Add people, change roles and remove accounts."
+      show:
+        title: "Dashboard"
+        subtitle: "An overview of the people in the system"
+        users: "Users"
+        manage: "Manage"
+        manage_copy: "Add people, change roles and remove accounts."
     users:
       created: "%{name} has been added."
       updated: "%{name} has been updated."

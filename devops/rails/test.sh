@@ -8,7 +8,7 @@ step "Preparing test databases"
 rails_test_exec ./bin/rails db:test:prepare
 step "Running RSpec"
 if [[ "$#" -gt 0 ]]; then
-  rails_test_exec bundle exec rspec "$@"
+  rails_test_exec env SCREENSHOTS="${SCREENSHOTS:-}" bundle exec rspec "$@"
 else
-  rails_test_exec bundle exec rspec
+  rails_test_exec env SCREENSHOTS="${SCREENSHOTS:-}" bundle exec rspec
 fi

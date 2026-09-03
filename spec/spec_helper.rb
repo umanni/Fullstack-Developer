@@ -8,24 +8,22 @@ SimpleCov.start "rails" do
   # Each parallel worker writes its own result and SimpleCov merges them, so
   # the 90% gate is measured against the whole suite rather than one shard.
   command_name "rspec#{ENV.fetch("TEST_ENV_NUMBER", nil)}"
-  use_merging true
+  merging true
   merge_timeout 600
 
   minimum_coverage line: 90, branch: 80
 
-  # Excluded because they contain no branching logic of our own: generated
-  # schemas, framework configuration and the mailer/job base classes Rails
-  # writes for us.
-  add_filter "/spec/"
-  add_filter "/config/"
-  add_filter "/db/"
-  add_filter "app/channels/application_cable/"
+  # Excluded because they hold no logic of our own: the specs themselves,
+  # framework configuration and the generated schema files.
+  skip "/spec/"
+  skip "/config/"
+  skip "/db/"
 
-  add_group "Models", "app/models"
-  add_group "Controllers", "app/controllers"
-  add_group "Jobs", "app/jobs"
-  add_group "Views", "app/views"
-  add_group "Helpers", "app/helpers"
+  group "Models", "app/models"
+  group "Controllers", "app/controllers"
+  group "Jobs", "app/jobs"
+  group "Views", "app/views"
+  group "Helpers", "app/helpers"
 end
 
 RSpec.configure do |config|
@@ -40,6 +38,10 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.filter_run_when_matching :focus
+
+  # The screenshot spec exists to produce README images, not to verify
+  # behaviour, so it stays out of the default run.
+  config.filter_run_excluding :screenshots if ENV["SCREENSHOTS"].to_s.empty?
   config.example_status_persistence_file_path = ".rspec_status"
   config.disable_monkey_patching!
   config.warnings = false

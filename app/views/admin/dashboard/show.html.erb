@@ -7,7 +7,7 @@
 <%= turbo_stream_from UserCounters.stream_for(I18n.locale), channel: AdminCountersChannel %>
 
 <section aria-labelledby="overview-heading">
-  <p class="eyebrow"><%= t(".overview") %></p>
+  <p class="eyebrow"><%= t("admin.dashboard.overview") %></p>
   <h2 id="overview-heading" class="mt-1 text-2xl font-semibold tracking-tight text-ink">
     <%= t(".users") %>
   </h2>
