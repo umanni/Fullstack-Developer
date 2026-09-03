@@ -103,7 +103,9 @@ bin/jobs
 
 ### Spreadsheet import
 
-Sample file: [`docs/sample_users.csv`](docs/sample_users.csv)
+Sample files:
+- [`docs/sample_users.csv`](docs/sample_users.csv)
+- Generate XLSX: `bin/rails sample:xlsx` → `docs/sample_users.xlsx`
 
 Supported headers: `full_name`, `email` (or `email_address`), optional `password`, `avatar_url`, `role`.
 
@@ -169,8 +171,25 @@ bin/kamal deploy
 ## Credentials & configuration
 
 - Secrets: Rails credentials + `RAILS_MASTER_KEY`
+- **Active Record Encryption** for `users.email_address` (deterministic; searchable)
+  - Local/test: built-in non-production keys (`config/initializers/active_record_encryption.rb`)
+  - Production: add under `active_record_encryption` in credentials (`primary_key`, `deterministic_key`, `key_derivation_salt`) via `bin/rails credentials:edit` or `bin/rails db:encryption:init`
+- Passwords: bcrypt digests via `has_secure_password` (never stored plaintext)
 - SQLite WAL mode via `config/database.yml` pragmas (`journal_mode: WAL`, `synchronous: NORMAL`, `foreign_keys: true`)
 - Development uses Solid Queue + Solid Cable against dedicated SQLite files under `storage/`
+- Production enables `assume_ssl` + `force_ssl` (health check `/up` excluded) for Kamal/Thruster
+
+## Ruby 4 ZJIT (extra)
+
+MRI 4 ships an experimental ZJIT. For profiling experiments on compatible hosts, uncomment in `config/deploy.yml`:
+
+```yaml
+env:
+  clear:
+    RUBYOPT: "--zjit"
+```
+
+Validate with `RUBYOPT=--zjit bin/rails runner 'puts RubyVM::ZJIT.enabled? rescue puts(RUBY_DESCRIPTION)'` before enabling in production.
 
 ## Cross-browser notes
 
@@ -179,13 +198,34 @@ bin/kamal deploy
 - Progressive enhancement: forms work without Stimulus; Stimulus adds interactive validation feedback
 - Prefer modern CSS nesting / `:has()`-capable browsers as documented by Rails 8 defaults
 
-## Git workflow
+## Git workflow (PR-based)
 
-This repository uses atomic commits on `main` and is intended for a PR-based review workflow:
+Atomic commits are kept on topic branches and merged through Pull Requests:
 
-1. Branch from `main`
+1. Branch from `main` (e.g. `feature/compliance-hardening`)
 2. Open a Pull Request with summary + test plan
 3. Keep commits focused (scaffold → domain → UI → jobs → tests → deploy docs)
+
+## Requirements checklist
+
+| Requirement | Status |
+| --- | --- |
+| Ruby 4.0+ / Rails 8.0+ | ✅ Ruby 4.0.6 / Rails 8.1.3 |
+| SQLite WAL (or PG/MySQL) | ✅ WAL pragmas in `database.yml` |
+| Hotwire **or** Inertia | ✅ Option A — Turbo 8 + Stimulus |
+| Tailwind (or modern CSS) | ✅ Tailwind CSS 4 |
+| Rails 8 built-in Authentication | ✅ `generate authentication` + roles |
+| Solid Cable + Solid Queue (no Redis) | ✅ |
+| Admin dashboard live counters | ✅ Turbo Streams |
+| Admin CRUD + role toggle | ✅ |
+| Async CSV/XLSX import + live progress | ✅ |
+| Member profile only / visitor register | ✅ |
+| Multi-stage Dockerfile + Thruster | ✅ |
+| Kamal 2 `deploy.yml` | ✅ |
+| Parallel tests ≥ 90% coverage | ✅ Minitest parallel + SimpleCov |
+| Security (XSS / SQLi / CSRF) + encryption | ✅ |
+| README + AI disclosure | ✅ |
+| Atomic commits / PR workflow | ✅ |
 
 ## Project map (quick)
 

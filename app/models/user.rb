@@ -8,6 +8,9 @@ class User < ApplicationRecord
 
   enum :role, ROLES, validate: true
 
+  # Deterministic so uniqueness / authenticate_by / find_by(email) keep working.
+  encrypts :email_address, deterministic: true
+
   normalizes :email_address, with: ->(email) { email.to_s.strip.downcase }
   normalizes :full_name, with: ->(name) { name.to_s.strip.squeeze(" ") }
   normalizes :avatar_url, with: ->(url) { url.to_s.strip.presence }

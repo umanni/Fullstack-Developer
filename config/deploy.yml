@@ -14,8 +14,9 @@ servers:
     cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
-# Using an SSL proxy like this requires turning on config.assume_ssl and config.force_ssl in production.rb!
+# production.rb enables assume_ssl + force_ssl (with /up excluded) for this proxy setup.
 #
+# Uncomment and set your hostname before the first deploy:
 # proxy:
 #   ssl: true
 #   host: users.example.com
