@@ -30,6 +30,14 @@
   </div>
 
   <div class="field">
+    <%= form.label :avatar, t("admin.users.form.avatar"), class: "field-label" %>
+    <%= form.file_field :avatar, accept: User::AVATAR_CONTENT_TYPES.join(","),
+          aria: { describedby: "avatar-file-hint", invalid: user.errors[:avatar].any? },
+          class: "field-input" %>
+    <p id="avatar-file-hint" class="field-hint"><%= t("admin.users.form.avatar_hint") %></p>
+  </div>
+
+  <div class="field">
     <%= form.label :avatar_url, t("admin.users.form.avatar_url"), class: "field-label" %>
     <%= form.url_field :avatar_url, autocomplete: "off",
           aria: { describedby: "avatar-hint", invalid: user.errors[:avatar_url].any? },

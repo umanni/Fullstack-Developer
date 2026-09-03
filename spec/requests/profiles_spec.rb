@@ -57,4 +57,58 @@ RSpec.describe "Profiles" do
       expect(response).to redirect_to(new_session_path)
     end
   end
+
+  describe "the avatar" do
+    def upload(name, content_type: "image/png")
+      Rack::Test::UploadedFile.new(Rails.root.join("spec/fixtures/files/#{name}"), content_type)
+    end
+
+    it "accepts an uploaded image" do
+      sign_in user
+
+      patch profile_path, params: { user: { avatar: upload("avatar.png") } }
+
+      expect(user.reload.avatar).to be_attached
+    end
+
+    it "refuses a file that is not really an image" do
+      sign_in user
+
+      patch profile_path, params: { user: { avatar: upload("not-really-an-image.png") } }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(user.reload.avatar).not_to be_attached
+    end
+
+    it "removes the uploaded image when asked" do
+      user.avatar.attach(upload("avatar.png"))
+      sign_in user
+
+      patch profile_path, params: { user: { remove_avatar: "1" } }
+
+      expect(user.reload.avatar).not_to be_attached
+    end
+
+    it "keeps the uploaded image when not asked to remove it" do
+      user.avatar.attach(upload("avatar.png"))
+      sign_in user
+
+      patch profile_path, params: { user: { full_name: "Maria Silva Santos" } }
+
+      expect(user.reload.avatar).to be_attached
+    end
+
+    it "refuses a remote URL that is not an ordinary web link" do
+      sign_in user
+
+      patch profile_path, params: { user: { avatar_url: "javascript:alert(1)" } }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(user.reload.avatar_url).to be_nil
+      # The form legitimately echoes the rejected value back into the input, where
+      # it is inert. What must never happen is it becoming an image source.
+      expect(response.body).not_to include('src="javascript:')
+      expect(response.body).not_to include('src="data:')
+    end
+  end
 end

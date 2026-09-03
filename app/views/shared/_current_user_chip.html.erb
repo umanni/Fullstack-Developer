@@ -1,6 +1,6 @@
 <div class="px-2 py-1.5">
   <div class="flex items-center gap-3">
-    <span class="avatar h-9 w-9 text-xs" aria-hidden="true"><%= user_initials(Current.user) %></span>
+    <%= avatar_tag(Current.user, size: 36) %>
 
     <div class="min-w-0 flex-1">
       <p class="truncate text-sm font-medium text-ink"><%= Current.user.full_name %></p>

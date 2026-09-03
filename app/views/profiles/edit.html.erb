@@ -18,6 +18,39 @@
             aria: { invalid: @user.errors[:email_address].any? }, class: "field-input" %>
     </div>
 
+    <fieldset class="field">
+      <legend class="field-label"><%= t(".avatar") %></legend>
+
+      <div class="flex items-center gap-4">
+        <%= avatar_tag(@user, size: 56) %>
+
+        <div class="min-w-0 flex-1">
+          <%= form.label :avatar, t(".avatar_file"), class: "sr-only" %>
+          <%= form.file_field :avatar, accept: User::AVATAR_CONTENT_TYPES.join(","),
+                aria: { describedby: "avatar-file-hint", invalid: @user.errors[:avatar].any? },
+                class: "field-input" %>
+          <p id="avatar-file-hint" class="field-hint"><%= t(".avatar_hint") %></p>
+        </div>
+      </div>
+
+      <% if @user.avatar_source == :attachment %>
+        <%# An instruction, not an attribute: the controller reads it directly
+            and it is deliberately absent from the permitted parameters. %>
+        <label class="mt-3 flex items-center gap-2 text-sm text-muted">
+          <%= check_box_tag "user[remove_avatar]", "1", false, id: "remove-avatar" %>
+          <%= t(".remove_avatar") %>
+        </label>
+      <% end %>
+    </fieldset>
+
+    <div class="field">
+      <%= form.label :avatar_url, t(".avatar_url"), class: "field-label" %>
+      <%= form.url_field :avatar_url, autocomplete: "off",
+            aria: { describedby: "avatar-url-hint", invalid: @user.errors[:avatar_url].any? },
+            class: "field-input" %>
+      <p id="avatar-url-hint" class="field-hint"><%= t(".avatar_url_hint") %></p>
+    </div>
+
     <div class="flex items-center gap-3">
       <%= form.submit t(".submit"), class: "btn btn-primary" %>
       <%= link_to t(".cancel"), profile_path, class: "btn btn-ghost" %>

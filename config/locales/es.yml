@@ -74,6 +74,12 @@ es:
       subtitle: "Actualiza los datos de tu cuenta"
       full_name: "Nombre completo"
       email_address: "Correo electrónico"
+      avatar: "Avatar"
+      avatar_file: "Archivo del avatar"
+      avatar_hint: "PNG, JPEG, WebP o GIF, hasta 2 MB."
+      remove_avatar: "Quitar la imagen subida"
+      avatar_url: "URL del avatar"
+      avatar_url_hint: "Se usa cuando no hay archivo subido. Un enlace http o https; la imagen la carga tu navegador, el servidor nunca la descarga."
       submit: "Guardar cambios"
       cancel: "Cancelar"
 
@@ -100,6 +106,8 @@ es:
         password: "Contraseña"
         password_hint_new: "Al menos 8 caracteres."
         password_hint_edit: "Déjalo en blanco para mantener la contraseña actual."
+        avatar: "Archivo del avatar"
+        avatar_hint: "PNG, JPEG, WebP o GIF, hasta 2 MB."
         avatar_url: "URL del avatar"
         avatar_url_hint: "Un enlace https a una imagen. Opcional."
       index:
@@ -158,5 +166,10 @@ es:
       models:
         user:
           attributes:
+            avatar:
+              too_large: "debe pesar menos de %{limit} MB."
+              invalid_type: "debe ser una imagen PNG, JPEG, WebP o GIF."
+            avatar_url:
+              unsupported_scheme: "debe ser un enlace http o https."
             base:
               last_administrator: "Este es el único administrador que queda, así que no se puede quitar el rol."

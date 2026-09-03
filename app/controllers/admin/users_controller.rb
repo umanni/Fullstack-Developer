@@ -50,7 +50,7 @@ module Admin
     # Unlike the public form, an administrator may set the role. The last
     # administrator is still protected -- by the model, not by this list.
     def user_params
-      permitted = params.expect(user: %i[full_name email_address avatar_url role password])
+      permitted = params.expect(user: %i[full_name email_address avatar_url avatar role password])
       # An empty password field on the edit form means "leave it alone", not
       # "set the password to nothing".
       permitted.delete(:password) if permitted[:password].blank?

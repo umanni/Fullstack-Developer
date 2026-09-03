@@ -6,6 +6,8 @@ class ProfilesController < ApplicationController
   def edit; end
 
   def update
+    @user.avatar.purge if params.dig(:user, :remove_avatar) == "1"
+
     if @user.update(profile_params)
       redirect_to profile_path, notice: t("profiles.updated")
     else
@@ -29,8 +31,10 @@ class ProfilesController < ApplicationController
     @user = Current.user
   end
 
-  # `role` is not permitted: a user cannot promote themselves.
+  # `role` is not permitted: a user cannot promote themselves. `remove_avatar`
+  # is read directly in the action rather than assigned, since it is an
+  # instruction rather than an attribute.
   def profile_params
-    params.expect(user: %i[full_name email_address avatar_url])
+    params.expect(user: %i[full_name email_address avatar_url avatar])
   end
 end

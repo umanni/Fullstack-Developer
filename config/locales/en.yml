@@ -74,6 +74,12 @@ en:
       subtitle: "Update your account details"
       full_name: "Full name"
       email_address: "Email address"
+      avatar: "Avatar"
+      avatar_file: "Avatar file"
+      avatar_hint: "PNG, JPEG, WebP or GIF, up to 2 MB."
+      remove_avatar: "Remove the uploaded image"
+      avatar_url: "Avatar URL"
+      avatar_url_hint: "Used when nothing is uploaded. An http or https link; the image is loaded by your browser, never fetched by the server."
       submit: "Save changes"
       cancel: "Cancel"
 
@@ -100,6 +106,8 @@ en:
         password: "Password"
         password_hint_new: "At least 8 characters."
         password_hint_edit: "Leave blank to keep the current password."
+        avatar: "Avatar file"
+        avatar_hint: "PNG, JPEG, WebP or GIF, up to 2 MB."
         avatar_url: "Avatar URL"
         avatar_url_hint: "An https link to an image. Optional."
       index:
@@ -158,5 +166,10 @@ en:
       models:
         user:
           attributes:
+            avatar:
+              too_large: "must be smaller than %{limit} MB."
+              invalid_type: "must be a PNG, JPEG, WebP or GIF image."
+            avatar_url:
+              unsupported_scheme: "must be an http or https link."
             base:
               last_administrator: "This is the only administrator left, so the role cannot be removed."
