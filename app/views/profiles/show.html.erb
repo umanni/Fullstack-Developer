@@ -1,0 +1,24 @@
+<% content_for :title, "My profile · Umanni Users" %>
+
+<section class="mx-auto max-w-3xl">
+  <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50">
+    <div class="h-32 bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600"></div>
+    <div class="px-6 pb-7 sm:px-8">
+      <div class="-mt-12 flex flex-wrap items-end justify-between gap-4">
+        <div class="rounded-3xl bg-white p-1.5 shadow-lg"><%= render "shared/avatar", user: @user, size: "size-24" %></div>
+        <%= link_to "Edit profile", edit_profile_path, class: "rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700" %>
+      </div>
+      <h1 class="mt-5 text-3xl font-black tracking-tight text-slate-950"><%= @user.full_name %></h1>
+      <p class="mt-1 text-slate-600"><%= @user.email %></p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-indigo-700"><%= @user.role %></span>
+        <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">Member since <%= @user.created_at.to_date.to_fs(:long) %></span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-5">
+    <h2 class="font-bold text-rose-950">Delete account</h2>
+    <p class="mt-1 text-sm leading-6 text-rose-800">This permanently removes your profile and signs out every active session. The last administrator is protected from deletion.</p>
+    <%= button_to "Delete my account", profile_path, method: :delete, class: "mt-4 rounded-xl border border-rose-300 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 transition hover:bg-rose-100", form: { data: { turbo_confirm: "Delete your account permanently? This cannot be undone." } } %>
+  </div>
+</section>

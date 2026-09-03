@@ -1,0 +1,7 @@
+<% content_for :title, "Import #{@user_import.id} · Umanni Users" %>
+<%= turbo_stream_from @user_import, :progress %>
+
+<section class="mx-auto max-w-4xl">
+  <div class="mb-6 flex flex-wrap items-end justify-between gap-3"><div><p class="text-sm font-bold text-indigo-600">Import #<%= @user_import.id %></p><h1 class="mt-1 text-3xl font-black tracking-tight text-slate-950">Processing details</h1></div><%= link_to "All imports", admin_user_imports_path, class: "rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50" %></div>
+  <%= render "progress", user_import: @user_import, failed_rows: @failed_rows %>
+</section>

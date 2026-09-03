@@ -1,0 +1,73 @@
+service: umanni-users
+image: <%= ENV.fetch("KAMAL_IMAGE", "your-org/umanni-users") %>
+
+servers:
+  web:
+    - <%= ENV.fetch("KAMAL_WEB_HOST", "your-server.example.com") %>
+  job:
+    hosts:
+      - <%= ENV.fetch("KAMAL_JOB_HOST", ENV.fetch("KAMAL_WEB_HOST", "your-server.example.com")) %>
+    cmd: bin/jobs
+
+proxy:
+  ssl: true
+  host: <%= ENV.fetch("APP_HOST", "users.example.com") %>
+  healthcheck:
+    path: /up
+    interval: 3
+    timeout: 3
+
+registry:
+  server: ghcr.io
+  username: <%= ENV.fetch("KAMAL_REGISTRY_USERNAME", "your-github-user") %>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - SECRET_KEY_BASE
+    - DB_PASSWORD
+    - SMTP_PASSWORD
+  clear:
+    APP_HOST: <%= ENV.fetch("APP_HOST", "users.example.com") %>
+    APP_PROTOCOL: https
+    DB_HOST: umanni-users-db
+    DB_PORT: 5432
+    DB_USERNAME: umanni_users
+    RAILS_LOG_LEVEL: info
+    RAILS_MAX_THREADS: 5
+    JOB_CONCURRENCY: 2
+    SMTP_ADDRESS: <%= ENV.fetch("SMTP_ADDRESS", "smtp.example.com") %>
+    SMTP_PORT: 587
+    SMTP_USERNAME: "<%= ENV.fetch("SMTP_USERNAME", "") %>"
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  jobs: app logs -f -r job
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+volumes:
+  - "umanni_users_storage:/rails/storage"
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64
+
+ssh:
+  user: deploy
+
+accessories:
+  db:
+    image: postgres:17-alpine
+    host: <%= ENV.fetch("KAMAL_WEB_HOST", "your-server.example.com") %>
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: umanni_users
+      secret:
+        - POSTGRES_PASSWORD:DB_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

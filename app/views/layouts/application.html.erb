@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Umanni Users" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Umanni Users">
+    <meta name="description" content="A secure, real-time user management workspace.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="flex min-h-screen flex-col bg-slate-50 text-slate-900 antialiased">
+    <header class="border-b border-slate-200 bg-white/95 shadow-sm backdrop-blur">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+        <%= link_to root_path, class: "flex items-center gap-3 rounded-lg focus:outline-none focus:ring-4 focus:ring-indigo-100", aria: { label: "Umanni Users home" } do %>
+          <span class="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-lg font-black text-white shadow-lg shadow-indigo-200">U</span>
+          <span>
+            <span class="block text-sm font-bold tracking-tight text-slate-950">Umanni Users</span>
+            <span class="block text-xs text-slate-500">People operations</span>
+          </span>
+        <% end %>
+
+        <nav class="flex flex-wrap items-center justify-end gap-1" aria-label="Primary navigation">
+          <% if authenticated? %>
+            <% if Current.user.admin? %>
+              <%= link_to "Dashboard", admin_root_path, class: nav_link_classes(admin_root_path) %>
+              <%= link_to "Users", admin_users_path, class: nav_link_classes(admin_users_path) %>
+              <%= link_to "Imports", admin_user_imports_path, class: nav_link_classes(admin_user_imports_path) %>
+            <% end %>
+            <%= link_to "Profile", profile_path, class: nav_link_classes(profile_path) %>
+            <%= button_to "Sign out", session_path, method: :delete, class: "ml-1 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-100" %>
+          <% else %>
+            <%= link_to "Sign in", new_session_path, class: nav_link_classes(new_session_path) %>
+            <%= link_to "Create account", new_registration_path, class: "rounded-lg bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-100" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <%= render "shared/flash" %>
+
+    <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+      <%= yield %>
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-6 text-xs text-slate-500 sm:px-6 lg:px-8">
+        <span>Built with Rails 8, Hotwire, Solid Queue, and Solid Cable.</span>
+        <span>Secure by default · Responsive by design</span>
+      </div>
+    </footer>
+  </body>
+</html>

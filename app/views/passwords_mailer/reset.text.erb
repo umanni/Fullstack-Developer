@@ -1,0 +1,6 @@
+Hello <%= @user.full_name %>,
+
+Reset your password:
+<%= edit_password_url(@user.password_reset_token) %>
+
+This link will expire in <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.

@@ -1,0 +1,7 @@
+<% action_class = local_assigns.fetch(:mobile, false) ? "rounded-lg px-3 py-2 text-xs" : "rounded-lg px-2.5 py-1.5" %>
+
+<div class="flex flex-wrap justify-end gap-2">
+  <%= link_to "Edit", edit_admin_user_path(user), class: "#{action_class} font-semibold text-indigo-600 hover:bg-indigo-50" %>
+  <%= button_to user.admin? ? "Make user" : "Make admin", toggle_role_admin_user_path(user), method: :patch, class: "#{action_class} font-semibold text-slate-600 hover:bg-slate-100", form: { data: { turbo_confirm: "Change #{user.full_name}'s role?" } } %>
+  <%= button_to "Delete", admin_user_path(user), method: :delete, class: "#{action_class} font-semibold text-rose-600 hover:bg-rose-50", form: { data: { turbo_confirm: "Delete #{user.full_name}? This cannot be undone." } } %>
+</div>

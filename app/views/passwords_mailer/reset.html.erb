@@ -1,0 +1,5 @@
+<p>Hello <%= @user.full_name %>,</p>
+
+<p><%= link_to "Reset your password", edit_password_url(@user.password_reset_token) %>.</p>
+
+<p>This secure link expires in <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.</p>

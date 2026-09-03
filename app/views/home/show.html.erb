@@ -1,0 +1,26 @@
+<% content_for :title, "Umanni Users · People operations" %>
+
+<section class="grid items-center gap-12 py-8 lg:grid-cols-[1.1fr_.9fr] lg:py-16">
+  <div>
+    <span class="inline-flex rounded-full bg-indigo-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-indigo-700">Modern people operations</span>
+    <h1 class="mt-5 max-w-3xl text-4xl font-black tracking-tight text-slate-950 sm:text-6xl">User management that stays clear as your team grows.</h1>
+    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">A secure Rails workspace for profiles, roles, real-time reporting, and resilient spreadsheet imports—without Redis or unnecessary services.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <%= link_to "Create your account", new_registration_path, class: "rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white shadow-lg shadow-indigo-200 transition hover:-translate-y-0.5 hover:bg-indigo-700" %>
+      <%= link_to "Sign in", new_session_path, class: "rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50" %>
+    </div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-3xl border border-indigo-100 bg-gradient-to-br from-indigo-600 to-violet-700 p-7 text-white shadow-2xl shadow-indigo-200 sm:p-10">
+    <div class="absolute -right-20 -top-20 size-64 rounded-full bg-white/10"></div>
+    <div class="relative">
+      <p class="text-sm font-semibold text-indigo-100">Operational snapshot</p>
+      <p class="mt-2 text-3xl font-black">Everything important, live.</p>
+      <div class="mt-8 grid grid-cols-2 gap-4">
+        <div class="rounded-2xl bg-white/15 p-4 backdrop-blur"><span class="block text-3xl font-black">100%</span><span class="text-sm text-indigo-100">role visibility</span></div>
+        <div class="rounded-2xl bg-white/15 p-4 backdrop-blur"><span class="block text-3xl font-black">Live</span><span class="text-sm text-indigo-100">import progress</span></div>
+        <div class="col-span-2 rounded-2xl border border-white/20 bg-slate-950/20 p-4"><span class="font-semibold">Native Rails stack</span><p class="mt-1 text-sm text-indigo-100">Hotwire · Solid Queue · Solid Cable · PostgreSQL</p></div>
+      </div>
+    </div>
+  </div>
+</section>
