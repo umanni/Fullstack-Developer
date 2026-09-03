@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   namespace :admin do
     get "dashboard", to: "dashboard#show"
     resources :users
+
+    resources :user_imports, only: %i[index new create show] do
+      get :template, on: :collection
+      get :rejected_rows, on: :member
+    end
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

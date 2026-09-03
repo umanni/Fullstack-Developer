@@ -1,0 +1,75 @@
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
+
+<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <p class="eyebrow"><%= t("admin.dashboard.overview") %></p>
+    <h2 class="mt-1 text-2xl font-semibold tracking-tight text-ink"><%= t(".title") %></h2>
+  </div>
+
+  <%= link_to t(".download_template"), template_admin_user_imports_path(format: :csv),
+        class: "btn btn-ghost" %>
+</div>
+
+<div class="panel mt-6 p-5 sm:p-6">
+  <p class="eyebrow"><%= t(".upload") %></p>
+  <p class="mt-2 text-sm text-muted"><%= t(".upload_copy") %></p>
+
+  <%= form_with model: @user_import, url: admin_user_imports_path, class: "mt-4" do |form| %>
+    <%= render "shared/form_errors", record: @user_import %>
+
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
+      <div class="flex-1">
+        <%= form.label :file, t(".file"), class: "sr-only" %>
+        <%= form.file_field :file, accept: ".csv,.xlsx",
+              aria: { describedby: "import-file-hint", invalid: @user_import.errors[:file].any? },
+              class: "field-input" %>
+        <p id="import-file-hint" class="field-hint"><%= t(".file_hint") %></p>
+      </div>
+
+      <%= form.submit t(".submit"), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="panel mt-6 overflow-hidden">
+  <div class="border-b border-line px-5 py-4">
+    <p class="eyebrow"><%= t(".history") %></p>
+  </div>
+
+  <% if @user_imports.any? %>
+    <ul class="divide-y divide-line">
+      <% @user_imports.each do |import| %>
+        <li class="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
+          <div class="min-w-0">
+            <%= link_to admin_user_import_path(import),
+                  class: "truncate text-sm font-medium text-accent-strong hover:underline" do %>
+              <%= import.file.filename %>
+            <% end %>
+            <p class="mt-0.5 text-xs text-muted">
+              <%= l(import.created_at, format: :short) %> ·
+              <%= import.administrator.full_name %>
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-muted">
+              <%= t("admin.user_imports.progress.counts",
+                    created: import.created_users, rejected: import.rejected_rows,
+                    total: import.total_rows) %>
+            </span>
+            <span class="badge <%= import.failed? ? 'badge-user' : 'badge-admin' %>">
+              <%= t("admin.user_imports.statuses.#{import.status}") %>
+            </span>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="px-5 py-16 text-center">
+      <p class="text-sm font-medium text-ink"><%= t(".empty_title") %></p>
+      <p class="mt-1 text-sm text-muted"><%= t(".empty_copy") %></p>
+    </div>
+  <% end %>
+</div>

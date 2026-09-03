@@ -1,0 +1,4 @@
+full_name,email,avatar_url,role
+Maria Silva,maria@example.com,https://example.com/maria.png,user
+João Souza,joao@example.com,,user
+Ada Admin,ada.admin@example.com,,admin

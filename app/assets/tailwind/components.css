@@ -238,4 +238,43 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* ── Progress ───────────────────────────────────────────────────────── */
+  /* A real <progress> element carries its own semantics, so it is worth
+     styling rather than replacing with divs and ARIA. Browsers each expose a
+     different pseudo-element for the filled part. */
+  progress {
+    appearance: none;
+    border: none;
+    background-color: var(--color-surface-raised);
+    border-radius: 9999px;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: var(--color-surface-raised);
+    border-radius: 9999px;
+  }
+
+  progress::-webkit-progress-value {
+    background-color: var(--color-accent);
+    border-radius: 9999px;
+    transition: width 200ms ease;
+  }
+
+  progress::-moz-progress-bar {
+    background-color: var(--color-accent);
+    border-radius: 9999px;
+  }
+}
+
+/* Animation is decoration here; users who ask for less should get less. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

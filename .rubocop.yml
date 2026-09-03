@@ -58,6 +58,10 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Max: 15
+  Exclude:
+    # A create_table with a dozen columns is one declaration, not a long
+    # method. Splitting it to satisfy a line count would make it worse.
+    - "db/migrate/*.rb"
 
 Metrics/AbcSize:
   Max: 20

@@ -10,6 +10,8 @@
             aria: { current: current_page?(admin_dashboard_path) ? "page" : nil } %>
       <%= link_to t("shared.nav.users"), admin_users_path, class: "rail-item",
             aria: { current: controller_path == "admin/users" ? "page" : nil } %>
+      <%= link_to t("shared.nav.imports"), admin_user_imports_path, class: "rail-item",
+            aria: { current: controller_path == "admin/user_imports" ? "page" : nil } %>
     <% end %>
 
     <%= link_to t("shared.nav.my_profile"), profile_path, class: "rail-item",

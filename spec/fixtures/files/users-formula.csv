@@ -1,0 +1,2 @@
+full_name,email,avatar_url,role
+=cmd|'/c calc'!A1,formula@example.com,,user

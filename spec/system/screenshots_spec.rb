@@ -28,4 +28,32 @@ RSpec.describe "Screens", :js, :screenshots do
     expect(page).to have_text("Ada Lovelace")
     page.save_screenshot("tmp/shot-profile.png", full: true)
   end
+
+  it "captures the import screens" do
+    administrator = create(:user, :admin, full_name: "Ada Lovelace", email_address: "ada@example.com",
+                                          password: "a-sufficiently-long-password")
+
+    import = UserImport.new(administrator: administrator, status: :completed_with_errors,
+                            total_rows: 6, processed_rows: 6, created_users: 4, rejected_rows: 2)
+    import.file.attach(io: Rails.root.join("spec/fixtures/files/users-with-problems.csv").open,
+                       filename: "users-with-problems.csv")
+    import.save!
+    import.row_errors.create!(row_number: 3, email_address: nil, messages: ["Full name can't be blank"])
+    import.row_errors.create!(row_number: 5, email_address: "maria@example.com",
+                              messages: ["Email address has already been taken"])
+
+    visit new_session_path
+    fill_in "Email address", with: administrator.email_address
+    fill_in "Password", with: "a-sufficiently-long-password"
+    click_on "Sign in"
+    expect(page).to have_text("Dashboard")
+
+    visit admin_user_imports_path
+    expect(page).to have_text("Imports")
+    page.save_screenshot("tmp/shot-imports.png", full: true)
+
+    visit admin_user_import_path(import)
+    expect(page).to have_text("maria@example.com")
+    page.save_screenshot("tmp/shot-import-detail.png", full: true)
+  end
 end

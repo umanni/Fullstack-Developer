@@ -1,0 +1,7 @@
+full_name,email,avatar_url,role
+Maria Silva,maria@example.com,,user
+,no-name@example.com,,user
+Bad Email,not-an-email,,user
+Duplicate Maria,maria@example.com,,user
+Wrong Role,role@example.com,,wizard
+Valid Person,valid@example.com,,user

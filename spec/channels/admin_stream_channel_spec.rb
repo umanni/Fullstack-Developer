@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe AdminCountersChannel do
+RSpec.describe AdminStreamChannel do
   def subscribe_to_counters(locale = :en)
     subscribe(signed_stream_name: Turbo::StreamsChannel.signed_stream_name(UserCounters.stream_for(locale)))
   end

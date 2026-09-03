@@ -11,6 +11,7 @@ es:
       main: "Principal"
       dashboard: "Panel"
       users: "Usuarios"
+      imports: "Importaciones"
       my_profile: "Mi perfil"
       sign_out: "Cerrar sesión"
       sign_out_confirm: "¿Cerrar sesión en Roster?"
@@ -144,6 +145,39 @@ es:
         submit: "Guardar cambios"
         cancel: "Cancelar"
 
+    user_imports:
+      scheduled: "El archivo está en cola. El progreso aparece abajo mientras se ejecuta."
+      index:
+        title: "Importaciones"
+        subtitle: "Crea cuentas a partir de una hoja de cálculo"
+        download_template: "Descargar plantilla"
+        upload: "Nueva importación"
+        upload_copy: "Un archivo CSV o XLSX con las columnas full_name, email, avatar_url y role."
+        file: "Hoja de cálculo"
+        file_hint: "CSV o XLSX, hasta 5 MB y 10.000 filas."
+        submit: "Iniciar importación"
+        history: "Historial"
+        empty_title: "Todavía no hay importaciones"
+        empty_copy: "Sube una hoja de cálculo para crear cuentas en lote."
+      show:
+        title: "Importación"
+        rejected_rows: "Filas rechazadas"
+        download_rejected: "Descargar en CSV"
+        row: "Fila"
+        email_address: "Correo electrónico"
+        problems: "Problemas"
+        no_rejected_rows: "Todas las filas se importaron."
+        back: "Volver a importaciones"
+      statuses:
+        pending: "En espera"
+        processing: "Importando"
+        completed: "Completada"
+        completed_with_errors: "Completada con errores"
+        failed: "Falló"
+      progress:
+        label: "Progreso de la importación"
+        counts: "%{created} creados, %{rejected} rechazados de %{total}"
+
   locales:
     unsupported: "Ese idioma no está disponible."
 
@@ -164,6 +198,12 @@ es:
   activerecord:
     errors:
       models:
+        user_import:
+          attributes:
+            file:
+              too_large: "debe pesar menos de %{limit} MB."
+              unsupported_format: "debe ser un archivo .csv o .xlsx."
+              content_mismatch: "no contiene lo que promete su extensión."
         user:
           attributes:
             avatar:
