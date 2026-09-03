@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   AVATAR_CONTENT_TYPES = %w[image/jpeg image/png image/webp].freeze
   MAX_AVATAR_SIZE = 5.megabytes
+  MAX_AVATAR_URL_LENGTH = 2_048
   NORMALIZE_EMAIL = ->(value) { value.to_s.strip.downcase }.freeze
 
   has_secure_password
@@ -20,6 +21,7 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 254 },
     format: { with: URI::MailTo::EMAIL_REGEXP }, uniqueness: { case_sensitive: false }
   validates :password, length: { minimum: 12 }, allow_nil: true
+  validates :avatar_image_url, length: { maximum: MAX_AVATAR_URL_LENGTH }, allow_blank: true
   validate :avatar_source_present
   validate :avatar_upload_is_safe
   validate :remote_avatar_is_safe

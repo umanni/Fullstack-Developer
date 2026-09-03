@@ -47,6 +47,16 @@ class Imports::RowProcessorTest < ActiveSupport::TestCase
     assert_match "Role must be", row.error_message
   end
 
+  test "turns a database uniqueness race into a row-level failure" do
+    row = import_row(email: "racing-import@example.com")
+    racing_creator = ->(**) { raise ActiveRecord::RecordNotUnique }
+
+    assert_nothing_raised { Imports::RowProcessor.call(row, user_creator: racing_creator) }
+
+    assert_predicate row.reload, :failed?
+    assert_equal "Email has already been taken.", row.error_message
+  end
+
   private
     def import_row(email:, role: "user")
       user_import = UserImport.create!(created_by: users(:admin), spreadsheet: {

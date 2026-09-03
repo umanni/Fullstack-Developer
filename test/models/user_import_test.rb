@@ -50,7 +50,17 @@ class UserImportTest < ActiveSupport::TestCase
 
     assert_not_predicate user_import, :valid?
     assert_includes user_import.errors[:spreadsheet], "must be a CSV or XLSX file"
-    assert_includes user_import.errors[:spreadsheet], "has an unsupported content type"
+    assert_includes user_import.errors[:spreadsheet], "content type does not match its extension"
+  end
+
+  test "rejects a supported content type paired with the wrong extension" do
+    user_import = build_import(
+      "valid_users.csv",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    assert_not_predicate user_import, :valid?
+    assert_includes user_import.errors[:spreadsheet], "content type does not match its extension"
   end
 
   test "rejects oversized spreadsheets" do

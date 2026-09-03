@@ -12,12 +12,13 @@ module Imports
       "1" => "admin"
     }.freeze
 
-    def self.call(import_row)
-      new(import_row).call
+    def self.call(import_row, user_creator: Users::Create)
+      new(import_row, user_creator:).call
     end
 
-    def initialize(import_row)
+    def initialize(import_row, user_creator:)
       @import_row = import_row
+      @user_creator = user_creator
     end
 
     def call
@@ -25,7 +26,7 @@ module Imports
       return fail_row("Role must be admin, user, or no-admin.") unless role
 
       UserImportRow.transaction do
-        user = Users::Create.call(
+        user = user_creator.call(
           attributes: import_row.payload.slice("full_name", "email", "avatar_image_url").merge("role" => role),
           invite: true,
           broadcast: false
@@ -44,7 +45,7 @@ module Imports
     end
 
     private
-      attr_reader :import_row
+      attr_reader :import_row, :user_creator
 
       def fail_row(message)
         import_row.update!(status: :failed, user: nil, error_message: message.to_s.truncate(500))

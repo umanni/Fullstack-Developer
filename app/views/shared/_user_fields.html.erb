@@ -42,7 +42,7 @@
       </div>
       <div>
         <%= form.label :avatar_image_url, "Remote image URL", class: "text-sm font-semibold text-slate-800" %>
-        <%= form.url_field :avatar_image_url, pattern: "https://.*", class: field_classes, placeholder: "https://example.com/avatar.jpg", data: { action: "input->avatar-preview#urlChanged", avatar_preview_target: "url" } %>
+        <%= form.url_field :avatar_image_url, pattern: "https://.*", maxlength: User::MAX_AVATAR_URL_LENGTH, class: field_classes, placeholder: "https://example.com/avatar.jpg", data: { action: "input->avatar-preview#urlChanged", avatar_preview_target: "url" } %>
       </div>
     </div>
   </fieldset>

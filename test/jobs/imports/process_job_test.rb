@@ -70,6 +70,26 @@ class Imports::ProcessJobTest < ActiveJob::TestCase
     end
   end
 
+  test "records a safe failure after the final retry of an unexpected error" do
+    user_import = import_from("valid_users.csv", "text/csv")
+    blob = user_import.spreadsheet.blob
+    blob.service.delete(blob.key)
+    job = Imports::ProcessJob.new(user_import)
+    job.exception_executions[[ StandardError ].to_s] = 2
+
+    assert_error_reported(ActiveStorage::FileNotFoundError) do
+      assert_no_enqueued_jobs do
+        assert_raises(ActiveStorage::FileNotFoundError) { job.perform_now }
+      end
+    end
+
+    user_import.reload
+    assert_predicate user_import, :failed?
+    assert_equal "The import could not be completed after multiple attempts.", user_import.failure_message
+    assert_not_includes user_import.failure_message, blob.key
+    assert user_import.finished_at
+  end
+
   private
     def import_from(filename, content_type)
       UserImport.create!(created_by: users(:admin), spreadsheet: {

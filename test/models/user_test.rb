@@ -35,6 +35,14 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "rejects an excessively long remote avatar URL" do
+    oversized_url = "https://example.com/#{"a" * User::MAX_AVATAR_URL_LENGTH}"
+    user = User.new(valid_user_attributes(avatar_image_url: oversized_url))
+
+    assert_not_predicate user, :valid?
+    assert_includes user.errors[:avatar_image_url], "is too long (maximum is 2048 characters)"
+  end
+
   test "enforces case-insensitive email uniqueness" do
     user = User.new(valid_user_attributes(email: users(:member).email.upcase))
 
