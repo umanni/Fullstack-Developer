@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+admin:
+  full_name: Ada Admin
+  email_address: admin@umanni.test
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  role: 1
+
+member:
+  full_name: Morgan Member
+  email_address: user@umanni.test
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  role: 0
+
+another_member:
+  full_name: Casey Example
+  email_address: casey@example.com
+  password_digest: <%= BCrypt::Password.create("password123") %>
+  role: 0

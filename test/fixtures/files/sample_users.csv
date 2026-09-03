@@ -1,0 +1,4 @@
+full_name,email,password,role,avatar_url
+Imported Alpha,alpha.import@example.com,password123,member,https://api.dicebear.com/9.x/initials/svg?seed=Alpha
+Imported Beta,beta.import@example.com,password123,member,https://api.dicebear.com/9.x/initials/svg?seed=Beta
+Imported Gamma,gamma.import@example.com,password123,admin,https://api.dicebear.com/9.x/initials/svg?seed=Gamma
