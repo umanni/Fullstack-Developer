@@ -19,6 +19,11 @@ pt-BR:
         one: "1 problema impediu o salvamento:"
         other: "%{count} problemas impediram o salvamento:"
 
+    pagination:
+      previous: "Anterior"
+      next: "Próxima"
+      page_of: "Página %{page} de %{pages}"
+
   roles:
     user: "Usuário"
     admin: "Administrador"
@@ -79,6 +84,53 @@ pt-BR:
       overview: "Visão geral"
       users: "Usuários"
 
+    users:
+      created: "%{name} foi adicionado."
+      updated: "%{name} foi atualizado."
+      deleted: "%{name} foi excluído."
+      form:
+        full_name: "Nome completo"
+        email_address: "E-mail"
+        role: "Função"
+        password: "Senha"
+        password_hint_new: "No mínimo 8 caracteres."
+        password_hint_edit: "Deixe em branco para manter a senha atual."
+        avatar_url: "URL do avatar"
+        avatar_url_hint: "Um link https para uma imagem. Opcional."
+      index:
+        title: "Usuários"
+        subtitle: "Todo mundo com uma conta"
+        search_label: "Buscar"
+        search_placeholder: "Buscar por nome ou e-mail"
+        search_submit: "Buscar"
+        clear: "Limpar"
+        filter_all: "Todos"
+        filter_admin: "Administradores"
+        filter_user: "Usuários"
+        new_user: "Adicionar usuário"
+        results:
+          one: "1 resultado"
+          other: "%{count} resultados"
+        name: "Nome"
+        email_address: "E-mail"
+        role: "Função"
+        actions: "Ações"
+        edit: "Editar"
+        delete: "Excluir"
+        delete_confirm: "Excluir %{name}? Não há como desfazer."
+        empty_title: "Ainda não há ninguém aqui"
+        empty_copy: "Nenhuma conta corresponde ao que você procura."
+      new:
+        title: "Adicionar usuário"
+        subtitle: "Crie uma conta em nome de outra pessoa"
+        submit: "Criar usuário"
+        cancel: "Cancelar"
+      edit:
+        title: "Editar usuário"
+        subtitle: "Atualize esta conta"
+        submit: "Salvar alterações"
+        cancel: "Cancelar"
+
   locales:
     unsupported: "Esse idioma não está disponível."
 
@@ -95,3 +147,11 @@ pt-BR:
   passwords_mailer:
     reset:
       subject: "Redefina sua senha"
+
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            base:
+              last_administrator: "Este é o único administrador restante, então a função não pode ser removida."

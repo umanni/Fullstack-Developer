@@ -1,0 +1,44 @@
+<%= form_with model: user, url: url, method: method do |form| %>
+  <%= render "shared/form_errors", record: user %>
+
+  <div class="field">
+    <%= form.label :full_name, t("admin.users.form.full_name"), class: "field-label" %>
+    <%= form.text_field :full_name, required: true, autofocus: true, autocomplete: "name",
+          aria: { invalid: user.errors[:full_name].any? }, class: "field-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email_address, t("admin.users.form.email_address"), class: "field-label" %>
+    <%= form.email_field :email_address, required: true, autocomplete: "email",
+          aria: { invalid: user.errors[:email_address].any? }, class: "field-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :role, t("admin.users.form.role"), class: "field-label" %>
+    <%= form.select :role,
+          User.roles.keys.map { |role| [ t("roles.#{role}"), role ] },
+          {}, class: "field-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password, t("admin.users.form.password"), class: "field-label" %>
+    <%= form.password_field :password, required: user.new_record?, autocomplete: "new-password",
+          maxlength: 72, aria: { describedby: "password-hint" }, class: "field-input" %>
+    <p id="password-hint" class="field-hint">
+      <%= user.new_record? ? t("admin.users.form.password_hint_new") : t("admin.users.form.password_hint_edit") %>
+    </p>
+  </div>
+
+  <div class="field">
+    <%= form.label :avatar_url, t("admin.users.form.avatar_url"), class: "field-label" %>
+    <%= form.url_field :avatar_url, autocomplete: "off",
+          aria: { describedby: "avatar-hint", invalid: user.errors[:avatar_url].any? },
+          class: "field-input" %>
+    <p id="avatar-hint" class="field-hint"><%= t("admin.users.form.avatar_url_hint") %></p>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.submit submit_label, class: "btn btn-primary" %>
+    <%= link_to t("admin.users.index.clear"), admin_users_path, class: "btn btn-ghost" %>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+<% if pagy.pages > 1 %>
+  <nav class="mt-6 flex items-center justify-between gap-4" aria-label="<%= t('shared.pagination.page_of', page: pagy.page, pages: pagy.pages) %>">
+    <% if pagy.prev %>
+      <%= link_to t("shared.pagination.previous"),
+            url_for(request.query_parameters.merge(page: pagy.prev)),
+            class: "btn btn-ghost", rel: "prev" %>
+    <% else %>
+      <span class="btn btn-ghost pointer-events-none opacity-40" aria-disabled="true"><%= t("shared.pagination.previous") %></span>
+    <% end %>
+
+    <p class="text-xs text-muted" aria-live="polite">
+      <%= t("shared.pagination.page_of", page: pagy.page, pages: pagy.pages) %>
+    </p>
+
+    <% if pagy.next %>
+      <%= link_to t("shared.pagination.next"),
+            url_for(request.query_parameters.merge(page: pagy.next)),
+            class: "btn btn-ghost", rel: "next" %>
+    <% else %>
+      <span class="btn btn-ghost pointer-events-none opacity-40" aria-disabled="true"><%= t("shared.pagination.next") %></span>
+    <% end %>
+  </nav>
+<% end %>

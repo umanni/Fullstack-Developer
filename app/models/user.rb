@@ -23,4 +23,50 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP },
             uniqueness: { case_sensitive: false }
   validates :locale, inclusion: { in: SUPPORTED_LOCALES }
+
+  # The last administrator may not be removed or demoted. This lives on the
+  # model rather than in a controller so it holds for every path into the
+  # data: the admin screens, the console, a seed, a future import.
+  before_update :ensure_another_administrator_remains, if: :leaving_administrator_role?
+  before_destroy :ensure_another_administrator_remains, if: :admin?
+
+  scope :search, lambda { |term|
+    next all if term.blank?
+
+    pattern = "%#{sanitize_sql_like(term.to_s.strip)}%"
+    where("full_name ILIKE :term OR email_address ILIKE :term", term: pattern)
+  }
+
+  scope :with_role, lambda { |role|
+    next all unless roles.key?(role.to_s)
+
+    where(role: role)
+  }
+
+  scope :ordered, -> { order(:full_name, :id) }
+
+  def self.role_counts
+    group(:role).count.transform_keys(&:to_s)
+  end
+
+  private
+
+  def leaving_administrator_role?
+    role_changed? && role_was == "admin"
+  end
+
+  def ensure_another_administrator_remains
+    return if other_administrators_exist?
+
+    errors.add(:base, :last_administrator)
+    throw :abort
+  end
+
+  # `FOR UPDATE` holds the remaining administrator rows for the rest of the
+  # surrounding transaction. Without it two concurrent demotions could each
+  # see the other as the one still standing and leave the system with none.
+  # An aggregate cannot be locked in PostgreSQL, so this selects ids.
+  def other_administrators_exist?
+    self.class.where(role: :admin).where.not(id: id).lock.ids.any?
+  end
 end

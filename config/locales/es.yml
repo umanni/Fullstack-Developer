@@ -19,6 +19,11 @@ es:
         one: "1 problema impidió guardar los cambios:"
         other: "%{count} problemas impidieron guardar los cambios:"
 
+    pagination:
+      previous: "Anterior"
+      next: "Siguiente"
+      page_of: "Página %{page} de %{pages}"
+
   roles:
     user: "Usuario"
     admin: "Administrador"
@@ -79,6 +84,53 @@ es:
       overview: "Resumen"
       users: "Usuarios"
 
+    users:
+      created: "%{name} se ha añadido."
+      updated: "%{name} se ha actualizado."
+      deleted: "%{name} se ha eliminado."
+      form:
+        full_name: "Nombre completo"
+        email_address: "Correo electrónico"
+        role: "Rol"
+        password: "Contraseña"
+        password_hint_new: "Al menos 8 caracteres."
+        password_hint_edit: "Déjalo en blanco para mantener la contraseña actual."
+        avatar_url: "URL del avatar"
+        avatar_url_hint: "Un enlace https a una imagen. Opcional."
+      index:
+        title: "Usuarios"
+        subtitle: "Todas las personas con cuenta"
+        search_label: "Buscar"
+        search_placeholder: "Buscar por nombre o correo electrónico"
+        search_submit: "Buscar"
+        clear: "Limpiar"
+        filter_all: "Todos"
+        filter_admin: "Administradores"
+        filter_user: "Usuarios"
+        new_user: "Añadir usuario"
+        results:
+          one: "1 resultado"
+          other: "%{count} resultados"
+        name: "Nombre"
+        email_address: "Correo electrónico"
+        role: "Rol"
+        actions: "Acciones"
+        edit: "Editar"
+        delete: "Eliminar"
+        delete_confirm: "¿Eliminar a %{name}? No se puede deshacer."
+        empty_title: "Todavía no hay nadie"
+        empty_copy: "Ninguna cuenta coincide con lo que buscas."
+      new:
+        title: "Añadir usuario"
+        subtitle: "Crea una cuenta en nombre de otra persona"
+        submit: "Crear usuario"
+        cancel: "Cancelar"
+      edit:
+        title: "Editar usuario"
+        subtitle: "Actualiza esta cuenta"
+        submit: "Guardar cambios"
+        cancel: "Cancelar"
+
   locales:
     unsupported: "Ese idioma no está disponible."
 
@@ -95,3 +147,11 @@ es:
   passwords_mailer:
     reset:
       subject: "Restablece tu contraseña"
+
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            base:
+              last_administrator: "Este es el único administrador que queda, así que no se puede quitar el rol."

@@ -1,0 +1,104 @@
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
+
+<div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <p class="eyebrow"><%= t("admin.dashboard.overview") %></p>
+    <h2 class="mt-1 text-2xl font-semibold tracking-tight text-ink"><%= t(".title") %></h2>
+  </div>
+
+  <%= link_to t(".new_user"), new_admin_user_path, class: "btn btn-primary" %>
+</div>
+
+<%# Search and role filter. Both live in the query string, so a filtered list
+    is a shareable URL and the browser back button behaves. %>
+<div class="panel-quiet mt-6 p-4">
+  <%= form_with url: admin_users_path, method: :get, class: "flex flex-col gap-3 sm:flex-row" do |form| %>
+    <div class="flex-1">
+      <%= form.label :query, t(".search_label"), class: "sr-only" %>
+      <%= form.search_field :query, value: params[:query], placeholder: t(".search_placeholder"),
+            class: "field-input" %>
+    </div>
+
+    <%= form.hidden_field :role, value: params[:role] %>
+
+    <div class="flex gap-2">
+      <%= form.submit t(".search_submit"), class: "btn btn-primary" %>
+      <% if params[:query].present? || params[:role].present? %>
+        <%= link_to t(".clear"), admin_users_path, class: "btn btn-ghost" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="mt-3 flex flex-wrap gap-2" role="group" aria-label="<%= t('.role') %>">
+    <% [ [ nil, t(".filter_all"), @role_counts.values.sum ],
+         [ "admin", t(".filter_admin"), @role_counts.fetch("admin", 0) ],
+         [ "user", t(".filter_user"), @role_counts.fetch("user", 0) ] ].each do |value, label, count| %>
+      <% active = params[:role].presence == value %>
+      <%= link_to admin_users_path(role: value, query: params[:query]),
+            class: "btn #{active ? 'btn-ghost' : 'text-muted hover:text-ink'} text-xs",
+            aria: { current: active ? "true" : nil } do %>
+        <%= label %> <span class="text-dim">(<%= count %>)</span>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div class="panel mt-6 overflow-hidden">
+  <div class="flex items-center justify-between border-b border-line px-5 py-4">
+    <p class="eyebrow"><%= t(".title") %></p>
+    <p class="text-xs text-muted"><%= t(".results", count: @pagy.count) %></p>
+  </div>
+
+  <% if @users.any? %>
+    <%# The table scrolls inside its own container so the page never does. %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="border-b border-line">
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".name") %></th>
+            <th scope="col" class="eyebrow hidden px-5 py-3 sm:table-cell"><%= t(".email_address") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".role") %></th>
+            <th scope="col" class="eyebrow px-5 py-3 text-right"><%= t(".actions") %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="border-b border-line last:border-0 hover:bg-surface-soft">
+              <td class="px-5 py-3">
+                <div class="flex items-center gap-3">
+                  <span class="avatar h-8 w-8 text-[11px]" aria-hidden="true"><%= user_initials(user) %></span>
+                  <div class="min-w-0">
+                    <p class="truncate font-medium text-ink"><%= user.full_name %></p>
+                    <p class="truncate text-xs text-muted sm:hidden"><%= user.email_address %></p>
+                  </div>
+                </div>
+              </td>
+
+              <td class="hidden px-5 py-3 text-muted sm:table-cell"><%= user.email_address %></td>
+              <td class="px-5 py-3"><%= role_badge(user) %></td>
+
+              <td class="px-5 py-3">
+                <div class="flex items-center justify-end gap-2">
+                  <%= link_to t(".edit"), edit_admin_user_path(user), class: "btn btn-ghost text-xs" %>
+                  <%= button_to t(".delete"), admin_user_path(user), method: :delete,
+                        class: "btn btn-danger text-xs",
+                        form: { data: { turbo_confirm: t(".delete_confirm", name: user.full_name) } } %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="px-5 py-16 text-center">
+      <p class="text-sm font-medium text-ink"><%= t(".empty_title") %></p>
+      <p class="mt-1 text-sm text-muted"><%= t(".empty_copy") %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= render "shared/pagination", pagy: @pagy %>

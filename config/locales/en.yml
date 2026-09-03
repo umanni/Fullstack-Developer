@@ -19,6 +19,11 @@ en:
         one: "1 problem stopped this from being saved:"
         other: "%{count} problems stopped this from being saved:"
 
+    pagination:
+      previous: "Previous"
+      next: "Next"
+      page_of: "Page %{page} of %{pages}"
+
   roles:
     user: "User"
     admin: "Administrator"
@@ -79,6 +84,53 @@ en:
       overview: "Overview"
       users: "Users"
 
+    users:
+      created: "%{name} has been added."
+      updated: "%{name} has been updated."
+      deleted: "%{name} has been deleted."
+      form:
+        full_name: "Full name"
+        email_address: "Email address"
+        role: "Role"
+        password: "Password"
+        password_hint_new: "At least 8 characters."
+        password_hint_edit: "Leave blank to keep the current password."
+        avatar_url: "Avatar URL"
+        avatar_url_hint: "An https link to an image. Optional."
+      index:
+        title: "Users"
+        subtitle: "Everyone with an account"
+        search_label: "Search"
+        search_placeholder: "Search by name or email address"
+        search_submit: "Search"
+        clear: "Clear"
+        filter_all: "All"
+        filter_admin: "Administrators"
+        filter_user: "Users"
+        new_user: "Add user"
+        results:
+          one: "1 result"
+          other: "%{count} results"
+        name: "Name"
+        email_address: "Email address"
+        role: "Role"
+        actions: "Actions"
+        edit: "Edit"
+        delete: "Delete"
+        delete_confirm: "Delete %{name}? This cannot be undone."
+        empty_title: "Nobody here yet"
+        empty_copy: "No account matches what you are looking for."
+      new:
+        title: "Add user"
+        subtitle: "Create an account on someone's behalf"
+        submit: "Create user"
+        cancel: "Cancel"
+      edit:
+        title: "Edit user"
+        subtitle: "Update this account"
+        submit: "Save changes"
+        cancel: "Cancel"
+
   locales:
     unsupported: "That language is not available."
 
@@ -95,3 +147,11 @@ en:
   passwords_mailer:
     reset:
       subject: "Reset your password"
+
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            base:
+              last_administrator: "This is the only administrator left, so the role cannot be removed."
