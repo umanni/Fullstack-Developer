@@ -1,0 +1,9 @@
+<% page_title "Import ##{@import.id}" %>
+
+<%= turbo_stream_from "admin_imports" %>
+
+<section class="mx-auto max-w-2xl space-y-6">
+  <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Import #<%= @import.id %></h1>
+  <%= render "admin/imports/import", import: @import %>
+  <%= link_to "Back to imports", admin_imports_path, class: "inline-flex rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" %>
+</section>
