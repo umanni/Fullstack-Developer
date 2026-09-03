@@ -10,7 +10,7 @@ Command:
 docker compose --profile tools run --rm test bin/ci
 ```
 
-Result: passed in 34.38 seconds.
+Result: passed in 30.84 seconds.
 
 | Check | Result |
 | --- | --- |
@@ -19,10 +19,10 @@ Result: passed in 34.38 seconds.
 | importmap audit | 0 vulnerable packages |
 | Brakeman 8.0.6 | 0 errors, 0 security warnings |
 | Zeitwerk eager loading | passed, no warnings |
-| Rails model/service/query/job/controller tests | 116 tests, 474 assertions, 0 failures/errors/skips |
-| Parallel coverage | 96.73% lines, 87.32% branches |
+| Rails model/service/query/job/controller tests | 120 tests, 497 assertions, 0 failures/errors/skips |
+| Parallel coverage | 97.83% lines, 88.88% branches |
 | Capybara/Selenium system tests | 4 tests, 26 assertions, 0 failures/errors/skips |
-| Merged coverage after system tests | 98.54% lines, 88.02% branches |
+| Merged coverage after system tests | 99.63% lines, 89.58% branches |
 | Seed replant | passed |
 
 The enforced thresholds are 90% line and 80% branch coverage. The Rails suite used 14 parallel processes; browser tests remained serialized to avoid shared-driver state.
@@ -37,11 +37,11 @@ The enforced thresholds are 90% line and 80% branch coverage. The Rails suite us
 - PostgreSQL inspection confirmed `ON DELETE SET NULL` for import creators and imported-user audit references; deleting a real imported QA user preserved and anonymized its row history.
 - `/up` returned HTTP 200 and the web container reached healthy state.
 - `/`, `/manifest`, and `/service-worker` each returned HTTP 200 from the rebuilt final image.
-- `/service-worker` returned HTTP 200 from the final production image.
 - The dedicated Solid Queue supervisor started dispatcher, worker, and scheduler processes.
 - Runtime inspection confirmed `RubyVM::ZJIT.enabled? == true`.
 - Production response headers included CSP, a non-empty random script nonce, `nosniff`, frame protection, and strict referrer policy.
-- Worker/web logs contained no job failures or application errors after successful and failed-row imports.
+- A direct login POST without an authenticity token returned HTTP 422, and the request log filtered both email and password values.
+- Worker/web logs contained no unexpected job or application failures; the deliberate CSRF probe logged the expected `ActionController::InvalidAuthenticityToken` event.
 - `bin/kamal config` rendered successfully with non-secret placeholder environment values.
 
 ## Interactive browser validation

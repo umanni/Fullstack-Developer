@@ -22,7 +22,7 @@ This inventory defines the user-visible claims and controls that must be checked
 - Dashboard shows total, administrator, and standard-user counts and subscribes to a Turbo stream.
 - User directory supports responsive list/card layouts, safe name/email search, empty state, pagination, creation, editing, role toggling, and deletion confirmations.
 - The final administrator cannot be demoted or deleted.
-- CSV and XLSX upload controls enforce type/size limits and provide downloadable templates.
+- CSV and XLSX upload controls enforce extension/content-type pairing and size limits, and provide downloadable templates.
 - Imports move through queued/processing/terminal states in Solid Queue, update through Solid Cable, retain durable counters, isolate row failures, and remain idempotent after completion.
 
 ## States and presentation
@@ -36,6 +36,7 @@ This inventory defines the user-visible claims and controls that must be checked
 ## Exploratory and edge-case scenarios
 
 - Authentication and password recovery normalize surrounding whitespace and email casing without weakening the generic anti-enumeration response.
+- Avatar validation rejects credential-bearing, non-HTTPS, and excessively long remote URLs on both the form and server boundaries.
 - Spreadsheet parsing rejects sparse or oversized workbooks before iterating an unbounded row range, and a retried job does not duplicate successful users.
 - Deleting a non-final administrator preserves completed import history without leaving a broken creator reference in the import list or detail view.
 - Authenticated users who revisit guest-only login or registration routes are returned to their role-appropriate destination.

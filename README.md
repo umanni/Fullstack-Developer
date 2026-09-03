@@ -1,15 +1,15 @@
 ### AI Usage Disclosure
 
-OpenAI Codex (GPT-5) assisted with architecture, implementation, tests, documentation, and iterative review. Every generated change was inspected and validated through automated tests, static analysis, a production Docker build, and interactive browser testing.
+I used OpenAI Codex with GPT-5.6 Sol (`gpt-5.6-sol`) while designing the architecture, implementing features, writing tests, and reviewing this submission. I remained responsible for the technical decisions, reviewed the generated changes, and validated the result with automated checks, a production-mode Docker build, and hands-on browser testing.
 
-# Umanni Users
+# Umanni Full Stack Challenge: User Management
 
 [![CI](https://github.com/tilipim123/Fullstack-Developer/actions/workflows/ci.yml/badge.svg?branch=feature%2Fsenior-user-management)](https://github.com/tilipim123/Fullstack-Developer/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/tilipim123/Fullstack-Developer/actions/workflows/codeql.yml/badge.svg?branch=feature%2Fsenior-user-management)](https://github.com/tilipim123/Fullstack-Developer/actions/workflows/codeql.yml)
 
-A responsive Rails 8 monolith for secure user and role management, real-time dashboard statistics, and resilient background spreadsheet imports. It uses native Rails components end to end and requires no Redis or frontend build service.
+This is my implementation of Umanni's full stack challenge. I chose the Hotwire option and kept the application close to the Rails 8 defaults: authentication comes from the built-in generator, background work and live updates use Solid Queue and Solid Cable, and PostgreSQL stores both application and operational data. The result runs without Redis or a separate frontend service.
 
-## What is implemented
+## What I built
 
 - Visitors can register with a name, unique email, password, and uploaded or remote HTTPS avatar. Self-registration always creates a standard user.
 - Standard users are redirected to their own profile and can only view, edit, or delete that account.
@@ -36,9 +36,9 @@ A responsive Rails 8 monolith for secure user and role management, real-time das
 | Tests | Minitest, Capybara, Selenium/Chromium, SimpleCov |
 | Delivery | Multi-stage Docker, Thruster, Docker Compose, Kamal 2 |
 
-## Architecture
+## Why I kept it as a monolith
 
-The application is deliberately a modular monolith. Controllers handle HTTP orchestration, models protect persistence invariants, service objects own use-case rules, query objects own read composition, and jobs provide durable asynchronous boundaries.
+These use cases share the same users, permissions, transactions, and reporting data, so splitting them into services would add failure modes without creating a useful ownership or scaling boundary. I kept one deployable Rails application and separated responsibilities inside it: controllers handle HTTP orchestration, models protect persistence invariants, service objects own mutations, query objects compose reads, and jobs provide the asynchronous boundary.
 
 ```mermaid
 flowchart LR
@@ -136,7 +136,7 @@ Download either template from the import screen or use:
 
 Required columns are `full_name`, `email`, and `avatar_image_url`. Optional `role` accepts `admin`, `user`, `no-admin`, `true`, `false`, `1`, or `0`. Files are limited to 5 MB and 1,000 data rows.
 
-An import persists its status and every row before broadcasting. Valid rows commit independently; invalid or duplicate rows are displayed with an actionable error and never overwrite an existing account. Retrying a partially processed job skips rows already marked successful, and a terminal import is a no-op. XLSX archives are checked for entry count, expanded size, and bounded sheet rows before parsing. If an administrator is later deleted, completed import history remains available with anonymized authorship.
+An import persists its status and every row before broadcasting. Valid rows commit independently; invalid or duplicate rows are displayed with an actionable error and never overwrite an existing account. Retrying a partially processed job skips rows already marked successful, and a terminal import is a no-op. The upload must have a matching extension and content type; XLSX archives are also checked for entry count, expanded size, and bounded sheet rows before parsing. If an administrator or imported user is later deleted, the audit trail remains available with anonymized references.
 
 ## Tests and quality gates
 
@@ -157,9 +157,13 @@ docker compose --profile tools run --rm test bin/bundler-audit
 docker compose --profile tools run --rm test bin/importmap audit
 ```
 
-The model/service/controller suite runs in parallel and enforces at least 90% line and 80% branch coverage. System tests execute real browser journeys in headless Chromium. CI also builds the production image, runs CodeQL, replants seeds, and rejects security or lint warnings.
+The model, service, query, job, and controller tests run in parallel and enforce at least 90% line and 80% branch coverage. System tests execute real user journeys in headless Chromium. CI also builds the production image, runs CodeQL, replants seeds, and rejects security or lint warnings.
 
 The latest full local execution and interactive production-browser results are recorded in [docs/qa-report.md](docs/qa-report.md).
+
+## Browser support
+
+The interface uses progressively enhanced server-rendered HTML, standard form controls, Turbo, and small Stimulus controllers. Rails' modern-browser policy is enabled, so unsupported legacy browsers receive the framework's compatibility response. The repeatable browser suite and the interactive desktop/mobile review use Chromium; the layout avoids browser-specific APIs and keeps JavaScript non-essential for authorization and persistence.
 
 ## Security summary
 
@@ -190,9 +194,9 @@ bin/kamal setup
 
 Load values in `.kamal/secrets` from environment variables or a password manager. On multi-host deployments, replace local Active Storage with an object-storage service; the included named volume is intentionally scoped to a single-host evaluation deployment.
 
-## Trade-offs
+## Trade-offs I made
 
-- A modular monolith keeps transactions, authorization, deploys, and operations understandable for the current scope. No network boundary justifies a microservice here.
-- PostgreSQL-backed queue/cache/cable adapters remove Redis operational overhead while retaining durable jobs and streams.
-- Imported users receive expiring password-setup links instead of a shared/default password.
-- Uploaded images are durable Active Storage records. Remote avatars are never fetched server-side, avoiding an SSRF boundary; the browser uses no-referrer requests and falls back to initials when unavailable.
+- I chose a modular monolith because transactions and authorization matter more here than independent service scaling.
+- I used PostgreSQL-backed queue, cache, and cable adapters to avoid adding Redis to a challenge of this size.
+- Imported users receive expiring password-setup links; I did not introduce a shared or default password.
+- Uploaded avatars are durable Active Storage records. I deliberately do not fetch remote avatars on the server; the browser requests them without a referrer and falls back to initials when an image is unavailable.
