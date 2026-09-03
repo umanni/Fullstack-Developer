@@ -84,6 +84,11 @@ pt-BR:
       overview: "Visão geral"
       users: "Usuários"
 
+      total: "Total de usuários"
+      administrators: "Administradores"
+      regular_users: "Usuários"
+      manage: "Gerenciar"
+      manage_copy: "Adicione pessoas, altere funções e remova contas."
     users:
       created: "%{name} foi adicionado."
       updated: "%{name} foi atualizado."

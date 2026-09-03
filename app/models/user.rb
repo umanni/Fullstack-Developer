@@ -30,6 +30,10 @@ class User < ApplicationRecord
   before_update :ensure_another_administrator_remains, if: :leaving_administrator_role?
   before_destroy :ensure_another_administrator_remains, if: :admin?
 
+  # A single hook, rather than a broadcast call in every controller action that
+  # happens to add, remove or re-role somebody.
+  after_commit :broadcast_user_counters, if: :counters_affected?
+
   scope :search, lambda { |term|
     next all if term.blank?
 
@@ -50,6 +54,14 @@ class User < ApplicationRecord
   end
 
   private
+
+  def counters_affected?
+    destroyed? || previously_new_record? || saved_change_to_role?
+  end
+
+  def broadcast_user_counters
+    UserCounters.broadcast
+  end
 
   def leaving_administrator_role?
     role_changed? && role_was == "admin"

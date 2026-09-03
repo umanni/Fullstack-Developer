@@ -25,4 +25,24 @@ RSpec.describe "Admin dashboard" do
       expect(flash[:alert]).to be_present
     end
   end
+
+  describe "the counters" do
+    it "shows the totals" do
+      create_list(:user, 2)
+      sign_in create(:user, :admin)
+
+      get admin_dashboard_path
+
+      expect(response.body).to include('id="user-counters"')
+      expect(response.body).to include(I18n.t("admin.dashboard.total"))
+    end
+
+    it "subscribes to the stream for the reader's own locale" do
+      sign_in create(:user, :admin, locale: "es")
+
+      get admin_dashboard_path
+
+      expect(response.body).to include("turbo-cable-stream-source")
+    end
+  end
 end
