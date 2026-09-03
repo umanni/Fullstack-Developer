@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# Starts the development stack (web, worker, css, postgres) with Docker.
+#
+#   bin/dev            # foreground, streaming logs
+#   bin/dev --detach   # background
+#   bin/dev --down     # stop everything
+#
+# Without Docker, run the processes directly instead:
+#   bundle exec foreman start -f Procfile.dev
+#
+set -euo pipefail
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/devops/common.sh"
+
+require_docker
+[[ -f .env ]] || fail "No .env found. Run bin/setup first."
+
+case "${1:-}" in
+  --down)   step "Stopping"; compose down; ok "Stopped." ;;
+  --detach) step "Starting in the background"; compose up --detach --wait
+            ok "Running at http://localhost:${WEB_PORT:-3000}" ;;
+  --help|-h) sed -n '2,12p' "$0" ;;
+  "")       step "Starting"; compose up ;;
+  *)        fail "Unknown option: $1" ;;
+esac

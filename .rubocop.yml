@@ -1,0 +1,81 @@
+# Strict house style. The omakase preset was deliberately dropped in favour of
+# an explicit rule set: every relaxation below is listed with its reason, so
+# the configuration documents the trade-offs instead of hiding them.
+
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-capybara
+  - rubocop-factory_bot
+  - rubocop-performance
+
+AllCops:
+  NewCops: enable
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - "db/schema.rb"
+    - "db/*_schema.rb"
+    - "db/migrate/*_solid_*.rb"
+    - "vendor/**/*"
+    - "tmp/**/*"
+    - "storage/**/*"
+    - "bin/bundle"
+
+# ── Layout ───────────────────────────────────────────────────────────────────
+Layout/LineLength:
+  Max: 120
+
+# ── Style ────────────────────────────────────────────────────────────────────
+Style/Documentation:
+  # Class names and method names carry the intent here; mandatory top-of-class
+  # comments would add ceremony without adding information.
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/FrozenStringLiteralComment:
+  # Ruby 4 freezes string literals in files without the magic comment under
+  # the chilled-strings behaviour, so the annotation is noise.
+  Enabled: false
+
+# ── Metrics ──────────────────────────────────────────────────────────────────
+# Kept enabled on purpose: these are the cops that keep methods small.
+Metrics/BlockLength:
+  AllowedMethods:
+    - describe
+    - context
+    - shared_examples
+    - configure
+    - draw
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 20
+
+# ── Rails ────────────────────────────────────────────────────────────────────
+Rails/SkipsModelValidations:
+  # Import counters are advanced with atomic updates on purpose; validating a
+  # counter bump on every row would serialise the import for no benefit.
+  AllowedMethods:
+    - increment!
+    - update_columns
+    - touch
+
+# ── RSpec ────────────────────────────────────────────────────────────────────
+RSpec/ExampleLength:
+  Max: 12
+
+RSpec/MultipleExpectations:
+  # A request spec legitimately asserts on status, redirect and side effect.
+  Max: 4
+
+RSpec/NestedGroups:
+  Max: 4

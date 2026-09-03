@@ -1,0 +1,67 @@
+# PostgreSQL configuration.
+#
+# Development and test mirror the production topology on purpose: Solid Queue
+# and Solid Cable get their own databases in every environment, so the worker
+# really is a separate process talking to a separate queue database rather than
+# something that only works because it shares the web process.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
+  port: <%= ENV.fetch("POSTGRES_PORT", 5432) %>
+  username: <%= ENV.fetch("POSTGRES_USER", nil) %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD", nil) %>
+
+development:
+  primary:
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_development") %>
+  cache:
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_development") %>_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_development") %>_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_development") %>_cable
+    migrations_paths: db/cable_migrate
+
+# Each parallel test worker gets its own suffixed database, so the suite can run
+# with `parallel_tests` without workers stepping on each other.
+test:
+  primary:
+    <<: *default
+    database: <%= ENV.fetch("TEST_POSTGRES_DB", "user_management_test") %><%= ENV["TEST_ENV_NUMBER"] %>
+  cache:
+    <<: *default
+    database: <%= ENV.fetch("TEST_POSTGRES_DB", "user_management_test") %><%= ENV["TEST_ENV_NUMBER"] %>_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: <%= ENV.fetch("TEST_POSTGRES_DB", "user_management_test") %><%= ENV["TEST_ENV_NUMBER"] %>_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: <%= ENV.fetch("TEST_POSTGRES_DB", "user_management_test") %><%= ENV["TEST_ENV_NUMBER"] %>_cable
+    migrations_paths: db/cable_migrate
+
+production:
+  primary: &primary_production
+    <<: *default
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_production") %>
+  cache:
+    <<: *primary_production
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_production") %>_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_production") %>_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: <%= ENV.fetch("POSTGRES_DB", "user_management_production") %>_cable
+    migrations_paths: db/cable_migrate

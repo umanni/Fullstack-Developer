@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# Runs the test suite inside the container.
+#
+#   bin/test                          # whole suite
+#   bin/test spec/models/user_spec.rb # a single file
+#   bin/test --parallel               # across parallel workers
+#
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "--parallel" ]]; then
+  shift
+  exec "${ROOT}/devops/rails/test-parallel.sh" "$@"
+fi
+
+exec "${ROOT}/devops/rails/test.sh" "$@"
