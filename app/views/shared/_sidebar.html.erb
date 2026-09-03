@@ -1,18 +1,18 @@
 <aside class="hidden w-rail shrink-0 flex-col border-r border-line bg-rail md:flex">
   <div class="px-5 py-5">
     <p class="text-lg font-semibold tracking-tight text-ink">Roster</p>
-    <p class="eyebrow mt-0.5">User management</p>
+    <p class="eyebrow mt-0.5"><%= t("shared.tagline") %></p>
   </div>
 
-  <nav class="flex-1 space-y-1 px-3" aria-label="Main">
+  <nav class="flex-1 space-y-1 px-3" aria-label="<%= t('shared.nav.main') %>">
     <% if admin? %>
-      <%= link_to "Dashboard", admin_dashboard_path, class: "rail-item",
+      <%= link_to t("shared.nav.dashboard"), admin_dashboard_path, class: "rail-item",
             aria: { current: current_page?(admin_dashboard_path) ? "page" : nil } %>
-      <%= link_to "Users", admin_users_path, class: "rail-item",
+      <%= link_to t("shared.nav.users"), admin_users_path, class: "rail-item",
             aria: { current: controller_path == "admin/users" ? "page" : nil } %>
     <% end %>
 
-    <%= link_to "My profile", profile_path, class: "rail-item",
+    <%= link_to t("shared.nav.my_profile"), profile_path, class: "rail-item",
           aria: { current: controller_path == "profiles" ? "page" : nil } %>
   </nav>
 

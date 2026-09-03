@@ -1,0 +1,11 @@
+<div class="flex items-center gap-1" role="group" aria-label="<%= t('shared.language.choose') %>">
+  <% supported_locales.each do |locale| %>
+    <% selected = locale == current_locale %>
+    <%= button_to locale_path(locale: locale), method: :patch,
+          class: "btn px-2 py-1.5 #{selected ? 'btn-ghost' : 'opacity-60 hover:opacity-100'}",
+          aria: { pressed: selected, label: t("language_name", locale: locale) },
+          title: t("language_name", locale: locale) do %>
+      <%= render "shared/flag", locale: locale %>
+    <% end %>
+  <% end %>
+</div>

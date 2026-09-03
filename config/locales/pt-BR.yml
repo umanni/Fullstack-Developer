@@ -1,0 +1,97 @@
+pt-BR:
+  language_name: "Português"
+
+  shared:
+    skip_to_content: "Pular para o conteúdo"
+    tagline: "Gestão de usuários"
+    language:
+      label: "Idioma"
+      choose: "Escolha um idioma"
+    nav:
+      main: "Principal"
+      dashboard: "Painel"
+      users: "Usuários"
+      my_profile: "Meu perfil"
+      sign_out: "Sair"
+      sign_out_confirm: "Sair do Roster?"
+    form_errors:
+      heading:
+        one: "1 problema impediu o salvamento:"
+        other: "%{count} problemas impediram o salvamento:"
+
+  roles:
+    user: "Usuário"
+    admin: "Administrador"
+
+  sessions:
+    throttled: "Tentativas demais. Tente novamente em alguns instantes."
+    invalid_credentials: "Verifique o e-mail e a senha e tente de novo."
+    new:
+      title: "Entrar"
+      subtitle: "Use o e-mail e a senha da sua conta."
+      email_address: "E-mail"
+      password: "Senha"
+      submit: "Entrar"
+      forgot_password: "Esqueceu a senha?"
+      create_account: "Criar uma conta"
+
+  registrations:
+    created: "Boas-vindas. Sua conta está pronta."
+    new:
+      title: "Crie sua conta"
+      subtitle: "Você entra automaticamente assim que ela estiver pronta."
+      full_name: "Nome completo"
+      email_address: "E-mail"
+      password: "Senha"
+      password_hint: "No mínimo 8 caracteres."
+      password_confirmation: "Confirme a senha"
+      submit: "Criar conta"
+      have_account: "Já tem uma conta?"
+      sign_in: "Entrar"
+
+  profiles:
+    updated: "Seu perfil foi atualizado."
+    deleted: "Sua conta foi excluída."
+    show:
+      title: "Meu perfil"
+      subtitle: "Os dados da sua conta"
+      edit: "Editar perfil"
+      full_name: "Nome completo"
+      email_address: "E-mail"
+      role: "Função"
+      member_since: "Membro desde"
+      delete_heading: "Excluir esta conta"
+      delete_copy: "Seu perfil e suas sessões são removidos. Não há como desfazer."
+      delete_button: "Excluir minha conta"
+      delete_confirm: "Excluir sua conta? Não há como desfazer."
+    edit:
+      title: "Editar perfil"
+      subtitle: "Atualize os dados da sua conta"
+      full_name: "Nome completo"
+      email_address: "E-mail"
+      submit: "Salvar alterações"
+      cancel: "Cancelar"
+
+  admin:
+    dashboard:
+      title: "Painel"
+      subtitle: "Visão geral das pessoas no sistema"
+      overview: "Visão geral"
+      users: "Usuários"
+
+  locales:
+    unsupported: "Esse idioma não está disponível."
+
+  authorization:
+    admin_only: "Essa área é exclusiva de administradores."
+
+  passwords:
+    throttled: "Tentativas demais. Tente novamente em alguns instantes."
+    reset_instructions_sent: "Enviamos as instruções de redefinição (caso exista uma conta com esse e-mail)."
+    reset: "Sua senha foi redefinida."
+    mismatch: "As senhas não coincidem."
+    invalid_token: "Este link de redefinição é inválido ou expirou."
+
+  passwords_mailer:
+    reset:
+      subject: "Redefina sua senha"

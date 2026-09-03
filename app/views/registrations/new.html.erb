@@ -1,42 +1,42 @@
-<% content_for :title, "Create your account" %>
+<% content_for :title, t(".title") %>
 
 <div class="panel p-7">
-  <h2 class="text-xl font-semibold tracking-tight text-ink">Create your account</h2>
-  <p class="mt-1 text-sm text-muted">You will be signed in as soon as it is ready.</p>
+  <h2 class="text-xl font-semibold tracking-tight text-ink"><%= t(".title") %></h2>
+  <p class="mt-1 text-sm text-muted"><%= t(".subtitle") %></p>
 
   <%= form_with model: @user, url: registration_path, class: "mt-6" do |form| %>
     <%= render "shared/form_errors", record: @user %>
 
     <div class="field">
-      <%= form.label :full_name, "Full name", class: "field-label" %>
+      <%= form.label :full_name, t(".full_name"), class: "field-label" %>
       <%= form.text_field :full_name, required: true, autofocus: true, autocomplete: "name",
             aria: { invalid: @user.errors[:full_name].any? }, class: "field-input" %>
     </div>
 
     <div class="field">
-      <%= form.label :email_address, "Email address", class: "field-label" %>
+      <%= form.label :email_address, t(".email_address"), class: "field-label" %>
       <%= form.email_field :email_address, required: true, autocomplete: "email",
             aria: { invalid: @user.errors[:email_address].any? }, class: "field-input" %>
     </div>
 
     <div class="field">
-      <%= form.label :password, "Password", class: "field-label" %>
+      <%= form.label :password, t(".password"), class: "field-label" %>
       <%= form.password_field :password, required: true, autocomplete: "new-password",
             maxlength: 72, aria: { describedby: "password-hint" }, class: "field-input" %>
-      <p id="password-hint" class="field-hint">At least 8 characters.</p>
+      <p id="password-hint" class="field-hint"><%= t(".password_hint") %></p>
     </div>
 
     <div class="field">
-      <%= form.label :password_confirmation, "Confirm password", class: "field-label" %>
+      <%= form.label :password_confirmation, t(".password_confirmation"), class: "field-label" %>
       <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password",
             maxlength: 72, class: "field-input" %>
     </div>
 
-    <%= form.submit "Create account", class: "btn btn-primary w-full" %>
+    <%= form.submit t(".submit"), class: "btn btn-primary w-full" %>
   <% end %>
 
   <p class="mt-6 border-t border-line pt-5 text-sm text-muted">
-    Already have an account?
-    <%= link_to "Sign in", new_session_path, class: "text-accent-strong hover:underline" %>
+    <%= t(".have_account") %>
+    <%= link_to t(".sign_in"), new_session_path, class: "text-accent-strong hover:underline" %>
   </p>
 </div>

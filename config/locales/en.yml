@@ -1,37 +1,89 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
+  language_name: "English"
+
+  shared:
+    skip_to_content: "Skip to content"
+    tagline: "User management"
+    language:
+      label: "Language"
+      choose: "Choose a language"
+    nav:
+      main: "Main"
+      dashboard: "Dashboard"
+      users: "Users"
+      my_profile: "My profile"
+      sign_out: "Sign out"
+      sign_out_confirm: "Sign out of Roster?"
+    form_errors:
+      heading:
+        one: "1 problem stopped this from being saved:"
+        other: "%{count} problems stopped this from being saved:"
+
+  roles:
+    user: "User"
+    admin: "Administrator"
 
   sessions:
     throttled: "Too many attempts. Please try again later."
     invalid_credentials: "Try another email address or password."
+    new:
+      title: "Sign in"
+      subtitle: "Use the email address and password for your account."
+      email_address: "Email address"
+      password: "Password"
+      submit: "Sign in"
+      forgot_password: "Forgot password?"
+      create_account: "Create an account"
+
+  registrations:
+    created: "Welcome. Your account is ready."
+    new:
+      title: "Create your account"
+      subtitle: "You will be signed in as soon as it is ready."
+      full_name: "Full name"
+      email_address: "Email address"
+      password: "Password"
+      password_hint: "At least 8 characters."
+      password_confirmation: "Confirm password"
+      submit: "Create account"
+      have_account: "Already have an account?"
+      sign_in: "Sign in"
+
+  profiles:
+    updated: "Your profile has been updated."
+    deleted: "Your account has been deleted."
+    show:
+      title: "My profile"
+      subtitle: "Your account details"
+      edit: "Edit profile"
+      full_name: "Full name"
+      email_address: "Email address"
+      role: "Role"
+      member_since: "Member since"
+      delete_heading: "Delete this account"
+      delete_copy: "Your profile and sessions are removed. This cannot be undone."
+      delete_button: "Delete my account"
+      delete_confirm: "Delete your account? This cannot be undone."
+    edit:
+      title: "Edit profile"
+      subtitle: "Update your account details"
+      full_name: "Full name"
+      email_address: "Email address"
+      submit: "Save changes"
+      cancel: "Cancel"
+
+  admin:
+    dashboard:
+      title: "Dashboard"
+      subtitle: "An overview of the people in the system"
+      overview: "Overview"
+      users: "Users"
+
+  locales:
+    unsupported: "That language is not available."
+
+  authorization:
+    admin_only: "That area is only available to administrators."
 
   passwords:
     throttled: "Too many attempts. Please try again later."
@@ -43,14 +95,3 @@ en:
   passwords_mailer:
     reset:
       subject: "Reset your password"
-
-  authorization:
-    admin_only: "That area is only available to administrators."
-
-  registrations:
-    created: "Welcome. Your account is ready."
-
-  profiles:
-    updated: "Your profile has been updated."
-    deleted: "Your account has been deleted."
-

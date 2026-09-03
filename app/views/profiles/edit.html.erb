@@ -1,26 +1,26 @@
-<% content_for :title, "Edit profile" %>
-<% content_for :page_title, "Edit profile" %>
-<% content_for :page_subtitle, "Update your account details" %>
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
 
 <div class="panel max-w-xl p-6 sm:p-8">
   <%= form_with model: @user, url: profile_path, method: :patch do |form| %>
     <%= render "shared/form_errors", record: @user %>
 
     <div class="field">
-      <%= form.label :full_name, "Full name", class: "field-label" %>
+      <%= form.label :full_name, t(".full_name"), class: "field-label" %>
       <%= form.text_field :full_name, required: true, autocomplete: "name",
             aria: { invalid: @user.errors[:full_name].any? }, class: "field-input" %>
     </div>
 
     <div class="field">
-      <%= form.label :email_address, "Email address", class: "field-label" %>
+      <%= form.label :email_address, t(".email_address"), class: "field-label" %>
       <%= form.email_field :email_address, required: true, autocomplete: "email",
             aria: { invalid: @user.errors[:email_address].any? }, class: "field-input" %>
     </div>
 
     <div class="flex items-center gap-3">
-      <%= form.submit "Save changes", class: "btn btn-primary" %>
-      <%= link_to "Cancel", profile_path, class: "btn btn-ghost" %>
+      <%= form.submit t(".submit"), class: "btn btn-primary" %>
+      <%= link_to t(".cancel"), profile_path, class: "btn btn-ghost" %>
     </div>
   <% end %>
 </div>

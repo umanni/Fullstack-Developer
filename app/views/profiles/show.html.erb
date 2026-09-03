@@ -1,6 +1,6 @@
-<% content_for :title, "My profile" %>
-<% content_for :page_title, "My profile" %>
-<% content_for :page_subtitle, "Your account details" %>
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
 
 <div class="panel p-6 sm:p-8">
   <div class="flex flex-col gap-5 sm:flex-row sm:items-center">
@@ -12,24 +12,24 @@
       <div class="mt-2"><%= role_badge(@user) %></div>
     </div>
 
-    <%= link_to "Edit profile", edit_profile_path, class: "btn btn-ghost" %>
+    <%= link_to t(".edit"), edit_profile_path, class: "btn btn-ghost" %>
   </div>
 
   <dl class="mt-8 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
     <div class="bg-surface px-4 py-3">
-      <dt class="eyebrow">Full name</dt>
+      <dt class="eyebrow"><%= t(".full_name") %></dt>
       <dd class="mt-1 text-sm text-ink"><%= @user.full_name %></dd>
     </div>
     <div class="bg-surface px-4 py-3">
-      <dt class="eyebrow">Email address</dt>
+      <dt class="eyebrow"><%= t(".email_address") %></dt>
       <dd class="mt-1 text-sm text-ink"><%= @user.email_address %></dd>
     </div>
     <div class="bg-surface px-4 py-3">
-      <dt class="eyebrow">Role</dt>
-      <dd class="mt-1 text-sm text-ink"><%= @user.role.humanize %></dd>
+      <dt class="eyebrow"><%= t(".role") %></dt>
+      <dd class="mt-1 text-sm text-ink"><%= t("roles.#{@user.role}") %></dd>
     </div>
     <div class="bg-surface px-4 py-3">
-      <dt class="eyebrow">Member since</dt>
+      <dt class="eyebrow"><%= t(".member_since") %></dt>
       <dd class="mt-1 text-sm text-ink"><%= l(@user.created_at.to_date, format: :long) %></dd>
     </div>
   </dl>
@@ -37,11 +37,11 @@
 
 <div class="panel-quiet mt-6 flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
   <div>
-    <p class="text-sm font-medium text-ink">Delete this account</p>
-    <p class="text-xs text-muted">Your profile and sessions are removed. This cannot be undone.</p>
+    <p class="text-sm font-medium text-ink"><%= t(".delete_heading") %></p>
+    <p class="text-xs text-muted"><%= t(".delete_copy") %></p>
   </div>
 
-  <%= button_to "Delete my account", profile_path, method: :delete,
+  <%= button_to t(".delete_button"), profile_path, method: :delete,
         class: "btn btn-danger",
-        form: { data: { turbo_confirm: "Delete your account? This cannot be undone." } } %>
+        form: { data: { turbo_confirm: t(".delete_confirm") } } %>
 </div>

@@ -6,7 +6,11 @@
     <% end %>
   </div>
 
-  <div class="md:hidden">
-    <%= button_to "Sign out", session_path, method: :delete, class: "btn btn-ghost text-xs" %>
+  <div class="flex items-center gap-3">
+    <%= render "shared/language_picker" %>
+
+    <div class="md:hidden">
+      <%= button_to t("shared.nav.sign_out"), session_path, method: :delete, class: "btn btn-ghost text-xs" %>
+    </div>
   </div>
 </header>

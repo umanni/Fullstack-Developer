@@ -75,4 +75,20 @@ RSpec.describe User do
       expect(user.authenticate("wrong")).to be(false)
     end
   end
+
+  describe "locale" do
+    it "defaults to English" do
+      expect(described_class.new.locale).to eq("en")
+    end
+
+    it "accepts every supported locale" do
+      User::SUPPORTED_LOCALES.each do |locale|
+        expect(build(:user, locale: locale)).to be_valid
+      end
+    end
+
+    it "rejects a locale the application does not support" do
+      expect(build(:user, locale: "de")).not_to be_valid
+    end
+  end
 end

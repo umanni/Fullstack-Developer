@@ -1,8 +1,8 @@
-<% content_for :title, "Dashboard" %>
-<% content_for :page_title, "Dashboard" %>
-<% content_for :page_subtitle, "An overview of the people in the system" %>
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
 
-<section aria-label="User totals">
-  <p class="eyebrow">Overview</p>
-  <h2 class="mt-1 text-2xl font-semibold tracking-tight text-ink">Users</h2>
+<section aria-label="<%= t('.users') %>">
+  <p class="eyebrow"><%= t(".overview") %></p>
+  <h2 class="mt-1 text-2xl font-semibold tracking-tight text-ink"><%= t(".users") %></h2>
 </section>

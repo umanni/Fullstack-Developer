@@ -1,0 +1,23 @@
+<%# Simplified flags, drawn inline so the picker needs no image requests and
+    scales cleanly. Each is decorative: the button carries the accessible name. %>
+<% case locale %>
+<% when "pt-BR" %>
+  <svg viewBox="0 0 20 14" class="h-3.5 w-5 rounded-[2px]" aria-hidden="true" focusable="false">
+    <rect width="20" height="14" fill="#009B3A"/>
+    <path d="M10 1.6 18.4 7 10 12.4 1.6 7Z" fill="#FEDF00"/>
+    <circle cx="10" cy="7" r="3.1" fill="#002776"/>
+  </svg>
+<% when "es" %>
+  <svg viewBox="0 0 20 14" class="h-3.5 w-5 rounded-[2px]" aria-hidden="true" focusable="false">
+    <rect width="20" height="14" fill="#AA151B"/>
+    <rect y="3.5" width="20" height="7" fill="#F1BF00"/>
+  </svg>
+<% else %>
+  <svg viewBox="0 0 20 14" class="h-3.5 w-5 rounded-[2px]" aria-hidden="true" focusable="false">
+    <rect width="20" height="14" fill="#012169"/>
+    <path d="M0 0 20 14M20 0 0 14" stroke="#FFF" stroke-width="2.8"/>
+    <path d="M0 0 20 14M20 0 0 14" stroke="#C8102E" stroke-width="1.6"/>
+    <path d="M10 0v14M0 7h20" stroke="#FFF" stroke-width="4.6"/>
+    <path d="M10 0v14M0 7h20" stroke="#C8102E" stroke-width="2.8"/>
+  </svg>
+<% end %>

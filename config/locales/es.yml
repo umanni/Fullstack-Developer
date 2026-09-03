@@ -1,0 +1,97 @@
+es:
+  language_name: "Español"
+
+  shared:
+    skip_to_content: "Saltar al contenido"
+    tagline: "Gestión de usuarios"
+    language:
+      label: "Idioma"
+      choose: "Elige un idioma"
+    nav:
+      main: "Principal"
+      dashboard: "Panel"
+      users: "Usuarios"
+      my_profile: "Mi perfil"
+      sign_out: "Cerrar sesión"
+      sign_out_confirm: "¿Cerrar sesión en Roster?"
+    form_errors:
+      heading:
+        one: "1 problema impidió guardar los cambios:"
+        other: "%{count} problemas impidieron guardar los cambios:"
+
+  roles:
+    user: "Usuario"
+    admin: "Administrador"
+
+  sessions:
+    throttled: "Demasiados intentos. Inténtalo de nuevo más tarde."
+    invalid_credentials: "Revisa el correo electrónico y la contraseña."
+    new:
+      title: "Iniciar sesión"
+      subtitle: "Usa el correo electrónico y la contraseña de tu cuenta."
+      email_address: "Correo electrónico"
+      password: "Contraseña"
+      submit: "Iniciar sesión"
+      forgot_password: "¿Olvidaste tu contraseña?"
+      create_account: "Crear una cuenta"
+
+  registrations:
+    created: "Bienvenido. Tu cuenta está lista."
+    new:
+      title: "Crea tu cuenta"
+      subtitle: "Iniciarás sesión en cuanto esté lista."
+      full_name: "Nombre completo"
+      email_address: "Correo electrónico"
+      password: "Contraseña"
+      password_hint: "Al menos 8 caracteres."
+      password_confirmation: "Confirma la contraseña"
+      submit: "Crear cuenta"
+      have_account: "¿Ya tienes una cuenta?"
+      sign_in: "Iniciar sesión"
+
+  profiles:
+    updated: "Tu perfil se ha actualizado."
+    deleted: "Tu cuenta se ha eliminado."
+    show:
+      title: "Mi perfil"
+      subtitle: "Los datos de tu cuenta"
+      edit: "Editar perfil"
+      full_name: "Nombre completo"
+      email_address: "Correo electrónico"
+      role: "Rol"
+      member_since: "Miembro desde"
+      delete_heading: "Eliminar esta cuenta"
+      delete_copy: "Se eliminan tu perfil y tus sesiones. No se puede deshacer."
+      delete_button: "Eliminar mi cuenta"
+      delete_confirm: "¿Eliminar tu cuenta? No se puede deshacer."
+    edit:
+      title: "Editar perfil"
+      subtitle: "Actualiza los datos de tu cuenta"
+      full_name: "Nombre completo"
+      email_address: "Correo electrónico"
+      submit: "Guardar cambios"
+      cancel: "Cancelar"
+
+  admin:
+    dashboard:
+      title: "Panel"
+      subtitle: "Un resumen de las personas en el sistema"
+      overview: "Resumen"
+      users: "Usuarios"
+
+  locales:
+    unsupported: "Ese idioma no está disponible."
+
+  authorization:
+    admin_only: "Esa área es solo para administradores."
+
+  passwords:
+    throttled: "Demasiados intentos. Inténtalo de nuevo más tarde."
+    reset_instructions_sent: "Hemos enviado las instrucciones (si existe una cuenta con ese correo electrónico)."
+    reset: "Tu contraseña se ha restablecido."
+    mismatch: "Las contraseñas no coinciden."
+    invalid_token: "Ese enlace de restablecimiento no es válido o ha caducado."
+
+  passwords_mailer:
+    reset:
+      subject: "Restablece tu contraseña"

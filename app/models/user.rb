@@ -1,6 +1,11 @@
 class User < ApplicationRecord
   MAX_FULL_NAME_LENGTH = 120
 
+  # The locales the interface is actually translated into. Keeping the list on
+  # the model means the validation, the check constraint and the language
+  # picker all read from one place.
+  SUPPORTED_LOCALES = %w[en pt-BR es].freeze
+
   has_secure_password
   has_many :sessions, dependent: :destroy
 
@@ -17,4 +22,5 @@ class User < ApplicationRecord
             presence: true,
             format: { with: URI::MailTo::EMAIL_REGEXP },
             uniqueness: { case_sensitive: false }
+  validates :locale, inclusion: { in: SUPPORTED_LOCALES }
 end

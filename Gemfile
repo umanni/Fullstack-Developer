@@ -13,6 +13,10 @@ gem "turbo-rails"
 # Password hashing for the built-in Rails authentication
 gem "bcrypt", "~> 3.1"
 
+# Locale data for the shipped languages: date formats, number formats and the
+# Active Record validation messages, which would otherwise stay English-only.
+gem "rails-i18n", "~> 8.0"
+
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 

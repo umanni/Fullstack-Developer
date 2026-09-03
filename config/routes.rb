@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "home#index"
 
+  resource :locale, only: :update
   resource :session
   resources :passwords, param: :token
   resource :registration, only: %i[new create], path: "sign_up", path_names: { new: "" }

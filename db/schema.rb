@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_171334) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_172348) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -28,11 +28,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_171334) do
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "full_name", null: false
+    t.string "locale", default: "en", null: false
     t.string "password_digest", null: false
     t.integer "role", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index "lower((email_address)::text)", name: "index_users_on_lower_email_address", unique: true
     t.index ["role"], name: "index_users_on_role"
+    t.check_constraint "locale::text = ANY (ARRAY['en'::character varying, 'pt-BR'::character varying, 'es'::character varying]::text[])", name: "users_locale_supported"
     t.check_constraint "role = ANY (ARRAY[0, 1])", name: "users_role_within_enum"
   end
 

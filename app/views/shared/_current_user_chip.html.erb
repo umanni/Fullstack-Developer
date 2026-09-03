@@ -3,10 +3,10 @@
 
   <div class="min-w-0 flex-1">
     <p class="truncate text-sm font-medium text-ink"><%= Current.user.full_name %></p>
-    <p class="truncate text-xs text-muted"><%= Current.user.role.humanize %></p>
+    <p class="truncate text-xs text-muted"><%= t("roles.#{Current.user.role}") %></p>
   </div>
 
-  <%= button_to "Sign out", session_path, method: :delete,
+  <%= button_to t("shared.nav.sign_out"), session_path, method: :delete,
         class: "btn btn-ghost px-2 py-1 text-xs",
-        form: { data: { turbo_confirm: "Sign out of Roster?" } } %>
+        form: { data: { turbo_confirm: t("shared.nav.sign_out_confirm") } } %>
 </div>
