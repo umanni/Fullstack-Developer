@@ -43,3 +43,14 @@ en:
   passwords_mailer:
     reset:
       subject: "Reset your password"
+
+  authorization:
+    admin_only: "That area is only available to administrators."
+
+  registrations:
+    created: "Welcome. Your account is ready."
+
+  profiles:
+    updated: "Your profile has been updated."
+    deleted: "Your account has been deleted."
+

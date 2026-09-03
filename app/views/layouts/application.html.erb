@@ -1,31 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= content_for(:title) || "User Management" %></title>
+    <title><%= content_for(:title) || "Roster" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="User Management">
+    <meta name="application-name" content="Roster">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="bg-canvas text-ink font-sans antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 btn btn-primary">
+      Skip to content
+    </a>
+
+    <% if authenticated? %>
+      <div class="flex min-h-screen">
+        <%= render "shared/sidebar" %>
+
+        <div class="flex min-w-0 flex-1 flex-col">
+          <%= render "shared/topbar" %>
+
+          <main id="main" class="flex-1 px-5 py-8 sm:px-8">
+            <div class="mx-auto w-full max-w-5xl">
+              <%= render "shared/flash" %>
+              <%= yield %>
+            </div>
+          </main>
+        </div>
+      </div>
+    <% else %>
+      <main id="main" class="grid min-h-screen place-items-center px-5 py-12">
+        <div class="w-full max-w-md">
+          <%= render "shared/brand" %>
+          <%= render "shared/flash" %>
+          <%= yield %>
+        </div>
+      </main>
+    <% end %>
   </body>
 </html>

@@ -1,0 +1,12 @@
+<header class="flex h-topbar items-center justify-between gap-4 border-b border-line bg-surface px-5 sm:px-8">
+  <div class="min-w-0">
+    <h1 class="truncate text-base font-semibold text-ink"><%= content_for(:page_title) || "Roster" %></h1>
+    <% if content_for?(:page_subtitle) %>
+      <p class="truncate text-xs text-muted"><%= content_for(:page_subtitle) %></p>
+    <% end %>
+  </div>
+
+  <div class="md:hidden">
+    <%= button_to "Sign out", session_path, method: :delete, class: "btn btn-ghost text-xs" %>
+  </div>
+</header>

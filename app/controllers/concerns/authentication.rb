@@ -35,8 +35,14 @@ module Authentication
     redirect_to new_session_path
   end
 
+  # A page the user was bounced from wins, because returning them there is the
+  # whole point of remembering it. With nothing stored, the role decides.
   def after_authentication_url
-    session.delete(:return_to_after_authenticating) || root_url
+    session.delete(:return_to_after_authenticating) || post_authentication_url_for(Current.user)
+  end
+
+  def post_authentication_url_for(user)
+    user.admin? ? admin_dashboard_path : profile_path
   end
 
   def start_new_session_for(user)
