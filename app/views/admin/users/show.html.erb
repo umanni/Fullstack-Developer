@@ -1,0 +1,30 @@
+<% page_title @user.full_name %>
+
+<section class="mx-auto max-w-3xl space-y-6">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <%= avatar_tag @user, size: 64 %>
+      <div>
+        <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900"><%= @user.full_name %></h1>
+        <p class="text-slate-600"><%= @user.email_address %></p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <%= link_to "Edit", edit_admin_user_path(@user), class: "rounded-xl bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-800" %>
+      <%= link_to "Back", admin_users_path, class: "rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50" %>
+    </div>
+  </div>
+
+  <div class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+    <dl class="grid gap-4 sm:grid-cols-2">
+      <div>
+        <dt class="text-xs text-slate-500">Role</dt>
+        <dd class="mt-1"><span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold <%= role_badge_class(@user.role) %>"><%= @user.role %></span></dd>
+      </div>
+      <div>
+        <dt class="text-xs text-slate-500">Created</dt>
+        <dd class="mt-1 font-medium"><%= l @user.created_at, format: :long %></dd>
+      </div>
+    </dl>
+  </div>
+</section>

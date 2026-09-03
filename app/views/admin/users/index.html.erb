@@ -1,0 +1,50 @@
+<% page_title "Users" %>
+
+<section class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Users</h1>
+      <p class="mt-2 text-slate-600">Create, edit, delete, and toggle roles.</p>
+    </div>
+    <%= link_to "New user", new_admin_user_path, class: "rounded-xl bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-800" %>
+  </div>
+
+  <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white/90 shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+      <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+        <tr>
+          <th class="px-4 py-3 font-semibold">User</th>
+          <th class="px-4 py-3 font-semibold">Role</th>
+          <th class="px-4 py-3 font-semibold">Email</th>
+          <th class="px-4 py-3 font-semibold text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <% @users.each do |user| %>
+          <tr id="<%= dom_id(user) %>" class="hover:bg-slate-50/80">
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-3">
+                <%= avatar_tag user, size: 36 %>
+                <%= link_to user.full_name, admin_user_path(user), class: "font-medium text-slate-900 hover:text-teal-800" %>
+              </div>
+            </td>
+            <td class="px-4 py-3">
+              <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold <%= role_badge_class(user.role) %>"><%= user.role %></span>
+            </td>
+            <td class="px-4 py-3 text-slate-600"><%= user.email_address %></td>
+            <td class="px-4 py-3">
+              <div class="flex flex-wrap justify-end gap-2">
+                <%= link_to "Edit", edit_admin_user_path(user), class: "rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100" %>
+                <%= button_to "Toggle role", toggle_role_admin_user_path(user), method: :patch,
+                      class: "rounded-lg px-2.5 py-1.5 text-xs font-semibold text-teal-800 hover:bg-teal-50" %>
+                <%= button_to "Delete", admin_user_path(user), method: :delete,
+                      form: { data: { turbo_confirm: "Delete #{user.full_name}?" } },
+                      class: "rounded-lg px-2.5 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-50" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
