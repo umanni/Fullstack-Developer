@@ -6,6 +6,10 @@ require "rails_helper"
 # Cable rather than the in-memory test adapter -- run it with bin/test --live.
 RSpec.describe "Live updates", :js, :live do
   let(:password) { "a-sufficiently-long-password" }
+  # Delivery travels through a polling loop on the cable database, and a busy
+  # CI machine is slower than a laptop, so the waits here are generous. They
+  # cost nothing when the update arrives, which is the ordinary case.
+  let(:delivery_wait) { 25 }
   let(:administrator) do
     create(:user, :admin, full_name: "Ada Lovelace", email_address: "ada@example.com", password: password)
   end
@@ -34,10 +38,7 @@ RSpec.describe "Live updates", :js, :live do
 
     create(:user, full_name: "Maria Silva")
 
-    # A generous wait: the broadcast travels through the cable database, which
-    # a spec shares with the polling thread, so delivery is measured in tenths
-    # of a second rather than milliseconds.
-    expect(page).to have_css("#user-counters", text: "2", wait: 15)
+    expect(page).to have_css("#user-counters", text: "2", wait: delivery_wait)
   end
 
   it "carries an import from waiting to finished without a reload" do
@@ -49,7 +50,7 @@ RSpec.describe "Live updates", :js, :live do
 
     ProcessUserImportJob.perform_now(import.id)
 
-    expect(page).to have_text(/#{I18n.t("admin.user_imports.statuses.completed")}/i, wait: 15)
+    expect(page).to have_text(/#{I18n.t("admin.user_imports.statuses.completed")}/i, wait: delivery_wait)
     expect(page).to have_current_path(admin_user_import_path(import))
   end
 end

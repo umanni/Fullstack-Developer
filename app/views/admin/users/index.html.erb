@@ -39,7 +39,9 @@
       <%= link_to admin_users_path(role: value, query: params[:query]),
             class: "btn #{active ? 'btn-ghost' : 'text-muted hover:text-ink'} text-xs",
             aria: { current: active ? "true" : nil } do %>
-        <%= label %> <span class="text-dim">(<%= count %>)</span>
+        <%# Muted, not dim: dim is a 4:1 token, which is for large text and
+            decoration -- this is a small count that has to be readable. %>
+        <%= label %> <span class="text-muted">(<%= count %>)</span>
       <% end %>
     <% end %>
   </div>

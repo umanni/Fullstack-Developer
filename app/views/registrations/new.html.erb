@@ -37,6 +37,8 @@
 
   <p class="mt-6 border-t border-line pt-5 text-sm text-muted">
     <%= t(".have_account") %>
-    <%= link_to t(".sign_in"), new_session_path, class: "text-accent-strong hover:underline" %>
+    <%# Underlined, not merely coloured: a link inside a paragraph has to be
+        distinguishable without relying on colour. %>
+    <%= link_to t(".sign_in"), new_session_path, class: "text-accent-strong underline underline-offset-2" %>
   </p>
 </div>

@@ -1,67 +1,47 @@
+# One job, running the same pipeline a person runs locally: bin/ci inside the
+# same container the application is developed in. A workflow that installs its
+# own Ruby and its own PostgreSQL would be a second definition of the
+# environment, free to drift from the one in the repository.
 name: CI
 
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main, master]
 
 jobs:
-  scan_ruby:
+  ci:
+    name: Style, security and tests
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Configure the environment
+        run: cp .env.example .env
+
+      - name: Cache the Docker layers
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build the development image
+        run: docker compose build web
+
+      - name: Start PostgreSQL and the application
+        run: docker compose up --detach --wait postgres web
+
+      - name: Run the pipeline
+        run: bin/ci
+
+      - name: Keep the coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          bundler-cache: true
+          name: coverage
+          path: coverage/
+          retention-days: 7
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
-        run: bin/brakeman --no-pager
-      
-      - name: Scan for known security vulnerabilities in gems used
-        run: bin/bundler-audit
-      
-  scan_js:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Scan for security vulnerabilities in JavaScript dependencies
-        run: bin/importmap audit
-
-  lint:
-    runs-on: ubuntu-latest
-    env:
-      RUBOCOP_CACHE_ROOT: tmp/rubocop
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Prepare RuboCop cache
-        uses: actions/cache@v4
-        env:
-          DEPENDENCIES_HASH: ${{ hashFiles('.ruby-version', '**/.rubocop.yml', '**/.rubocop_todo.yml', 'Gemfile.lock') }}
-        with:
-          path: ${{ env.RUBOCOP_CACHE_ROOT }}
-          key: rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-${{ github.ref_name == github.event.repository.default_branch && github.run_id || 'default' }}
-          restore-keys: |
-            rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-
-
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
-
+      - name: Show the logs when something fails
+        if: failure()
+        run: docker compose logs --tail 200

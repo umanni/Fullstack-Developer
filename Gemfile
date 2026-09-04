@@ -68,6 +68,11 @@ group :development, :test do
 end
 
 group :test do
+  # Accessibility as a check rather than a claim: axe runs against the rendered
+  # page in the system specs. The API gem carries the axe-core JavaScript; the
+  # matcher that drives it lives in spec/support, because the packaged one
+  # speaks Selenium and these specs drive Chrome over CDP.
+  gem "axe-core-api"
   gem "capybara"
   # Cuprite drives headless Chrome over CDP directly, which keeps system specs
   # fast and removes the chromedriver version dance.
