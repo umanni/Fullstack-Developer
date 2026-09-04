@@ -44,7 +44,7 @@ RSpec.describe "The regular user journey" do
   it "keeps the language they chose, because it belongs to the account" do
     sign_in_as(user.email_address)
 
-    click_on "Português"
+    choose_language("Português")
 
     expect(page).to have_text("Meu perfil")
     expect(user.reload.locale).to eq("pt-BR")
@@ -53,7 +53,7 @@ RSpec.describe "The regular user journey" do
     click_on "Sair", match: :first
     # Back to English as a visitor, so what comes next cannot be the session
     # remembering the choice -- it has to come from the account.
-    click_on "English"
+    choose_language("English")
     fill_in "Email address", with: user.email_address
     fill_in "Password", with: password
     click_on "Sign in"

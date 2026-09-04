@@ -42,7 +42,7 @@ RSpec.describe "Signing in", :js do
   it "switches the interface language from the flag picker" do
     visit new_session_path
 
-    click_on "Português"
+    choose_language("Português")
 
     expect(page).to have_text("Entrar")
     expect(page).to have_field("E-mail")

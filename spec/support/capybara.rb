@@ -41,12 +41,23 @@ def cuprite_options
   }
 end
 
+# The language picker is a <details> menu: its options are inside the closed
+# element until the summary is clicked.
+module LanguagePickerHelpers
+  def choose_language(name)
+    first("summary[aria-haspopup='menu']").click
+    click_on name
+  end
+end
+
 Capybara.default_driver = :rack_test
 Capybara.default_max_wait_time = 5
 Capybara.server = :puma, { Silent: true }
 Capybara.disable_animation = true
 
 RSpec.configure do |config|
+  config.include LanguagePickerHelpers, type: :system
+
   config.before(:each, type: :system) { driven_by :rack_test }
 
   config.before(:each, :js, type: :system) do

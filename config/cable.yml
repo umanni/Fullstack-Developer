@@ -13,7 +13,7 @@ development:
 # real browser run in a second pass with CABLE_ADAPTER=solid_cable, which is
 # what bin/test --live does.
 test:
-  adapter: <%= ENV.fetch("CABLE_ADAPTER", "test") %>
+  adapter: <%= ENV["CABLE_ADAPTER"].presence || "test" %>
   connects_to:
     database:
       writing: cable
