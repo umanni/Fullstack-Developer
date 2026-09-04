@@ -3,7 +3,22 @@ require "rails_helper"
 # Not a test: this captures the reference images used in the README. It asserts
 # only enough to know the page rendered before the shutter fires. Excluded from
 # the default run; generate the images with SCREENSHOTS=1 bin/test.
+#
+# The images are written straight into docs/screenshots, so regenerating them
+# is a diff rather than a copy out of tmp. Capybara resolves a relative path
+# against its own save_path, hence the absolute one.
+#
+# Swagger UI is not captured here: it is served by an engine with its own
+# content security policy, and Capybara's animation disabler reads the policy
+# of every page it visits looking for a nonce it will not find there.
 RSpec.describe "Screens", :js, :screenshots do
+  it "captures the way in" do
+    visit new_session_path
+
+    expect(page).to have_text("Sign in")
+    page.save_screenshot(Rails.root.join("docs/screenshots/sign-in.png"), full: true)
+  end
+
   it "captures the admin journey" do
     admin = create(:user, :admin, full_name: "Ada Lovelace", email_address: "ada@example.com",
                                   password: "a-sufficiently-long-password")
@@ -18,15 +33,23 @@ RSpec.describe "Screens", :js, :screenshots do
     click_on "Sign in"
 
     expect(page).to have_text("Dashboard")
-    page.save_screenshot("tmp/shot-dashboard.png", full: true)
+    page.save_screenshot(Rails.root.join("docs/screenshots/dashboard.png"), full: true)
 
     visit admin_users_path
     expect(page).to have_text("Maria Silva")
-    page.save_screenshot("tmp/shot-users.png", full: true)
+    page.save_screenshot(Rails.root.join("docs/screenshots/users.png"), full: true)
 
     visit profile_path
     expect(page).to have_text("Ada Lovelace")
-    page.save_screenshot("tmp/shot-profile.png", full: true)
+    page.save_screenshot(Rails.root.join("docs/screenshots/profile.png"), full: true)
+
+    create(:audit_event, actor: admin, subject: User.find_by(email_address: "maria@example.com"),
+                         action: :promoted)
+    create(:audit_event, actor: admin, subject: User.find_by(email_address: "joao@example.com"),
+                         action: :created)
+    visit admin_audit_events_path
+    expect(page).to have_text(/#{I18n.t("admin.audit_events.actions.promoted")}/i)
+    page.save_screenshot(Rails.root.join("docs/screenshots/activity.png"), full: true)
   end
 
   it "captures the import screens" do
@@ -50,10 +73,10 @@ RSpec.describe "Screens", :js, :screenshots do
 
     visit admin_user_imports_path
     expect(page).to have_text("Imports")
-    page.save_screenshot("tmp/shot-imports.png", full: true)
+    page.save_screenshot(Rails.root.join("docs/screenshots/imports.png"), full: true)
 
     visit admin_user_import_path(import)
     expect(page).to have_text("maria@example.com")
-    page.save_screenshot("tmp/shot-import-detail.png", full: true)
+    page.save_screenshot(Rails.root.join("docs/screenshots/import-detail.png"), full: true)
   end
 end
