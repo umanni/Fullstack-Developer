@@ -190,10 +190,29 @@ es:
     reset: "Tu contraseña se ha restablecido."
     mismatch: "Las contraseñas no coinciden."
     invalid_token: "Ese enlace de restablecimiento no es válido o ha caducado."
+    new:
+      title: "¿Olvidaste tu contraseña?"
+      subtitle: "Te enviaremos por correo un enlace para elegir otra."
+      email_address: "Correo electrónico"
+      submit: "Enviar instrucciones"
+      remembered: "¿Ya la recuerdas?"
+      sign_in: "Iniciar sesión"
+    edit:
+      title: "Elige una contraseña nueva"
+      subtitle: "Necesitarás la contraseña nueva para volver a iniciar sesión en todos tus dispositivos."
+      password: "Contraseña nueva"
+      password_hint: "Al menos 8 caracteres."
+      password_confirmation: "Confirma la contraseña nueva"
+      submit: "Guardar contraseña"
 
   passwords_mailer:
     reset:
       subject: "Restablece tu contraseña"
+      heading: "Restablece tu contraseña"
+      body: "Usa el enlace de abajo para elegir una contraseña nueva para tu cuenta de Roster."
+      action: "Elegir contraseña nueva"
+      expires: "El enlace caduca en %{duration}."
+      ignore: "Si no lo has pedido, no ha cambiado nada y puedes ignorar este mensaje."
 
   activerecord:
     errors:

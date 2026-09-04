@@ -190,10 +190,29 @@ en:
     reset: "Your password has been reset."
     mismatch: "Passwords did not match."
     invalid_token: "That password reset link is invalid or has expired."
+    new:
+      title: "Forgot your password?"
+      subtitle: "We will email you a link to choose a new one."
+      email_address: "Email address"
+      submit: "Send reset instructions"
+      remembered: "Remembered it?"
+      sign_in: "Sign in"
+    edit:
+      title: "Choose a new password"
+      subtitle: "Signing in again everywhere will need the new password."
+      password: "New password"
+      password_hint: "At least 8 characters."
+      password_confirmation: "Confirm new password"
+      submit: "Save password"
 
   passwords_mailer:
     reset:
       subject: "Reset your password"
+      heading: "Reset your password"
+      body: "Use the link below to choose a new password for your Roster account."
+      action: "Choose a new password"
+      expires: "The link expires in %{duration}."
+      ignore: "If you did not ask for this, nothing has changed and you can ignore this message."
 
   activerecord:
     errors:

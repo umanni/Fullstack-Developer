@@ -190,10 +190,29 @@ pt-BR:
     reset: "Sua senha foi redefinida."
     mismatch: "As senhas não coincidem."
     invalid_token: "Este link de redefinição é inválido ou expirou."
+    new:
+      title: "Esqueceu sua senha?"
+      subtitle: "Enviaremos por e-mail um link para você escolher outra."
+      email_address: "E-mail"
+      submit: "Enviar instruções"
+      remembered: "Lembrou a senha?"
+      sign_in: "Entrar"
+    edit:
+      title: "Escolha uma nova senha"
+      subtitle: "Você precisará da nova senha para entrar de novo em todos os aparelhos."
+      password: "Nova senha"
+      password_hint: "Ao menos 8 caracteres."
+      password_confirmation: "Confirme a nova senha"
+      submit: "Salvar senha"
 
   passwords_mailer:
     reset:
       subject: "Redefina sua senha"
+      heading: "Redefina sua senha"
+      body: "Use o link abaixo para escolher uma nova senha da sua conta no Roster."
+      action: "Escolher nova senha"
+      expires: "O link expira em %{duration}."
+      ignore: "Se você não pediu isso, nada mudou e pode ignorar esta mensagem."
 
   activerecord:
     errors:

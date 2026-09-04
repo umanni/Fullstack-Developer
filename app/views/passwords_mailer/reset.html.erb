@@ -1,6 +1,16 @@
-<p>
-  You can reset your password on
-  <%= link_to "this password reset page", edit_password_url(@user.password_reset_token) %>.
+<h1 style="margin: 0 0 16px; font-size: 20px; color: #1b1b1a;"><%= t(".heading") %></h1>
 
-  This link will expire in <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.
+<p style="margin: 0 0 16px; font-size: 15px; line-height: 1.6; color: #3d3d3a;">
+  <%= t(".body") %>
+</p>
+
+<p style="margin: 0 0 24px;">
+  <%= link_to t(".action"), edit_password_url(@user.password_reset_token),
+        style: "display: inline-block; padding: 10px 18px; border-radius: 8px; " \
+               "background: #2f5d47; color: #ffffff; font-size: 15px; text-decoration: none;" %>
+</p>
+
+<p style="margin: 0; font-size: 13px; line-height: 1.6; color: #6f6f68;">
+  <%= t(".expires", duration: distance_of_time_in_words(0, @user.password_reset_token_expires_in)) %>
+  <%= t(".ignore") %>
 </p>
