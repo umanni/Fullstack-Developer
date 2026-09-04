@@ -1,5 +1,13 @@
 Rswag::Ui.configure do |c|
   c.openapi_endpoint "/api-docs/v1/swagger.yaml", "Roster API v1"
+
+  # The document describes a public API and is harmless to read, but a
+  # deployment that would rather not publish its shape can put a password in
+  # front of it without a code change.
+  if ENV["API_DOCS_USER"].present? && ENV["API_DOCS_PASSWORD"].present?
+    c.basic_auth_enabled = true
+    c.basic_auth_credentials ENV.fetch("API_DOCS_USER"), ENV.fetch("API_DOCS_PASSWORD")
+  end
 end
 
 # Swagger UI ships its own content security policy -- `script-src 'self'

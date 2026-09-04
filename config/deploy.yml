@@ -62,10 +62,15 @@ env:
     # the seed does nothing and the application still boots.
     # SEED_ADMIN_EMAIL: <you@example.com>
     # SEED_ADMIN_NAME: <Your Name>
+    # Where the invitation and password-reset emails come from.
+    MAIL_FROM: <roster@example.com>
+    # Uncomment both to put a password in front of /api-docs.
+    # API_DOCS_USER: <docs>
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
     # - SEED_ADMIN_PASSWORD
+    # - API_DOCS_PASSWORD
 
 # Uploaded avatars live on disk (config.active_storage.service = :local), so
 # the directory has to outlive the container. Moving to S3 is a change of one
