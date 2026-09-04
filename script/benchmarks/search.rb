@@ -2,8 +2,19 @@
 #
 #   bin/rails runner script/benchmarks/search.rb
 #
-# Needs a roster large enough for the planner to have a choice; the README says
-# how it was generated. Development only -- it reads, it does not write.
+# Needs a roster large enough for the planner to have a choice. To generate one:
+#
+#   digest = BCrypt::Password.create("benchmark-only", cost: 4)
+#   User.insert_all(50_000.times.map { |i|
+#     { full_name: "#{Faker::Name.name} #{i}", email_address: "bench#{i}@example.com",
+#       password_digest: digest, role: 0, locale: "en",
+#       created_at: Time.current, updated_at: Time.current } })
+#
+# and to remove them afterwards:
+#
+#   User.where("email_address LIKE ?", "bench%").delete_all
+#
+# Development only -- this script reads, it does not write.
 connection = ActiveRecord::Base.connection
 connection.execute("ANALYZE users")
 

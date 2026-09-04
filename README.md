@@ -413,7 +413,7 @@ API**, so it cannot describe an endpoint the application does not have or a
 field it does not return:
 
 ```bash
-bin/rails rswag:specs:swaggerize     # writes swagger/v1/swagger.yaml
+docker compose exec web bin/rails rswag:specs:swaggerize   # writes swagger/v1/swagger.yaml
 ```
 
 CI regenerates it and fails if the committed copy has drifted.
@@ -535,7 +535,9 @@ column PostgreSQL keeps in step with the name and the address, and a single GIN
 trigram index over it, built concurrently so a deploy against real volume does
 not lock writes.
 
-Measured on 50,000 rows (`bin/rails runner script/benchmarks/search.rb`):
+Measured on 50,000 rows
+(`docker compose exec web bin/rails runner script/benchmarks/search.rb`, after
+generating a roster that size — the script says how):
 
 | Term | Sequential scan | With the index |
 | --- | --- | --- |
@@ -558,21 +560,28 @@ $ ruby --help | grep -i jit
 Enable it by passing the flag to the process:
 
 ```bash
-RUBYOPT="--zjit" bin/rails server
-RUBYOPT="--zjit" bin/jobs
+RUBYOPT="--zjit" bin/rails server     # or, in the container:
+docker compose exec -e RUBYOPT="--zjit" web bin/rails server
 ```
 
 Measured on the CPU-bound part of the application — parsing and normalising a
 200,000-row spreadsheet, no database writes
-(`ROWS=200000 bin/rails runner script/benchmarks/zjit.rb`, five runs each,
-inside the development container):
+(five runs each, inside the development container):
+
+```bash
+docker compose exec web bash -c 'ROWS=200000 bin/rails runner script/benchmarks/zjit.rb'
+docker compose exec web bash -c 'ROWS=200000 RUBYOPT=--zjit bin/rails runner script/benchmarks/zjit.rb'
+```
 
 | | best | median |
 | --- | --- | --- |
-| interpreter | 0.868 s | 0.885 s |
-| `--zjit` | 0.712 s | 0.751 s |
+| interpreter | 0.920 s | 0.945 s |
+| `--zjit` | 0.774 s | 0.834 s |
 
-Roughly **15% faster on that workload**, reproducible with the script above. No
+Three paired runs on the same machine gave the same shape: **12% to 16% faster
+on that workload**, with the absolute numbers moving by about a tenth of a
+second between sessions, because a laptop running Docker is not a benchmark
+rig. Reproducible with the commands above. No
 broader claim is made: a request that spends most of its time waiting on
 PostgreSQL has far less to gain, and that was not measured. **ZJIT is not
 enabled anywhere in this repository** — the application does not depend on it,
