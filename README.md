@@ -268,6 +268,12 @@ Coverage is enforced, not reported: SimpleCov fails the run below 90% line and
 80% branch. The parallel run merges the workers' results, so the gate is
 measured against the whole suite rather than one shard.
 
+The pipeline shards the suite the same way a laptop does: `bin/ci` prepares one
+set of databases per worker and runs `parallel_rspec` across `min(nproc, 4)` of
+them, so parallel testing is what the pipeline actually exercises rather than a
+capability sitting in a side script. The live-updates pass stays serial -- it is
+two examples, and sharding two examples buys nothing.
+
 The suite is layered: models and jobs for the rules, request specs for each
 endpoint and each attack vector, system specs for three whole journeys — a
 visitor, an ordinary user, an administrator — and a small accessibility suite.
@@ -721,6 +727,17 @@ the image rather than by reading it.
   that it existed, but nothing can undo the deletion.
 - **Screen-reader wording has not been reviewed with a screen reader**, only
   with axe and the keyboard.
+- **One live-updates example fails on a saturated machine.** The import
+  example asserts on two broadcasts sent milliseconds apart; under heavy load
+  the browser receives the first and never the second. Measured, not guessed:
+  the job finishes (`completed`, three rows created) and both messages are in
+  the Solid Cable table with consecutive ids, so only delivery is missing.
+  Raising the wait from 25 to 60 seconds failed identically, so once the
+  condition is hit, waiting does not rescue it. On an unloaded machine the same
+  pipeline ran green three times in a row with the step taking five seconds;
+  with two containers crash-looping in the background it failed twice out of
+  twice. The root cause is in the polling adapter's delivery rather than in the
+  application, and it is not fixed.
 
 ## Project layout
 
