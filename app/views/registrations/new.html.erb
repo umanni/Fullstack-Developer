@@ -1,7 +1,7 @@
 <% content_for :title, t(".title") %>
 
 <div class="panel p-7">
-  <h2 class="text-xl font-semibold tracking-tight text-ink"><%= t(".title") %></h2>
+  <h1 class="text-xl font-semibold tracking-tight text-ink"><%= t(".title") %></h1>
   <p class="mt-1 text-sm text-muted"><%= t(".subtitle") %></p>
 
   <%= form_with model: @user, url: registration_path, class: "mt-6" do |form| %>
@@ -10,26 +10,38 @@
     <div class="field">
       <%= form.label :full_name, t(".full_name"), class: "field-label" %>
       <%= form.text_field :full_name, required: true, autofocus: true, autocomplete: "name",
-            aria: { invalid: @user.errors[:full_name].any? }, class: "field-input" %>
+            aria: { invalid: @user.errors[:full_name].any?,
+                    describedby: field_error_id(@user, :full_name) }, class: "field-input" %>
+      <%= field_error(@user, :full_name) %>
     </div>
 
     <div class="field">
       <%= form.label :email_address, t(".email_address"), class: "field-label" %>
       <%= form.email_field :email_address, required: true, autocomplete: "email",
-            aria: { invalid: @user.errors[:email_address].any? }, class: "field-input" %>
+            aria: { invalid: @user.errors[:email_address].any?,
+                    describedby: field_error_id(@user, :email_address) }, class: "field-input" %>
+      <%= field_error(@user, :email_address) %>
     </div>
 
     <div class="field">
       <%= form.label :password, t(".password"), class: "field-label" %>
       <%= form.password_field :password, required: true, autocomplete: "new-password",
-            maxlength: 72, aria: { describedby: "password-hint" }, class: "field-input" %>
+            maxlength: 72,
+            aria: { invalid: @user.errors[:password].any?,
+                    describedby: described_by("password-hint", field_error_id(@user, :password)) },
+            class: "field-input" %>
       <p id="password-hint" class="field-hint"><%= t(".password_hint") %></p>
+      <%= field_error(@user, :password) %>
     </div>
 
     <div class="field">
       <%= form.label :password_confirmation, t(".password_confirmation"), class: "field-label" %>
       <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password",
-            maxlength: 72, class: "field-input" %>
+            maxlength: 72,
+            aria: { invalid: @user.errors[:password_confirmation].any?,
+                    describedby: field_error_id(@user, :password_confirmation) },
+            class: "field-input" %>
+      <%= field_error(@user, :password_confirmation) %>
     </div>
 
     <%= form.submit t(".submit"), class: "btn btn-primary w-full" %>

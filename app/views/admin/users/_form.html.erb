@@ -4,13 +4,17 @@
   <div class="field">
     <%= form.label :full_name, t("admin.users.form.full_name"), class: "field-label" %>
     <%= form.text_field :full_name, required: true, autofocus: true, autocomplete: "name",
-          aria: { invalid: user.errors[:full_name].any? }, class: "field-input" %>
+          aria: { invalid: user.errors[:full_name].any?,
+                  describedby: field_error_id(user, :full_name) }, class: "field-input" %>
+    <%= field_error(user, :full_name) %>
   </div>
 
   <div class="field">
     <%= form.label :email_address, t("admin.users.form.email_address"), class: "field-label" %>
     <%= form.email_field :email_address, required: true, autocomplete: "email",
-          aria: { invalid: user.errors[:email_address].any? }, class: "field-input" %>
+          aria: { invalid: user.errors[:email_address].any?,
+                  describedby: field_error_id(user, :email_address) }, class: "field-input" %>
+    <%= field_error(user, :email_address) %>
   </div>
 
   <div class="field">
@@ -23,26 +27,34 @@
   <div class="field">
     <%= form.label :password, t("admin.users.form.password"), class: "field-label" %>
     <%= form.password_field :password, required: user.new_record?, autocomplete: "new-password",
-          maxlength: 72, aria: { describedby: "password-hint" }, class: "field-input" %>
+          maxlength: 72,
+          aria: { invalid: user.errors[:password].any?,
+                  describedby: described_by("password-hint", field_error_id(user, :password)) },
+          class: "field-input" %>
     <p id="password-hint" class="field-hint">
       <%= user.new_record? ? t("admin.users.form.password_hint_new") : t("admin.users.form.password_hint_edit") %>
     </p>
+    <%= field_error(user, :password) %>
   </div>
 
   <div class="field">
     <%= form.label :avatar, t("admin.users.form.avatar"), class: "field-label" %>
     <%= form.file_field :avatar, accept: User::AVATAR_CONTENT_TYPES.join(","),
-          aria: { describedby: "avatar-file-hint", invalid: user.errors[:avatar].any? },
+          aria: { invalid: user.errors[:avatar].any?,
+                  describedby: described_by("avatar-file-hint", field_error_id(user, :avatar)) },
           class: "field-input" %>
     <p id="avatar-file-hint" class="field-hint"><%= t("admin.users.form.avatar_hint") %></p>
+    <%= field_error(user, :avatar) %>
   </div>
 
   <div class="field">
     <%= form.label :avatar_url, t("admin.users.form.avatar_url"), class: "field-label" %>
     <%= form.url_field :avatar_url, autocomplete: "off",
-          aria: { describedby: "avatar-hint", invalid: user.errors[:avatar_url].any? },
+          aria: { invalid: user.errors[:avatar_url].any?,
+                  describedby: described_by("avatar-hint", field_error_id(user, :avatar_url)) },
           class: "field-input" %>
     <p id="avatar-hint" class="field-hint"><%= t("admin.users.form.avatar_url_hint") %></p>
+    <%= field_error(user, :avatar_url) %>
   </div>
 
   <div class="flex items-center gap-3">

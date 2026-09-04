@@ -84,7 +84,7 @@ asset_path: /rails/public/assets
 
 accessories:
   postgres:
-    image: postgres:18
+    image: postgres:17
     host: <web-server-ip>
     port: "127.0.0.1:5432:5432"
     env:

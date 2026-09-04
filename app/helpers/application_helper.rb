@@ -42,6 +42,30 @@ module ApplicationHelper
     changed.to_sentence
   end
 
+  # The id of the element carrying an attribute's error message, or nil when
+  # there is nothing wrong with it. Used to point `aria-describedby` at the
+  # message, so a screen reader reads the problem with the field rather than
+  # only in the summary at the top of the form.
+  def field_error_id(record, attribute)
+    return if record.errors[attribute].empty?
+
+    "#{record.model_name.param_key}-#{attribute}-error"
+  end
+
+  # The message itself, rendered under the input.
+  def field_error(record, attribute)
+    messages = record.errors[attribute]
+    return if messages.empty?
+
+    tag.p messages.to_sentence, id: field_error_id(record, attribute), class: "field-error"
+  end
+
+  # Joins the ids an input is described by -- a hint, an error, or both --
+  # dropping the ones that are not there.
+  def described_by(*ids)
+    ids.compact_blank.join(" ").presence
+  end
+
   def role_badge(user)
     tag.span t("roles.#{user.role}"),
              class: "badge #{user.admin? ? "badge-admin" : "badge-user"}"

@@ -22,8 +22,8 @@ module UserImportTemplate
     "avatar_url  an http or https link. The server never downloads it; the",
     "         browser loads it when the profile is shown.",
     "",
-    "Imported people get an unguessable password and set their own through",
-    "the 'forgot password' flow.",
+    "Imported people are emailed an invitation and choose their own password.",
+    "The link is valid for seven days; after that, 'forgot password' works.",
     ""
   ].freeze
 
