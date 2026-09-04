@@ -89,6 +89,9 @@ class ProcessUserImportJob < ApplicationJob
   # the invitation is what makes the import mean anything to the person in it.
   def record_creation(user)
     InvitationsMailer.invite(user).deliver_later
+    AuditEvent.record!(action: :imported, actor: import.administrator,
+                       actor_email: import.administrator_email, subject: user,
+                       details: { user_import_id: import.id })
     import.increment!(:created_users)
   end
 

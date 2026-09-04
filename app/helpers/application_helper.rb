@@ -30,6 +30,18 @@ module ApplicationHelper
     end
   end
 
+  # An audit row's details are a small JSON object -- which columns changed, or
+  # which import a row came from. Rendered as a sentence rather than as JSON,
+  # and never showing the old and new values of anything sensitive.
+  def audit_event_details(event)
+    return t("admin.audit_events.details_import", id: event.details["user_import_id"]) if event.imported?
+
+    changed = event.details.keys.map { |name| User.human_attribute_name(name) }
+    return "—" if changed.empty?
+
+    changed.to_sentence
+  end
+
   def role_badge(user)
     tag.span t("roles.#{user.role}"),
              class: "badge #{user.admin? ? "badge-admin" : "badge-user"}"

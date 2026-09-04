@@ -12,6 +12,7 @@ en:
       dashboard: "Dashboard"
       users: "Users"
       imports: "Imports"
+      activity: "Activity"
       my_profile: "My profile"
       sign_out: "Sign out"
       sign_out_confirm: "Sign out of Roster?"
@@ -144,6 +145,30 @@ en:
         subtitle: "Update this account"
         submit: "Save changes"
         cancel: "Cancel"
+
+    audit_events:
+      index:
+        title: "Activity"
+        subtitle: "What administrators did, and when"
+        heading: "History"
+        results:
+          one: "1 event"
+          other: "%{count} events"
+        when: "When"
+        who: "Who"
+        what: "What"
+        to_whom: "To whom"
+        details: "Details"
+        empty_title: "Nothing has happened yet"
+        empty_copy: "Creating, changing or removing an account will show up here."
+      actions:
+        created: "Created"
+        updated: "Updated"
+        promoted: "Promoted"
+        demoted: "Demoted"
+        deleted: "Deleted"
+        imported: "Imported"
+      details_import: "From import #%{id}"
 
     user_imports:
       scheduled: "The file is queued. Progress appears below as it runs."

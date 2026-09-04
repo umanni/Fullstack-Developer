@@ -19,6 +19,7 @@ module Admin
       @user = User.new(user_params)
 
       if @user.save
+        record_event(:created)
         redirect_to admin_users_path, notice: t(".created", name: @user.full_name)
       else
         render :new, status: :unprocessable_content
@@ -26,7 +27,10 @@ module Admin
     end
 
     def update
+      previous_role = @user.role
+
       if @user.update(user_params)
+        record_event(action_for_update(previous_role), AuditEvent.changes_worth_recording(@user))
         redirect_to admin_users_path, notice: t(".updated", name: @user.full_name)
       else
         render :edit, status: :unprocessable_content
@@ -35,6 +39,7 @@ module Admin
 
     def destroy
       if @user.destroy
+        record_event(:deleted)
         redirect_to admin_users_path, notice: t(".deleted", name: @user.full_name), status: :see_other
       else
         redirect_to admin_users_path, alert: @user.errors.full_messages.to_sentence, status: :see_other
@@ -42,6 +47,19 @@ module Admin
     end
 
     private
+
+    # Recorded here rather than in a model callback: the actor is a fact about
+    # the request, and a callback would attribute the seeds and the console to
+    # nobody at all.
+    def record_event(action, details = {})
+      AuditEvent.record!(action: action, actor: Current.user, subject: @user, details: details)
+    end
+
+    def action_for_update(previous_role)
+      return :updated if @user.role == previous_role
+
+      @user.admin? ? :promoted : :demoted
+    end
 
     def set_user
       @user = User.find(params.expect(:id))

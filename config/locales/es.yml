@@ -12,6 +12,7 @@ es:
       dashboard: "Panel"
       users: "Usuarios"
       imports: "Importaciones"
+      activity: "Actividad"
       my_profile: "Mi perfil"
       sign_out: "Cerrar sesión"
       sign_out_confirm: "¿Cerrar sesión en Roster?"
@@ -144,6 +145,30 @@ es:
         subtitle: "Actualiza esta cuenta"
         submit: "Guardar cambios"
         cancel: "Cancelar"
+
+    audit_events:
+      index:
+        title: "Actividad"
+        subtitle: "Lo que hicieron los administradores, y cuándo"
+        heading: "Historial"
+        results:
+          one: "1 evento"
+          other: "%{count} eventos"
+        when: "Cuándo"
+        who: "Quién"
+        what: "Qué"
+        to_whom: "Sobre quién"
+        details: "Detalles"
+        empty_title: "Todavía no ha pasado nada"
+        empty_copy: "Crear, cambiar o eliminar una cuenta aparecerá aquí."
+      actions:
+        created: "Creó"
+        updated: "Actualizó"
+        promoted: "Promovió"
+        demoted: "Degradó"
+        deleted: "Eliminó"
+        imported: "Importó"
+      details_import: "De la importación n.º %{id}"
 
     user_imports:
       scheduled: "El archivo está en cola. El progreso aparece abajo mientras se ejecuta."

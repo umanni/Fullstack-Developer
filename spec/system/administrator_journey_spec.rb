@@ -72,6 +72,21 @@ RSpec.describe "The administrator journey" do
     expect(page).to have_text("Maria Silva has been deleted.")
   end
 
+  it "can read back what was done, and by whom" do
+    create(:user, full_name: "Maria Silva", email_address: "maria@example.com")
+
+    visit admin_users_path
+    within("tr", text: "Maria Silva") { click_on "Edit" }
+    select "Administrator", from: "Role"
+    click_on "Save changes"
+
+    click_on "Activity", match: :first
+
+    expect(page).to have_text("Ada Lovelace")
+    expect(page).to have_text("Maria Silva")
+    expect(page).to have_text(I18n.t("admin.audit_events.actions.promoted"))
+  end
+
   it "refuses to remove the only administrator left" do
     create(:user, full_name: "Maria Silva")
 

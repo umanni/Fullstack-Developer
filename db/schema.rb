@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_04_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_04_150000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -41,6 +41,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_140000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "audit_events", force: :cascade do |t|
+    t.integer "action", null: false
+    t.string "actor_email", null: false
+    t.bigint "actor_id"
+    t.datetime "created_at", null: false
+    t.jsonb "details", default: {}, null: false
+    t.string "subject_email", null: false
+    t.bigint "subject_id"
+    t.index ["action"], name: "index_audit_events_on_action"
+    t.index ["actor_id"], name: "index_audit_events_on_actor_id"
+    t.index ["created_at"], name: "index_audit_events_on_created_at"
+    t.index ["subject_id"], name: "index_audit_events_on_subject_id"
+    t.check_constraint "action >= 0 AND action <= 5", name: "audit_events_action_within_enum"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -103,6 +118,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_04_140000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "audit_events", "users", column: "actor_id", on_delete: :nullify
+  add_foreign_key "audit_events", "users", column: "subject_id", on_delete: :nullify
   add_foreign_key "sessions", "users"
   add_foreign_key "user_import_errors", "user_imports"
   add_foreign_key "user_imports", "users", column: "administrator_id"

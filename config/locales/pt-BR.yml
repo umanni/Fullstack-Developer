@@ -12,6 +12,7 @@ pt-BR:
       dashboard: "Painel"
       users: "Usuários"
       imports: "Importações"
+      activity: "Atividade"
       my_profile: "Meu perfil"
       sign_out: "Sair"
       sign_out_confirm: "Sair do Roster?"
@@ -144,6 +145,30 @@ pt-BR:
         subtitle: "Atualize esta conta"
         submit: "Salvar alterações"
         cancel: "Cancelar"
+
+    audit_events:
+      index:
+        title: "Atividade"
+        subtitle: "O que os administradores fizeram, e quando"
+        heading: "Histórico"
+        results:
+          one: "1 evento"
+          other: "%{count} eventos"
+        when: "Quando"
+        who: "Quem"
+        what: "O quê"
+        to_whom: "Sobre quem"
+        details: "Detalhes"
+        empty_title: "Ainda não aconteceu nada"
+        empty_copy: "Criar, alterar ou remover uma conta aparece aqui."
+      actions:
+        created: "Criou"
+        updated: "Alterou"
+        promoted: "Promoveu"
+        demoted: "Rebaixou"
+        deleted: "Removeu"
+        imported: "Importou"
+      details_import: "Da importação #%{id}"
 
     user_imports:
       scheduled: "O arquivo entrou na fila. O progresso aparece abaixo conforme roda."

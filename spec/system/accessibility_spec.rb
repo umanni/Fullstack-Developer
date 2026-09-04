@@ -81,6 +81,14 @@ RSpec.describe "Accessibility", :js do
       expect_the_page_to_be_accessible
     end
 
+    it "the activity trail" do
+      create(:audit_event, actor: administrator, subject: create(:user))
+
+      visit admin_audit_events_path
+
+      expect_the_page_to_be_accessible
+    end
+
     it "the imports screen" do
       visit admin_user_imports_path
 

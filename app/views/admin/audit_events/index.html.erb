@@ -1,0 +1,52 @@
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
+
+<div class="panel mt-2 overflow-hidden">
+  <div class="flex items-center justify-between border-b border-line px-5 py-4">
+    <p class="eyebrow"><%= t(".heading") %></p>
+    <p class="text-xs text-muted"><%= t(".results", count: @pagy.count) %></p>
+  </div>
+
+  <% if @audit_events.any? %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="border-b border-line">
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".when") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".who") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".what") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".to_whom") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".details") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @audit_events.each do |event| %>
+            <tr class="border-b border-line last:border-0">
+              <td class="whitespace-nowrap px-5 py-3 text-muted">
+                <time datetime="<%= event.created_at.iso8601 %>">
+                  <%= l(event.created_at, format: :short) %>
+                </time>
+              </td>
+              <td class="px-5 py-3 text-ink"><%= event.actor_name %></td>
+              <td class="px-5 py-3">
+                <span class="badge <%= event.deleted? ? "badge-user" : "badge-admin" %>">
+                  <%= t("admin.audit_events.actions.#{event.action}") %>
+                </span>
+              </td>
+              <td class="px-5 py-3 text-ink"><%= event.subject_name %></td>
+              <td class="px-5 py-3 text-muted"><%= audit_event_details(event) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%= render "shared/pagination", pagy: @pagy %>
+  <% else %>
+    <div class="px-5 py-16 text-center">
+      <p class="text-sm font-medium text-ink"><%= t(".empty_title") %></p>
+      <p class="mt-1 text-sm text-muted"><%= t(".empty_copy") %></p>
+    </div>
+  <% end %>
+</div>

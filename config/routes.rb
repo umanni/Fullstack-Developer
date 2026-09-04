@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     # application itself advertises.
     resources :users, except: :show
 
+    resources :audit_events, only: :index, path: "activity"
+
     resources :user_imports, only: %i[index new create show] do
       get :template, on: :collection
       get :rejected_rows, on: :member

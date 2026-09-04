@@ -39,6 +39,17 @@ RSpec.describe ProcessUserImportJob do
         .to have_enqueued_mail(InvitationsMailer, :invite).exactly(3).times
     end
 
+    it "records who imported whom" do
+      administrator = create(:user, :admin, email_address: "ada@example.com")
+
+      run(import_for("users.csv", administrator: administrator))
+
+      events = AuditEvent.imported
+      expect(events.count).to eq(3)
+      expect(events.first.actor).to eq(administrator)
+      expect(events.first.details["user_import_id"]).to be_present
+    end
+
     it "records what it did" do
       import = run(import_for("users.csv"))
 
