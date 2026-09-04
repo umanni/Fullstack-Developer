@@ -29,9 +29,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Configure the environment
-        run: cp .env.example .env
-
       - name: Hand the checkout to the container's user
         # The development image runs as uid 1000 -- the common host uid, which
         # is what keeps bind-mounted files writable from both sides on a
@@ -43,11 +40,14 @@ jobs:
       - name: Cache the Docker layers
         uses: docker/setup-buildx-action@v3
 
-      - name: Build the development image
-        run: docker compose build web
-
-      - name: Start PostgreSQL and the application
-        run: docker compose up --detach --wait postgres web
+      # The same script the README tells a person to run, rather than a
+      # separate sequence of docker commands that could quietly stop matching
+      # it: it writes .env, builds the image, creates and migrates the four
+      # databases, and waits for every service to report healthy. Without the
+      # databases the health check fails -- /up goes through the cache store,
+      # which has a database of its own.
+      - name: Set the environment up, exactly as the README says
+        run: devops/app/setup.sh --no-seed
 
       - name: Run the pipeline
         run: bin/ci

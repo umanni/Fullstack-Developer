@@ -24,6 +24,5 @@ CI.run do
   # The OpenAPI document is generated from the specs that exercise the API, so
   # regenerating it and finding a difference means the committed copy describes
   # an API that no longer exists.
-  step "Docs: OpenAPI is current",
-       "bin/rails rswag:specs:swaggerize && git diff --exit-code --stat swagger"
+  step "Docs: OpenAPI is current", "bin/openapi-current"
 end
