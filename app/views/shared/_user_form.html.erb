@@ -1,0 +1,80 @@
+<%= form_with model: user, url: url, method: method, class: "space-y-5", data: { controller: "form-validation", action: "input->form-validation#validate submit->form-validation#validate" } do |form| %>
+  <%= render "shared/error_messages", user: user %>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div class="sm:col-span-2">
+      <%= form.label :full_name, class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+      <%= form.text_field :full_name,
+            required: true,
+            minlength: 2,
+            maxlength: 120,
+            autocomplete: "name",
+            class: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2",
+            data: { form_validation_target: "field", validate: "presence length" } %>
+      <p class="mt-1 hidden text-xs text-rose-600" data-form-validation-target="error" data-for="full_name">Full name is required (2–120 characters).</p>
+    </div>
+
+    <div class="sm:col-span-2">
+      <%= form.label :email_address, "Email", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+      <%= form.email_field :email_address,
+            required: true,
+            autocomplete: "email",
+            class: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2",
+            data: { form_validation_target: "field", validate: "email" } %>
+      <p class="mt-1 hidden text-xs text-rose-600" data-form-validation-target="error" data-for="email_address">Enter a valid email address.</p>
+    </div>
+
+    <% if local_assigns[:show_role] %>
+      <div>
+        <%= form.label :role, class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.select :role,
+              User.roles.keys.map { |role| [role.titleize, role] },
+              {},
+              class: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2" %>
+      </div>
+    <% end %>
+
+    <div class="<%= local_assigns[:show_role] ? '' : 'sm:col-span-2' %>">
+      <%= form.label :password, class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+      <%= form.password_field :password,
+            required: user.new_record?,
+            minlength: 8,
+            autocomplete: user.new_record? ? "new-password" : "new-password",
+            placeholder: user.persisted? ? "Leave blank to keep current password" : nil,
+            class: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2",
+            data: { form_validation_target: "field", validate: user.new_record? ? "password" : "optional_password" } %>
+      <p class="mt-1 hidden text-xs text-rose-600" data-form-validation-target="error" data-for="password">Password must be at least 8 characters.</p>
+    </div>
+
+    <div class="sm:col-span-2">
+      <%= form.label :password_confirmation, class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+      <%= form.password_field :password_confirmation,
+            minlength: 8,
+            autocomplete: "new-password",
+            class: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2" %>
+    </div>
+
+    <div>
+      <%= form.label :avatar_image, "Avatar upload", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+      <%= form.file_field :avatar_image,
+            accept: "image/png,image/jpeg,image/webp,image/gif",
+            class: "block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-slate-800" %>
+    </div>
+
+    <div>
+      <%= form.label :avatar_url, "Avatar remote URL", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+      <%= form.url_field :avatar_url,
+            placeholder: "https://…",
+            class: "w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 shadow-sm outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2",
+            data: { form_validation_target: "field", validate: "optional_url" } %>
+      <p class="mt-1 hidden text-xs text-rose-600" data-form-validation-target="error" data-for="avatar_url">Avatar URL must start with http:// or https://</p>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3 pt-2">
+    <%= form.submit submit_label, class: "cursor-pointer rounded-xl bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-800" %>
+    <% if local_assigns[:cancel_path] %>
+      <%= link_to "Cancel", cancel_path, class: "rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100" %>
+    <% end %>
+  </div>
+<% end %>

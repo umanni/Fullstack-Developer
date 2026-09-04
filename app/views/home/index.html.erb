@@ -1,0 +1,45 @@
+<% page_title "Welcome" %>
+
+<section class="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+  <div>
+    <p class="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-teal-800">Umanni Users</p>
+    <h1 class="font-[family-name:var(--font-display)] text-4xl leading-tight text-slate-900 sm:text-5xl">
+      Manage people with a modern Rails 8 console
+    </h1>
+    <p class="mt-4 max-w-xl text-lg text-slate-600">
+      Role-aware authentication, live admin metrics, and asynchronous spreadsheet imports — powered by Hotwire, Solid Cable, and Solid Queue.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <%= link_to "Create an account", new_registration_path, class: "rounded-xl bg-teal-700 px-5 py-3 text-sm font-semibold text-white hover:bg-teal-800" %>
+      <%= link_to "Sign in", new_session_path, class: "rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50" %>
+    </div>
+  </div>
+
+  <div class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-900 p-8 text-white shadow-xl">
+    <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-teal-500/30 blur-2xl"></div>
+    <div class="absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-sky-400/20 blur-2xl"></div>
+    <div class="relative space-y-6">
+      <div>
+        <p class="text-sm text-slate-300">Live dashboard foreshadow</p>
+        <p class="mt-1 font-[family-name:var(--font-display)] text-3xl">Admin insights</p>
+      </div>
+      <dl class="grid grid-cols-3 gap-3 text-center">
+        <div class="rounded-2xl bg-white/10 p-4">
+          <dt class="text-xs uppercase tracking-wide text-slate-300">Users</dt>
+          <dd class="mt-2 text-2xl font-semibold">24</dd>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-4">
+          <dt class="text-xs uppercase tracking-wide text-slate-300">Admins</dt>
+          <dd class="mt-2 text-2xl font-semibold">3</dd>
+        </div>
+        <div class="rounded-2xl bg-white/10 p-4">
+          <dt class="text-xs uppercase tracking-wide text-slate-300">Members</dt>
+          <dd class="mt-2 text-2xl font-semibold">21</dd>
+        </div>
+      </dl>
+      <p class="text-sm leading-relaxed text-slate-300">
+        Counters stream over Solid Cable. Imports run on Solid Queue. No Redis required.
+      </p>
+    </div>
+  </div>
+</section>

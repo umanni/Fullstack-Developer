@@ -1,0 +1,28 @@
+<% page_title "Sign in" %>
+
+<section class="mx-auto max-w-md">
+  <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
+    <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Sign in</h1>
+    <p class="mt-2 text-sm text-slate-600">Admins land on the dashboard. Members land on their profile.</p>
+
+    <%= form_with url: session_path, class: "mt-6 space-y-4" do |form| %>
+      <div>
+        <%= form.label :email_address, "Email", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username",
+              class: "w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2" %>
+      </div>
+      <div>
+        <%= form.label :password, class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password",
+              class: "w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none ring-teal-700/30 focus:border-teal-700 focus:ring-2" %>
+      </div>
+      <%= form.submit "Sign in", class: "w-full cursor-pointer rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800" %>
+    <% end %>
+
+    <p class="mt-6 text-sm text-slate-600">
+      <%= link_to "Forgot password?", new_password_path, class: "text-teal-800 hover:underline" %>
+      ·
+      <%= link_to "Create account", new_registration_path, class: "text-teal-800 hover:underline" %>
+    </p>
+  </div>
+</section>

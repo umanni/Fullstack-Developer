@@ -1,0 +1,37 @@
+<% page_title "Imports" %>
+
+<%= turbo_stream_from "admin_imports" %>
+
+<section class="space-y-8">
+  <div>
+    <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Spreadsheet imports</h1>
+    <p class="mt-2 text-slate-600">Upload CSV or XLSX files. Processing runs on Solid Queue with live progress.</p>
+  </div>
+
+  <div class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+    <h2 class="text-lg font-semibold">Start import</h2>
+    <p class="mt-1 text-sm text-slate-600">Expected columns: <code class="rounded bg-slate-100 px-1">full_name</code>, <code class="rounded bg-slate-100 px-1">email</code>, optional <code class="rounded bg-slate-100 px-1">password</code>, <code class="rounded bg-slate-100 px-1">avatar_url</code>, <code class="rounded bg-slate-100 px-1">role</code>.</p>
+
+    <%= form_with model: @import, url: admin_imports_path, class: "mt-4 space-y-4" do |form| %>
+      <% if @import.errors.any? %>
+        <div class="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900">
+          <%= @import.errors.full_messages.to_sentence %>
+        </div>
+      <% end %>
+      <%= form.file_field :spreadsheet, required: true, accept: ".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            class: "block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white" %>
+      <%= form.submit "Upload & process", class: "cursor-pointer rounded-xl bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-800" %>
+    <% end %>
+  </div>
+
+  <div class="space-y-3">
+    <h2 class="text-lg font-semibold text-slate-900">Import history</h2>
+    <% if @imports.any? %>
+      <% @imports.each do |import| %>
+        <%= render "admin/imports/import", import: import %>
+      <% end %>
+    <% else %>
+      <p class="text-sm text-slate-500">No imports yet.</p>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+<% page_title "Admin dashboard" %>
+
+<%= turbo_stream_from "admin_dashboard" %>
+<%= turbo_stream_from "admin_imports" %>
+
+<section class="space-y-8">
+  <div>
+    <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Admin dashboard</h1>
+    <p class="mt-2 text-slate-600">Live user totals update over Solid Cable whenever the user base changes.</p>
+  </div>
+
+  <%= render "admin/dashboard/stats", stats: @stats %>
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-slate-900">Quick actions</h2>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <%= link_to "Manage users", admin_users_path, class: "rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800" %>
+        <%= link_to "Import spreadsheet", admin_imports_path, class: "rounded-xl bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-800" %>
+        <%= link_to "New user", new_admin_user_path, class: "rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50" %>
+      </div>
+    </div>
+
+    <div class="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm">
+      <h2 class="text-lg font-semibold text-slate-900">Recent imports</h2>
+      <ul class="mt-4 space-y-3">
+        <% if @recent_imports.any? %>
+          <% @recent_imports.each do |import| %>
+            <%= render "admin/imports/import", import: import %>
+          <% end %>
+        <% else %>
+          <li class="text-sm text-slate-500">No imports yet.</li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</section>

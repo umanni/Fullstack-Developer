@@ -1,0 +1,10 @@
+<% if user.errors.any? %>
+  <div class="mb-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900" role="alert">
+    <p class="font-semibold"><%= pluralize(user.errors.count, "error") %> prevented saving:</p>
+    <ul class="mt-2 list-disc space-y-1 pl-5">
+      <% user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

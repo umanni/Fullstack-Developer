@@ -1,0 +1,16 @@
+<% page_title "Edit user" %>
+
+<section class="mx-auto max-w-2xl">
+  <div class="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
+    <h1 class="font-[family-name:var(--font-display)] text-3xl text-slate-900">Edit user</h1>
+    <div class="mt-6">
+      <%= render "shared/user_form",
+            user: @user,
+            url: admin_user_path(@user),
+            method: :patch,
+            submit_label: "Save user",
+            cancel_path: admin_user_path(@user),
+            show_role: true %>
+    </div>
+  </div>
+</section>
