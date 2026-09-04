@@ -67,6 +67,11 @@ group :development, :test do
   gem "rubocop-rspec_rails", require: false
 end
 
+# The API documentation is generated from the request specs that exercise the
+# API, so it cannot describe something the application does not do.
+gem "rswag-api"
+gem "rswag-ui"
+
 group :test do
   # Accessibility as a check rather than a claim: axe runs against the rendered
   # page in the system specs. The API gem carries the axe-core JavaScript; the
@@ -74,6 +79,7 @@ group :test do
   # speaks Selenium and these specs drive Chrome over CDP.
   gem "axe-core-api"
   gem "capybara"
+  gem "rswag-specs"
   # Cuprite drives headless Chrome over CDP directly, which keeps system specs
   # fast and removes the chromedriver version dance.
   gem "cuprite"

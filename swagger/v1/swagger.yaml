@@ -1,0 +1,385 @@
+---
+openapi: 3.0.1
+info:
+  title: Roster API
+  version: v1
+  description: |
+    The JSON side of Roster.
+
+    Authentication is a bearer token: POST an email address and password
+    to /api/v1/tokens and send the token back as
+    `Authorization: Bearer <token>`. The token is signed rather than
+    stored, lasts 24 hours, and is invalidated by a password change.
+
+    Everything under /api/v1/users requires an administrator.
+servers:
+- url: http://localhost:3000
+  description: Development
+- url: https://{host}
+  description: Deployment
+  variables:
+    host:
+      default: roster.example.com
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: signed token
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        full_name:
+          type: string
+          example: Ada Lovelace
+        email_address:
+          type: string
+          format: email
+          example: ada@example.com
+        role:
+          type: string
+          enum:
+          - user
+          - admin
+        locale:
+          type: string
+          enum:
+          - en
+          - pt-BR
+          - es
+        avatar_url:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - full_name
+      - email_address
+      - role
+      - locale
+    pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        pages:
+          type: integer
+        count:
+          type: integer
+        limit:
+          type: integer
+      required:
+      - page
+      - pages
+      - count
+      - limit
+    error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: unauthorized
+        details:
+          type: object
+          nullable: true
+      required:
+      - error
+paths:
+  "/api/v1/tokens":
+    post:
+      summary: Exchanges credentials for a bearer token
+      tags:
+      - Authentication
+      security: []
+      parameters: []
+      responses:
+        '201':
+          description: a token, valid for 24 hours
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  expires_at:
+                    type: string
+                    format: date-time
+                  user:
+                    "$ref": "#/components/schemas/user"
+                required:
+                - token
+                - expires_at
+                - user
+        '401':
+          description: no such account
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email_address:
+                  type: string
+                  format: email
+                  example: ada@example.com
+                password:
+                  type: string
+                  format: password
+              required:
+              - email_address
+              - password
+        required: true
+  "/api/v1/me":
+    get:
+      summary: Returns the account the token belongs to
+      tags:
+      - Authentication
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: the signed in account
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+        '401':
+          description: no token, or a token that has expired
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+  "/api/v1/users":
+    get:
+      summary: Lists the people in the system
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Matches a name or an email address
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - user
+          - admin
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+        description: Bounded, so a hand-edited URL cannot ask for the whole table
+      responses:
+        '200':
+          description: a page of people
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/user"
+                  pagination:
+                    "$ref": "#/components/schemas/pagination"
+                required:
+                - users
+                - pagination
+        '403':
+          description: the token belongs to somebody who is not an administrator
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+        '401':
+          description: no token
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+    post:
+      summary: Creates an account
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: the account that was created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+        '422':
+          description: the account was refused
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    full_name:
+                      type: string
+                      example: Maria Silva
+                    email_address:
+                      type: string
+                      format: email
+                      example: maria@example.com
+                    password:
+                      type: string
+                      format: password
+                      minLength: 8
+                    role:
+                      type: string
+                      enum:
+                      - user
+                      - admin
+                    locale:
+                      type: string
+                      enum:
+                      - en
+                      - pt-BR
+                      - es
+                    avatar_url:
+                      type: string
+                      nullable: true
+                  required:
+                  - full_name
+                  - email_address
+                  - password
+              required:
+              - user
+        required: true
+  "/api/v1/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Returns one person
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: the person
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+        '404':
+          description: nobody with that id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+    patch:
+      summary: Updates a person
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: the person as they now are
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/user"
+        '422':
+          description: the change was refused -- here, the last administrator
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    full_name:
+                      type: string
+                    email_address:
+                      type: string
+                      format: email
+                    password:
+                      type: string
+                      format: password
+                      minLength: 8
+                    role:
+                      type: string
+                      enum:
+                      - user
+                      - admin
+                    locale:
+                      type: string
+                      enum:
+                      - en
+                      - pt-BR
+                      - es
+                    avatar_url:
+                      type: string
+                      nullable: true
+              required:
+              - user
+        required: true
+    delete:
+      summary: Removes a person
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: removed
+        '422':
+          description: the only administrator left may not be removed
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"

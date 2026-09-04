@@ -1,12 +1,12 @@
 module Admin
   class UsersController < BaseController
-    include Pagy::Backend
+    include Paginating
 
     before_action :set_user, only: %i[edit update destroy]
 
     def index
       @role_counts = User.role_counts
-      @pagy, @users = pagy(filtered_users, limit: per_page)
+      @pagy, @users = paginate(filtered_users)
     end
 
     def new
@@ -82,14 +82,6 @@ module Admin
           .with_role(params[:role])
           .ordered
           .includes(avatar_attachment: { blob: :variant_records })
-    end
-
-    # Bounded so a hand-edited URL cannot ask for the whole table at once.
-    def per_page
-      requested = params[:per_page].to_i
-      return Pagy::DEFAULT[:limit] if requested <= 0
-
-      requested.clamp(1, 100)
     end
   end
 end

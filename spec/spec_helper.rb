@@ -6,30 +6,39 @@
 # the full run instead.
 LIVE_CABLE_PASS = !ENV["CABLE_ADAPTER"].to_s.empty?
 
-require "simplecov"
+# `rswag:specs:swaggerize` re-runs the request specs with --dry-run to read
+# their documentation without executing them. Nothing runs, so nothing is
+# covered, and measuring that would only produce a false failure.
+DOCUMENTATION_PASS = ARGV.include?("--dry-run")
 
-SimpleCov.start "rails" do
-  enable_coverage :branch
+# Nothing is executed on the documentation pass, so nothing would be covered:
+# measuring it would overwrite the real report with an empty one.
+unless DOCUMENTATION_PASS
+  require "simplecov"
 
-  # Each parallel worker writes its own result and SimpleCov merges them, so
-  # the 90% gate is measured against the whole suite rather than one shard.
-  command_name "rspec#{ENV.fetch("TEST_ENV_NUMBER", nil)}"
-  merging true
-  merge_timeout 600
+  SimpleCov.start "rails" do
+    enable_coverage :branch
 
-  minimum_coverage line: 90, branch: 80 unless LIVE_CABLE_PASS
+    # Each parallel worker writes its own result and SimpleCov merges them, so
+    # the 90% gate is measured against the whole suite rather than one shard.
+    command_name "rspec#{ENV.fetch("TEST_ENV_NUMBER", nil)}"
+    merging true
+    merge_timeout 600
 
-  # Excluded because they hold no logic of our own: the specs themselves,
-  # framework configuration and the generated schema files.
-  skip "/spec/"
-  skip "/config/"
-  skip "/db/"
+    minimum_coverage line: 90, branch: 80 unless LIVE_CABLE_PASS
 
-  group "Models", "app/models"
-  group "Controllers", "app/controllers"
-  group "Jobs", "app/jobs"
-  group "Views", "app/views"
-  group "Helpers", "app/helpers"
+    # Excluded because they hold no logic of our own: the specs themselves,
+    # framework configuration and the generated schema files.
+    skip "/spec/"
+    skip "/config/"
+    skip "/db/"
+
+    group "Models", "app/models"
+    group "Controllers", "app/controllers"
+    group "Jobs", "app/jobs"
+    group "Views", "app/views"
+    group "Helpers", "app/helpers"
+  end
 end
 
 RSpec.configure do |config|

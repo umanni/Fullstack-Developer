@@ -21,8 +21,17 @@ class User < ApplicationRecord
   # salt, so it stops working the moment a password is set.
   INVITATION_VALID_FOR = 7.days
 
+  # An API token lasts a day. Like the invitation and the reset token it is
+  # derived from the password salt, so changing a password revokes every token
+  # already issued -- there is no table of secrets to keep, and nothing to
+  # leak from one.
+  API_TOKEN_VALID_FOR = 24.hours
+
   has_secure_password
   generates_token_for :invitation, expires_in: INVITATION_VALID_FOR do
+    password_salt&.last(10)
+  end
+  generates_token_for :api, expires_in: API_TOKEN_VALID_FOR do
     password_salt&.last(10)
   end
   has_many :sessions, dependent: :destroy

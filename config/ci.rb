@@ -20,4 +20,10 @@ CI.run do
   # test adapter, so the live updates are proven to reach a real browser over
   # a real websocket rather than only to have been broadcast.
   step "Tests: live updates", "CABLE_ADAPTER=solid_cable bundle exec rspec --tag live"
+
+  # The OpenAPI document is generated from the specs that exercise the API, so
+  # regenerating it and finding a difference means the committed copy describes
+  # an API that no longer exists.
+  step "Docs: OpenAPI is current",
+       "bin/rails rswag:specs:swaggerize && git diff --exit-code --stat swagger"
 end

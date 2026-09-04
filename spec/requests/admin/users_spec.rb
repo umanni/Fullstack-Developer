@@ -75,6 +75,14 @@ RSpec.describe "Admin users" do
       expect(queries_for_eight).to eq(queries_for_two)
     end
 
+    it "survives a page number that is empty or nonsense" do
+      ["", "abc", "-3", "0"].each do |page|
+        get admin_users_path, params: { page: page }
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     it "paginates" do
       create_list(:user, 3)
 

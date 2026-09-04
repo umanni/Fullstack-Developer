@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # Swagger UI, and the generated OpenAPI document it reads.
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
+
   root "home#index"
 
   resource :locale, only: :update
@@ -19,6 +23,16 @@ Rails.application.routes.draw do
     resources :user_imports, only: %i[index new create show] do
       get :template, on: :collection
       get :rejected_rows, on: :member
+    end
+  end
+
+  # The JSON API. Versioned in the path from the first day, so the second
+  # version does not have to be a different application.
+  namespace :api do
+    namespace :v1 do
+      resource :token, only: :create, path: "tokens"
+      resource :profile, only: :show, path: "me"
+      resources :users
     end
   end
 
