@@ -32,6 +32,14 @@ jobs:
       - name: Configure the environment
         run: cp .env.example .env
 
+      - name: Hand the checkout to the container's user
+        # The development image runs as uid 1000 -- the common host uid, which
+        # is what keeps bind-mounted files writable from both sides on a
+        # laptop. A runner checks the repository out as a different user, and
+        # Rails cannot so much as create tmp/cache in a directory it does not
+        # own, so the web container exits before it can answer a health check.
+        run: sudo chown -R 1000:1000 .
+
       - name: Cache the Docker layers
         uses: docker/setup-buildx-action@v3
 
