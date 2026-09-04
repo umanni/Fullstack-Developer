@@ -29,13 +29,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Hand the checkout to the container's user
+      - name: Share the checkout with the container's user
         # The development image runs as uid 1000 -- the common host uid, which
         # is what keeps bind-mounted files writable from both sides on a
         # laptop. A runner checks the repository out as a different user, and
         # Rails cannot so much as create tmp/cache in a directory it does not
         # own, so the web container exits before it can answer a health check.
-        run: sudo chown -R 1000:1000 .
+        #
+        # Handing the tree over outright is too much, though: it locked the
+        # runner out of its own workspace, and the next step could not create
+        # .env. The container user owns the tree, the runner's group keeps
+        # write access, and both sides can write -- which is what a bind mount
+        # shared between two users needs.
+        run: |
+          sudo chown -R 1000:"$(id -g)" .
+          sudo chmod -R g+rwX .
 
       - name: Cache the Docker layers
         uses: docker/setup-buildx-action@v3
