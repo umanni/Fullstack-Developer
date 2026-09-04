@@ -30,6 +30,15 @@ RSpec.describe ProcessUserImportJob do
       expect(User.find_by(email_address: "maria@example.com")).to be_user
     end
 
+    # An imported account has a random password nobody has seen, so without an
+    # invitation the person has no way in and no way of knowing they exist.
+    it "invites everybody it creates" do
+      import = import_for("users.csv")
+
+      expect { run(import) }
+        .to have_enqueued_mail(InvitationsMailer, :invite).exactly(3).times
+    end
+
     it "records what it did" do
       import = run(import_for("users.csv"))
 

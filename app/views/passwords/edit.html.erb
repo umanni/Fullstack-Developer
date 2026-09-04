@@ -1,12 +1,18 @@
 <% content_for :title, t(".title") %>
 
 <div class="panel p-7">
-  <h2 class="text-xl font-semibold tracking-tight text-ink"><%= t(".title") %></h2>
-  <p class="mt-1 text-sm text-muted"><%= t(".subtitle") %></p>
+  <%# The same form greets an invited person and someone who forgot their
+      password; only the words change. %>
+  <h2 class="text-xl font-semibold tracking-tight text-ink">
+    <%= @invited ? t(".invited_title") : t(".title") %>
+  </h2>
+  <p class="mt-1 text-sm text-muted">
+    <%= @invited ? t(".invited_subtitle") : t(".subtitle") %>
+  </p>
 
   <%= form_with url: password_path(params[:token]), method: :put, class: "mt-6" do |form| %>
     <div class="field">
-      <%= form.label :password, t(".password"), class: "field-label" %>
+      <%= form.label :password, @invited ? t(".invited_password") : t(".password"), class: "field-label" %>
       <%= form.password_field :password, required: true, autofocus: true,
             autocomplete: "new-password", maxlength: 72,
             aria: { describedby: "password-hint" }, class: "field-input" %>
@@ -14,7 +20,9 @@
     </div>
 
     <div class="field">
-      <%= form.label :password_confirmation, t(".password_confirmation"), class: "field-label" %>
+      <%= form.label :password_confirmation,
+            @invited ? t(".invited_password_confirmation") : t(".password_confirmation"),
+            class: "field-label" %>
       <%= form.password_field :password_confirmation, required: true,
             autocomplete: "new-password", maxlength: 72, class: "field-input" %>
     </div>

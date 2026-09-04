@@ -20,7 +20,7 @@ class PasswordsController < ApplicationController
   def update
     if @user.update(params.permit(:password, :password_confirmation))
       @user.sessions.destroy_all
-      redirect_to new_session_path, notice: t("passwords.reset")
+      redirect_to new_session_path, notice: t(@invited ? "passwords.chosen" : "passwords.reset")
     else
       redirect_to edit_password_path(params[:token]), alert: t("passwords.mismatch")
     end
@@ -28,9 +28,16 @@ class PasswordsController < ApplicationController
 
   private
 
+  # The same screen serves two arrivals: somebody who asked to reset a password
+  # and somebody who was imported and has never had one. Both links carry a
+  # token derived from the password salt, so both stop working once a password
+  # is set; only the purpose and the wording differ.
   def set_user_by_token
-    @user = User.find_by_password_reset_token!(params.expect(:token))
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    redirect_to new_password_path, alert: t("passwords.invalid_token")
+    token = params.expect(:token)
+    @user = User.find_by_password_reset_token(token)
+    @invited = @user.nil?
+    @user ||= User.find_by_token_for(:invitation, token)
+
+    redirect_to new_password_path, alert: t("passwords.invalid_token") if @user.nil?
   end
 end

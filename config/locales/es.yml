@@ -188,6 +188,7 @@ es:
     throttled: "Demasiados intentos. Inténtalo de nuevo más tarde."
     reset_instructions_sent: "Hemos enviado las instrucciones (si existe una cuenta con ese correo electrónico)."
     reset: "Tu contraseña se ha restablecido."
+    chosen: "Contraseña establecida. Ya puedes iniciar sesión."
     mismatch: "Las contraseñas no coinciden."
     invalid_token: "Ese enlace de restablecimiento no es válido o ha caducado."
     new:
@@ -204,6 +205,10 @@ es:
       password_hint: "Al menos 8 caracteres."
       password_confirmation: "Confirma la contraseña nueva"
       submit: "Guardar contraseña"
+      invited_title: "Te damos la bienvenida. Elige tu contraseña"
+      invited_subtitle: "Tu cuenta ya existe; solo le falta una contraseña tuya."
+      invited_password: "Contraseña"
+      invited_password_confirmation: "Confirma la contraseña"
 
   passwords_mailer:
     reset:
@@ -213,6 +218,15 @@ es:
       action: "Elegir contraseña nueva"
       expires: "El enlace caduca en %{duration}."
       ignore: "Si no lo has pedido, no ha cambiado nada y puedes ignorar este mensaje."
+
+  invitations_mailer:
+    invite:
+      subject: "Tu cuenta de Roster está lista"
+      heading: "Tu cuenta está lista"
+      body: "Hola, %{name}. Hemos creado una cuenta para ti en Roster. Elige una contraseña y será tuya."
+      action: "Elegir una contraseña"
+      expires: "El enlace es válido durante %{duration}."
+      sign_in_with: "Iniciarás sesión con %{email_address}."
 
   activerecord:
     errors:

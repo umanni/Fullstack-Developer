@@ -188,6 +188,7 @@ en:
     throttled: "Too many attempts. Please try again later."
     reset_instructions_sent: "Password reset instructions sent (if an account with that email address exists)."
     reset: "Your password has been reset."
+    chosen: "Your password is set. You can sign in now."
     mismatch: "Passwords did not match."
     invalid_token: "That password reset link is invalid or has expired."
     new:
@@ -204,6 +205,10 @@ en:
       password_hint: "At least 8 characters."
       password_confirmation: "Confirm new password"
       submit: "Save password"
+      invited_title: "Welcome. Choose your password"
+      invited_subtitle: "Your account is ready; it only needs a password of your own."
+      invited_password: "Password"
+      invited_password_confirmation: "Confirm password"
 
   passwords_mailer:
     reset:
@@ -213,6 +218,15 @@ en:
       action: "Choose a new password"
       expires: "The link expires in %{duration}."
       ignore: "If you did not ask for this, nothing has changed and you can ignore this message."
+
+  invitations_mailer:
+    invite:
+      subject: "Your Roster account is ready"
+      heading: "Your account is ready"
+      body: "Hello %{name}. An account was created for you on Roster. Choose a password and it is yours."
+      action: "Choose a password"
+      expires: "The link is valid for %{duration}."
+      sign_in_with: "You will sign in with %{email_address}."
 
   activerecord:
     errors:

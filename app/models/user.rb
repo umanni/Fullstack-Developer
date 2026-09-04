@@ -15,7 +15,16 @@ class User < ApplicationRecord
   # none of them belong in an img src.
   AVATAR_URL_SCHEMES = %w[http https].freeze
 
+  # An invitation lasts a week, not the fifteen minutes has_secure_password
+  # gives a password reset: somebody imported at two in the morning should not
+  # find a dead link. Like the reset token, it is derived from the password
+  # salt, so it stops working the moment a password is set.
+  INVITATION_VALID_FOR = 7.days
+
   has_secure_password
+  generates_token_for :invitation, expires_in: INVITATION_VALID_FOR do
+    password_salt&.last(10)
+  end
   has_many :sessions, dependent: :destroy
   # Nullified rather than destroyed: removing an administrator must not erase
   # the record of the imports they ran. Without this the foreign key raised.

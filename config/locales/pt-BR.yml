@@ -188,6 +188,7 @@ pt-BR:
     throttled: "Tentativas demais. Tente novamente em alguns instantes."
     reset_instructions_sent: "Enviamos as instruções de redefinição (caso exista uma conta com esse e-mail)."
     reset: "Sua senha foi redefinida."
+    chosen: "Senha definida. Agora é só entrar."
     mismatch: "As senhas não coincidem."
     invalid_token: "Este link de redefinição é inválido ou expirou."
     new:
@@ -204,6 +205,10 @@ pt-BR:
       password_hint: "Ao menos 8 caracteres."
       password_confirmation: "Confirme a nova senha"
       submit: "Salvar senha"
+      invited_title: "Boas-vindas. Escolha sua senha"
+      invited_subtitle: "Sua conta já existe; falta só uma senha sua."
+      invited_password: "Senha"
+      invited_password_confirmation: "Confirme a senha"
 
   passwords_mailer:
     reset:
@@ -213,6 +218,15 @@ pt-BR:
       action: "Escolher nova senha"
       expires: "O link expira em %{duration}."
       ignore: "Se você não pediu isso, nada mudou e pode ignorar esta mensagem."
+
+  invitations_mailer:
+    invite:
+      subject: "Sua conta no Roster está pronta"
+      heading: "Sua conta está pronta"
+      body: "Olá, %{name}. Criamos uma conta para você no Roster. Escolha uma senha e ela é sua."
+      action: "Escolher uma senha"
+      expires: "O link vale por %{duration}."
+      sign_in_with: "Você vai entrar com %{email_address}."
 
   activerecord:
     errors:

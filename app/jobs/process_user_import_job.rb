@@ -60,7 +60,7 @@ class ProcessUserImportJob < ApplicationJob
     user = build_user(attributes)
 
     if user.save
-      import.increment!(:created_users)
+      record_creation(user)
     else
       record_rejection(row_number, attributes, user.errors.full_messages)
     end
@@ -83,6 +83,13 @@ class ProcessUserImportJob < ApplicationJob
       # unguessable one and set their own through the reset flow.
       password: SecureRandom.base58(32)
     )
+  end
+
+  # The account exists and its password is a random string nobody has seen, so
+  # the invitation is what makes the import mean anything to the person in it.
+  def record_creation(user)
+    InvitationsMailer.invite(user).deliver_later
+    import.increment!(:created_users)
   end
 
   def record_rejection(row_number, attributes, messages)

@@ -70,4 +70,46 @@ RSpec.describe "Password resets" do
       expect(user.reload.authenticate("a-brand-new-password")).to be(false)
     end
   end
+
+  # An invited person arrives at the same screen through a different token.
+  describe "the invitation link" do
+    let(:invitation) { user.generate_token_for(:invitation) }
+
+    it "opens the password screen, worded as a welcome" do
+      get edit_password_path(invitation)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(I18n.t("passwords.edit.invited_title"))
+    end
+
+    it "sets the first password" do
+      patch password_path(invitation), params: {
+        password: "a-brand-new-password", password_confirmation: "a-brand-new-password"
+      }
+
+      expect(response).to redirect_to(new_session_path)
+      expect(user.reload.authenticate("a-brand-new-password")).to eq(user)
+    end
+
+    it "stops working once a password has been set, since the salt has changed" do
+      used = invitation
+      patch password_path(used), params: {
+        password: "a-brand-new-password", password_confirmation: "a-brand-new-password"
+      }
+
+      get edit_password_path(used)
+
+      expect(response).to redirect_to(new_password_path)
+    end
+
+    it "expires" do
+      token = invitation
+
+      travel(User::INVITATION_VALID_FOR + 1.day) do
+        get edit_password_path(token)
+
+        expect(response).to redirect_to(new_password_path)
+      end
+    end
+  end
 end
