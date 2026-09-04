@@ -1,25 +1,23 @@
 #!/usr/bin/env bash
 #
-# Starts the development stack (web, worker, css, postgres) with Docker.
+# Starts the development stack (web, worker, css, postgres).
 #
-#   bin/dev            # foreground, streaming logs
-#   bin/dev --detach   # background
+#   bin/dev            # in the background
+#   bin/dev --attach   # in the foreground, streaming logs
 #   bin/dev --down     # stop everything
+#
+# Thin on purpose: each action is a script under devops/app/, which is where to
+# look when one of them needs changing.
 #
 # Without Docker, run the processes directly instead:
 #   bundle exec foreman start -f Procfile.dev
 #
 set -euo pipefail
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/devops/common.sh"
-
-require_docker
-[[ -f .env ]] || fail "No .env found. Run bin/setup first."
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 case "${1:-}" in
-  --down)   step "Stopping"; compose down; ok "Stopped." ;;
-  --detach) step "Starting in the background"; compose up --detach --wait
-            ok "Running at http://localhost:${WEB_PORT:-3000}" ;;
-  --help|-h) sed -n '2,12p' "$0" ;;
-  "")       step "Starting"; compose up ;;
-  *)        fail "Unknown option: $1" ;;
+  --down)    exec "${ROOT}/devops/app/stop.sh" ;;
+  --status)  exec "${ROOT}/devops/app/status.sh" ;;
+  --help|-h) sed -n '2,14p' "$0" ;;
+  *)         exec "${ROOT}/devops/app/start.sh" "$@" ;;
 esac

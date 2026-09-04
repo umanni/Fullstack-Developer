@@ -3,57 +3,17 @@
 # Prepares the development environment from a clean checkout.
 #
 #   bin/setup              # build images, create databases, seed
-#   bin/setup --reset      # additionally drop the existing data volume
-#   bin/setup --no-seed    # skip seeding
+#   bin/setup --no-seed    # skip the demonstration accounts
+#
+# The work itself is in devops/app/setup.sh, next to the other actions:
+# start, stop, restart, status, seed, reset.
 #
 set -euo pipefail
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/devops/common.sh"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-RESET_VOLUMES=false
-SEED=true
-for arg in "$@"; do
-  case "${arg}" in
-    --reset)   RESET_VOLUMES=true ;;
-    --no-seed) SEED=false ;;
-    --help|-h) sed -n '2,9p' "$0"; exit 0 ;;
-    *) fail "Unknown option: ${arg}" ;;
-  esac
-done
-
-require_docker
-
-step "Environment file"
-if [[ -f .env ]]; then
-  log ".env already exists, leaving it untouched."
-else
-  cp .env.example .env
-  ok "Created .env from .env.example."
+if [[ "${1:-}" == "--reset" ]]; then
+  shift
+  exec "${ROOT}/devops/app/reset.sh" "$@"
 fi
 
-if [[ "${RESET_VOLUMES}" == true ]]; then
-  step "Resetting containers and data volume"
-  compose down --volumes --remove-orphans
-  ok "Previous environment removed."
-fi
-
-step "Building images"
-compose build
-
-step "Starting PostgreSQL"
-compose up --detach --wait postgres
-
-step "Preparing databases"
-# db:prepare creates and migrates all four databases: primary, cache, queue
-# and cable.
-compose run --rm --no-deps web ./bin/rails db:prepare
-
-if [[ "${SEED}" == true ]]; then
-  step "Seeding"
-  compose run --rm --no-deps web ./bin/rails db:seed
-fi
-
-step "Starting the full stack"
-compose up --detach --wait
-
-ok "Ready. The application is at http://localhost:${WEB_PORT:-3000}"
-log "Logs:  devops/rails/logs.sh     Tests: bin/test     Console: devops/rails/console.sh"
+exec "${ROOT}/devops/app/setup.sh" "$@"
