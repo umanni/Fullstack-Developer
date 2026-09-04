@@ -1,5 +1,11 @@
 # Coverage has to start before any application code is loaded, which is why it
 # lives at the very top of this file rather than in rails_helper.
+#
+# The live-updates pass (bin/test --live) runs a handful of system specs and
+# would report the rest of the application as uncovered, so it is measured by
+# the full run instead.
+LIVE_CABLE_PASS = !ENV["CABLE_ADAPTER"].to_s.empty?
+
 require "simplecov"
 
 SimpleCov.start "rails" do
@@ -11,7 +17,7 @@ SimpleCov.start "rails" do
   merging true
   merge_timeout 600
 
-  minimum_coverage line: 90, branch: 80
+  minimum_coverage line: 90, branch: 80 unless LIVE_CABLE_PASS
 
   # Excluded because they hold no logic of our own: the specs themselves,
   # framework configuration and the generated schema files.
@@ -42,6 +48,11 @@ RSpec.configure do |config|
   # The screenshot spec exists to produce README images, not to verify
   # behaviour, so it stays out of the default run.
   config.filter_run_excluding :screenshots if ENV["SCREENSHOTS"].to_s.empty?
+
+  # Delivery over a real websocket needs Solid Cable rather than the in-memory
+  # test adapter, so those examples run only in the live pass.
+  config.filter_run_excluding :live unless LIVE_CABLE_PASS
+  config.filter_run_including live: true if LIVE_CABLE_PASS
   config.example_status_persistence_file_path = ".rspec_status"
   config.disable_monkey_patching!
   config.warnings = false

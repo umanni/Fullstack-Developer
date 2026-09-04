@@ -15,4 +15,9 @@ CI.run do
   # SimpleCov enforces the 90% minimum and fails the process when coverage
   # drops below it, so the suite is also the coverage gate.
   step "Tests: RSpec", "bundle exec rspec"
+
+  # A second, much smaller pass with Solid Cable in place of the in-memory
+  # test adapter, so the live updates are proven to reach a real browser over
+  # a real websocket rather than only to have been broadcast.
+  step "Tests: live updates", "CABLE_ADAPTER=solid_cable bundle exec rspec --tag live"
 end

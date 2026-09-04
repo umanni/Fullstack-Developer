@@ -8,8 +8,17 @@ development:
   polling_interval: 0.1.seconds
   message_retention: 1.day
 
+# The test adapter records broadcasts in memory so specs can assert on them
+# without a database or a websocket. The system specs that need delivery in a
+# real browser run in a second pass with CABLE_ADAPTER=solid_cable, which is
+# what bin/test --live does.
 test:
-  adapter: test
+  adapter: <%= ENV.fetch("CABLE_ADAPTER", "test") %>
+  connects_to:
+    database:
+      writing: cable
+  polling_interval: 0.05.seconds
+  message_retention: 1.day
 
 production:
   adapter: solid_cable
