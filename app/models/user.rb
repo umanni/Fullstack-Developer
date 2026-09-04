@@ -59,11 +59,15 @@ class User < ApplicationRecord
   # happens to add, remove or re-role somebody.
   after_commit :broadcast_user_counters, if: :counters_affected?
 
+  # `searchable_text` is a stored generated column -- the name and the address
+  # concatenated by PostgreSQL -- carrying a trigram index. Searching one
+  # indexed expression rather than two columns joined by OR is what lets the
+  # planner use the index at all: with an index per column it compares two GIN
+  # scans against one sequential scan and chooses the sequential scan.
   scope :search, lambda { |term|
     next all if term.blank?
 
-    pattern = "%#{sanitize_sql_like(term.to_s.strip)}%"
-    where("full_name ILIKE :term OR email_address ILIKE :term", term: pattern)
+    where("searchable_text ILIKE :term", term: "%#{sanitize_sql_like(term.to_s.strip)}%")
   }
 
   scope :with_role, lambda { |role|
