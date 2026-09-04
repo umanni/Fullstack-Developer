@@ -62,6 +62,19 @@ RSpec.describe "Admin users" do
       expect(response.body).to include("Maria Silva")
     end
 
+    # The page renders an avatar per row, which is where an N+1 hides: without
+    # eager loading the attachment, its blob and the variant record are fetched
+    # once per person.
+    it "costs the same number of queries however many people are listed" do
+      create_list(:user, 2).each { |user| attach_avatar(user) }
+      queries_for_two = count_queries { get admin_users_path }.size
+
+      create_list(:user, 6).each { |user| attach_avatar(user) }
+      queries_for_eight = count_queries { get admin_users_path }.size
+
+      expect(queries_for_eight).to eq(queries_for_two)
+    end
+
     it "paginates" do
       create_list(:user, 3)
 
@@ -130,6 +143,21 @@ RSpec.describe "Admin users" do
 
       expect(response).to redirect_to(admin_users_path)
     end
+
+    # The import rows point at the administrator who asked for them, and a
+    # foreign key raises rather than returning false: without the association
+    # saying what to do, this was a 500.
+    it "deletes an administrator who has run an import, and keeps the import" do
+      colleague = create(:user, :admin, full_name: "Grace Hopper")
+      import = create(:user_import, :with_csv, administrator: colleague)
+
+      delete admin_user_path(colleague)
+
+      expect(response).to redirect_to(admin_users_path)
+      expect(User.exists?(colleague.id)).to be(false)
+      expect(import.reload.administrator).to be_nil
+      expect(import.requested_by).to eq(colleague.email_address)
+    end
   end
 
   describe "protecting the last administrator" do
@@ -175,5 +203,10 @@ RSpec.describe "Admin users" do
 
       expect { delete admin_user_path(target) }.not_to change(User, :count)
     end
+  end
+
+  def attach_avatar(user)
+    user.avatar.attach(io: Rails.root.join("spec/fixtures/files/avatar.png").open,
+                       filename: "avatar.png", content_type: "image/png")
   end
 end

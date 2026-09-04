@@ -17,6 +17,9 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
+  # Nullified rather than destroyed: removing an administrator must not erase
+  # the record of the imports they ran. Without this the foreign key raised.
+  has_many :user_imports, foreign_key: :administrator_id, inverse_of: :administrator, dependent: :nullify
   has_one_attached :avatar
 
   # Two roles, explicitly numbered so the values are stable in the database and

@@ -13,7 +13,12 @@ class UserImport < ApplicationRecord
   # long a worker is busy.
   MAX_ROWS = 10_000
 
-  belongs_to :administrator, class_name: "User"
+  # Optional, because an administrator may be removed after running an import
+  # and the history of what was imported outlives their account. The address is
+  # copied onto the row so the list can still say who asked for it.
+  belongs_to :administrator, class_name: "User", optional: true
+
+  before_validation :remember_the_administrator, on: :create
   has_one_attached :file
   has_many :row_errors, class_name: "UserImportError", dependent: :destroy
 
@@ -22,6 +27,7 @@ class UserImport < ApplicationRecord
        default: :pending, validate: true
 
   validates :file, presence: true
+  validates :administrator_email, presence: true
   validate :acceptable_file, if: -> { attachment_changes.key?("file") }
 
   scope :recent_first, -> { order(created_at: :desc) }
@@ -51,7 +57,17 @@ class UserImport < ApplicationRecord
     [(processed_rows * 100 / total_rows), 100].min
   end
 
+  # What the list shows in the "requested by" column: the name while the
+  # account exists, the address it was created with once it does not.
+  def requested_by
+    administrator&.full_name || administrator_email
+  end
+
   private
+
+  def remember_the_administrator
+    self.administrator_email ||= administrator&.email_address
+  end
 
   def acceptable_file
     io = uploaded_io

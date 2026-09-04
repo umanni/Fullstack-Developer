@@ -41,6 +41,22 @@ RSpec.describe UserImport do
     end
   end
 
+  describe "who asked for it" do
+    it "records the address at the time, so it outlives the account" do
+      administrator = create(:user, :admin, full_name: "Grace Hopper",
+                                            email_address: "grace@example.com")
+      import = create(:user_import, :with_csv, administrator: administrator)
+      create(:user, :admin) # the last-administrator rule is not what is under test
+
+      expect(import.requested_by).to eq("Grace Hopper")
+
+      administrator.destroy!
+
+      expect(import.reload.administrator).to be_nil
+      expect(import.requested_by).to eq("grace@example.com")
+    end
+  end
+
   describe "#format" do
     it "reads the format from the extension" do
       expect(build_import("users.csv").format).to eq(:csv)

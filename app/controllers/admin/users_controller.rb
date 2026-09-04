@@ -57,8 +57,13 @@ module Admin
       permitted
     end
 
+    # The avatar of every row is rendered, so the attachment, its blob and the
+    # variant record are loaded with the page rather than one query per person.
     def filtered_users
-      User.search(params[:query]).with_role(params[:role]).ordered
+      User.search(params[:query])
+          .with_role(params[:role])
+          .ordered
+          .includes(avatar_attachment: { blob: :variant_records })
     end
 
     # Bounded so a hand-edited URL cannot ask for the whole table at once.
