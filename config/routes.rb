@@ -32,7 +32,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :token, only: :create, path: "tokens"
       resource :profile, only: :show, path: "me"
-      resources :users
+      # `new` and `edit` are routes for rendering forms; a JSON API has none to
+      # render, and leaving them defined means two advertised paths that only
+      # ever answer 404.
+      resources :users, except: %i[new edit]
     end
   end
 

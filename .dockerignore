@@ -59,5 +59,14 @@
 # Ignore host-side operational scripts; they drive Docker from outside.
 /devops
 
-# Ignore the internal planning document.
+# Ignore the working documents that live beside the repository but are not part
+# of it. They are untracked, so a fresh clone has none of them -- but a build
+# from the machine they were written on would copy them straight into the image
+# somebody else pulls.
 /PLANO_TESTE_FULLSTACK_UMANNI.md
+/PENDENCIAS.md
+/CREDENCIAIS_LOCAIS.txt
+
+# The README screenshots are for people reading the repository, not for the
+# running application.
+/docs
