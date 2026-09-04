@@ -20,8 +20,8 @@ class AdminUsersSystemTest < ApplicationSystemTestCase
 
     user = User.find_by!(email_address: "system.created@example.com")
     within("#user_#{user.id}") do
-      click_button "Toggle role"
+      click_button "Admin"
     end
-    assert_text "is now admin"
+    assert_text "was changed from member to admin"
   end
 end

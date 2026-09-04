@@ -50,8 +50,10 @@ module Admin
         return
       end
 
+      previous_role = @user.role
       @user.admin? ? @user.member! : @user.admin!
-      redirect_to admin_users_path, notice: "#{@user.full_name} is now #{@user.role}."
+      redirect_to admin_users_path,
+                  notice: "#{@user.full_name} was changed from #{previous_role} to #{@user.role}."
     end
 
     private
