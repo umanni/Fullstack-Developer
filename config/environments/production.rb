@@ -34,8 +34,12 @@ Rails.application.configure do
   # locally; leave it alone anywhere real.
   config.force_ssl = ENV.fetch("FORCE_SSL", "true") == "true"
 
-  # The container healthcheck speaks http inside the network and must not be
-  # answered with a redirect.
+  # With `assume_ssl` on, every request already looks like https, so this
+  # redirect never fires in practice -- the proxy is what sends a plain http
+  # visitor to https. The exclusion is here for the case where the app is put
+  # behind something that does not terminate TLS: the container healthcheck
+  # speaks http from inside the network and must not be answered with a
+  # redirect.
   config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
   # Log to STDOUT with the current request id as a default log tag.
