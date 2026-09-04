@@ -9,7 +9,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get "dashboard", to: "dashboard#show"
-    resources :users
+    # No `show`: the list carries everything there is to know about a person,
+    # and a route whose action does not exist answers 404 from a path the
+    # application itself advertises.
+    resources :users, except: :show
 
     resources :user_imports, only: %i[index new create show] do
       get :template, on: :collection
