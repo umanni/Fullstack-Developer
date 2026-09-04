@@ -5,9 +5,19 @@
 name: CI
 
 on:
-  pull_request:
+  # Every branch, not only the default one: work in progress on a branch is
+  # exactly when the pipeline is worth having, and a pull request from a fork
+  # runs only after a maintainer approves it -- which is too late to be useful
+  # to whoever pushed.
   push:
-    branches: [main, master]
+  pull_request:
+
+# A push and a pull request on the same branch would otherwise start two
+# identical runs, and every new push would leave the previous one grinding away
+# on code nobody is looking at any more.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci:
