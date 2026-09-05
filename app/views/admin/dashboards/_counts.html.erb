@@ -1,0 +1,33 @@
+<div
+  id="dashboard_counts"
+  data-controller="highlight-on-update"
+  data-highlight-on-update-highlight-class="ring-2 ring-emerald-500"
+  class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-3"
+>
+  <div
+    class="
+      flex flex-col justify-between rounded-xl border border-gray-200
+      bg-white p-6 shadow-sm
+    "
+  >
+    <p class="text-sm font-semibold text-gray-500">Total de Usuários</p>
+    <p class="mt-2 text-4xl font-bold text-gray-900"><%= total_users %></p>
+  </div>
+
+  <% User.roles.keys.each_with_index do |role, index| %>
+    <div
+      class="
+        flex flex-col justify-between rounded-xl border border-gray-200
+        bg-white p-6 shadow-sm
+      "
+    >
+      <p class="text-sm font-semibold text-gray-500">
+        <%= role == "admin" ? "Administrador" : "Usuário Normal" %>
+      </p>
+
+      <p class="mt-2 text-4xl font-bold text-gray-900">
+        <%= users_by_role[role] || 0 %>
+      </p>
+    </div>
+  <% end %>
+</div>

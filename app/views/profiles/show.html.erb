@@ -1,0 +1,48 @@
+<div class="mx-auto max-w-2xl rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+  <h1 class="mb-6 border-b border-gray-100 pb-4 text-2xl font-bold text-gray-900">
+    Meu Perfil
+  </h1>
+
+  <div class="mb-8 flex flex-col items-center gap-8 sm:flex-row">
+    <% if @user.avatar.attached? %>
+      <div class="overflow-hidden rounded-full border-4 border-gray-50 shadow-sm">
+        <%= image_tag @user.avatar.variant(resize_to_limit: [ 128, 128 ]), alt: @user.full_name, class: "size-32 object-cover block" %>
+      </div>
+    <% end %>
+
+    <dl class="flex-1 text-gray-900">
+      <div class="mb-4">
+        <dt class="text-sm font-semibold text-gray-500">Nome</dt>
+        <dd class="mt-1 text-xl font-bold"><%= @user.full_name %></dd>
+      </div>
+
+      <div class="mb-4">
+        <dt class="text-sm font-semibold text-gray-500">E-mail</dt>
+
+        <dd class="mt-1 text-md font-medium text-gray-700">
+          <%= @user.email %>
+        </dd>
+      </div>
+
+      <div>
+        <dt class="text-sm font-semibold text-gray-500">Papel</dt>
+
+        <dd class="mt-1 text-md font-medium">
+          <span
+            class="
+              inline-flex items-center rounded-full bg-emerald-100 px-2.5
+              py-0.5 text-xs font-medium text-emerald-800
+            "
+          >
+            <%= @user.role == "admin" ? "Administrador" : "Usuário Normal" %>
+          </span>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="mt-8 flex flex-wrap items-center gap-4 border-t border-gray-100 pt-6">
+    <%= link_to "Editar perfil", edit_profile_path, class: "btn-primary" %>
+    <%= button_to "Excluir conta", profile_path, method: :delete, class: "inline-flex justify-center items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-red-600 shadow-sm border border-red-200 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 transition-colors", form: { data: { turbo_confirm: "Tem certeza? Esta ação não pode ser desfeita." } } %>
+  </div>
+</div>

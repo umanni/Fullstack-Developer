@@ -1,0 +1,36 @@
+<h2 class="mt-8 mb-4 text-xl font-bold text-gray-900">Erros nas Linhas</h2>
+
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+  <table class="w-full min-w-max border-collapse text-left">
+    <thead class="border-b border-gray-200 bg-gray-50">
+      <tr>
+        <th
+          class="
+            w-24 px-4 py-3 text-xs font-semibold tracking-wider
+            text-gray-500 uppercase
+          "
+        >
+          Linha
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Motivo
+        </th>
+      </tr>
+    </thead>
+
+    <tbody
+      id="<%= dom_id(spreadsheet_import, :row_errors) %>"
+      class="divide-y divide-gray-200"
+    >
+      <%= render partial: "admin/spreadsheet_imports/row_error",
+                 collection: spreadsheet_import.spreadsheet_import_row_errors.order(:row_number),
+                 as: :row_error %>
+    </tbody>
+  </table>
+</div>

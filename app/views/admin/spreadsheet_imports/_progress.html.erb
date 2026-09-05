@@ -1,0 +1,28 @@
+<div
+  id="spreadsheet_import_progress"
+  data-controller="highlight-on-update"
+  data-highlight-on-update-highlight-class="ring-2 ring-emerald-500"
+  class="mt-4"
+>
+  <div class="rounded-xl border border-gray-200 bg-gray-50 p-6 shadow-sm">
+    <div class="mb-4 flex items-center gap-2">
+      <p class="text-sm font-semibold text-gray-500">Status:</p>
+
+      <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= spreadsheet_import.status == 'processing' ? 'bg-blue-100 text-blue-800' : spreadsheet_import.status == 'completed' ? 'bg-emerald-100 text-emerald-800' : spreadsheet_import.status == 'failed' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>">
+        <%= spreadsheet_import.status == "processing" ? "Processando" : spreadsheet_import.status == "completed" ? "Concluída" : spreadsheet_import.status == "failed" ? "Falhou" : "Pendente" %>
+      </span>
+    </div>
+
+    <div class="mb-2 h-2.5 w-full overflow-hidden rounded-full bg-gray-200">
+      <div
+        class="h-2.5 rounded-full bg-emerald-500 transition-all duration-500"
+        style="width: <%= spreadsheet_import.progress_percent %>%"
+      ></div>
+    </div>
+
+    <p class="text-right text-sm font-medium text-gray-600">
+      <%= spreadsheet_import.processed_rows %> /
+      <%= spreadsheet_import.total_rows %> linhas processadas
+    </p>
+  </div>
+</div>

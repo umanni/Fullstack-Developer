@@ -1,0 +1,120 @@
+<div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+  <h1 class="text-2xl font-bold text-gray-900">Importações de Planilha</h1>
+  <%= link_to "Nova Importação", new_admin_spreadsheet_import_path, class: "btn-primary" %>
+</div>
+
+<div class="mt-6 overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+  <table class="w-full min-w-max border-collapse text-left">
+    <thead class="border-b border-gray-200 bg-gray-50">
+      <tr>
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Arquivo
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Enviado por
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Status
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Progresso
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Erros
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        ></th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200">
+      <% @spreadsheet_imports.each do |spreadsheet_import| %>
+        <tr
+          class="transition-colors hover:bg-gray-50"
+          id="<%= dom_id(spreadsheet_import) %>"
+        >
+          <td class="px-4 py-3 font-medium text-gray-900">
+            <%= spreadsheet_import.file.filename %>
+          </td>
+
+          <td class="px-4 py-3 text-gray-600">
+            <%= spreadsheet_import.user.full_name %>
+          </td>
+
+          <td class="px-4 py-3">
+            <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= spreadsheet_import.status == 'processing' ? 'bg-blue-100 text-blue-800' : spreadsheet_import.status == 'completed' ? 'bg-emerald-100 text-emerald-800' : spreadsheet_import.status == 'failed' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>">
+              <%= spreadsheet_import.status == "processing" ? "Processando" : spreadsheet_import.status == "completed" ? "Concluída" : spreadsheet_import.status == "failed" ? "Falhou" : "Pendente" %>
+            </span>
+          </td>
+
+          <td class="px-4 py-3 text-gray-600">
+            <%= spreadsheet_import.processed_rows %>/<%= spreadsheet_import.total_rows %>
+          </td>
+
+          <td class="px-4 py-3 text-gray-600">
+            <%= spreadsheet_import.spreadsheet_import_row_errors.size %>
+          </td>
+
+          <td class="px-4 py-3">
+            <%= link_to admin_spreadsheet_import_path(spreadsheet_import), title: "Ver Detalhes", class: "p-2 rounded-md text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors inline-block" do %>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="size-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+              </svg>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

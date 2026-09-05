@@ -1,0 +1,31 @@
+<div class="mx-auto max-w-md rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+  <h1 class="mb-6 border-b border-gray-100 pb-4 text-2xl font-bold text-gray-900">
+    Entrar
+  </h1>
+
+  <%= form_with url: session_url, class: "contents" do |form| %>
+    <div class="my-5">
+      <%= form.label :email, "E-mail", class: "form-label" %>
+      <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username", placeholder: "Digite seu e-mail", value: params[:email], class: "form-input" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :password, "Senha", class: "form-label" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Digite sua senha", maxlength: 72, class: "form-input" %>
+    </div>
+
+    <div class="mt-8 flex flex-col gap-4">
+      <%= form.submit "Entrar", class: "btn-primary w-full text-center cursor-pointer text-xl" %>
+
+      <div
+        class="
+          mt-2 flex flex-col items-center justify-between gap-4 text-sm
+          font-bold sm:flex-row
+        "
+      >
+        <%= link_to "Esqueceu a senha?", new_password_path, class: "link-muted" %>
+        <%= link_to "Criar uma conta", new_registration_path, class: "link-action" %>
+      </div>
+    </div>
+  <% end %>
+</div>

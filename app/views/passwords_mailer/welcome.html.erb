@@ -1,0 +1,6 @@
+<p>
+  Sua conta foi criada. Defina sua senha
+  <%= link_to "nesta página", edit_password_url(@user.password_reset_token) %>
+  para acessar o sistema. Este link expira em
+  <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.
+</p>

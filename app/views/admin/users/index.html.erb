@@ -1,0 +1,157 @@
+<div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+  <h1 class="text-2xl font-bold text-gray-900">Usuários</h1>
+  <%= link_to "Novo Usuário", new_admin_user_path, class: "btn-primary", data: { turbo_frame: "admin_user_form" } %>
+</div>
+
+<%= turbo_frame_tag "admin_user_form" %>
+
+<div class="mt-6 overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+  <table class="w-full min-w-max border-collapse text-left">
+    <thead class="border-b border-gray-200 bg-gray-50">
+      <tr>
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Avatar
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Nome
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          E-mail
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Papel
+        </th>
+
+        <th
+          class="
+            px-4 py-3 text-xs font-semibold tracking-wider text-gray-500
+            uppercase
+          "
+        >
+          Ações
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200">
+      <% @users.each do |user| %>
+        <tr class="transition-colors hover:bg-gray-50" id="<%= dom_id(user) %>">
+          <td class="px-4 py-3">
+            <% if user.avatar.attached? %>
+              <%= image_tag user.avatar.variant(resize_to_limit: [ 40, 40 ]), alt: user.full_name, class: "size-10 object-cover rounded-full shadow-sm" %>
+            <% else %>
+              <div
+                class="
+                  flex size-10 items-center justify-center rounded-full
+                  bg-gray-100
+                "
+              >
+                <svg
+                  class="h-5 w-5 text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </div>
+            <% end %>
+          </td>
+
+          <td class="px-4 py-3 font-medium text-gray-900">
+            <%= user.full_name %>
+          </td>
+
+          <td class="px-4 py-3 text-gray-600"><%= user.email %></td>
+
+          <td class="px-4 py-3">
+            <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium <%= user.role == 'admin' ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-800' %>">
+              <%= user.role == "admin" ? "Administrador" : "Usuário Normal" %>
+            </span>
+          </td>
+
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-2">
+              <%= link_to edit_admin_user_path(user), title: "Editar", class: "p-2 rounded-md text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors", data: { turbo_frame: "admin_user_form" } do %>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  />
+                </svg>
+              <% end %>
+
+              <%= button_to toggle_role_admin_user_path(user), method: :patch, title: "Alterar papel", class: "p-2 rounded-md text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors flex items-center justify-center cursor-pointer" do %>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                  />
+                </svg>
+              <% end %>
+
+              <%= button_to admin_user_path(user), method: :delete, title: "Excluir", class: "p-2 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors flex items-center justify-center cursor-pointer", form: { data: { turbo_confirm: "Tem certeza?" } } do %>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                  />
+                </svg>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

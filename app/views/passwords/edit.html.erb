@@ -1,0 +1,23 @@
+<div class="mx-auto max-w-md rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+  <h1 class="mb-6 border-b border-gray-100 pb-4 text-2xl font-bold text-gray-900">
+    Atualizar Senha
+  </h1>
+
+  <%= form_with url: password_path(params[:token]), scope: :user, method: :put, class: "contents" do |form| %>
+    <div data-controller="password-confirmation">
+      <div class="my-5">
+        <%= form.label :password, "Nova senha", class: "form-label" %>
+        <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Digite a nova senha", minlength: 8, maxlength: 72, class: "form-input", data: { password_confirmation_target: "password", action: "input->password-confirmation#validate" } %>
+      </div>
+
+      <div class="my-5">
+        <%= form.label :password_confirmation, "Confirmar nova senha", class: "form-label" %>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repita a nova senha", minlength: 8, maxlength: 72, class: "form-input", data: { password_confirmation_target: "confirmation", action: "input->password-confirmation#validate" } %>
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <%= form.submit "Salvar", class: "btn-primary w-full text-center cursor-pointer text-xl" %>
+    </div>
+  <% end %>
+</div>

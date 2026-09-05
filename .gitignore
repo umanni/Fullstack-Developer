@@ -1,0 +1,61 @@
+# Bundler
+/.bundle
+/vendor/bundle
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+/config/master.key
+/config/credentials/*.key
+
+# SQLite databases
+/storage/*.sqlite3
+/storage/*.sqlite3-*
+
+# Logs
+/log/*
+!/log/.keep
+
+# Temp files
+/tmp/*
+!/tmp/.keep
+
+# Uploaded files (local dev)
+/storage/[^.]*/
+
+# Assets build output
+/public/assets
+/public/packs
+
+# Node (if ever needed)
+/node_modules
+yarn-error.log
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Coverage
+/coverage
+
+# Aider Chat
+.aider*
+
+# Ruby LSP
+.ruby-lsp/
+
+# RSpec persisted run status (--only-failures / --next-failure)
+/spec/examples.txt
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

@@ -1,0 +1,6 @@
+<p>
+  Você pode redefinir sua senha
+  <%= link_to "nesta página de redefinição de senha", edit_password_url(@user.password_reset_token) %>.
+  Este link expira em
+  <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.
+</p>

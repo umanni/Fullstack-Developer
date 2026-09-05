@@ -1,0 +1,13 @@
+pt-BR:
+  activerecord:
+    attributes:
+      spreadsheet_import:
+        file: "Planilha"
+      user:
+        avatar: "Avatar"
+        avatar_url: "URL do Avatar"
+        full_name: "Nome"
+        email: "E-mail"
+        role: "Papel"
+        password: "Senha"
+        password_confirmation: "Confirmação de senha"

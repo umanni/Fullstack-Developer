@@ -1,0 +1,69 @@
+<div class="mx-auto max-w-2xl rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+  <h1 class="mb-6 border-b border-gray-100 pb-4 text-2xl font-bold text-gray-900">
+    Editar Perfil
+  </h1>
+
+  <%= form_with model: @user, url: profile_path, class: "contents" do |form| %>
+    <%= render "shared/form_errors", record: @user %>
+
+    <div class="my-5">
+      <%= form.label :full_name, "Nome", class: "form-label" %>
+      <%= form.text_field :full_name, required: true, class: "form-input" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :email, "E-mail", class: "form-label" %>
+      <%= form.email_field :email, required: true, autocomplete: "username", class: "form-input" %>
+    </div>
+
+    <div
+      data-controller="password-confirmation"
+      class="my-6 rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-sm"
+    >
+      <h2
+        class="
+          mb-4 border-b border-gray-200 pb-2 text-lg font-semibold
+          text-gray-900
+        "
+      >
+        Mudar Senha
+      </h2>
+
+      <div class="my-5">
+        <%= form.label :password, "Nova senha", class: "form-label" %>
+        <%= form.password_field :password, autocomplete: "new-password", placeholder: "Deixe em branco para manter a senha atual", minlength: 8, maxlength: 72, class: "form-input", data: { password_confirmation_target: "password", action: "input->password-confirmation#validate" } %>
+      </div>
+
+      <div class="my-5">
+        <%= form.label :password_confirmation, "Confirmar senha", class: "form-label" %>
+        <%= form.password_field :password_confirmation, autocomplete: "new-password", minlength: 8, maxlength: 72, class: "form-input", data: { password_confirmation_target: "confirmation", action: "input->password-confirmation#validate" } %>
+      </div>
+    </div>
+
+    <div class="my-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+      <h2
+        class="
+          mb-4 border-b border-gray-200 pb-2 text-lg font-semibold
+          text-gray-900
+        "
+      >
+        Avatar
+      </h2>
+
+      <div class="my-5">
+        <%= form.label :avatar, "Imagem de Avatar", class: "form-label" %>
+        <%= form.file_field :avatar, accept: "image/png,image/jpeg,image/webp", class: "form-file" %>
+      </div>
+
+      <div class="my-5">
+        <%= form.label :avatar_url, "…ou URL da imagem", class: "form-label" %>
+        <%= form.url_field :avatar_url, placeholder: "https://example.com/avatar.png", class: "form-input" %>
+      </div>
+    </div>
+
+    <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row">
+      <%= form.submit "Salvar Perfil", class: "btn-primary w-full sm:w-auto text-center cursor-pointer" %>
+      <%= link_to "Cancelar", profile_path, class: "link-muted" %>
+    </div>
+  <% end %>
+</div>

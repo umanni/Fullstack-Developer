@@ -1,0 +1,14 @@
+<%= turbo_frame_tag "admin_user_form" do %>
+  <div
+    class="
+      mx-auto max-w-2xl rounded-xl border border-gray-200 bg-white p-8
+      shadow-sm
+    "
+  >
+    <h1 class="mb-6 border-b border-gray-100 pb-4 text-2xl font-bold text-gray-900">
+      Editar Usuário
+    </h1>
+
+    <%= render "form", user: @user %>
+  </div>
+<% end %>

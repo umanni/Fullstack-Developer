@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title><%= content_for(:title) || "Fullstack Developer" %></title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Fullstack Developer">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body
+    class="
+      flex min-h-screen bg-gray-50 font-sans text-gray-900 antialiased
+      selection:bg-emerald-200 selection:text-emerald-900
+    "
+  >
+    <% if Current.user %>
+      <%= render "layouts/sidebar" %>
+    <% end %>
+
+    <main class="ml-0 min-w-0 flex-1 transition-all duration-300 <%= Current.user ? 'mt-14 md:mt-0 md:ml-64' : '' %>">
+      <div class="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        <%= render "layouts/flash" %>
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>
