@@ -1,0 +1,235 @@
+{
+  "simplecov_history": {
+    "format_version": 1,
+    "entries": [
+      {
+        "created_at": "2026-09-08T18:55:55Z",
+        "branch": "rewrite",
+        "commit": "3b4de2cbce931933f6e4ec2163eb8436fa6b157c",
+        "totals": {
+          "line": 99.86
+        },
+        "groups": {
+          "Controllers": {
+            "line": 99.51
+          },
+          "Channels": {
+            "line": 100.0
+          },
+          "Forms": {
+            "line": 100.0
+          },
+          "Helpers": {
+            "line": 100.0
+          },
+          "Jobs": {
+            "line": 100.0
+          },
+          "Mailers": {
+            "line": 100.0
+          },
+          "Models": {
+            "line": 100.0
+          },
+          "Parsers": {
+            "line": 100.0
+          },
+          "Policies": {
+            "line": 100.0
+          },
+          "Presenters": {
+            "line": 100.0
+          },
+          "Queries": {
+            "line": 100.0
+          },
+          "Services": {
+            "line": 100.0
+          },
+          "Value Objects": {
+            "line": 100.0
+          },
+          "Ungrouped": {
+            "line": 100.0
+          }
+        },
+        "files": {
+          "app/channels/application_cable/channel.rb": {
+            "line": 100.0
+          },
+          "app/channels/application_cable/connection.rb": {
+            "line": 100.0
+          },
+          "app/channels/dashboard_channel/channel.rb": {
+            "line": 100.0
+          },
+          "app/channels/import_progress_channel/channel.rb": {
+            "line": 100.0
+          },
+          "app/controllers/admin/base_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/admin/dashboard_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/admin/user_imports_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/admin/users_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/application_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/concerns/authentication.rb": {
+            "line": 96.77
+          },
+          "app/controllers/concerns/authorization.rb": {
+            "line": 100.0
+          },
+          "app/controllers/passwords_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/profiles_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/registrations_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/root_controller.rb": {
+            "line": 100.0
+          },
+          "app/controllers/sessions_controller.rb": {
+            "line": 100.0
+          },
+          "app/forms/admin/user_form.rb": {
+            "line": 100.0
+          },
+          "app/forms/users/form.rb": {
+            "line": 100.0
+          },
+          "app/forms/users/password_reset_form.rb": {
+            "line": 100.0
+          },
+          "app/forms/users/profile_form.rb": {
+            "line": 100.0
+          },
+          "app/forms/users/registration_form.rb": {
+            "line": 100.0
+          },
+          "app/helpers/application_helper.rb": {
+            "line": 100.0
+          },
+          "app/jobs/application_job.rb": {
+            "line": 100.0
+          },
+          "app/jobs/user_imports/job.rb": {
+            "line": 100.0
+          },
+          "app/mailers/application_mailer.rb": {
+            "line": 100.0
+          },
+          "app/mailers/passwords_mailer.rb": {
+            "line": 100.0
+          },
+          "app/models/application_record.rb": {
+            "line": 100.0
+          },
+          "app/models/current.rb": {
+            "line": 100.0
+          },
+          "app/models/session.rb": {
+            "line": 100.0
+          },
+          "app/models/user.rb": {
+            "line": 100.0
+          },
+          "app/models/user_import.rb": {
+            "line": 100.0
+          },
+          "app/parsers/user_imports/parser.rb": {
+            "line": 100.0
+          },
+          "app/parsers/user_imports/parser/roo.rb": {
+            "line": 100.0
+          },
+          "app/policies/users/policy.rb": {
+            "line": 100.0
+          },
+          "app/presenters/user_import_presenter.rb": {
+            "line": 100.0
+          },
+          "app/presenters/user_presenter.rb": {
+            "line": 100.0
+          },
+          "app/queries/dashboard/totals_query.rb": {
+            "line": 100.0
+          },
+          "app/queries/user_imports/listing_query.rb": {
+            "line": 100.0
+          },
+          "app/queries/users/listing_query.rb": {
+            "line": 100.0
+          },
+          "app/services/dashboard/publisher.rb": {
+            "line": 100.0
+          },
+          "app/services/user_imports/processor.rb": {
+            "line": 100.0
+          },
+          "app/services/user_imports/progress_broadcaster.rb": {
+            "line": 100.0
+          },
+          "app/services/users/account_closer.rb": {
+            "line": 100.0
+          },
+          "app/services/users/role_toggler.rb": {
+            "line": 100.0
+          },
+          "app/value_objects/user_imports/listing.rb": {
+            "line": 100.0
+          },
+          "app/value_objects/user_imports/result.rb": {
+            "line": 100.0
+          },
+          "app/value_objects/user_imports/row.rb": {
+            "line": 100.0
+          },
+          "app/value_objects/user_imports/row_error.rb": {
+            "line": 100.0
+          },
+          "app/value_objects/users/listing.rb": {
+            "line": 100.0
+          },
+          "app/value_objects/users/overview.rb": {
+            "line": 100.0
+          },
+          "config/environment.rb": {
+            "line": 100.0
+          },
+          "config/environments/test.rb": {
+            "line": 100.0
+          },
+          "config/initializers/content_security_policy.rb": {
+            "line": 100.0
+          },
+          "config/initializers/filter_parameter_logging.rb": {
+            "line": 100.0
+          },
+          "config/initializers/inertia_rails.rb": {
+            "line": 100.0
+          },
+          "config/initializers/inflections.rb": {
+            "line": 100.0
+          },
+          "config/initializers/sqlite_wal.rb": {
+            "line": 100.0
+          },
+          "config/routes.rb": {
+            "line": 100.0
+          }
+        }
+      }
+    ]
+  }
+}

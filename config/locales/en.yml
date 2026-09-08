@@ -1,0 +1,18 @@
+en:
+  hello: "Hello world"
+  activemodel:
+    attributes:
+      users/form:
+        full_name: "Full name"
+        email_address: "Email address"
+        avatar_url: "Avatar URL"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+    errors:
+      messages:
+        avatar_required: "Provide an avatar by upload or a remote URL"
+        invalid_http_url: "must be a valid http(s) URL"
+  # Shared error messages resolving for both ActiveModel forms and AR models.
+  errors:
+    messages:
+      unsupported_format: "must be a .csv, .xlsx or .xls file"

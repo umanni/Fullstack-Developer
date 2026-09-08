@@ -1,0 +1,8 @@
+*.md
+*.yml
+*.yaml
+*.erb
+Gemfile
+Gemfile.lock
+Rakefile
+public/**

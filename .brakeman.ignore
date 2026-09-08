@@ -1,0 +1,28 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "413a4f9962b57fb22b657af4609707dbd5a70c5a2a4e3aa212f3c678c84f45e8",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": 103,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.permit(:full_name, :email_address, :avatar, :avatar_url, :role, :password, :password_confirmation)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "role is enum-whitelisted in Admin::UserForm and only reachable behind Admin::BaseController#require_admin (Users::Policy); password is handled by has_secure_password. No privilege escalation is possible."
+    }
+  ],
+  "obsolete": []
+}
