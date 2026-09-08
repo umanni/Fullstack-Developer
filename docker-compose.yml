@@ -1,0 +1,111 @@
+x-app: &app
+  build:
+    context: .
+    args:
+      RUBY_VERSION: 4.0.6
+      NODE_VERSION: 24.19.0
+  environment: &app-env
+    RAILS_ENV: production
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:-peoplehub-local-secret-key-012345678901234567890123456789}
+    DATABASE_URL: postgresql://user_management:${POSTGRES_PASSWORD:-peoplehub}@db:5432/user_management_production
+    USER_MANAGEMENT_DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-peoplehub}
+    POSTGRES_HOST: db
+    ACTIVE_STORAGE_SERVICE: local
+    FORCE_SSL: "false"
+    ASSUME_SSL: "false"
+    APP_HOST: localhost
+    APP_PROTOCOL: http
+    SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@example.com}
+    SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-PeopleHub!123456}
+    SMTP_ADDRESS: mailpit
+    SMTP_PORT: "1025"
+    SMTP_ENABLE_STARTTLS: "false"
+  volumes:
+    - storage_data:/rails/storage
+
+services:
+  db:
+    image: postgres:17-alpine
+    command:
+      [
+        "postgres",
+        "-c",
+        "wal_level=replica",
+        "-c",
+        "fsync=on",
+        "-c",
+        "synchronous_commit=on",
+      ]
+    environment:
+      POSTGRES_DB: user_management_production
+      POSTGRES_USER: user_management
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-peoplehub}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U user_management -d user_management_production",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mailpit:
+    image: axllent/mailpit:v1.31.1
+    ports:
+      - "127.0.0.1:18025:8025"
+
+  storage-init:
+    <<: *app
+    # Named volumes are created by Docker as root. Prepare them before Rails
+    # starts, while the application itself still runs as UID 1000.
+    user: "0:0"
+    command:
+      [
+        "sh",
+        "-c",
+        "mkdir -p /rails/storage && chown -R 1000:1000 /rails/storage",
+      ]
+
+  setup:
+    <<: *app
+    depends_on:
+      db:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+    environment:
+      <<: *app-env
+      POSTGRES_DB: user_management_production
+      POSTGRES_USER: user_management
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-peoplehub}
+    command: ["./bin/docker-setup"]
+
+  web:
+    <<: *app
+    depends_on:
+      db:
+        condition: service_healthy
+      setup:
+        condition: service_completed_successfully
+      mailpit:
+        condition: service_started
+    ports:
+      - "3000:80"
+
+  jobs:
+    <<: *app
+    depends_on:
+      db:
+        condition: service_healthy
+      setup:
+        condition: service_completed_successfully
+      mailpit:
+        condition: service_started
+    command: ["./bin/jobs"]
+
+volumes:
+  postgres_data:
+  storage_data:

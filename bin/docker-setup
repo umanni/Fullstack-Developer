@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+host="${POSTGRES_HOST:-db}"
+user="${POSTGRES_USER:-user_management}"
+password="${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}"
+primary="${POSTGRES_DB:-user_management_production}"
+export PGPASSWORD="$password"
+
+# Create the Solid component databases before Rails prepares their schemas.
+for database in "${primary}_cache" "${primary}_queue" "${primary}_cable"; do
+  if ! psql -h "$host" -U "$user" -d "$primary" -tAc \
+    "SELECT 1 FROM pg_database WHERE datname = '$database'" | grep -q 1; then
+    psql -v ON_ERROR_STOP=1 -h "$host" -U "$user" -d "$primary" \
+      -c "CREATE DATABASE \"$database\""
+  fi
+done
+
+bin/rails db:prepare
+bin/rails db:seed
