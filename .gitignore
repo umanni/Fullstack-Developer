@@ -47,11 +47,3 @@ node_modules
 # SimpleCov coverage reports.
 /.resultset.json
 
-# Local planning docs — kept out of version control.
-/plan/
-/plan2/
-/IAMLikeRubyApp.md
-/models-plan-001.md
-/tech_levantamento.md
-/cmd-sequence.txt
-
