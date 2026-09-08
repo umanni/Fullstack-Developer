@@ -1,0 +1,179 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  RUBY_VERSION: 4.0.6
+  NODE_VERSION: 24.x
+
+jobs:
+  quality:
+    name: Ruby and frontend quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Ruby style
+        run: bundle exec rubocop --format github
+
+      - name: Brakeman
+        run: bundle exec brakeman --no-pager --exit-on-warn --exit-on-error
+
+      - name: Bundler audit
+        run: bundle exec bundler-audit check --update
+
+      - name: Typecheck, lint and format check
+        run: |
+          npm run check
+          npm run lint
+          npm run format:check
+
+  backend:
+    name: Rails tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: user_management_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d user_management_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/user_management_test
+      PARALLEL_WORKERS: 4
+      PARALLEL_EXECUTOR: processes
+      COVERAGE: true
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Install native dependencies
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libvips
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Prepare database
+        run: bin/rails db:prepare
+
+      - name: Run unit and integration tests
+        run: bin/rails test
+
+  frontend:
+    name: React tests and production build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Jest with coverage
+        run: npm run test:ci
+
+      - name: Build Vite assets
+        run: npm run build
+
+  system:
+    name: Browser system tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: user_management_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres -d user_management_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/user_management_test
+      PARALLEL_WORKERS: 2
+      PARALLEL_EXECUTOR: processes
+      VITE_RUBY_AUTO_BUILD: "false"
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Install native dependencies
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libvips
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Prepare database and test assets
+        run: |
+          bin/rails db:prepare
+          bin/vite build --mode test
+
+      - name: Run browser tests
+        run: bin/rails test:system
+
+      - name: Upload screenshots when a system test fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-test-screenshots
+          path: tmp/screenshots
+          if-no-files-found: ignore

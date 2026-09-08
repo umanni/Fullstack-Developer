@@ -1,0 +1,19 @@
+<% password_digest = BCrypt::Password.create("StrongPassword!123") %>
+
+admin:
+  full_name: Ada Admin
+  email: ada@example.com
+  password_digest: <%= password_digest %>
+  role: admin
+
+another_admin:
+  full_name: Grace Admin
+  email: grace@example.com
+  password_digest: <%= password_digest %>
+  role: admin
+
+member:
+  full_name: Linus Member
+  email: linus@example.com
+  password_digest: <%= password_digest %>
+  role: user
