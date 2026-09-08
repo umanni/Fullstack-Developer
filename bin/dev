@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+export PORT="${PORT:-3000}"
+
+if command -v overmind 1> /dev/null 2>&1
+then
+  overmind start -f Procfile.dev "$@"
+  exit $?
+fi
+
+if command -v hivemind 1> /dev/null 2>&1
+then
+  echo "Hivemind is installed. Running the application with Hivemind..."
+  exec hivemind Procfile.dev "$@"
+  exit $?
+fi
+
+if command -v foreman 1> /dev/null 2>&1
+then
+  foreman start -f Procfile.dev "$@"
+  exit $?
+fi
+
+echo "Installing foreman..."
+gem install foreman
+foreman start -f Procfile.dev "$@"
