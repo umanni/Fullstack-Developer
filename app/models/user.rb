@@ -16,6 +16,9 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
+  encrypts :email, deterministic: true
+  encrypts :full_name, deterministic: true
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_one_attached :avatar_image

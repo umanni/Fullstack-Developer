@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Authentication
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  # Cross-browser support: modern browsers plus common legacy versions
+  allow_browser versions: [ :modern, :chrome, :firefox, :safari, :edge ]
 
   inertia_share auth: -> {
     if authenticated?

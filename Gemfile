@@ -23,6 +23,9 @@ gem "bcrypt", "~> 3.1.7"
 # Pin JSON < 3 for Ruby 4 kwargs compat with ActiveSupport 8.1 (JSON.parse positional hash)
 gem "json", "< 3"
 
+# Performance profiling leveraging Ruby 4's ZJIT compilation optimizations
+gem "benchmark-ips"
+
 # Spreadsheet import (.csv/.xlsx)
 gem "csv"
 gem "rubyXL", "~> 3.4"
@@ -70,6 +73,9 @@ group :development do
 end
 
 group :test do
+  # Coverage gate (90% minimum)
+  gem "simplecov", require: false
+
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
