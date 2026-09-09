@@ -1,0 +1,15 @@
+<%# Notices are announced politely; alerts interrupt, because they report a
+    failure the user has to act on. %>
+<% if notice.present? %>
+  <div id="notice" role="status" aria-live="polite"
+       class="panel-quiet mb-6 px-4 py-3 text-sm text-ink">
+    <%= notice %>
+  </div>
+<% end %>
+
+<% if alert.present? %>
+  <div id="alert" role="alert"
+       class="mb-6 rounded-lg border border-critical/30 bg-critical/5 px-4 py-3 text-sm text-critical">
+    <%= alert %>
+  </div>
+<% end %>

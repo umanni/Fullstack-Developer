@@ -1,0 +1,24 @@
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
+
+<%# Subscribed through AdminStreamChannel rather than the default one, so the
+    subscription itself is checked for the administrator role. %>
+<%= turbo_stream_from UserCounters.stream_for(I18n.locale), channel: AdminStreamChannel %>
+
+<section aria-labelledby="overview-heading">
+  <p class="eyebrow"><%= t("admin.dashboard.overview") %></p>
+  <h2 id="overview-heading" class="mt-1 text-2xl font-semibold tracking-tight text-ink">
+    <%= t(".users") %>
+  </h2>
+
+  <div class="mt-5">
+    <%= render "counters", counters: @counters %>
+  </div>
+</section>
+
+<div class="panel mt-8 p-6">
+  <p class="eyebrow"><%= t(".manage") %></p>
+  <p class="mt-2 text-sm text-muted"><%= t(".manage_copy") %></p>
+  <%= link_to t("admin.users.index.title"), admin_users_path, class: "btn btn-primary mt-4" %>
+</div>

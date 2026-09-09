@@ -1,0 +1,313 @@
+/*
+ * Component classes.
+ *
+ * These mirror the semantic classes the Onix design system defines
+ * (.metric-card, .panel-surface, .btn-primary, .badge-accent, the sidebar
+ * active bar) rather than scattering the same utility strings across every
+ * template. Markup stays readable and the visual language has one home.
+ */
+
+@layer components {
+  /* ── Surfaces ───────────────────────────────────────────────────────── */
+  .panel {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .panel-quiet {
+    background-color: var(--color-surface-soft);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+  }
+
+  .metric-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    padding: 1.25rem;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-line-strong);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* ── Typographic roles ──────────────────────────────────────────────── */
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .metric-value {
+    font-size: 1.875rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .btn-primary {
+    background-color: var(--color-accent-strong);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-accent);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    border-color: var(--color-line-strong);
+    color: var(--color-accent-strong);
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--color-accent-wash);
+  }
+
+  .btn-danger {
+    background-color: transparent;
+    border-color: color-mix(in srgb, var(--color-critical) 35%, transparent);
+    color: var(--color-critical);
+  }
+
+  .btn-danger:hover {
+    background-color: color-mix(in srgb, var(--color-critical) 8%, transparent);
+  }
+
+  /* ── Forms ──────────────────────────────────────────────────────────── */
+  .field {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .field-hint {
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .field-input {
+    display: block;
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-ink);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .field-input::placeholder {
+    color: var(--color-dim);
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .field-input[aria-invalid="true"] {
+    border-color: var(--color-critical);
+  }
+
+  .field-error {
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    color: var(--color-critical);
+  }
+
+  /* ── Badges ─────────────────────────────────────────────────────────── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badge-admin {
+    background-color: var(--color-accent-wash);
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-accent-strong);
+  }
+
+  .badge-user {
+    background-color: var(--color-surface-soft);
+    border: 1px solid var(--color-line);
+    color: var(--color-muted);
+  }
+
+  /* ── Sidebar ────────────────────────────────────────────────────────── */
+  .rail-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-rail-text);
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .rail-item:hover {
+    background-color: var(--color-surface-soft);
+    color: var(--color-rail-text-hover);
+  }
+
+  .rail-item[aria-current="page"] {
+    background-color: var(--color-rail-active);
+    color: var(--color-rail-text-hover);
+  }
+
+  /* The 3px accent bar is the Onix active-state signature. */
+  .rail-item[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background-color: var(--color-accent);
+  }
+
+  /* ── Menu ───────────────────────────────────────────────────────────── */
+  /* The panel a <details> summary opens: the language picker today, anything
+     else that needs a short list of choices tomorrow. */
+  .menu {
+    position: absolute;
+    right: 0;
+    z-index: 20;
+    margin-top: 0.375rem;
+    min-width: 11rem;
+    padding: 0.25rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.625rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .menu-item:hover {
+    background-color: var(--color-surface-soft);
+  }
+
+  .menu-item:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .menu-item.is-selected {
+    color: var(--color-accent-strong);
+    background-color: var(--color-accent-wash);
+  }
+
+
+  /* ── Avatar fallback ────────────────────────────────────────────────── */
+  .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 9999px;
+    background-color: var(--color-accent-wash);
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-accent-strong);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* ── Progress ───────────────────────────────────────────────────────── */
+  /* A real <progress> element carries its own semantics, so it is worth
+     styling rather than replacing with divs and ARIA. Browsers each expose a
+     different pseudo-element for the filled part. */
+  progress {
+    appearance: none;
+    border: none;
+    background-color: var(--color-surface-raised);
+    border-radius: 9999px;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: var(--color-surface-raised);
+    border-radius: 9999px;
+  }
+
+  progress::-webkit-progress-value {
+    background-color: var(--color-accent);
+    border-radius: 9999px;
+    transition: width 200ms ease;
+  }
+
+  progress::-moz-progress-bar {
+    background-color: var(--color-accent);
+    border-radius: 9999px;
+  }
+}
+
+/* Animation is decoration here; users who ask for less should get less. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

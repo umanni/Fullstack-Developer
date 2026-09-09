@@ -1,0 +1,73 @@
+# One job, running the same pipeline a person runs locally: bin/ci inside the
+# same container the application is developed in. A workflow that installs its
+# own Ruby and its own PostgreSQL would be a second definition of the
+# environment, free to drift from the one in the repository.
+name: CI
+
+on:
+  # Every branch, not only the default one: work in progress on a branch is
+  # exactly when the pipeline is worth having, and a pull request from a fork
+  # runs only after a maintainer approves it -- which is too late to be useful
+  # to whoever pushed.
+  push:
+  pull_request:
+
+# A push and a pull request on the same branch would otherwise start two
+# identical runs, and every new push would leave the previous one grinding away
+# on code nobody is looking at any more.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Style, security and tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Share the checkout with the container's user
+        # The development image runs as uid 1000 -- the common host uid, which
+        # is what keeps bind-mounted files writable from both sides on a
+        # laptop. A runner checks the repository out as a different user, and
+        # Rails cannot so much as create tmp/cache in a directory it does not
+        # own, so the web container exits before it can answer a health check.
+        #
+        # Handing the tree over outright is too much, though: it locked the
+        # runner out of its own workspace, and the next step could not create
+        # .env. The container user owns the tree, the runner's group keeps
+        # write access, and both sides can write -- which is what a bind mount
+        # shared between two users needs.
+        run: |
+          sudo chown -R 1000:"$(id -g)" .
+          sudo chmod -R g+rwX .
+
+      - name: Cache the Docker layers
+        uses: docker/setup-buildx-action@v3
+
+      # The same script the README tells a person to run, rather than a
+      # separate sequence of docker commands that could quietly stop matching
+      # it: it writes .env, builds the image, creates and migrates the four
+      # databases, and waits for every service to report healthy. Without the
+      # databases the health check fails -- /up goes through the cache store,
+      # which has a database of its own.
+      - name: Set the environment up, exactly as the README says
+        run: devops/app/setup.sh --no-seed
+
+      - name: Run the pipeline
+        run: bin/ci
+
+      - name: Keep the coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7
+
+      - name: Show the logs when something fails
+        if: failure()
+        run: docker compose logs --tail 200

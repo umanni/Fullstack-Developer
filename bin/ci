@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Full verification, exactly as CI runs it: style, security and tests.
+# The steps themselves live in config/ci.rb so there is a single definition;
+# this script only makes sure they run inside the container.
+#
+set -euo pipefail
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/devops/common.sh"
+
+require_docker
+step "Running the CI pipeline in the web container"
+rails_test_exec ./bin/ci-run

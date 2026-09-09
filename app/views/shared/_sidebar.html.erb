@@ -1,0 +1,26 @@
+<aside class="hidden w-rail shrink-0 flex-col border-r border-line bg-rail md:flex">
+  <div class="px-5 py-5">
+    <p class="text-lg font-semibold tracking-tight text-ink">Roster</p>
+    <p class="eyebrow mt-0.5"><%= t("shared.tagline") %></p>
+  </div>
+
+  <nav class="flex-1 space-y-1 px-3" aria-label="<%= t('shared.nav.main') %>">
+    <% if admin? %>
+      <%= link_to t("shared.nav.dashboard"), admin_dashboard_path, class: "rail-item",
+            aria: { current: current_page?(admin_dashboard_path) ? "page" : nil } %>
+      <%= link_to t("shared.nav.users"), admin_users_path, class: "rail-item",
+            aria: { current: controller_path == "admin/users" ? "page" : nil } %>
+      <%= link_to t("shared.nav.imports"), admin_user_imports_path, class: "rail-item",
+            aria: { current: controller_path == "admin/user_imports" ? "page" : nil } %>
+      <%= link_to t("shared.nav.activity"), admin_audit_events_path, class: "rail-item",
+            aria: { current: controller_path == "admin/audit_events" ? "page" : nil } %>
+    <% end %>
+
+    <%= link_to t("shared.nav.my_profile"), profile_path, class: "rail-item",
+          aria: { current: controller_path == "profiles" ? "page" : nil } %>
+  </nav>
+
+  <div class="border-t border-line p-3">
+    <%= render "shared/current_user_chip" %>
+  </div>
+</aside>

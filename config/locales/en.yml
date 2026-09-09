@@ -1,0 +1,273 @@
+en:
+  language_name: "English"
+
+  shared:
+    skip_to_content: "Skip to content"
+    tagline: "User management"
+    language:
+      label: "Language"
+      choose: "Choose a language"
+    nav:
+      main: "Main"
+      dashboard: "Dashboard"
+      users: "Users"
+      imports: "Imports"
+      activity: "Activity"
+      my_profile: "My profile"
+      sign_out: "Sign out"
+      sign_out_confirm: "Sign out of Roster?"
+    form_errors:
+      heading:
+        one: "1 problem stopped this from being saved:"
+        other: "%{count} problems stopped this from being saved:"
+
+    pagination:
+      previous: "Previous"
+      next: "Next"
+      page_of: "Page %{page} of %{pages}"
+
+  roles:
+    user: "User"
+    admin: "Administrator"
+
+  sessions:
+    throttled: "Too many attempts. Please try again later."
+    invalid_credentials: "Try another email address or password."
+    new:
+      title: "Sign in"
+      subtitle: "Use the email address and password for your account."
+      email_address: "Email address"
+      password: "Password"
+      submit: "Sign in"
+      forgot_password: "Forgot password?"
+      create_account: "Create an account"
+
+  registrations:
+    created: "Welcome. Your account is ready."
+    new:
+      title: "Create your account"
+      subtitle: "You will be signed in as soon as it is ready."
+      full_name: "Full name"
+      email_address: "Email address"
+      password: "Password"
+      password_hint: "At least 8 characters."
+      password_confirmation: "Confirm password"
+      submit: "Create account"
+      have_account: "Already have an account?"
+      sign_in: "Sign in"
+
+  profiles:
+    updated: "Your profile has been updated."
+    deleted: "Your account has been deleted."
+    show:
+      title: "My profile"
+      subtitle: "Your account details"
+      edit: "Edit profile"
+      full_name: "Full name"
+      email_address: "Email address"
+      role: "Role"
+      member_since: "Member since"
+      delete_heading: "Delete this account"
+      delete_copy: "Your profile and sessions are removed. This cannot be undone."
+      delete_button: "Delete my account"
+      delete_confirm: "Delete your account? This cannot be undone."
+    edit:
+      title: "Edit profile"
+      subtitle: "Update your account details"
+      full_name: "Full name"
+      email_address: "Email address"
+      avatar: "Avatar"
+      avatar_file: "Avatar file"
+      avatar_hint: "PNG, JPEG, WebP or GIF, up to 2 MB."
+      remove_avatar: "Remove the uploaded image"
+      avatar_url: "Avatar URL"
+      avatar_url_hint: "Used when nothing is uploaded. An http or https link; the image is loaded by your browser, never fetched by the server."
+      submit: "Save changes"
+      cancel: "Cancel"
+
+  admin:
+    dashboard:
+      overview: "Overview"
+      total: "Total users"
+      administrators: "Administrators"
+      regular_users: "Users"
+      show:
+        title: "Dashboard"
+        subtitle: "An overview of the people in the system"
+        users: "Users"
+        manage: "Manage"
+        manage_copy: "Add people, change roles and remove accounts."
+    users:
+      created: "%{name} has been added."
+      updated: "%{name} has been updated."
+      deleted: "%{name} has been deleted."
+      form:
+        full_name: "Full name"
+        email_address: "Email address"
+        role: "Role"
+        password: "Password"
+        password_hint_new: "At least 8 characters."
+        password_hint_edit: "Leave blank to keep the current password."
+        avatar: "Avatar file"
+        avatar_hint: "PNG, JPEG, WebP or GIF, up to 2 MB."
+        avatar_url: "Avatar URL"
+        avatar_url_hint: "An https link to an image. Optional."
+      index:
+        title: "Users"
+        subtitle: "Everyone with an account"
+        search_label: "Search"
+        search_placeholder: "Search by name or email address"
+        search_submit: "Search"
+        clear: "Clear"
+        filter_all: "All"
+        filter_admin: "Administrators"
+        filter_user: "Users"
+        new_user: "Add user"
+        results:
+          one: "1 result"
+          other: "%{count} results"
+        name: "Name"
+        email_address: "Email address"
+        role: "Role"
+        actions: "Actions"
+        edit: "Edit"
+        delete: "Delete"
+        delete_confirm: "Delete %{name}? This cannot be undone."
+        empty_title: "Nobody here yet"
+        empty_copy: "No account matches what you are looking for."
+      new:
+        title: "Add user"
+        subtitle: "Create an account on someone's behalf"
+        submit: "Create user"
+        cancel: "Cancel"
+      edit:
+        title: "Edit user"
+        subtitle: "Update this account"
+        submit: "Save changes"
+        cancel: "Cancel"
+
+    audit_events:
+      index:
+        title: "Activity"
+        subtitle: "What administrators did, and when"
+        heading: "History"
+        results:
+          one: "1 event"
+          other: "%{count} events"
+        when: "When"
+        who: "Who"
+        what: "What"
+        to_whom: "To whom"
+        details: "Details"
+        empty_title: "Nothing has happened yet"
+        empty_copy: "Creating, changing or removing an account will show up here."
+      actions:
+        created: "Created"
+        updated: "Updated"
+        promoted: "Promoted"
+        demoted: "Demoted"
+        deleted: "Deleted"
+        imported: "Imported"
+      details_import: "From import #%{id}"
+
+    user_imports:
+      scheduled: "The file is queued. Progress appears below as it runs."
+      index:
+        title: "Imports"
+        subtitle: "Create accounts from a spreadsheet"
+        download_template: "Download template"
+        upload: "New import"
+        upload_copy: "A CSV or XLSX file with the columns full_name, email, avatar_url and role."
+        file: "Spreadsheet"
+        file_hint: "CSV or XLSX, up to 5 MB and 10,000 rows."
+        submit: "Start import"
+        history: "History"
+        empty_title: "No imports yet"
+        empty_copy: "Upload a spreadsheet to create accounts in bulk."
+      show:
+        title: "Import"
+        rejected_rows: "Rejected rows"
+        download_rejected: "Download as CSV"
+        row: "Row"
+        email_address: "Email address"
+        problems: "Problems"
+        no_rejected_rows: "Every row was imported."
+        back: "Back to imports"
+      statuses:
+        pending: "Waiting"
+        processing: "Importing"
+        completed: "Completed"
+        completed_with_errors: "Completed with errors"
+        failed: "Failed"
+      progress:
+        label: "Import progress"
+        counts: "%{created} created, %{rejected} rejected of %{total}"
+
+  locales:
+    unsupported: "That language is not available."
+
+  authorization:
+    admin_only: "That area is only available to administrators."
+
+  passwords:
+    throttled: "Too many attempts. Please try again later."
+    reset_instructions_sent: "Password reset instructions sent (if an account with that email address exists)."
+    reset: "Your password has been reset."
+    chosen: "Your password is set. You can sign in now."
+    mismatch: "Passwords did not match."
+    invalid_token: "That password reset link is invalid or has expired."
+    new:
+      title: "Forgot your password?"
+      subtitle: "We will email you a link to choose a new one."
+      email_address: "Email address"
+      submit: "Send reset instructions"
+      remembered: "Remembered it?"
+      sign_in: "Sign in"
+    edit:
+      title: "Choose a new password"
+      subtitle: "Signing in again everywhere will need the new password."
+      password: "New password"
+      password_hint: "At least 8 characters."
+      password_confirmation: "Confirm new password"
+      submit: "Save password"
+      invited_title: "Welcome. Choose your password"
+      invited_subtitle: "Your account is ready; it only needs a password of your own."
+      invited_password: "Password"
+      invited_password_confirmation: "Confirm password"
+
+  passwords_mailer:
+    reset:
+      subject: "Reset your password"
+      heading: "Reset your password"
+      body: "Use the link below to choose a new password for your Roster account."
+      action: "Choose a new password"
+      expires: "The link expires in %{duration}."
+      ignore: "If you did not ask for this, nothing has changed and you can ignore this message."
+
+  invitations_mailer:
+    invite:
+      subject: "Your Roster account is ready"
+      heading: "Your account is ready"
+      body: "Hello %{name}. An account was created for you on Roster. Choose a password and it is yours."
+      action: "Choose a password"
+      expires: "The link is valid for %{duration}."
+      sign_in_with: "You will sign in with %{email_address}."
+
+  activerecord:
+    errors:
+      models:
+        user_import:
+          attributes:
+            file:
+              too_large: "must be smaller than %{limit} MB."
+              unsupported_format: "must be a .csv or .xlsx file."
+              content_mismatch: "does not contain what its extension promises."
+        user:
+          attributes:
+            avatar:
+              too_large: "must be smaller than %{limit} MB."
+              invalid_type: "must be a PNG, JPEG, WebP or GIF image."
+            avatar_url:
+              unsupported_scheme: "must be an http or https link."
+            base:
+              last_administrator: "This is the only administrator left, so the role cannot be removed."

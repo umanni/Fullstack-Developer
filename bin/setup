@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Prepares the development environment from a clean checkout.
+#
+#   bin/setup              # build images, create databases, seed
+#   bin/setup --no-seed    # skip the demonstration accounts
+#
+# The work itself is in devops/app/setup.sh, next to the other actions:
+# start, stop, restart, status, seed, reset.
+#
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "--reset" ]]; then
+  shift
+  exec "${ROOT}/devops/app/reset.sh" "$@"
+fi
+
+exec "${ROOT}/devops/app/setup.sh" "$@"

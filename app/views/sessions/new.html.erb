@@ -1,0 +1,27 @@
+<% content_for :title, t(".title") %>
+
+<div class="panel p-7">
+  <h1 class="text-xl font-semibold tracking-tight text-ink"><%= t(".title") %></h1>
+  <p class="mt-1 text-sm text-muted"><%= t(".subtitle") %></p>
+
+  <%= form_with url: session_path, class: "mt-6" do |form| %>
+    <div class="field">
+      <%= form.label :email_address, t(".email_address"), class: "field-label" %>
+      <%= form.email_field :email_address, required: true, autofocus: true,
+            autocomplete: "username", value: params[:email_address], class: "field-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :password, t(".password"), class: "field-label" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password",
+            maxlength: 72, class: "field-input" %>
+    </div>
+
+    <%= form.submit t(".submit"), class: "btn btn-primary w-full" %>
+  <% end %>
+
+  <div class="mt-6 flex items-center justify-between border-t border-line pt-5 text-sm">
+    <%= link_to t(".forgot_password"), new_password_path, class: "text-accent-strong hover:underline" %>
+    <%= link_to t(".create_account"), new_registration_path, class: "text-accent-strong hover:underline" %>
+  </div>
+</div>

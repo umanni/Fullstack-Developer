@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# Runs the test suite inside the container.
+#
+#   bin/test                          # whole suite
+#   bin/test spec/models/user_spec.rb # a single file
+#   bin/test --parallel               # across parallel workers
+#   bin/test --live                   # the websocket delivery specs
+#
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "--parallel" ]]; then
+  shift
+  exec "${ROOT}/devops/rails/test-parallel.sh" "$@"
+fi
+
+# Solid Cable instead of the in-memory test adapter, so a broadcast really
+# travels to the browser.
+if [[ "${1:-}" == "--live" ]]; then
+  shift
+  exec env CABLE_ADAPTER=solid_cable "${ROOT}/devops/rails/test.sh" "$@"
+fi
+
+exec "${ROOT}/devops/rails/test.sh" "$@"

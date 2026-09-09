@@ -1,0 +1,50 @@
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, @user_import.file.filename.to_s %>
+
+<%# Progress arrives on this import's own stream, subscribed through the
+    administrator-only channel. %>
+<%= turbo_stream_from @user_import.stream_name, channel: AdminStreamChannel %>
+
+<%= render "progress", user_import: @user_import %>
+
+<div class="panel mt-6 overflow-hidden">
+  <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-4">
+    <p class="eyebrow"><%= t(".rejected_rows") %></p>
+
+    <% if @row_errors.any? %>
+      <%= link_to t(".download_rejected"),
+            rejected_rows_admin_user_import_path(@user_import, format: :csv),
+            class: "btn btn-ghost text-xs" %>
+    <% end %>
+  </div>
+
+  <% if @row_errors.any? %>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead>
+          <tr class="border-b border-line">
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".row") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".email_address") %></th>
+            <th scope="col" class="eyebrow px-5 py-3"><%= t(".problems") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @row_errors.each do |row_error| %>
+            <tr class="border-b border-line last:border-0">
+              <td class="px-5 py-3 tabular-nums text-muted"><%= row_error.row_number %></td>
+              <td class="px-5 py-3 text-ink"><%= row_error.email_address.presence || "—" %></td>
+              <td class="px-5 py-3 text-muted"><%= row_error.messages.to_sentence %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="px-5 py-12 text-center">
+      <p class="text-sm text-muted"><%= t(".no_rejected_rows") %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to t(".back"), admin_user_imports_path, class: "btn btn-ghost mt-6" %>

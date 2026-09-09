@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# Regenerates the OpenAPI document from the specs that exercise the API and
+# fails if the copy in the repository has drifted from them.
+#
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+bin/rails rswag:specs:swaggerize > /dev/null
+
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+  echo "Regenerated swagger/v1/swagger.yaml. Not a git work tree, so there is"
+  echo "no committed copy to compare it against -- skipping the drift check."
+  exit 0
+fi
+
+git diff --exit-code --stat swagger

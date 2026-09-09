@@ -1,0 +1,38 @@
+<%# Replaced wholesale by each progress broadcast, so the id stays on this element. %>
+<div id="<%= user_import.dom_id %>" class="panel p-5">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="min-w-0">
+      <p class="eyebrow"><%= t("admin.user_imports.statuses.#{user_import.status}") %></p>
+      <p class="mt-1 truncate text-sm font-medium text-ink">
+        <%= user_import.file.filename %>
+      </p>
+    </div>
+
+    <p class="text-sm text-muted">
+      <%= t("admin.user_imports.progress.counts",
+            created: user_import.created_users,
+            rejected: user_import.rejected_rows,
+            total: user_import.total_rows) %>
+    </p>
+  </div>
+
+  <%# A real progress element: it carries its own semantics, so assistive
+      technology announces the value without any ARIA of ours. %>
+  <div class="mt-4 flex items-center gap-3">
+    <progress class="h-2 w-full overflow-hidden rounded-full"
+              value="<%= user_import.processed_rows %>"
+              max="<%= [ user_import.total_rows, 1 ].max %>"
+              aria-label="<%= t('admin.user_imports.progress.label') %>">
+      <%= user_import.progress_percentage %>%
+    </progress>
+    <span class="w-12 shrink-0 text-right text-xs tabular-nums text-muted">
+      <%= user_import.progress_percentage %>%
+    </span>
+  </div>
+
+  <% if user_import.failure_reason.present? %>
+    <p class="mt-3 rounded-lg border border-critical/30 bg-critical/5 px-3 py-2 text-xs text-critical">
+      <%= user_import.failure_reason %>
+    </p>
+  <% end %>
+</div>

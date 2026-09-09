@@ -1,0 +1,8 @@
+<%= t(".heading") %>
+
+<%= t(".body", name: @user.full_name) %>
+
+<%= edit_password_url(@token) %>
+
+<%= t(".expires", duration: distance_of_time_in_words(0, User::INVITATION_VALID_FOR)) %>
+<%= t(".sign_in_with", email_address: @user.email_address) %>

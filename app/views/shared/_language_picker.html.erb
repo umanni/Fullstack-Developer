@@ -1,0 +1,33 @@
+<%# A single control rather than three: the button wears the flag of the
+    language in use, and the alternatives live inside it.
+
+    <details> is what makes it work with the keyboard and without JavaScript;
+    the Stimulus controller only adds what the element does not do on its own,
+    which is closing when attention moves elsewhere. %>
+<details class="relative" data-controller="language-menu"
+         data-action="toggle->language-menu#toggled keydown.esc->language-menu#close">
+  <summary class="btn btn-ghost cursor-pointer select-none px-2 py-1.5 text-xs [&::-webkit-details-marker]:hidden"
+           role="button" aria-haspopup="menu"
+           aria-label="<%= t("shared.language.choose") %>"
+           title="<%= t("shared.language.label") %>">
+    <%= render "shared/flag", locale: current_locale %>
+    <span class="hidden sm:inline"><%= t("language_name", locale: current_locale) %></span>
+    <svg viewBox="0 0 12 12" class="h-2.5 w-2.5 opacity-70" aria-hidden="true" focusable="false">
+      <path d="M2 4.5 6 8.5 10 4.5" fill="none" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </summary>
+
+  <div class="menu" role="menu" aria-label="<%= t("shared.language.choose") %>">
+    <% supported_locales.each do |locale| %>
+      <% selected = locale == current_locale %>
+      <%= button_to locale_path(locale: locale), method: :patch,
+            form_class: "block", role: "menuitem",
+            class: "menu-item#{" is-selected" if selected}",
+            aria: { current: selected ? "true" : nil } do %>
+        <%= render "shared/flag", locale: locale %>
+        <span><%= t("language_name", locale: locale) %></span>
+      <% end %>
+    <% end %>
+  </div>
+</details>

@@ -1,0 +1,83 @@
+/*
+ * Design tokens.
+ *
+ * The visual language is taken from the Onix design system, which ships a
+ * triple theme system (data-accent / data-shell / data-sidebar). Two of its
+ * themes are adopted here rather than its default look: the "verde" accent and
+ * the "porcelana" / "marfim" light shells. The dark-and-gold default was left
+ * behind on purpose — it reads as a generic admin template, and the muted
+ * green on eggshell keeps the same restraint with far less visual noise.
+ *
+ * Contrast was checked against the page background (#F2EEE8, L = 0.859):
+ *   --color-accent-strong  #2D5C47  6.2:1  body text, links
+ *   --color-accent         #3D7A5F  4.4:1  fills, borders, icons — not text
+ *   --color-ink            #27231F 15.1:1  primary text
+ *   --color-muted          #6D655D  5.0:1  secondary text
+ *   --color-dim            #7B736A  4.0:1  large text (18.66px bold / 24px)
+ *                                          and decoration only
+ *   white on accent-strong          7.1:1  primary buttons
+ */
+
+@theme static {
+  /* ── Surfaces ─────────────────────────────────────────────────────── */
+  --color-canvas: #f2eee8;
+  --color-surface: #fbf8f4;
+  --color-surface-raised: #e7dfd2;
+  --color-surface-soft: rgb(55 50 44 / 0.04);
+  --color-surface-soft-hover: rgb(55 50 44 / 0.065);
+
+  /* ── Text ─────────────────────────────────────────────────────────── */
+  --color-ink: #27231f;
+  --color-muted: #6d655d;
+  --color-dim: #7b736a;
+
+  /* ── Accent (Onix "verde") ────────────────────────────────────────── */
+  --color-accent-soft: #4e9678;
+  --color-accent: #3d7a5f;
+  --color-accent-strong: #2d5c47;
+  --color-accent-wash: rgb(61 122 95 / 0.10);
+
+  /* ── Borders ──────────────────────────────────────────────────────── */
+  --color-line: rgb(154 133 96 / 0.16);
+  --color-line-strong: rgb(154 133 96 / 0.24);
+
+  /* ── Sidebar (Onix "marfim") ──────────────────────────────────────── */
+  --color-rail: #f6f1e8;
+  --color-rail-edge: #e8decf;
+  --color-rail-text: #746b63;
+  --color-rail-text-hover: #27221d;
+  --color-rail-active: rgb(61 122 95 / 0.14);
+
+  /* ── Status ───────────────────────────────────────────────────────── */
+  --color-positive: #2d6a4f;
+  --color-caution: #8a6d1f;
+  --color-critical: #9b3232;
+
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --tracking-eyebrow: 0.24em;
+  --tracking-wide-label: 0.18em;
+
+  --leading-tight: 1.02;
+  --leading-snug: 1.375;
+  --leading-relaxed: 1.625;
+
+  /* ── Radii ────────────────────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-card: 22px;
+
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  --shadow-card: 0 1px 4px rgb(44 37 26 / 0.06), 0 4px 16px rgb(44 37 26 / 0.05);
+  --shadow-panel: 0 20px 50px rgb(44 37 26 / 0.10);
+  --shadow-focus: 0 0 0 3px rgb(61 122 95 / 0.18);
+
+  /* ── Layout ───────────────────────────────────────────────────────── */
+  --spacing-rail: 240px;
+  --spacing-topbar: 60px;
+  --spacing-content-max: 1440px;
+}

@@ -1,0 +1,7 @@
+<% content_for :title, t(".title") %>
+<% content_for :page_title, t(".title") %>
+<% content_for :page_subtitle, t(".subtitle") %>
+
+<div class="panel max-w-xl p-6 sm:p-8">
+  <%= render "form", user: @user, url: admin_users_path, method: :post, submit_label: t(".submit") %>
+</div>

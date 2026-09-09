@@ -1,0 +1,13 @@
+<% if record.errors.any? %>
+  <div role="alert"
+       class="mb-5 rounded-lg border border-critical/30 bg-critical/5 px-4 py-3">
+    <p class="text-sm font-medium text-critical">
+      <%= t("shared.form_errors.heading", count: record.errors.count) %>
+    </p>
+    <ul class="mt-2 list-disc space-y-1 pl-5 text-sm text-critical">
+      <% record.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+# Solid Cache uses the dedicated `cache` database in every environment. The
+# installer only wires this up for production, which leaves development and
+# test pointing at the primary database, where the table does not exist.
+default: &default
+  database: cache
+  store_options:
+    # Cap age of oldest cache entry to fulfill retention policies
+    # max_age: <%= 60.days.to_i %>
+    max_size: <%= 256.megabytes %>
+    namespace: <%= Rails.env %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

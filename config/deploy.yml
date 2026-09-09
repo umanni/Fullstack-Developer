@@ -1,0 +1,108 @@
+# Kamal 2 deployment.
+#
+# Every value written as <...> has to be filled in before a real deploy; they
+# are hostnames and account names, not secrets. Secrets are read from
+# .kamal/secrets, which reads them from the environment or a password manager
+# and never from this file.
+#
+#   kamal setup            first deploy, installs Docker and the proxy
+#   kamal deploy           subsequent deploys
+#   kamal app logs -f      follow the logs
+#   kamal app exec -i "bin/rails console"
+service: user_management
+
+image: <registry-account>/user_management
+
+servers:
+  # Thruster listens on 80 inside the container: it terminates HTTP/2, gzips
+  # and serves the digest-stamped assets, and hands the rest to Puma.
+  web:
+    - <web-server-ip>
+  # Solid Queue runs as its own container, not inside Puma. A slow import must
+  # not compete with request threads for the same process.
+  job:
+    hosts:
+      - <web-server-ip>
+    cmd: bin/jobs
+
+# kamal-proxy terminates TLS with an automatic Let's Encrypt certificate and
+# forwards plain HTTP with X-Forwarded-Proto, which is what `assume_ssl` in
+# config/environments/production.rb reads.
+proxy:
+  ssl: true
+  host: <app.example.com>
+  app_port: 80
+  healthcheck:
+    path: /up
+    interval: 5
+    timeout: 5
+
+registry:
+  username: <registry-account>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  # The image is the one in the Dockerfile's `final` stage: no build tools, no
+  # development or test gems, non-root.
+  target: final
+
+env:
+  clear:
+    # The accessory below, reachable by that name on the Kamal network.
+    POSTGRES_HOST: user_management-postgres
+    POSTGRES_USER: user_management
+    POSTGRES_DB: user_management_production
+    RAILS_MAX_THREADS: 5
+    # Solid Queue processes for the job role.
+    JOB_CONCURRENCY: 1
+    # Uncomment on the first deploy to have db:prepare create the first
+    # administrator; the password comes from the secret below. Without both,
+    # the seed does nothing and the application still boots.
+    # SEED_ADMIN_EMAIL: <you@example.com>
+    # SEED_ADMIN_NAME: <Your Name>
+    # Where the invitation and password-reset emails come from.
+    MAIL_FROM: <roster@example.com>
+    # Uncomment both to put a password in front of /api-docs.
+    # API_DOCS_USER: <docs>
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+    # - SEED_ADMIN_PASSWORD
+    # - API_DOCS_PASSWORD
+
+# Uploaded avatars live on disk (config.active_storage.service = :local), so
+# the directory has to outlive the container. Moving to S3 is a change of one
+# line in config/storage.yml plus the credentials; the volume then goes away.
+volumes:
+  - "user_management_storage:/rails/storage"
+
+# Kamal 2 serves the precompiled assets from here during a deploy, so a browser
+# holding the previous page can still fetch the previous digests.
+asset_path: /rails/public/assets
+
+accessories:
+  postgres:
+    image: postgres:17
+    host: <web-server-ip>
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: user_management
+        POSTGRES_DB: user_management_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs --follow
+  dbc: app exec --interactive --reuse "bin/rails dbconsole"
+
+# The four databases -- primary, cache, queue and cable -- are created and
+# migrated by `db:prepare`, which bin/docker-entrypoint runs when the web
+# container starts. With more than one web host, run the migration once from a
+# pre-deploy hook instead, so two hosts do not race each other.

@@ -1,0 +1,12 @@
+<%# Replaced wholesale by the broadcast, so the id has to stay on this element. %>
+<div id="<%= UserCounters::TARGET %>" class="grid gap-4 sm:grid-cols-3">
+  <% [ [ :total, counters.total ],
+       [ :administrators, counters.admins ],
+       [ :regular_users, counters.users ] ].each do |key, value| %>
+    <div class="metric-card">
+      <p class="eyebrow"><%= t("admin.dashboard.#{key}") %></p>
+      <%# aria-live so the number reaching the page over the stream is announced. %>
+      <p class="metric-value mt-2" aria-live="polite"><%= number_with_delimiter(value) %></p>
+    </div>
+  <% end %>
+</div>

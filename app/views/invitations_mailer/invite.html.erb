@@ -1,0 +1,16 @@
+<h1 style="margin: 0 0 16px; font-size: 20px; color: #1b1b1a;"><%= t(".heading") %></h1>
+
+<p style="margin: 0 0 16px; font-size: 15px; line-height: 1.6; color: #3d3d3a;">
+  <%= t(".body", name: @user.full_name) %>
+</p>
+
+<p style="margin: 0 0 24px;">
+  <%= link_to t(".action"), edit_password_url(@token),
+        style: "display: inline-block; padding: 10px 18px; border-radius: 8px; " \
+               "background: #2f5d47; color: #ffffff; font-size: 15px; text-decoration: none;" %>
+</p>
+
+<p style="margin: 0; font-size: 13px; line-height: 1.6; color: #6f6f68;">
+  <%= t(".expires", duration: distance_of_time_in_words(0, User::INVITATION_VALID_FOR)) %>
+  <%= t(".sign_in_with", email_address: @user.email_address) %>
+</p>

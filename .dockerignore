@@ -1,0 +1,72 @@
+# See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more about ignoring files.
+
+# Ignore git directory.
+/.git/
+/.gitignore
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all environment files.
+/.env*
+
+# Ignore all default key files.
+/config/master.key
+/config/credentials/*.key
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/.keep
+
+# Ignore storage (uploaded files in development and any SQLite databases).
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
+
+# Ignore assets.
+/node_modules/
+/app/assets/builds/*
+!/app/assets/builds/.keep
+/public/assets
+
+# Ignore CI service files.
+/.github
+
+# Ignore Kamal files.
+/config/deploy*.yml
+/.kamal
+
+# Ignore development files
+/.devcontainer
+
+# Ignore Docker-related files
+/.dockerignore
+/Dockerfile*
+
+# Ignore the test suite and coverage output: they are not needed in the
+# production image and only make it larger.
+/spec
+/coverage
+/.rspec_status
+
+# Ignore host-side operational scripts; they drive Docker from outside.
+/devops
+
+# Ignore the working documents that live beside the repository but are not part
+# of it. They are untracked, so a fresh clone has none of them -- but a build
+# from the machine they were written on would copy them straight into the image
+# somebody else pulls.
+/PLANO_TESTE_FULLSTACK_UMANNI.md
+/PENDENCIAS.md
+/CREDENCIAIS_LOCAIS.txt
+
+# The README screenshots are for people reading the repository, not for the
+# running application.
+/docs

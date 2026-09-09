@@ -1,0 +1,273 @@
+pt-BR:
+  language_name: "Português"
+
+  shared:
+    skip_to_content: "Pular para o conteúdo"
+    tagline: "Gestão de usuários"
+    language:
+      label: "Idioma"
+      choose: "Escolha um idioma"
+    nav:
+      main: "Principal"
+      dashboard: "Painel"
+      users: "Usuários"
+      imports: "Importações"
+      activity: "Atividade"
+      my_profile: "Meu perfil"
+      sign_out: "Sair"
+      sign_out_confirm: "Sair do Roster?"
+    form_errors:
+      heading:
+        one: "1 problema impediu o salvamento:"
+        other: "%{count} problemas impediram o salvamento:"
+
+    pagination:
+      previous: "Anterior"
+      next: "Próxima"
+      page_of: "Página %{page} de %{pages}"
+
+  roles:
+    user: "Usuário"
+    admin: "Administrador"
+
+  sessions:
+    throttled: "Tentativas demais. Tente novamente em alguns instantes."
+    invalid_credentials: "Verifique o e-mail e a senha e tente de novo."
+    new:
+      title: "Entrar"
+      subtitle: "Use o e-mail e a senha da sua conta."
+      email_address: "E-mail"
+      password: "Senha"
+      submit: "Entrar"
+      forgot_password: "Esqueceu a senha?"
+      create_account: "Criar uma conta"
+
+  registrations:
+    created: "Boas-vindas. Sua conta está pronta."
+    new:
+      title: "Crie sua conta"
+      subtitle: "Você entra automaticamente assim que ela estiver pronta."
+      full_name: "Nome completo"
+      email_address: "E-mail"
+      password: "Senha"
+      password_hint: "No mínimo 8 caracteres."
+      password_confirmation: "Confirme a senha"
+      submit: "Criar conta"
+      have_account: "Já tem uma conta?"
+      sign_in: "Entrar"
+
+  profiles:
+    updated: "Seu perfil foi atualizado."
+    deleted: "Sua conta foi excluída."
+    show:
+      title: "Meu perfil"
+      subtitle: "Os dados da sua conta"
+      edit: "Editar perfil"
+      full_name: "Nome completo"
+      email_address: "E-mail"
+      role: "Função"
+      member_since: "Membro desde"
+      delete_heading: "Excluir esta conta"
+      delete_copy: "Seu perfil e suas sessões são removidos. Não há como desfazer."
+      delete_button: "Excluir minha conta"
+      delete_confirm: "Excluir sua conta? Não há como desfazer."
+    edit:
+      title: "Editar perfil"
+      subtitle: "Atualize os dados da sua conta"
+      full_name: "Nome completo"
+      email_address: "E-mail"
+      avatar: "Avatar"
+      avatar_file: "Arquivo do avatar"
+      avatar_hint: "PNG, JPEG, WebP ou GIF, até 2 MB."
+      remove_avatar: "Remover a imagem enviada"
+      avatar_url: "URL do avatar"
+      avatar_url_hint: "Usada quando não há upload. Link http ou https; a imagem é carregada pelo seu navegador, nunca buscada pelo servidor."
+      submit: "Salvar alterações"
+      cancel: "Cancelar"
+
+  admin:
+    dashboard:
+      overview: "Visão geral"
+      total: "Total de usuários"
+      administrators: "Administradores"
+      regular_users: "Usuários"
+      show:
+        title: "Painel"
+        subtitle: "Visão geral das pessoas no sistema"
+        users: "Usuários"
+        manage: "Gerenciar"
+        manage_copy: "Adicione pessoas, altere funções e remova contas."
+    users:
+      created: "%{name} foi adicionado."
+      updated: "%{name} foi atualizado."
+      deleted: "%{name} foi excluído."
+      form:
+        full_name: "Nome completo"
+        email_address: "E-mail"
+        role: "Função"
+        password: "Senha"
+        password_hint_new: "No mínimo 8 caracteres."
+        password_hint_edit: "Deixe em branco para manter a senha atual."
+        avatar: "Arquivo do avatar"
+        avatar_hint: "PNG, JPEG, WebP ou GIF, até 2 MB."
+        avatar_url: "URL do avatar"
+        avatar_url_hint: "Um link https para uma imagem. Opcional."
+      index:
+        title: "Usuários"
+        subtitle: "Todo mundo com uma conta"
+        search_label: "Buscar"
+        search_placeholder: "Buscar por nome ou e-mail"
+        search_submit: "Buscar"
+        clear: "Limpar"
+        filter_all: "Todos"
+        filter_admin: "Administradores"
+        filter_user: "Usuários"
+        new_user: "Adicionar usuário"
+        results:
+          one: "1 resultado"
+          other: "%{count} resultados"
+        name: "Nome"
+        email_address: "E-mail"
+        role: "Função"
+        actions: "Ações"
+        edit: "Editar"
+        delete: "Excluir"
+        delete_confirm: "Excluir %{name}? Não há como desfazer."
+        empty_title: "Ainda não há ninguém aqui"
+        empty_copy: "Nenhuma conta corresponde ao que você procura."
+      new:
+        title: "Adicionar usuário"
+        subtitle: "Crie uma conta em nome de outra pessoa"
+        submit: "Criar usuário"
+        cancel: "Cancelar"
+      edit:
+        title: "Editar usuário"
+        subtitle: "Atualize esta conta"
+        submit: "Salvar alterações"
+        cancel: "Cancelar"
+
+    audit_events:
+      index:
+        title: "Atividade"
+        subtitle: "O que os administradores fizeram, e quando"
+        heading: "Histórico"
+        results:
+          one: "1 evento"
+          other: "%{count} eventos"
+        when: "Quando"
+        who: "Quem"
+        what: "O quê"
+        to_whom: "Sobre quem"
+        details: "Detalhes"
+        empty_title: "Ainda não aconteceu nada"
+        empty_copy: "Criar, alterar ou remover uma conta aparece aqui."
+      actions:
+        created: "Criou"
+        updated: "Alterou"
+        promoted: "Promoveu"
+        demoted: "Rebaixou"
+        deleted: "Removeu"
+        imported: "Importou"
+      details_import: "Da importação #%{id}"
+
+    user_imports:
+      scheduled: "O arquivo entrou na fila. O progresso aparece abaixo conforme roda."
+      index:
+        title: "Importações"
+        subtitle: "Crie contas a partir de uma planilha"
+        download_template: "Baixar modelo"
+        upload: "Nova importação"
+        upload_copy: "Um arquivo CSV ou XLSX com as colunas full_name, email, avatar_url e role."
+        file: "Planilha"
+        file_hint: "CSV ou XLSX, até 5 MB e 10.000 linhas."
+        submit: "Iniciar importação"
+        history: "Histórico"
+        empty_title: "Nenhuma importação ainda"
+        empty_copy: "Envie uma planilha para criar contas em lote."
+      show:
+        title: "Importação"
+        rejected_rows: "Linhas rejeitadas"
+        download_rejected: "Baixar em CSV"
+        row: "Linha"
+        email_address: "E-mail"
+        problems: "Problemas"
+        no_rejected_rows: "Todas as linhas foram importadas."
+        back: "Voltar para importações"
+      statuses:
+        pending: "Na fila"
+        processing: "Importando"
+        completed: "Concluída"
+        completed_with_errors: "Concluída com erros"
+        failed: "Falhou"
+      progress:
+        label: "Progresso da importação"
+        counts: "%{created} criados, %{rejected} rejeitados de %{total}"
+
+  locales:
+    unsupported: "Esse idioma não está disponível."
+
+  authorization:
+    admin_only: "Essa área é exclusiva de administradores."
+
+  passwords:
+    throttled: "Tentativas demais. Tente novamente em alguns instantes."
+    reset_instructions_sent: "Enviamos as instruções de redefinição (caso exista uma conta com esse e-mail)."
+    reset: "Sua senha foi redefinida."
+    chosen: "Senha definida. Agora é só entrar."
+    mismatch: "As senhas não coincidem."
+    invalid_token: "Este link de redefinição é inválido ou expirou."
+    new:
+      title: "Esqueceu sua senha?"
+      subtitle: "Enviaremos por e-mail um link para você escolher outra."
+      email_address: "E-mail"
+      submit: "Enviar instruções"
+      remembered: "Lembrou a senha?"
+      sign_in: "Entrar"
+    edit:
+      title: "Escolha uma nova senha"
+      subtitle: "Você precisará da nova senha para entrar de novo em todos os aparelhos."
+      password: "Nova senha"
+      password_hint: "Ao menos 8 caracteres."
+      password_confirmation: "Confirme a nova senha"
+      submit: "Salvar senha"
+      invited_title: "Boas-vindas. Escolha sua senha"
+      invited_subtitle: "Sua conta já existe; falta só uma senha sua."
+      invited_password: "Senha"
+      invited_password_confirmation: "Confirme a senha"
+
+  passwords_mailer:
+    reset:
+      subject: "Redefina sua senha"
+      heading: "Redefina sua senha"
+      body: "Use o link abaixo para escolher uma nova senha da sua conta no Roster."
+      action: "Escolher nova senha"
+      expires: "O link expira em %{duration}."
+      ignore: "Se você não pediu isso, nada mudou e pode ignorar esta mensagem."
+
+  invitations_mailer:
+    invite:
+      subject: "Sua conta no Roster está pronta"
+      heading: "Sua conta está pronta"
+      body: "Olá, %{name}. Criamos uma conta para você no Roster. Escolha uma senha e ela é sua."
+      action: "Escolher uma senha"
+      expires: "O link vale por %{duration}."
+      sign_in_with: "Você vai entrar com %{email_address}."
+
+  activerecord:
+    errors:
+      models:
+        user_import:
+          attributes:
+            file:
+              too_large: "deve ter menos de %{limit} MB."
+              unsupported_format: "deve ser um arquivo .csv ou .xlsx."
+              content_mismatch: "não contém o que a extensão promete."
+        user:
+          attributes:
+            avatar:
+              too_large: "deve ter menos de %{limit} MB."
+              invalid_type: "deve ser uma imagem PNG, JPEG, WebP ou GIF."
+            avatar_url:
+              unsupported_scheme: "deve ser um link http ou https."
+            base:
+              last_administrator: "Este é o único administrador restante, então a função não pode ser removida."

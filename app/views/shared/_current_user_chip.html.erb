@@ -1,0 +1,15 @@
+<div class="px-2 py-1.5">
+  <div class="flex items-center gap-3">
+    <%= avatar_tag(Current.user, size: 36) %>
+
+    <div class="min-w-0 flex-1">
+      <p class="truncate text-sm font-medium text-ink"><%= Current.user.full_name %></p>
+      <p class="truncate text-xs text-muted"><%= t("roles.#{Current.user.role}") %></p>
+    </div>
+  </div>
+
+  <%# On its own row: sharing the line with the name left neither enough space. %>
+  <%= button_to t("shared.nav.sign_out"), session_path, method: :delete,
+        class: "btn btn-ghost mt-3 w-full text-xs",
+        form: { data: { turbo_confirm: t("shared.nav.sign_out_confirm") } } %>
+</div>

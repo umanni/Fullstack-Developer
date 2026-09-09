@@ -1,0 +1,124 @@
+# Development environment.
+#
+# Four processes, deliberately separate: the web server, the Solid Queue
+# worker, the Tailwind watcher and PostgreSQL. The worker is its own container
+# so asynchronous imports are genuinely asynchronous, not something that only
+# works because a single process happens to run everything.
+
+name: user-management
+
+services:
+  # ───────────────────────────────────────────────
+  # PostgreSQL
+  # ───────────────────────────────────────────────
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-user_management}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-development_only}
+      POSTGRES_DB: ${POSTGRES_DB:-user_management_development}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Not published to the host: reach it with devops/postgres/psql.sh instead.
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user_management}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [app_network]
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # ───────────────────────────────────────────────
+  # Web (Puma)
+  # ───────────────────────────────────────────────
+  web:
+    build:
+      context: .
+      target: development
+    restart: unless-stopped
+    command: ./bin/rails server -b 0.0.0.0 -p 3000
+    environment: &app_env
+      RAILS_ENV: development
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:-user_management}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-development_only}
+      POSTGRES_DB: ${POSTGRES_DB:-user_management_development}
+      TEST_POSTGRES_DB: ${TEST_POSTGRES_DB:-user_management_test}
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+    volumes:
+      - .:/rails
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:3000/up || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 45s
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [app_network]
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # ───────────────────────────────────────────────
+  # Solid Queue worker
+  # ───────────────────────────────────────────────
+  worker:
+    build:
+      context: .
+      target: development
+    restart: unless-stopped
+    command: ./bin/jobs
+    environment: *app_env
+    volumes:
+      - .:/rails
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f solid-queue || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [app_network]
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # ───────────────────────────────────────────────
+  # Tailwind watcher
+  # ───────────────────────────────────────────────
+  css:
+    build:
+      context: .
+      target: development
+    restart: unless-stopped
+    command: ./bin/rails tailwindcss:watch[always]
+    environment: *app_env
+    volumes:
+      - .:/rails
+    networks: [app_network]
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
