@@ -1,7 +1,7 @@
 import { Link, router } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 import Layout from "../../Shared/Layout"
-import { subscribe } from "../../lib/cable"
+import { subscribe } from "../../../lib/cable"
 
 export default function Show({ total_users, users_by_role }) {
   const [counts, setCounts] = useState({ total_users, users_by_role })

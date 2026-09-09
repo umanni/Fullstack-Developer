@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Authentication
   # Cross-browser support: modern browsers plus common legacy versions
-  allow_browser versions: [ :modern, :chrome, :firefox, :safari, :edge ]
+  allow_browser versions: :modern
 
   inertia_share auth: -> {
     if authenticated?
