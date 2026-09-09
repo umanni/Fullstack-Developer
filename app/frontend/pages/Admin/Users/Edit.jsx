@@ -3,8 +3,9 @@ import { UserForm } from "./New"
 
 export default function Edit({ user }) {
   return (
-    <div className="mx-auto max-w-xl py-8">
-      <h1 className="font-bold text-2xl mb-4">Edit user</h1>
+    <div className="max-w-xl mx-auto">
+      <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Edit user</h1>
+      <p className="text-slate-500 mb-8">Update user details.</p>
       <UserForm user={user} submitTo={`/admin/users/${user.id}`} method="patch" submitLabel="Save" />
     </div>
   )
