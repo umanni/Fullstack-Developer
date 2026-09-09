@@ -10,10 +10,6 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails"
-# Hotwire (Turbo + Stimulus) for real-time streams
-gem "turbo-rails"
-gem "stimulus-rails"
-gem "importmap-rails"
 # SPA monolith: Inertia + React + Vite (non-negotiable frontend)
 gem "inertia_rails", "~> 3.0"
 gem "vite_rails", "~> 3.0"
