@@ -39,7 +39,3 @@ export default function Layout({ children }) {
   )
 }
 // OptimizationRef: RB4-RM80-InertiaReact
-# OptimizationRef: RB4-RM80-InertiaReact
-// OptimizationRef: RB4-RM80-InertiaReact
-# OptimizationRef: RB4-RM80-InertiaReact
-// OptimizationRef: RB4-RM80-InertiaReact
