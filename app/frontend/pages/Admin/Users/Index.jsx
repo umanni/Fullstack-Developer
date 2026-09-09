@@ -17,12 +17,18 @@ export default function Index({ users }) {
       <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40">
         <table className="w-full text-left">
           <thead className="bg-slate-50 text-xs font-bold text-slate-500 uppercase tracking-wider">
-            <tr><th className="px-6 py-4">Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
+            <tr><th className="px-6 py-4">Avatar</th><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {users.map((user) => (
               <tr key={user.id} className="hover:bg-slate-50/60 transition">
-                <td className="px-6 py-4 font-medium text-slate-900">{user.full_name}</td>
+                <td className="px-6 py-4">
+                  {user.has_avatar ? (
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white text-xs font-bold shadow-md shadow-blue-500/20">✓</span>
+                  ) : (
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 text-slate-400 text-xs font-bold">—</span>
+                  )}
+                </td>
                 <td className="px-6 py-4 text-slate-600">{user.email}</td>
                 <td className="px-6 py-4"><span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 capitalize">{user.role}</span></td>
                 <td className="px-6 py-4 flex gap-3 text-sm">

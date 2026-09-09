@@ -6,7 +6,8 @@ module Admin
       users = User.with_attached_avatar_image.order(:full_name).map do |u|
         u.as_json(only: [ :id, :full_name, :email, :role ]).merge(
           avatar_url: u.avatar_url,
-          avatar_image_url: (url_for(u.avatar_image) if u.avatar_image.attached?)
+          avatar_image_url: (url_for(u.avatar_image) if u.avatar_image.attached?),
+          has_avatar: (u.avatar_image.attached? || u.avatar_url.present?)
         )
       end
       render inertia: "Admin/Users/Index", props: { users: users }
