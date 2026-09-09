@@ -49,6 +49,13 @@ module Admin
       redirect_to admin_users_path, notice: "Role updated."
     end
 
+    def remove_avatar
+      @user = User.find(params[:id])
+      @user.avatar_image.purge
+      @user.update!(avatar_url: nil)
+      redirect_to admin_users_path, notice: "Avatar removed."
+    end
+
     private
       def set_user
         @user = User.find(params[:id])

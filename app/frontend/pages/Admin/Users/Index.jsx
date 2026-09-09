@@ -1,6 +1,10 @@
 import { Link, router } from "@inertiajs/react"
 import Layout from "../../Shared/Layout"
 
+function removeAvatar(id, name) {
+  if (window.confirm(`Remove avatar for "${name}"?`)) router.delete(`/admin/users/${id}/remove_avatar`)
+}
+
 function destroyUser(id, name) {
   if (window.confirm(`Delete user "${name}"? This cannot be undone.`)) router.delete(`/admin/users/${id}`)
 }
@@ -29,11 +33,13 @@ export default function Index({ users }) {
                     <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 text-slate-400 text-xs font-bold">—</span>
                   )}
                 </td>
+                <td className="px-6 py-4 font-medium text-slate-900">{user.full_name}</td>
                 <td className="px-6 py-4 text-slate-600">{user.email}</td>
                 <td className="px-6 py-4"><span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 capitalize">{user.role}</span></td>
                 <td className="px-6 py-4 flex gap-3 text-sm">
                   <Link href={`/admin/users/${user.id}/edit`} className="underline text-blue-700 hover:text-blue-900">Edit</Link>
                   <button onClick={() => toggleRole(user.id, user.full_name)} className="underline text-violet-700 hover:text-violet-900">Toggle role</button>
+                  <button onClick={() => removeAvatar(user.id, user.full_name)} className="underline text-amber-600 hover:text-amber-800">Remove avatar</button>
                   <button onClick={() => destroyUser(user.id, user.full_name)} className="underline text-rose-600 hover:text-rose-800">Delete</button>
                 </td>
               </tr>

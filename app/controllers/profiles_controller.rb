@@ -18,6 +18,13 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def remove_avatar
+    @user = Current.user
+    @user.avatar_image.purge
+    @user.update!(avatar_url: nil)
+    redirect_to profile_path, notice: "Avatar removed."
+  end
+
   def destroy
     Current.user.destroy
     terminate_session

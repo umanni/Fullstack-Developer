@@ -1,3 +1,4 @@
+import { Link, router } from "@inertiajs/react"
 import { useForm } from "@inertiajs/react"
 import Layout from "../Shared/Layout"
 
@@ -26,6 +27,7 @@ export default function Edit({ user }) {
         </label>
         {errors.avatar_image && <p className="text-rose-600 text-sm">{errors.avatar_image}</p>}
         <button disabled={processing} className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 transition">Save</button>
+        <button type="button" onClick={() => { if (window.confirm("Remove avatar image?")) router.delete("/profile/remove_avatar") }} className="w-full rounded-xl bg-rose-600 text-white font-semibold py-3 shadow-lg shadow-rose-600/20 hover:shadow-rose-600/40 transition mt-2">Remove avatar</button>
       </form>
     </div>
   )

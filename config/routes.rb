@@ -10,13 +10,16 @@ Rails.application.routes.draw do
     root "dashboard#show"
     resources :users, except: [ :show ] do
       patch :toggle_role, on: :member
+      delete :remove_avatar, on: :member
     end
     resources :user_imports, only: [ :index, :new, :create, :show ]
   end
 
   mount ActionCable.server => "/cable"
 
-  resource :profile, only: [ :show, :edit, :update, :destroy ], controller: "profiles"
+  resource :profile, only: [ :show, :edit, :update, :destroy ], controller: "profiles" do
+    delete :remove_avatar, on: :member
+  end
   resource :registration, only: [ :new, :create ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
