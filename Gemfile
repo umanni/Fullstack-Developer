@@ -14,6 +14,9 @@ gem "tailwindcss-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "importmap-rails"
+# SPA monolith: Inertia + React + Vite (non-negotiable frontend)
+gem "inertia_rails", "~> 3.0"
+gem "vite_rails", "~> 3.0"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"

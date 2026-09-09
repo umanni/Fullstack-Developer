@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Fullstack Developer" %></title>
+    <title data-inertia><%= content_for(:title) || "Fullstack Developer" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Fullstack Developer">
@@ -17,6 +17,10 @@
 
     <%= stylesheet_link_tag :app %>
     <%= javascript_importmap_tags %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag "inertia.jsx" %>
+    <%= inertia_ssr_head %>
   </head>
 
   <body>
