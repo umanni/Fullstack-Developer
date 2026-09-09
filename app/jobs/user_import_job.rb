@@ -23,15 +23,20 @@ class UserImportJob < ApplicationJob
       rescue ActiveRecord::RecordInvalid
         user_import.increment!(:failed_rows)
       end
-      user_import.broadcast_replace_to(
-        "user_import_#{user_import.id}",
-        target: "user_import_progress",
-        partial: "admin/user_imports/progress",
-        locals: { user_import: user_import.reload }
+      user_import.reload
+      UserImportChannel.broadcast_to(
+        user_import,
+        { status: user_import.status, total_rows: user_import.total_rows,
+          processed_rows: user_import.processed_rows, failed_rows: user_import.failed_rows }
       )
     end
 
     user_import.update!(status: user_import.failed_rows.positive? && user_import.processed_rows.zero? ? :failed : :completed)
+    UserImportChannel.broadcast_to(
+      user_import,
+      { status: user_import.status, total_rows: user_import.total_rows,
+        processed_rows: user_import.processed_rows, failed_rows: user_import.failed_rows }
+    )
   end
 
   private

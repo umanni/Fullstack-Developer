@@ -15,8 +15,8 @@ class AdminDashboardLiveTest < ActionDispatch::IntegrationTest
     assert_match "total_users", response.body
   end
 
-  test "creating user broadcasts dashboard update" do
-    assert_broadcasts("admin-dashboard", 1) do
+  test "creating user broadcasts dashboard update over cable" do
+    assert_broadcasts("dashboard", 1) do
       User.create!(full_name: "Live", email: "live@example.com", password: "password123", password_confirmation: "password123")
     end
   end

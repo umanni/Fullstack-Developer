@@ -16,8 +16,6 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
-  include Turbo::Broadcastable
-
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_one_attached :avatar_image
@@ -38,11 +36,9 @@ class User < ApplicationRecord
 
   private
     def broadcast_dashboard_counts
-      broadcast_replace_to(
-        "admin-dashboard",
-        target: "dashboard-counts",
-        partial: "admin/dashboard/counts",
-        locals: { total_users: User.count, users_by_role: User.group(:role).count }
+      ActionCable.server.broadcast(
+        "dashboard",
+        { total_users: User.count, users_by_role: User.group(:role).count }
       )
     end
 end
