@@ -1,0 +1,39 @@
+# Rails
+*.rbc
+capybara-*.html
+.rspec
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
+.byebug_history
+config/master.key
+config/credentials/*.key
+.env*
+!/.env.example
+
+# Node / Vite
+node_modules/
+vite.config.*.timestamp-*.mjs
+app/frontend/dist/
+public/vite-test/
+ssr-dist/
+
+# OS / Editor
+.DS_Store
+*.swp
+*.swo
+/.vscode/*
+!/.vscode/extensions.json
+.idea/
+
+# Coverage
+coverage/
+.simplecov
+
+# Kamal secrets
+.kamal/secrets
