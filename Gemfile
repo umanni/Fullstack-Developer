@@ -13,6 +13,7 @@ gem "tailwindcss-rails"
 # Hotwire (Turbo + Stimulus) for real-time streams
 gem "turbo-rails"
 gem "stimulus-rails"
+gem "importmap-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
