@@ -1,14 +1,15 @@
-import { Link, router } from "@inertiajs/react"
-import { useEffect } from "react"
+import { Link } from "@inertiajs/react"
+import { useEffect, useState } from "react"
 import Layout from "../../Shared/Layout"
+import { subscribe } from "../../../lib/cable"
 
-export default function Show({ import: imp }) {
+export default function Show({ import: initial }) {
+  const [imp, setImp] = useState(initial)
+
   useEffect(() => {
-    if (imp.status === "pending" || imp.status === "processing") {
-      const id = setInterval(() => router.reload({ only: ["import"] }), 2000)
-      return () => clearInterval(id)
-    }
-  }, [imp.status])
+    const sub = subscribe("UserImportChannel", { id: initial.id }, (data) => setImp((prev) => ({ ...prev, ...data })))
+    return () => sub.unsubscribe()
+  }, [initial.id])
 
   return (
     <div className="mx-auto max-w-2xl py-8">

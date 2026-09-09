@@ -18,7 +18,7 @@ module Admin
       if @user.save
         redirect_to admin_users_path, notice: "User created."
       else
-        render :new, status: :unprocessable_entity
+        render inertia: "Admin/Users/New", status: :unprocessable_entity
       end
     end
 
@@ -30,7 +30,7 @@ module Admin
       if @user.update(user_params)
         redirect_to admin_users_path, notice: "User updated."
       else
-        render :edit, status: :unprocessable_entity
+        render inertia: "Admin/Users/Edit", props: { user: @user.as_json(only: [ :id, :full_name, :email, :role, :avatar_url ]) }, status: :unprocessable_entity
       end
     end
 

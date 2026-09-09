@@ -19,17 +19,19 @@ class NavigationWorkflowTest < ActionDispatch::IntegrationTest
     get new_session_path
     assert_response :success
     assert_match "Session/New", response.body
-    assert_match "Sign up", response.body # ERB nav link
+
+    get new_registration_path
+    assert_response :success
+    assert_match "Registration/New", response.body
 
     sign_in_as(@user)
     get profile_path
     assert_match "Profile/Show", response.body
-    assert_match "Sign out", response.body
+    assert_match "nav-user@example.com", response.body
 
     sign_in_as(@admin)
     get admin_root_path
-    assert_match "Users", response.body
-    assert_match "Imports", response.body
+    assert_match "Admin/Dashboard/Show", response.body
     get admin_users_path
     assert_match "Admin/Users/Index", response.body
   end

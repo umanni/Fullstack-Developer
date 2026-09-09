@@ -12,7 +12,7 @@ class RegistrationsController < ApplicationController
       start_new_session_for @user
       redirect_to profile_path, notice: "Welcome!"
     else
-      render :new, status: :unprocessable_entity
+      render inertia: "Registration/New", status: :unprocessable_entity
     end
   end
 

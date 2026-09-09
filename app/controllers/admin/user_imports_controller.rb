@@ -18,7 +18,7 @@ module Admin
         UserImportJob.perform_later(@import)
         redirect_to admin_user_import_path(@import), notice: "Import started."
       else
-        render :new, status: :unprocessable_entity
+        render inertia: "Admin/Imports/New", status: :unprocessable_entity
       end
     end
 

@@ -14,7 +14,7 @@ class ProfilesController < ApplicationController
     if @user.update(profile_params)
       redirect_to profile_path, notice: "Profile updated."
     else
-      render :edit, status: :unprocessable_entity
+      render inertia: "Profile/Edit", props: { user: profile_json(@user) }, status: :unprocessable_entity
     end
   end
 

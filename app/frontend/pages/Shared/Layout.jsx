@@ -1,7 +1,7 @@
 import { Link, usePage } from "@inertiajs/react"
 
 export default function Layout({ children }) {
-  const { auth } = usePage().props
+  const { auth, flash } = usePage().props
   const user = auth?.user
 
   return (
@@ -30,7 +30,11 @@ export default function Layout({ children }) {
           )}
         </nav>
       </header>
-      <main className="container mx-auto mt-10 px-5">{children}</main>
+      <main className="container mx-auto mt-10 px-5">
+        {flash?.notice && <p className="bg-green-50 text-green-700 px-3 py-2 rounded mb-4">{flash.notice}</p>}
+        {flash?.alert && <p className="bg-red-50 text-red-500 px-3 py-2 rounded mb-4">{flash.alert}</p>}
+        {children}
+      </main>
     </div>
   )
 }

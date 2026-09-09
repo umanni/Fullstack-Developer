@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
     else
       { user: nil }
     end
+  }, flash: -> {
+    { notice: flash[:notice], alert: flash[:alert] }
   }
 
   private
