@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id              :bigint           not null, primary key
+#  avatar_url      :string
 #  email           :string           not null
 #  full_name       :string           not null
 #  password_digest :string           not null
@@ -27,6 +28,11 @@ class User < ApplicationRecord
 
   validates :full_name, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :avatar_url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), message: "must be a valid URL" }, allow_blank: true
+
+  def avatar_display
+    avatar_image.attached? ? avatar_image : avatar_url
+  end
 
   after_commit :broadcast_dashboard_counts, on: %i[ create update destroy ]
 

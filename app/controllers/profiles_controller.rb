@@ -24,6 +24,6 @@ class ProfilesController < ApplicationController
 
   private
     def profile_params
-      params.expect(user: [ :full_name, :email, :avatar_image ])
+      params.expect(user: [ :full_name, :email, :avatar_image, :avatar_url ])
     end
 end
