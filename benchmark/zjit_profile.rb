@@ -1,5 +1,6 @@
 # Performance profiling leveraging Ruby 4 ZJIT
 # Usage: RUBYOPT="--zjit" ruby benchmark/zjit_profile.rb
+require_relative "../config/environment"
 require "benchmark/ips"
 Benchmark.ips do |x|
   x.config(time: 2, warmup: 1)
