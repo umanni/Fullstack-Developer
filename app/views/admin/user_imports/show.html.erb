@@ -1,0 +1,6 @@
+<%= turbo_stream_from "user_import_#{@import.id}" %>
+<div class="mx-auto max-w-2xl py-8">
+  <h1 class="font-bold text-2xl mb-4">Import <%= @import.id %></h1>
+  <%= render "progress", user_import: @import %>
+  <p><%= link_to "Back", admin_user_imports_path %></p>
+</div>

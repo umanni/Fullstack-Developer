@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :users, except: [ :show ] do
       patch :toggle_role, on: :member
     end
+    resources :user_imports, only: [ :index, :new, :create, :show ]
   end
 
   resource :profile, only: [ :show, :edit, :update, :destroy ], controller: "profiles"

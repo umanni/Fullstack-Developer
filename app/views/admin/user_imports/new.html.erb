@@ -1,0 +1,7 @@
+<div class="mx-auto max-w-2xl py-8">
+  <h1 class="font-bold text-2xl mb-4">Import users</h1>
+  <%= form_with model: [:admin, @import], url: admin_user_imports_path, class: "contents" do |f| %>
+    <%= f.file_field :file, accept: ".csv,.xlsx", required: true %>
+    <%= f.submit "Upload", class: "bg-blue-600 text-white rounded px-3 py-2" %>
+  <% end %>
+</div>
