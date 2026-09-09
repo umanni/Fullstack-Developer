@@ -10,6 +10,10 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails"
+# Hotwire (Turbo + Stimulus) for real-time streams
+gem "turbo-rails"
+gem "stimulus-rails"
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
@@ -18,6 +22,10 @@ gem "bcrypt", "~> 3.1.7"
 
 # Pin JSON < 3 for Ruby 4 kwargs compat with ActiveSupport 8.1 (JSON.parse positional hash)
 gem "json", "< 3"
+
+# Spreadsheet import (.csv/.xlsx)
+gem "csv"
+gem "rubyXL", "~> 3.4"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
