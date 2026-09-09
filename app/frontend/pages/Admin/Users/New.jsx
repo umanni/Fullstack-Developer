@@ -17,8 +17,13 @@ export function UserForm({ user, submitTo, method, submitLabel }) {
 
   const set = (k) => (e) => setData("user", { ...data.user, [k]: e.target.value })
 
+  function submitForm(e, submitFn, message) {
+    e.preventDefault()
+    if (window.confirm(message)) submitFn()
+  }
+
   return (
-    <form onSubmit={(e) => { e.preventDefault(); submit(method, submitTo) }}>
+    <form onSubmit={(e) => submitForm(e, () => submit(method, submitTo), method === "post" ? "Create this user?" : "Save changes to this user?")}>
       <input className={input} placeholder="Full name" required value={data.user.full_name} onChange={set("full_name")} />
       {errors.full_name && <p className="text-red-600 text-sm">{errors.full_name}</p>}
       <input className={input} type="email" placeholder="Email" required value={data.user.email} onChange={set("email")} />

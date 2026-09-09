@@ -1,7 +1,11 @@
-import { Link } from "@inertiajs/react"
+import { Link, router } from "@inertiajs/react"
 import Layout from "../Shared/Layout"
 
 export default function Show({ user }) {
+  function destroy(e) {
+    e.preventDefault()
+    if (window.confirm("Delete your profile? This cannot be undone.")) router.delete("/profile")
+  }
   return (
     <div className="mx-auto max-w-xl w-full py-8">
       <h1 className="font-bold text-3xl mb-6">My Profile</h1>
@@ -13,7 +17,7 @@ export default function Show({ user }) {
       <p><strong>Role:</strong> {user.role}</p>
       <div className="mt-4 flex gap-3">
         <Link href="/profile/edit" className="rounded bg-gray-200 px-3 py-2">Edit</Link>
-        <Link href="/profile" method="delete" as="button" className="rounded bg-red-600 text-white px-3 py-2">Delete</Link>
+        <button onClick={destroy} className="rounded bg-red-600 text-white px-3 py-2">Delete</button>
       </div>
     </div>
   )

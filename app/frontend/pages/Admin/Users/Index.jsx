@@ -1,5 +1,17 @@
-import { Link } from "@inertiajs/react"
+import { Link, router } from "@inertiajs/react"
 import Layout from "../../Shared/Layout"
+
+function destroyUser(id, name) {
+  if (window.confirm(`Delete user "${name}"? This cannot be undone.`)) {
+    router.delete(`/admin/users/${id}`)
+  }
+}
+
+function toggleRole(id, name) {
+  if (window.confirm(`Toggle role for "${name}"?`)) {
+    router.patch(`/admin/users/${id}/toggle_role`)
+  }
+}
 
 export default function Index({ users }) {
   return (
@@ -16,8 +28,8 @@ export default function Index({ users }) {
               <td>{user.role}</td>
               <td className="flex gap-2">
                 <Link href={`/admin/users/${user.id}/edit`} className="underline">Edit</Link>
-                <Link href={`/admin/users/${user.id}/toggle_role`} method="patch" as="button" className="underline">Toggle role</Link>
-                <Link href={`/admin/users/${user.id}`} method="delete" as="button" className="underline">Delete</Link>
+                <button onClick={() => toggleRole(user.id, user.full_name)} className="underline">Toggle role</button>
+                <button onClick={() => destroyUser(user.id, user.full_name)} className="underline">Delete</button>
               </td>
             </tr>
           ))}

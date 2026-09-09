@@ -8,7 +8,7 @@ export default function Edit({ user }) {
 
   function submit(e) {
     e.preventDefault()
-    patch("/profile")
+    if (window.confirm("Save profile changes?")) patch("/profile")
   }
 
   const set = (k) => (e) => setData("user", { ...data.user, [k]: e.target.value })
