@@ -1,5 +1,7 @@
 # Roster — user management
 
+[![CI](https://github.com/antonioneto1/umanni-teste/actions/workflows/ci.yml/badge.svg?branch=feature%2Fuser-management-test)](https://github.com/antonioneto1/umanni-teste/actions/workflows/ci.yml?query=branch%3Afeature%2Fuser-management-test)
+
 A Rails 8 monolith for managing user accounts: an administrative area with
 search, filtering, pagination and role changes; a dashboard whose counters move
 by themselves; spreadsheet imports processed in the background with live
