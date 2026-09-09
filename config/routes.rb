@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#show"
+    resources :users, except: [ :show ] do
+      patch :toggle_role, on: :member
+    end
   end
 
   resource :profile, only: [ :show, :edit, :update, :destroy ], controller: "profiles"
