@@ -27,7 +27,7 @@ proxy:
 # Where you keep your container images.
 registry:
   # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
+  server: ghcr.io/umanni/fullstack-developer
 
   # Needed for authenticated registries.
   # username: your-user
