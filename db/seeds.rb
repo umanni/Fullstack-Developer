@@ -1,9 +1,26 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Seeds are idempotent and safe for every environment (dev/test/prod).
+# Load with bin/rails db:seed (created alongside DB with db:setup).
+# CI runs env RAILS_ENV=test bin/rails db:seed:replant.
+
+admin = User.find_or_create_by!(email: "admin@example.com") do |u|
+  u.full_name = "Site Admin"
+  u.password = "password123"
+  u.password_confirmation = "password123"
+  u.role = :admin
+end
+puts "admin: #{admin.email} (#{admin.role})"
+
+[
+  [ "Ada Lovelace", "ada@example.com" ],
+  [ "Alan Turing", "alan@example.com" ],
+  [ "Grace Hopper", "grace@example.com" ],
+  [ "Margaret Hamilton", "margaret@example.com" ]
+].each do |full_name, email|
+  user = User.find_or_create_by!(email: email) do |u|
+    u.full_name = full_name
+    u.password = "password123"
+    u.password_confirmation = "password123"
+    u.role = :user
+  end
+  puts "user: #{user.email} (#{user.role})"
+end
