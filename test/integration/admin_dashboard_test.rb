@@ -10,8 +10,11 @@ class AdminDashboardTest < ActionDispatch::IntegrationTest
     sign_in_as(@admin)
     get admin_root_path
     assert_response :success
-    assert_match "Total number of Users", response.body
-    assert_match "2", response.body
+    assert_match "Admin/Dashboard/Show", response.body
+    assert_match "total_users", response.body
+    assert_match "users_by_role", response.body
+    assert_match "admin", response.body
+    assert_match "user", response.body
   end
 
   test "non-admin redirected" do

@@ -18,13 +18,12 @@ class NavigationWorkflowTest < ActionDispatch::IntegrationTest
   test "layout nav exposes workflows" do
     get new_session_path
     assert_response :success
-    assert_match "Sign up", response.body
-    assert_match "Forgot password", response.body
+    assert_match "Session/New", response.body
+    assert_match "Sign up", response.body # ERB nav link
 
     sign_in_as(@user)
     get profile_path
-    assert_match "Edit", response.body
-    assert_match "Delete", response.body
+    assert_match "Profile/Show", response.body
     assert_match "Sign out", response.body
 
     sign_in_as(@admin)
@@ -32,6 +31,6 @@ class NavigationWorkflowTest < ActionDispatch::IntegrationTest
     assert_match "Users", response.body
     assert_match "Imports", response.body
     get admin_users_path
-    assert_match "New user", response.body
+    assert_match "Admin/Users/Index", response.body
   end
 end

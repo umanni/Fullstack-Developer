@@ -1,11 +1,14 @@
 module Admin
   class UserImportsController < BaseController
     def index
-      @imports = UserImport.order(created_at: :desc)
+      render inertia: "Admin/Imports/Index", props: {
+        imports: UserImport.order(created_at: :desc).as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows ])
+      }
     end
 
     def new
       @import = UserImport.new
+      render inertia: "Admin/Imports/New"
     end
 
     def create
@@ -21,6 +24,9 @@ module Admin
 
     def show
       @import = UserImport.find(params[:id])
+      render inertia: "Admin/Imports/Show", props: {
+        import: @import.as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows ])
+      }
     end
   end
 end

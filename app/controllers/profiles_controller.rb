@@ -1,10 +1,12 @@
 class ProfilesController < ApplicationController
   def show
     @user = Current.user
+    render inertia: "Profile/Show", props: { user: profile_json(@user) }
   end
 
   def edit
     @user = Current.user
+    render inertia: "Profile/Edit", props: { user: profile_json(@user) }
   end
 
   def update
@@ -23,6 +25,10 @@ class ProfilesController < ApplicationController
   end
 
   private
+    def profile_json(user)
+      { full_name: user.full_name, email: user.email, role: user.role, avatar_url: user.avatar_url, avatar_attached: user.avatar_image.attached? }
+    end
+
     def profile_params
       params.expect(user: [ :full_name, :email, :avatar_image, :avatar_url ])
     end

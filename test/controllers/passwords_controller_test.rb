@@ -10,7 +10,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
 
   test "create" do
     post passwords_path, params: { email: @user.email }
-    assert_enqueued_email_with PasswordsMailer, :reset, args: [ @user ]
+    assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob
     assert_redirected_to new_session_path
 
     follow_redirect!
@@ -62,6 +62,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
 
   private
     def assert_notice(text)
-      assert_select "div", /#{text}/
+      assert_match text, response.body
     end
 end

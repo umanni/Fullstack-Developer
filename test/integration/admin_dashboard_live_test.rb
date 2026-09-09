@@ -8,11 +8,11 @@ class AdminDashboardLiveTest < ActionDispatch::IntegrationTest
     sign_in_as(@admin)
   end
 
-  test "dashboard subscribes to live stream" do
+  test "dashboard renders live component with counts" do
     get admin_root_path
     assert_response :success
-    assert_match "turbo-cable-stream-source", response.body
-    assert_match "dashboard-counts", response.body
+    assert_match "Admin/Dashboard/Show", response.body
+    assert_match "total_users", response.body
   end
 
   test "creating user broadcasts dashboard update" do

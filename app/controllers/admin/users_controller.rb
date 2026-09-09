@@ -3,11 +3,14 @@ module Admin
     before_action :set_user, only: %i[ edit update destroy toggle_role ]
 
     def index
-      @users = User.order(:full_name)
+      render inertia: "Admin/Users/Index", props: {
+        users: User.order(:full_name).as_json(only: [ :id, :full_name, :email, :role ])
+      }
     end
 
     def new
       @user = User.new
+      render inertia: "Admin/Users/New"
     end
 
     def create
@@ -20,6 +23,7 @@ module Admin
     end
 
     def edit
+      render inertia: "Admin/Users/Edit", props: { user: @user.as_json(only: [ :id, :full_name, :email, :role, :avatar_url ]) }
     end
 
     def update
