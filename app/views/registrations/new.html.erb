@@ -1,0 +1,18 @@
+<div class="mx-auto md:w-2/3 w-full py-8">
+  <h1 class="font-bold text-4xl mb-6">Sign up</h1>
+  <%= form_with model: @user, url: registration_path, class: "contents" do |form| %>
+    <div class="my-5">
+      <%= form.text_field :full_name, required: true, autofocus: true, placeholder: "Full name", class: "block w-full rounded-md border px-3 py-2" %>
+    </div>
+    <div class="my-5">
+      <%= form.email_field :email, required: true, placeholder: "Email", class: "block w-full rounded-md border px-3 py-2" %>
+    </div>
+    <div class="my-5">
+      <%= form.password_field :password, required: true, placeholder: "Password", class: "block w-full rounded-md border px-3 py-2" %>
+    </div>
+    <div class="my-5">
+      <%= form.password_field :password_confirmation, required: true, placeholder: "Confirm password", class: "block w-full rounded-md border px-3 py-2" %>
+    </div>
+    <%= form.submit "Create account", class: "rounded-md px-3.5 py-2.5 bg-blue-600 text-white font-medium cursor-pointer" %>
+  <% end %>
+</div>
