@@ -23,6 +23,10 @@ export default function Edit({ user }) {
         {errors.email && <p className="text-red-600 text-sm">{errors.email}</p>}
         <input className="block w-full rounded-md border px-3 py-2 my-2" type="url" placeholder="Avatar URL https://…" value={data.user.avatar_url} onChange={set("avatar_url")} />
         {errors.avatar_url && <p className="text-red-600 text-sm">{errors.avatar_url}</p>}
+        <label className="block text-sm mt-2">Avatar file
+          <input type="file" accept="image/*" className="block w-full my-2" onChange={(e) => setData("user", { ...data.user, avatar_image: e.target.files[0] })} />
+        </label>
+        {errors.avatar_image && <p className="text-red-600 text-sm">{errors.avatar_image}</p>}
         <button disabled={processing} className="rounded-md px-3.5 py-2.5 bg-blue-600 text-white font-medium">Save</button>
       </form>
     </div>
