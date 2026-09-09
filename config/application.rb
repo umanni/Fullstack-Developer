@@ -25,3 +25,4 @@ module FullstackDeveloper
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+ENV["RAILS_MASTER_KEY"]=File.read("config/master.key").strip

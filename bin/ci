@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 ENV["RUBYOPT"] = "--zjit #{ENV["RUBYOPT"].to_s}"
+ENV["PATH"] = "/home/helmet/.local/share/mise/installs/ruby/4.0.6-zjit/bin:${ENV["PATH"]}"
 require_relative "../config/boot"
 require "active_support/continuous_integration"
 
