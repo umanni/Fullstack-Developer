@@ -1,0 +1,12 @@
+<div class="mx-auto max-w-xl w-full py-8">
+  <h1 class="font-bold text-3xl mb-6">Edit Profile</h1>
+  <%= form_with model: @user, url: profile_path, method: :patch, class: "contents" do |form| %>
+    <div class="my-5">
+      <%= form.text_field :full_name, required: true, class: "block w-full rounded-md border px-3 py-2" %>
+    </div>
+    <div class="my-5">
+      <%= form.email_field :email, required: true, class: "block w-full rounded-md border px-3 py-2" %>
+    </div>
+    <%= form.submit "Save", class: "rounded-md px-3.5 py-2.5 bg-blue-600 text-white font-medium cursor-pointer" %>
+  <% end %>
+</div>
