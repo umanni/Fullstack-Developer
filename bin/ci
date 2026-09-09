@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+ENV["RUBYOPT"] = "--zjit #{ENV["RUBYOPT"].to_s}"
 require_relative "../config/boot"
 require "active_support/continuous_integration"
 
