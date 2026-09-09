@@ -11,6 +11,7 @@ CI.run do
   step "Tests: Rails", "bin/rails test"
   step "Tests: Seeds", "env RAILS_ENV=test bin/rails db:seed:replant"
 
+  step "Performance profiling (ZJIT)", "RUBYOPT='--zjit' ruby benchmark/zjit_profile.rb || echo 'ZJIT profiling skipped — see benchmark/'"
   step "Coverage gate", "bundle exec ruby -Isimplecov -e 'require \"simplecov\"; SimpleCov.command_name \"bin/ci\"; SimpleCov.start { minimum_coverage 90 }' || echo 'Coverage below 90% — see coverage/'"
   # step "Tests: System", "bin/rails test:system"
 

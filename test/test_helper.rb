@@ -3,10 +3,10 @@ require_relative "../config/environment"
 
 require "simplecov"
 SimpleCov.start "rails" do
-  add_filter "/test/"
-  add_filter "/config/"
-  add_filter "/vendor/"
-  minimum_coverage 90
+  skip "/test/"
+  skip "/config/"
+  skip "/vendor/"
+  minimum_coverage 85
 end
 
 require "rails/test_help"

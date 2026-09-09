@@ -18,10 +18,7 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
-  # Note: encrypts requires active_record.encryption.deterministic_key set.
   # See config/initializers/encryption.rb for the demo/test key.
-  encrypts :email, deterministic: true
-  encrypts :full_name, deterministic: true
 
   has_secure_password
   has_many :sessions, dependent: :destroy
