@@ -6,7 +6,7 @@ SimpleCov.start "rails" do
   skip "/test/"
   skip "/config/"
   skip "/vendor/"
-  minimum_coverage 85
+  minimum_coverage 90
 end
 
 require "rails/test_help"
