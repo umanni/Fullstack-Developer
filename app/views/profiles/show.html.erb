@@ -1,6 +1,16 @@
 <div class="mx-auto max-w-xl w-full py-8">
   <h1 class="font-bold text-3xl mb-6">My Profile</h1>
+  <% if @user.avatar_image.attached? %>
+    <%= image_tag @user.avatar_image, class: "w-24 h-24 rounded-full object-cover mb-4" %>
+  <% elsif @user.avatar_url.present? %>
+    <%= image_tag @user.avatar_url, class: "w-24 h-24 rounded-full object-cover mb-4" %>
+  <% end %>
   <p><strong>Name:</strong> <%= @user.full_name %></p>
   <p><strong>Email:</strong> <%= @user.email %></p>
   <p><strong>Role:</strong> <%= @user.role %></p>
+  <div class="mt-4 flex gap-3">
+    <%= link_to "Edit", edit_profile_path, class: "rounded bg-gray-200 px-3 py-2" %>
+    <%= button_to "Delete", profile_path, method: :delete, data: { turbo_confirm: "Delete your profile?" }, class: "rounded bg-red-600 text-white px-3 py-2" %>
+    <%= button_to "Sign out", session_path, method: :delete, class: "underline" %>
+  </div>
 </div>

@@ -11,19 +11,39 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app %>
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <header class="border-b">
+      <nav class="container mx-auto px-5 py-3 flex items-center gap-4 text-sm">
+        <%= link_to "Home", root_path, class: "font-bold" %>
+        <% if authenticated? %>
+          <% if Current.user&.admin? %>
+            <%= link_to "Dashboard", admin_root_path %>
+            <%= link_to "Users", admin_users_path %>
+            <%= link_to "Imports", admin_user_imports_path %>
+          <% else %>
+            <%= link_to "Profile", profile_path %>
+          <% end %>
+          <%= button_to "Sign out", session_path, method: :delete, class: "ml-auto underline" %>
+        <% else %>
+          <%= link_to "Sign in", new_session_path, class: "ml-auto" %>
+          <%= link_to "Sign up", new_registration_path, class: "rounded bg-blue-600 text-white px-3 py-1" %>
+        <% end %>
+      </nav>
+    </header>
+    <main class="container mx-auto mt-10 px-5">
+      <% if notice = flash[:notice] %>
+        <p class="bg-green-50 text-green-700 px-3 py-2 rounded mb-4" id="notice"><%= notice %></p>
+      <% end %>
+      <% if alert = flash[:alert] %>
+        <p class="bg-red-50 text-red-500 px-3 py-2 rounded mb-4" id="alert"><%= alert %></p>
+      <% end %>
       <%= yield %>
     </main>
   </body>
