@@ -9,8 +9,8 @@ export default function Show({ user }) {
   return (
     <div className="mx-auto max-w-xl w-full py-8">
       <h1 className="font-bold text-3xl mb-6">My Profile</h1>
-      {user.avatar_url && !user.avatar_attached && (
-        <img src={user.avatar_url} alt="" className="w-24 h-24 rounded-full object-cover mb-4" />
+      {(user.avatar_attached ? user.avatar_image_url : user.avatar_url) && (
+        <img src={user.avatar_attached ? user.avatar_image_url : user.avatar_url} alt="" className="w-24 h-24 rounded-full object-cover mb-4" />
       )}
       <p><strong>Name:</strong> {user.full_name}</p>
       <p><strong>Email:</strong> {user.email}</p>

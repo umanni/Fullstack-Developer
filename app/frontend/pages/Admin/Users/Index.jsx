@@ -19,10 +19,11 @@ export default function Index({ users }) {
       <h1 className="font-bold text-3xl mb-6">Users</h1>
       <Link href="/admin/users/new" className="rounded-md px-3 py-2 bg-blue-600 text-white">New user</Link>
       <table className="mt-4 w-full text-left">
-        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+        <thead><tr><th></th><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
+              <td>{(user.avatar_image_url || user.avatar_url) && <img src={user.avatar_image_url || user.avatar_url} alt="" className="w-10 h-10 rounded-full object-cover" />}</td>
               <td>{user.full_name}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>

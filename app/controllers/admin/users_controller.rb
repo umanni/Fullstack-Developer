@@ -3,9 +3,13 @@ module Admin
     before_action :set_user, only: %i[ edit update destroy toggle_role ]
 
     def index
-      render inertia: "Admin/Users/Index", props: {
-        users: User.order(:full_name).as_json(only: [ :id, :full_name, :email, :role ])
-      }
+      users = User.with_attached_avatar_image.order(:full_name).map do |u|
+        u.as_json(only: [ :id, :full_name, :email, :role ]).merge(
+          avatar_url: u.avatar_url,
+          avatar_image_url: (url_for(u.avatar_image) if u.avatar_image.attached?)
+        )
+      end
+      render inertia: "Admin/Users/Index", props: { users: users }
     end
 
     def new

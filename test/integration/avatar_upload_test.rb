@@ -12,6 +12,9 @@ class AvatarUploadTest < ActionDispatch::IntegrationTest
     patch profile_path, params: { user: { avatar_image: file } }
     assert_redirected_to profile_path
     assert @user.reload.avatar_image.attached?
+    get profile_path
+    assert_match "avatar_image_url", response.body
+    assert_match "/rails/active_storage/", response.body
   end
 
   test "admin creates user with avatar file" do

@@ -26,7 +26,9 @@ class ProfilesController < ApplicationController
 
   private
     def profile_json(user)
-      { full_name: user.full_name, email: user.email, role: user.role, avatar_url: user.avatar_url, avatar_attached: user.avatar_image.attached? }
+      { full_name: user.full_name, email: user.email, role: user.role, avatar_url: user.avatar_url,
+        avatar_attached: user.avatar_image.attached?,
+        avatar_image_url: (url_for(user.avatar_image) if user.avatar_image.attached?) }
     end
 
     def profile_params
