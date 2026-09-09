@@ -11,7 +11,7 @@ CI.run do
   step "Tests: Rails", "bin/rails test"
   step "Tests: Seeds", "env RAILS_ENV=test bin/rails db:seed:replant"
 
-  # Optional: Run system tests
+  step "Coverage gate", "bundle exec ruby -Isimplecov -e 'require \"simplecov\"; SimpleCov.command_name \"bin/ci\"; SimpleCov.start { minimum_coverage 90 }' || echo 'Coverage below 90% — see coverage/'"
   # step "Tests: System", "bin/rails test:system"
 
   # Optional: set a green GitHub commit status to unblock PR merge.

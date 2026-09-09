@@ -2,14 +2,16 @@
 #
 # Table name: users
 #
-#  id              :bigint           not null, primary key
-#  avatar_url      :string
-#  email           :string           not null
-#  full_name       :string           not null
-#  password_digest :string           not null
-#  role            :integer          default(0), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                  :bigint           not null, primary key
+#  avatar_url          :string
+#  email               :string           not null
+#  encrypted_email     :string
+#  encrypted_full_name :string
+#  full_name           :string           not null
+#  password_digest     :string           not null
+#  role                :integer          default(0), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
