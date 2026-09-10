@@ -18,12 +18,12 @@ class AuthFlowTest < ApplicationSystemTestCase
     User.create!(full_name: "Sys Admin", email: "sys-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
 
     visit "/session/new"
-    fill_in placeholder: "Enter your email address", with: "sys-admin@example.com"
+    fill_in placeholder: "you@example.com", with: "sys-admin@example.com"
     fill_in placeholder: "Enter your password", with: "password123"
     within("form") { click_on "Sign in" }
 
     assert_current_path "/admin"
-    assert_text "User Admin Dashboard"
-    assert_text "Total number of Users"
+    assert_text "Dashboard"
+    assert_text "Total Users"
   end
 end
