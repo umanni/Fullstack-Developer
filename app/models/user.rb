@@ -18,8 +18,6 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
-  # See config/initializers/encryption.rb for the demo/test key.
-
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_one_attached :avatar_image

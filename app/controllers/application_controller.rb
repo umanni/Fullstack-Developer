@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include Authentication
-  # Cross-browser support: modern browsers plus common legacy versions
+  # Cross-browser support: Rails modern-browser guard; all UI is standard HTML/CSS/React with no browser-specific APIs.
   allow_browser versions: :modern
 
   inertia_share auth: -> {
