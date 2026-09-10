@@ -1,10 +1,6 @@
 import { Link, router } from "@inertiajs/react"
 import Layout from "../../Shared/Layout"
 
-function removeAvatar(id, name) {
-  if (window.confirm(`Remove avatar for "${name}"?`)) router.delete(`/admin/users/${id}/remove_avatar`)
-}
-
 function destroyUser(id, name) {
   if (window.confirm(`Delete user "${name}"? This cannot be undone.`)) router.delete(`/admin/users/${id}`)
 }
@@ -40,7 +36,6 @@ export default function Index({ users }) {
                   <Link href={`/admin/users/${user.id}`} className="underline text-emerald-700 hover:text-emerald-900">Profile</Link>
                   <Link href={`/admin/users/${user.id}/edit`} className="underline text-blue-700 hover:text-blue-900">Edit</Link>
                   <button onClick={() => toggleRole(user.id, user.full_name)} className="underline text-violet-700 hover:text-violet-900">Toggle role</button>
-                  <button onClick={() => removeAvatar(user.id, user.full_name)} className="underline text-amber-600 hover:text-amber-800">Remove avatar</button>
                   <button onClick={() => destroyUser(user.id, user.full_name)} className="underline text-rose-600 hover:text-rose-800">Delete</button>
                 </td>
               </tr>
