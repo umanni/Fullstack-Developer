@@ -247,19 +247,26 @@ Build the image:
 docker build -t fullstack-developer:dev .
 ```
 
-Run it, wiring the database and the Rails master key:
+Run it, wiring the database, the Rails master key, and a secret key base:
 
 ```sh
 docker run -d -p 80:80 \
+  --add-host=host.docker.internal:host-gateway \
   -e RAILS_MASTER_KEY="$(cat config/master.key)" \
+  -e SECRET_KEY_BASE="$(openssl rand -hex 64)" \
   -e DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_development" \
+  -e CACHE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_cache" \
+  -e QUEUE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_queue" \
+  -e CABLE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_cable" \
   --name fullstack-developer \
   fullstack-developer:dev
 ```
 
 Notes:
 
-- `host.docker.internal` reaches the PostgreSQL container running on your host (Option A). On Linux, add `--add-host=host.docker.internal:host-gateway` to the `docker run` command.
+- `host.docker.internal` reaches the PostgreSQL container running on your host (Option A). On Linux, the `--add-host=host.docker.internal:host-gateway` flag (included above) is required.
+- `SECRET_KEY_BASE` is required because the image runs in production mode and the repository's credentials file does not ship a production `secret_key_base`. Generate one with `openssl rand -hex 64`.
+- The four `*_DATABASE_URL` variables are required because the production configuration uses separate databases for Solid Cache, Solid Queue, and Solid Cable. Point all four at the same PostgreSQL instance (the compose container from Option A); Rails creates the extra databases automatically on first boot.
 - The container listens on port 80; open http://localhost in your browser.
 - The image is built for production (`RAILS_ENV=production`), so it serves precompiled assets and does not run the Vite dev server.
 
@@ -283,7 +290,11 @@ services:
       - "80:80"
     environment:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_development
+      CACHE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_cache
+      QUEUE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_queue
+      CABLE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_cable
     depends_on:
       db:
         condition: service_healthy
@@ -292,8 +303,12 @@ services:
 Then:
 
 ```sh
+export RAILS_MASTER_KEY="$(cat config/master.key)"
+export SECRET_KEY_BASE="$(openssl rand -hex 64)"
 docker compose up -d --build
 ```
+
+The `web` service needs the same four `*_DATABASE_URL` variables as Option B (Solid Cache/Queue/Cable use separate databases in production mode) and a `SECRET_KEY_BASE`; the `db` service is reachable from `web` on the compose network at host `db:5432`.
 
 ### How Kamal relates to local development
 
