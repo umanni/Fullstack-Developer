@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-Assisted by OpenCode with models: `Muse Spark 1.3`, `DeepSeek v4 Flash`, `MiMo V2.5`.
+Assisted by OpenCode with models: `Muse Spark 1.3`, `DeepSeek v4 Flash`, `MiMo V2.5`, `deepseek-v4.1-flash`.
 
 # Fullstack Developer — User Management App
 
@@ -298,7 +298,7 @@ Kamal 2 (`config/deploy.yml`) is the production deployment tool — it builds th
 - **Same database shape**: the compose `db` service mirrors the Postgres 16 accessory defined under `accessories:` in `config/deploy.yml`.
 - **Different secrets handling**: locally you pass `RAILS_MASTER_KEY` and `SECRET_KEY_BASE` as environment variables; Kamal injects them from `.kamal/secrets` via `bin/kamal secret set`.
 
-Deployment is configured with Kamal 2 in `config/deploy.yml`. The image is published to `ghcr.io` (`ghcr.io/umanni/fullstack-developer:latest`), traffic terminates through an SSL proxy for the app host, and the stack defines `web` and `job` roles plus a Postgres 16 accessory for production data.
+Deployment is configured with Kamal 2 in `config/deploy.yml`. The image is published to `ghcr.io` (`ghcr.io/umanni/fullstack-developer:latest`), traffic terminates through an SSL proxy for the app host, and the stack defines a single `web` role (Puma running the Solid Queue supervisor in-process) plus a Postgres 16 accessory for production data.
 
 ### Prerequisites
 
@@ -319,8 +319,7 @@ bin/kamal version
 ### Configure the deployment
 
 1. **Set the real server addresses.** Open `config/deploy.yml` and replace the placeholder values with your production infrastructure:
-   - `DEPLOY_WEB_HOST` (default `192.168.0.1`) — the server that runs the web app.
-   - `DEPLOY_JOB_HOST` (default `192.168.0.1`) — the server that runs background jobs.
+   - `DEPLOY_WEB_HOST` (default `192.168.0.1`) — the server that runs the web app and background jobs.
    - `DEPLOY_DB_HOST` (default `192.168.0.2`) — the server that runs the Postgres accessory.
    - `proxy.host` (`fullstack-developer.umanni.dev`) — the public hostname that will serve the app over HTTPS.
 
@@ -360,7 +359,7 @@ bin/kamal console
 ```
 
 ```sh
-bin/kamal logs -r job
+bin/kamal logs
 ```
 
 ### Troubleshooting

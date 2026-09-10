@@ -45,15 +45,10 @@ module Admin
     end
 
     def update
-      ActiveRecord::Base.transaction do
-        if @user.avatar_image.attached? && params[:user][:avatar_url].present?
-          @user.avatar_image.purge
-        end
-        if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
-          @user.update!(avatar_url: nil)
-        end
-      end
-      if @user.update(user_params)
+      if @user.update(user_params_without_stale_avatar)
+        # An explicit URL wins over a stored upload; drop the now-unused file
+        # only after the record is safely persisted.
+        @user.avatar_image.purge if replacing_attachment_with_url?
         redirect_to admin_users_path, notice: "User updated."
       else
         render inertia: "Admin/Users/Edit", props: { user: user_json(@user) }, status: :unprocessable_entity
@@ -99,6 +94,19 @@ module Admin
 
       def user_params
         params.expect(user: [ :full_name, :email, :password, :password_confirmation, :role, :avatar_image, :avatar_url ])
+      end
+
+      # A freshly uploaded file takes precedence over any URL carried in the form.
+      def user_params_without_stale_avatar
+        avatar_upload? ? user_params.merge(avatar_url: nil) : user_params
+      end
+
+      def avatar_upload?
+        params.dig(:user, :avatar_image).is_a?(ActionDispatch::Http::UploadedFile)
+      end
+
+      def replacing_attachment_with_url?
+        !avatar_upload? && user_params[:avatar_url].present? && @user.avatar_image.attached?
       end
 
       def user_json(user)

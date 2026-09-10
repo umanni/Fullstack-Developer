@@ -1,13 +1,29 @@
 class UserImportJob < ApplicationJob
   queue_as :default
 
+  # Transient infrastructure failures are retried with backoff; malformed rows
+  # are handled per-row and never raise.
+  retry_on ActiveRecord::ConnectionNotEstablished, ActiveRecord::ConnectionFailed,
+    ActiveRecord::QueryCanceled, PG::ConnectionBad,
+    wait: :polynomially_longer, attempts: 3
+  discard_on ActiveJob::DeserializationError
+
   MAX_ROWS = 10_000
   MAX_ROW_ERRORS = 100
   ROW_LIMIT_ERROR = "File exceeds the 10,000 row limit"
 
   def perform(user_import)
-    Rails.logger.info("[UserImportJob] started import_id=#{user_import.id}")
-    user_import.update!(status: :processing, row_errors: [], processed_rows: 0, failed_rows: 0)
+    return if user_import.completed? # already finished on a previous attempt
+
+    resuming = user_import.processing?
+    Rails.logger.info("[UserImportJob] started import_id=#{user_import.id} resuming=#{resuming}")
+
+    user_import.update!(
+      status: :processing,
+      row_errors: resuming ? user_import.row_errors : [],
+      processed_rows: resuming ? user_import.processed_rows : 0,
+      failed_rows: resuming ? user_import.failed_rows : 0
+    )
     @errors_truncated = false
 
     begin
@@ -21,7 +37,13 @@ class UserImportJob < ApplicationJob
         return
       end
 
+      # Skip rows already accounted for by a previous attempt so retries resume
+      # instead of recreating users (and failing on duplicate emails).
+      cursor = user_import.processed_rows + user_import.failed_rows
+
       rows.each_with_index do |row, index|
+        next if index < cursor
+
         email = row["email"].to_s.strip.downcase
         if email.blank? || email == "email"
           user_import.increment!(:failed_rows)

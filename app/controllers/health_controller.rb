@@ -5,7 +5,9 @@ class HealthController < ApplicationController
   def show
     ActiveRecord::Base.connection.execute("SELECT 1")
     render json: { status: "ok" }, status: :ok
-  rescue ActiveRecord::ConnectionNotEstablished, PG::Error
+  rescue ActiveRecord::ConnectionNotEstablished, ActiveRecord::ConnectionFailed,
+         ActiveRecord::StatementInvalid, PG::Error => e
+    Rails.logger.error("[HealthCheck] database unavailable: #{e.class}: #{e.message}")
     render json: { status: "unavailable" }, status: :service_unavailable
   end
 end

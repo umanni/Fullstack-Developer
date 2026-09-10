@@ -1,7 +1,10 @@
 class UserImportChannel < ApplicationCable::Channel
   def subscribed
-    reject unless current_user&.admin?
-    import = UserImport.find(params[:id])
+    return reject unless current_user&.admin?
+
+    import = UserImport.find_by(id: params[:id])
+    return reject unless import
+
     stream_for import
   end
 end

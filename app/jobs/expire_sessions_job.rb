@@ -6,11 +6,10 @@ class ExpireSessionsJob < ApplicationJob
   queue_as :default
 
   SESSION_TTL = 30.days
+  BATCH_SIZE = 1_000
 
   def perform
-    expired = Session.where("last_active_at < ?", SESSION_TTL.ago)
-    count = expired.count
-    expired.delete_all
+    count = Session.expired.in_batches(of: BATCH_SIZE).sum(&:delete_all)
     Rails.logger.info("[ExpireSessionsJob] removed #{count} expired sessions") if count.positive?
     count
   end

@@ -27,9 +27,6 @@ class AuditLog < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :auditable, polymorphic: true, optional: true
 
-  # Nullify user_id when user is deleted (instead of destroying audit logs)
-  before_destroy :nullify_user_references, if: :user_id?
-
   validates :action, presence: true
 
   scope :recent, -> { order(created_at: :desc).limit(100) }
@@ -44,11 +41,4 @@ class AuditLog < ApplicationRecord
       user_agent: request&.user_agent
     )
   end
-
-  private
-    def nullify_user_references
-      # This is called when the audit log itself is destroyed,
-      # not when the user is destroyed. For user deletion,
-      # we handle this via ActiveRecord callback.
-    end
 end

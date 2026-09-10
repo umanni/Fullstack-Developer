@@ -51,4 +51,14 @@ class AvatarManagementTest < ActionDispatch::IntegrationTest
     assert_not @user.reload.avatar_image.attached?
     assert_nil @user.reload.avatar_url
   end
+
+  test "failed update keeps the existing attachment" do
+    @user.avatar_image.attach(io: StringIO.new("img"), filename: "keep.png", content_type: "image/png")
+    sign_in_as(@user)
+
+    patch profile_path, params: { user: { email: "not-an-email", avatar_url: "https://example.com/new.png" } }
+
+    assert_response :unprocessable_entity
+    assert @user.reload.avatar_image.attached?
+  end
 end

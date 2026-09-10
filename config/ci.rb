@@ -12,7 +12,9 @@ CI.run do
   step "Tests: Seeds", "env RAILS_ENV=test bin/rails db:seed:replant"
 
   step "Performance profiling (ZJIT)", "RUBYOPT='--zjit' ruby benchmark/zjit_profile.rb || echo 'ZJIT profiling skipped — see benchmark/'"
-  step "Coverage gate", "bundle exec ruby -Isimplecov -e 'require \"simplecov\"; SimpleCov.command_name \"bin/ci\"; SimpleCov.start { minimum_coverage 90 }' || echo 'Coverage below 90% — see coverage/'"
+  # The coverage gate is enforced by SimpleCov's minimum_coverage inside
+  # test/test_helper.rb during "Tests: Rails" above, so a separate step here
+  # would measure nothing and could never fail.
   # step "Tests: System", "bin/rails test:system"
 
   # Optional: set a green GitHub commit status to unblock PR merge.

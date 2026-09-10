@@ -23,4 +23,11 @@ class UserImportChannelTest < ActionCable::Channel::TestCase
 
     assert subscription.rejected?
   end
+
+  test "rejects subscription for an unknown import" do
+    stub_connection current_user: @admin
+    subscribe(id: 0)
+
+    assert subscription.rejected?
+  end
 end
