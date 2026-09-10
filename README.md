@@ -230,6 +230,25 @@ Notes:
 - The four `*_DATABASE_URL` variables are already set in `compose.yml`; they exist because the production configuration uses separate databases for Solid Cache, Solid Queue, and Solid Cable. Rails creates them automatically on first boot.
 - Prefer running without Docker? Follow the "Build / Seed / Run" section above and use `bin/dev` — the app also runs on http://localhost:3000.
 
+### Run the quality pipeline (`bin/ci`) with Docker
+
+The full quality pipeline (lint, security audits, tests, coverage gate, profiling) runs inside the app container against the compose database. With the app stack running:
+
+```sh
+docker compose run --rm \
+  -v "$(pwd)/config/master.key:/rails/config/master.key" \
+  web sh -c 'RAILS_ENV=test DATABASE_URL=postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_test bundle exec bin/ci'
+```
+
+What this does:
+
+- `docker compose run` starts a one-off `web` container on the compose network, so it can reach the `db` service.
+- The `-v` mount makes `config/master.key` available inside the container — `bin/ci` reads it directly and the file is not baked into the image.
+- `RAILS_ENV=test` and `DATABASE_URL` point the suite at a test database on the compose Postgres; Rails creates it automatically on the first run.
+- `bundle exec bin/ci` runs the same pipeline as on the host: setup, RuboCop, bundler-audit, Brakeman, Vite test build, the Minitest suite, seed replant, ZJIT profiling, and the SimpleCov gate.
+
+The container is removed when the run finishes (`--rm`). The app stack itself is unaffected.
+
 ### How Kamal relates to local development
 
 Kamal 2 (`config/deploy.yml`) is the production deployment tool — it builds the same Dockerfile, pushes the image to a registry, and rolls it out to remote servers over SSH. Locally, you are not running Kamal; you are using Docker directly. The relationship:
