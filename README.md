@@ -249,6 +249,36 @@ What this does:
 
 The container is removed when the run finishes (`--rm`). The app stack itself is unaffected.
 
+### Run commands inside the app container
+
+With the app stack running (`docker compose up --build`), run any Rails or Ruby command inside the `web` container with `docker compose exec`. The running container already has the environment configured, so no extra flags are needed:
+
+```sh
+docker compose exec web bin/rails console
+```
+
+```sh
+docker compose exec web bin/rails runner 'puts User.count'
+```
+
+```sh
+docker compose exec web bin/rails routes
+```
+
+```sh
+docker compose exec web bin/rubocop
+```
+
+```sh
+docker compose exec web bin/rails db:migrate
+```
+
+Notes:
+
+- `docker compose exec` runs in the already-running `web` container; `docker compose run` (used for `bin/ci` above) starts a separate one-off container instead.
+- For interactive commands like `rails console`, use `docker compose exec` without `-T`. For piping input (e.g. `echo 'puts User.count' | docker compose exec -T web bin/rails console`), add `-T`.
+- If you started the stack without exporting `RAILS_MASTER_KEY` and `SECRET_KEY_BASE` first, the container will have blank values; restart with the exports from the "Run with Docker" section.
+
 ### How Kamal relates to local development
 
 Kamal 2 (`config/deploy.yml`) is the production deployment tool — it builds the same Dockerfile, pushes the image to a registry, and rolls it out to remote servers over SSH. Locally, you are not running Kamal; you are using Docker directly. The relationship:
