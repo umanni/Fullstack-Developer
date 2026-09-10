@@ -38,4 +38,45 @@ class UserImportRowErrorsTest < ActiveJob::TestCase
     import.total_rows = 0
     assert_equal 0, import.progress_percent
   end
+
+  test "marks import failed when an unexpected error occurs mid-loop" do
+    import = UserImport.new(status: :pending, total_rows: 0, processed_rows: 0, failed_rows: 0)
+    import.file.attach(
+      io: StringIO.new("full_name,email,password\nOk,boom@example.com,password123\n"),
+      filename: "boom.csv",
+      content_type: "text/csv"
+    )
+    import.save!
+
+    job = UserImportJob.new
+    job.define_singleton_method(:read_rows) { |*| raise "boom" }
+    assert_raises(RuntimeError) { job.perform(import) }
+
+    import.reload
+    assert_equal "failed", import.status
+    refute_equal "processing", import.status
+  end
+
+  test "caps row_errors at 100 and flags truncation" do
+    rows = (1..150).map { |i| ",blank-#{i}@example.com,password123" }
+    csv = "full_name,email,password\n#{rows.join("\n")}\n"
+
+    import = UserImport.new(status: :pending, total_rows: 0, processed_rows: 0, failed_rows: 0)
+    import.file.attach(io: StringIO.new(csv), filename: "many.csv", content_type: "text/csv")
+    import.save!
+
+    payloads = []
+    UserImportChannel.define_singleton_method(:broadcast_to) { |_import, payload| payloads << payload }
+    begin
+      UserImportJob.new.perform(import)
+    ensure
+      UserImportChannel.singleton_class.send(:remove_method, :broadcast_to)
+    end
+
+    import.reload
+    assert_equal 150, import.total_rows
+    assert_equal 150, import.failed_rows
+    assert_equal 100, import.row_errors.size
+    assert_equal true, payloads.last[:errors_truncated]
+  end
 end
