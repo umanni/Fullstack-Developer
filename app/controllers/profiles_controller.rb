@@ -11,6 +11,12 @@ class ProfilesController < ApplicationController
 
   def update
     @user = Current.user
+    if @user.avatar_image.attached? && params[:user][:avatar_url].present?
+      @user.avatar_image.purge
+    end
+    if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
+      @user.update!(avatar_url: nil)
+    end
     if @user.update(profile_params)
       redirect_to profile_path, notice: "Profile updated."
     else

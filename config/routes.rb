@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "dashboard#show"
-    resources :users, except: [ :show ] do
+    resources :users do
       patch :toggle_role, on: :member
       delete :remove_avatar, on: :member
     end

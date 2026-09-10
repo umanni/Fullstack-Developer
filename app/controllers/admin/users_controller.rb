@@ -1,6 +1,6 @@
 module Admin
   class UsersController < BaseController
-    before_action :set_user, only: %i[ edit update destroy toggle_role ]
+    before_action :set_user, only: %i[ show edit update destroy toggle_role remove_avatar ]
 
     def index
       users = User.with_attached_avatar_image.order(:full_name).map do |u|
@@ -11,6 +11,10 @@ module Admin
         )
       end
       render inertia: "Admin/Users/Index", props: { users: users }
+    end
+
+    def show
+      render inertia: "Admin/Users/Show", props: { user: user_json(@user) }
     end
 
     def new
@@ -28,14 +32,20 @@ module Admin
     end
 
     def edit
-      render inertia: "Admin/Users/Edit", props: { user: @user.as_json(only: [ :id, :full_name, :email, :role, :avatar_url ]) }
+      render inertia: "Admin/Users/Edit", props: { user: user_json(@user) }
     end
 
     def update
+      if @user.avatar_image.attached? && params[:user][:avatar_url].present?
+        @user.avatar_image.purge
+      end
+      if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
+        @user.update!(avatar_url: nil)
+      end
       if @user.update(user_params)
         redirect_to admin_users_path, notice: "User updated."
       else
-        render inertia: "Admin/Users/Edit", props: { user: @user.as_json(only: [ :id, :full_name, :email, :role, :avatar_url ]) }, status: :unprocessable_entity
+        render inertia: "Admin/Users/Edit", props: { user: user_json(@user) }, status: :unprocessable_entity
       end
     end
 
@@ -63,6 +73,12 @@ module Admin
 
       def user_params
         params.expect(user: [ :full_name, :email, :password, :password_confirmation, :role, :avatar_image, :avatar_url ])
+      end
+
+      def user_json(user)
+        { id: user.id, full_name: user.full_name, email: user.email, role: user.role, avatar_url: user.avatar_url,
+          avatar_attached: user.avatar_image.attached?,
+          avatar_image_url: (url_for(user.avatar_image) if user.avatar_image.attached?) }
       end
   end
 end

@@ -37,6 +37,7 @@ export default function Index({ users }) {
                 <td className="px-6 py-4 text-slate-600">{user.email}</td>
                 <td className="px-6 py-4"><span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100 capitalize">{user.role}</span></td>
                 <td className="px-6 py-4 flex gap-3 text-sm">
+                  <Link href={`/admin/users/${user.id}`} className="underline text-emerald-700 hover:text-emerald-900">Profile</Link>
                   <Link href={`/admin/users/${user.id}/edit`} className="underline text-blue-700 hover:text-blue-900">Edit</Link>
                   <button onClick={() => toggleRole(user.id, user.full_name)} className="underline text-violet-700 hover:text-violet-900">Toggle role</button>
                   <button onClick={() => removeAvatar(user.id, user.full_name)} className="underline text-amber-600 hover:text-amber-800">Remove avatar</button>

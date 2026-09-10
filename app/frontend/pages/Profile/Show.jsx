@@ -1,4 +1,4 @@
-import { Link, router } from "@inertiajs/react"
+import { Link } from "@inertiajs/react"
 import Layout from "../Shared/Layout"
 
 export default function Show({ user }) {
@@ -20,9 +20,8 @@ export default function Show({ user }) {
           <span className="inline-block mt-2 px-3 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">{user.role}</span>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <Link href="/profile/edit" className="text-center px-5 py-3 rounded-2xl bg-slate-900 text-white font-medium hover:bg-slate-800 transition shadow-lg shadow-slate-900/10">Edit profile</Link>
-        <button onClick={() => { if (window.confirm("Remove avatar image?")) router.delete("/profile/remove_avatar") }} className="text-center px-5 py-3 rounded-2xl bg-amber-500 text-white font-medium hover:bg-amber-600 transition shadow-lg shadow-amber-500/20">Remove avatar</button>
         <Link href="/profile" method="delete" as="button" data={{ confirm: "Delete your profile? This cannot be undone." }} className="text-center px-5 py-3 rounded-2xl bg-rose-600 text-white font-medium hover:bg-rose-700 transition shadow-lg shadow-rose-600/10">Delete account</Link>
       </div>
     </div>
