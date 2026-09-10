@@ -32,6 +32,7 @@ export default function Show({ import: initial }) {
       {imp.row_errors && imp.row_errors.length > 0 && (
         <div className="mt-6 rounded-3xl border border-rose-200 bg-rose-50 p-6 shadow-xl shadow-rose-900/5">
           <h2 className="text-lg font-bold text-rose-800 mb-3">Row errors ({imp.row_errors.length})</h2>
+          {imp.errors_truncated && <p className="text-amber-700 text-xs mt-1">Showing the first 100 errors.</p>}
           <ul className="space-y-2">
             {imp.row_errors.map((err, i) => (
               <li key={i} className="text-sm text-rose-700 bg-white/70 rounded-xl px-4 py-2 border border-rose-100">
