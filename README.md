@@ -118,7 +118,7 @@ psql --version
 If your PostgreSQL instance requires a password for the default user, set the `DATABASE_URL` environment variable so Rails can connect, for example:
 
 ```sh
-export DATABASE_URL="postgres://<user>:<password>@localhost:5433/fullstack_developer_development"
+export DATABASE_URL="postgres://<user>:<password>@localhost:5432/fullstack_developer_development"
 ```
 
 ### 5. Install backend and frontend dependencies
