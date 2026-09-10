@@ -1,0 +1,21 @@
+# Local development services. Start with: docker compose up -d
+# Provides PostgreSQL for the Rails app without installing Postgres locally.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: fullstack_developer
+      POSTGRES_PASSWORD: fullstack_developer
+      POSTGRES_DB: fullstack_developer_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fullstack_developer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

@@ -1,6 +1,6 @@
 ### AI Usage Disclosure
 
-Assisted by Muse Spark (opencode contributor agent `muse-spark-1.3-contributor`).
+Assisted by OpenCode with models: `Muse Spark 1.3`, `DeepSeek v4 Flash`, `MiMo V2.5`.
 
 # Fullstack Developer — User Management App
 
@@ -195,7 +195,114 @@ The Minitest suite runs in parallel with `bin/rails test` (107 runs) and covers 
 
 System tests live in `test/system/` and run under Capybara with headless Chrome via Selenium, exercising login, registration, profile editing, and the admin dashboard from a real browser. Performance profiling uses `benchmark/zjit_profile.rb` to compare warm runs with Ruby 4 ZJIT enabled against the baseline interpreter.
 
-## Deployment
+## Development with Docker
+
+You can run the whole development environment with Docker instead of installing Ruby, Node, and PostgreSQL on your machine. Three options are available, from lightest to heaviest.
+
+### Option A: PostgreSQL only (recommended for day-to-day dev)
+
+This runs just the database in a container; Rails and Vite still run on your machine with `bin/dev`. It is the fastest way to get a clean database without installing PostgreSQL locally.
+
+Prerequisite: Docker with Compose (`docker compose version`).
+
+```sh
+docker compose up -d
+```
+
+This starts PostgreSQL 16 on `localhost:5432` with:
+
+- user: `fullstack_developer`
+- password: `fullstack_developer`
+- database: `fullstack_developer_development`
+
+Then point Rails at it and set up the database:
+
+```sh
+export DATABASE_URL="postgres://fullstack_developer:fullstack_developer@localhost:5432/fullstack_developer_development"
+bin/rails db:create db:migrate db:seed
+bin/dev
+```
+
+Stop the database container when done:
+
+```sh
+docker compose down
+```
+
+To wipe the database volume entirely (fresh start):
+
+```sh
+docker compose down -v
+```
+
+### Option B: The app image with Thruster (production-like)
+
+This builds the multi-stage Dockerfile and runs the app exactly as production does — Puma behind the Thruster proxy (`bin/thrust`), which adds asset caching, compression, and X-Sendfile acceleration. Use this to validate the production image locally.
+
+Prerequisite: Docker (`docker --version`), and a reachable PostgreSQL (either the compose container from Option A or any other instance).
+
+Build the image:
+
+```sh
+docker build -t fullstack-developer:dev .
+```
+
+Run it, wiring the database and the Rails master key:
+
+```sh
+docker run -d -p 80:80 \
+  -e RAILS_MASTER_KEY="$(cat config/master.key)" \
+  -e DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_development" \
+  --name fullstack-developer \
+  fullstack-developer:dev
+```
+
+Notes:
+
+- `host.docker.internal` reaches the PostgreSQL container running on your host (Option A). On Linux, add `--add-host=host.docker.internal:host-gateway` to the `docker run` command.
+- The container listens on port 80; open http://localhost in your browser.
+- The image is built for production (`RAILS_ENV=production`), so it serves precompiled assets and does not run the Vite dev server.
+
+Stop and remove the container:
+
+```sh
+docker stop fullstack-developer && docker rm fullstack-developer
+```
+
+### Option C: Full local stack with Compose
+
+For a one-command local stack, extend `compose.yml` with a `web` service that builds the Dockerfile and depends on the `db` service. This is the closest local approximation of the Kamal deployment topology (web container + Postgres accessory).
+
+```yaml
+services:
+  db:
+    # ... as above ...
+  web:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_development
+    depends_on:
+      db:
+        condition: service_healthy
+```
+
+Then:
+
+```sh
+docker compose up -d --build
+```
+
+### How Kamal relates to local development
+
+Kamal 2 (`config/deploy.yml`) is the production deployment tool — it builds the same Dockerfile, pushes the image to a registry, and rolls it out to remote servers over SSH. Locally, you are not running Kamal; you are using Docker directly (Options A–C). The relationship:
+
+- **Same image**: `docker build` (Option B/C) and `bin/kamal deploy` both build from the same `Dockerfile`, so what you validate locally is what ships.
+- **Same proxy**: the image's `CMD` runs `bin/thrust` (Thruster) in both local and Kamal runs.
+- **Same database shape**: the compose `db` service mirrors the Postgres 16 accessory defined under `accessories:` in `config/deploy.yml`.
+- **Different secrets handling**: locally you pass `RAILS_MASTER_KEY` and `DATABASE_URL` as environment variables; Kamal injects them from `.kamal/secrets` via `bin/kamal secret set`.
 
 Deployment is configured with Kamal 2 in `config/deploy.yml`. The image is published to `ghcr.io` (`ghcr.io/umanni/fullstack-developer:latest`), traffic terminates through an SSL proxy for the app host, and the stack defines `web` and `job` roles plus a Postgres 16 accessory for production data.
 
