@@ -34,7 +34,7 @@ export default function Layout({ children }) {
           </div>
         </nav>
       </header>
-      <main className="w-full px-6 py-12">
+      <main className="w-full m-0 p-0">
         {flash?.notice && (
           <div className="mb-6 p-4 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-100 shadow-sm animate-fade-in">
             {flash.notice}
