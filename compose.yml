@@ -22,6 +22,7 @@ services:
     environment:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      SOLID_QUEUE_IN_PUMA: "true"
       DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_development
       CACHE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_cache
       QUEUE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_queue
@@ -29,6 +30,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - storage_data:/rails/storage
 
 volumes:
   postgres_data:
+  storage_data:
