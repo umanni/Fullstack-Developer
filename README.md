@@ -15,19 +15,19 @@ A modern, responsive monolithic SPA for managing users. Admins get a live dashbo
 | Database | PostgreSQL |
 | Frontend | React 19 + Inertia.js + Vite |
 | Styling | Tailwind CSS |
-| Real-time | Solid Cable (no Redis) |
-| Background jobs | Solid Queue (no Redis) |
+| Real-time | Solid Cable |
+| Background jobs | Solid Queue |
 | Proxy | Thruster |
 | Deployment | Kamal 2 |
 
 ## Build / Seed / Run
 
-Prerequisites: Ruby 4.0.6 with Bundler, Node.js with npm, PostgreSQL running locally, and `mise` available for the commands below. Database credentials are read from the standard Rails credential and environment configuration; no secret values are printed here.
+Prerequisites: Ruby 4.0.6 with Bundler, Node.js with npm, PostgreSQL running locally. Database credentials are read from the standard Rails credential and environment configuration; no secret values are printed here.
 
 Install backend and frontend dependencies:
 
 ```sh
-mise x -- bundle install
+bundle install
 ```
 
 ```sh
@@ -65,7 +65,7 @@ bin/dev
 Run the full quality pipeline (setup, lint, audits, test build, tests, coverage gate, profiling):
 
 ```sh
-mise x -- bin/ci
+bin/ci
 ```
 
 ## Architecture
@@ -80,7 +80,7 @@ Authentication uses the built-in Rails 8 authentication generator, extended with
 
 ## Testing
 
-The full pipeline entry point is `mise x -- bin/ci`, which runs environment setup, RuboCop, bundler-audit, Brakeman, a Vite production test build, the Minitest suite, a seed replant check, the ZJIT profiling script, and the SimpleCov coverage gate.
+The full pipeline entry point is `bin/ci`, which runs environment setup, RuboCop, bundler-audit, Brakeman, a Vite production test build, the Minitest suite, a seed replant check, the ZJIT profiling script, and the SimpleCov coverage gate.
 
 The Minitest suite runs in parallel with `bin/rails test` (107 runs) and covers models, controllers, jobs, channels, mailers, and integration flows, including admin CRUD, role toggling, CSV and XLSX imports with failed-row reporting, authentication redirects, and authorization boundaries. Coverage is enforced with a SimpleCov minimum of 90, and the suite currently reports 100%.
 
