@@ -99,7 +99,7 @@ accessories:
   db:
     image: postgres:16-alpine
     host: <%= ENV.fetch("DEPLOY_DB_HOST", "192.168.0.2") %>
-    port: "127.0.0.1:5432:5432"
+    port: "127.0.0.1:5433:5432"
     env:
       clear:
         POSTGRES_USER: fullstack_developer

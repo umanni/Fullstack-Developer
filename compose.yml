@@ -16,6 +16,19 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5433/fullstack_developer_development
+      CACHE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5433/fullstack_developer_cache
+      QUEUE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5433/fullstack_developer_queue
+      CABLE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5433/fullstack_developer_cable
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   postgres_data:

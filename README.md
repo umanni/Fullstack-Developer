@@ -118,7 +118,7 @@ psql --version
 If your PostgreSQL instance requires a password for the default user, set the `DATABASE_URL` environment variable so Rails can connect, for example:
 
 ```sh
-export DATABASE_URL="postgres://<user>:<password>@localhost:5432/fullstack_developer_development"
+export DATABASE_URL="postgres://<user>:<password>@localhost:5433/fullstack_developer_development"
 ```
 
 ### 5. Install backend and frontend dependencies
@@ -209,7 +209,7 @@ Prerequisite: Docker with Compose (`docker compose version`).
 docker compose up -d
 ```
 
-This starts PostgreSQL 16 on `localhost:5432` with:
+This starts PostgreSQL 16 on `localhost:5433` with:
 
 - user: `fullstack_developer`
 - password: `fullstack_developer`
@@ -218,7 +218,7 @@ This starts PostgreSQL 16 on `localhost:5432` with:
 Then point Rails at it and set up the database:
 
 ```sh
-export DATABASE_URL="postgres://fullstack_developer:fullstack_developer@localhost:5432/fullstack_developer_development"
+export DATABASE_URL="postgres://fullstack_developer:fullstack_developer@localhost:5433/fullstack_developer_development"
 bin/rails db:create db:migrate db:seed
 bin/dev
 ```
@@ -254,10 +254,10 @@ docker run -d -p 80:80 \
   --add-host=host.docker.internal:host-gateway \
   -e RAILS_MASTER_KEY="$(cat config/master.key)" \
   -e SECRET_KEY_BASE="$(openssl rand -hex 64)" \
-  -e DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_development" \
-  -e CACHE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_cache" \
-  -e QUEUE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_queue" \
-  -e CABLE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5432/fullstack_developer_cable" \
+  -e DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_development" \
+  -e CACHE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_cache" \
+  -e QUEUE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_queue" \
+  -e CABLE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_cable" \
   --name fullstack-developer \
   fullstack-developer:dev
 ```
@@ -308,7 +308,7 @@ export SECRET_KEY_BASE="$(openssl rand -hex 64)"
 docker compose up -d --build
 ```
 
-The `web` service needs the same four `*_DATABASE_URL` variables as Option B (Solid Cache/Queue/Cable use separate databases in production mode) and a `SECRET_KEY_BASE`; the `db` service is reachable from `web` on the compose network at host `db:5432`.
+The `web` service needs the same four `*_DATABASE_URL` variables as Option B (Solid Cache/Queue/Cable use separate databases in production mode) and a `SECRET_KEY_BASE`. Inside the compose network, the `db` service is reached on its internal port `db:5432` — the host-side `5433` mapping does not apply between containers.
 
 ### How Kamal relates to local development
 
