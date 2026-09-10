@@ -22,9 +22,108 @@ A modern, responsive monolithic SPA for managing users. Admins get a live dashbo
 
 ## Build / Seed / Run
 
-Prerequisites: Ruby 4.0.6 with Bundler, Node.js with npm, PostgreSQL running locally. Database credentials are read from the standard Rails credential and environment configuration; no secret values are printed here.
+These instructions assume a clean machine with nothing pre-installed. Every tool below is listed with a way to obtain it; if you already have a tool, skip its step.
 
-Install backend and frontend dependencies:
+### 1. Install Ruby 4.0.6
+
+The app requires Ruby 4.0.6 (see `.ruby-version`). Any installation method that gives you a `ruby` executable on your `PATH` works — a version manager is convenient but not required.
+
+Using a version manager (recommended, e.g. rbenv):
+
+```sh
+# rbenv + ruby-build
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+rbenv install 4.0.6
+rbenv global 4.0.6
+```
+
+Using your operating system's package manager (e.g. on Debian/Ubuntu):
+
+```sh
+sudo apt-get update
+sudo apt-get install -y ruby-full build-essential libpq-dev libyaml-dev
+```
+
+Verify Ruby is available:
+
+```sh
+ruby -v   # must print ruby 4.0.6
+```
+
+### 2. Install Bundler
+
+Bundler is the Ruby dependency manager. Install it with:
+
+```sh
+gem install bundler
+```
+
+Verify:
+
+```sh
+bundle -v
+```
+
+### 3. Install Node.js and npm
+
+The frontend is built with Vite and requires Node.js (npm ships with it). Install via nvm (recommended) or your system package manager:
+
+```sh
+# nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+exec $SHELL
+nvm install 22
+nvm use 22
+```
+
+Or on Debian/Ubuntu:
+
+```sh
+sudo apt-get install -y nodejs npm
+```
+
+Verify:
+
+```sh
+node -v   # Node 18 or newer
+npm -v
+```
+
+### 4. Install PostgreSQL
+
+The app uses PostgreSQL as its database. Install it with your system package manager:
+
+```sh
+# Debian/Ubuntu
+sudo apt-get install -y postgresql postgresql-client
+sudo service postgresql start
+```
+
+```sh
+# macOS (Homebrew)
+brew install postgresql@16
+brew services start postgresql@16
+```
+
+Verify the server is reachable:
+
+```sh
+psql --version
+```
+
+If your PostgreSQL instance requires a password for the default user, set the `DATABASE_URL` environment variable so Rails can connect, for example:
+
+```sh
+export DATABASE_URL="postgres://<user>:<password>@localhost:5432/fullstack_developer_development"
+```
+
+### 5. Install backend and frontend dependencies
+
+From the project root:
 
 ```sh
 bundle install
@@ -34,7 +133,11 @@ bundle install
 npm ci
 ```
 
-Create, migrate, and seed the database (this creates the admin account and sample users):
+If `bundle install` fails while compiling native extensions, install the system packages listed in step 1 (`build-essential`, `libpq-dev`, `libyaml-dev`) and retry.
+
+### 6. Create, migrate, and seed the database
+
+This creates the admin account and sample users:
 
 ```sh
 bin/rails db:create db:migrate db:seed
@@ -56,13 +159,19 @@ Sample import files for exercising the admin spreadsheet import (25 data rows ea
 - `test/fixtures/files/sample_users.csv`
 - `test/fixtures/files/sample_users.xlsx`
 
-Run the app in development (starts Rails plus the Vite dev server):
+### 7. Run the app in development
+
+Starts Rails plus the Vite dev server:
 
 ```sh
 bin/dev
 ```
 
-Run the full quality pipeline (setup, lint, audits, test build, tests, coverage gate, profiling):
+Then open http://localhost:3000 in your browser.
+
+### 8. Run the full quality pipeline
+
+Runs setup, lint, audits, test build, tests, coverage gate, and profiling:
 
 ```sh
 bin/ci
@@ -90,23 +199,60 @@ System tests live in `test/system/` and run under Capybara with headless Chrome 
 
 Deployment is configured with Kamal 2 in `config/deploy.yml`. The image is published to `ghcr.io` (`ghcr.io/umanni/fullstack-developer:latest`), traffic terminates through an SSL proxy for the app host, and the stack defines `web` and `job` roles plus a Postgres 16 accessory for production data.
 
-Required secrets are injected at deploy time and are never committed to the repository:
+### Prerequisites
+
+- **Docker** installed and running on your machine (Kamal builds the image locally). Verify with `docker --version`.
+- **SSH access** to the production server(s) from your machine (Kamal deploys over SSH). Verify with `ssh <user>@<server-host>`.
+- **A container registry account** with push access to `ghcr.io` (or whichever registry you set in `config/deploy.yml`). Authenticate Docker to it:
 
 ```sh
-kamal secret set RAILS_MASTER_KEY=<rails-master-key> DB_PASSWORD=<production-db-password>
+docker login ghcr.io
 ```
 
-The server and database hosts currently in `config/deploy.yml` are placeholder, operator-supplied values (`192.168.0.1` for the web and job hosts, `192.168.0.2` for the Postgres accessory host, proxy host `fullstack-developer.umanni.dev`). Replace each placeholder with the real production addresses before the first deploy, then run the standard Kamal flow:
+- **Kamal** — it is a gem in this project's bundle, so no separate install is needed. Verify it is available:
+
+```sh
+bin/kamal version
+```
+
+### Configure the deployment
+
+1. **Set the real server addresses.** Open `config/deploy.yml` and replace the placeholder values with your production infrastructure:
+   - `DEPLOY_WEB_HOST` (default `192.168.0.1`) — the server that runs the web app.
+   - `DEPLOY_JOB_HOST` (default `192.168.0.1`) — the server that runs background jobs.
+   - `DEPLOY_DB_HOST` (default `192.168.0.2`) — the server that runs the Postgres accessory.
+   - `proxy.host` (`fullstack-developer.umanni.dev`) — the public hostname that will serve the app over HTTPS.
+
+2. **Set the registry credentials.** In `config/deploy.yml`, uncomment and fill in `registry.username` and `registry.password` (or point `registry.password` at a `KAMAL_REGISTRY_PASSWORD` secret). Use a personal access token rather than your account password when possible.
+
+3. **Set the deploy secrets.** Kamal reads secrets from `.kamal/secrets` and injects them into the containers. Set the required values:
+
+```sh
+bin/kamal secret set RAILS_MASTER_KEY=<rails-master-key> DB_PASSWORD=<production-db-password>
+```
+
+   - `RAILS_MASTER_KEY` is the contents of `config/master.key` (or the production master key for your environment).
+   - `DB_PASSWORD` is the password the Postgres accessory will use.
+
+### Deploy
+
+From the project root, with Docker running and SSH access in place:
 
 ```sh
 bin/kamal setup
 ```
 
+`setup` provisions the server (installs Docker on it if needed), starts the Postgres accessory, and boots the app for the first time. On subsequent releases:
+
 ```sh
 bin/kamal deploy
 ```
 
-Useful post-deploy commands (defined as aliases in `config/deploy.yml`):
+`deploy` builds the image, pushes it to the registry, and rolls it out to the servers.
+
+### Post-deploy commands
+
+Useful commands (defined as aliases in `config/deploy.yml`):
 
 ```sh
 bin/kamal console
@@ -115,6 +261,12 @@ bin/kamal console
 ```sh
 bin/kamal logs -r job
 ```
+
+### Troubleshooting
+
+- **`registry/username is required`** — you skipped step 2; fill in the registry credentials in `config/deploy.yml`.
+- **SSH connection refused** — confirm the server address in `config/deploy.yml` and that your SSH key is authorized on the server.
+- **Container exits immediately** — check the logs with `bin/kamal logs`; the most common cause is a missing or wrong `RAILS_MASTER_KEY`.
 
 ## Known limitations
 
