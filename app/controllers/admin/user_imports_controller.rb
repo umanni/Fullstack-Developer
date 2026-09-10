@@ -1,9 +1,12 @@
 module Admin
   class UserImportsController < BaseController
     def index
-      render inertia: "Admin/Imports/Index", props: {
-        imports: UserImport.order(created_at: :desc).as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows ])
-      }
+      imports = UserImport.order(created_at: :desc).map do |imp|
+        imp.as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows ]).merge(
+          file_name: imp.file.attached? ? imp.file.filename.to_s : nil
+        )
+      end
+      render inertia: "Admin/Imports/Index", props: { imports: imports }
     end
 
     def new
