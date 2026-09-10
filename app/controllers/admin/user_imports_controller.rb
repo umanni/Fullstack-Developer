@@ -1,5 +1,7 @@
 module Admin
   class UserImportsController < BaseController
+    rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to admin_user_imports_path, alert: "Try again later." }
+
     def index
       imports = UserImport.order(created_at: :desc).map do |imp|
         imp.as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows ]).merge(
