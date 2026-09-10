@@ -18,6 +18,8 @@ class UserImport < ApplicationRecord
   enum :status, { pending: 0, processing: 1, completed: 2, failed: 3 }, default: :pending
 
   validates :file, presence: true
+  validate :file_size_within_limit, on: :create
+  validate :file_content_type_allowed, on: :create
 
   def file_name
     file.attached? ? file.filename.to_s : nil
@@ -27,4 +29,21 @@ class UserImport < ApplicationRecord
     return 0 if total_rows.zero?
     ((processed_rows + failed_rows) * 100.0 / total_rows).round
   end
+
+  private
+    def file_size_within_limit
+      return unless file.attached?
+      if file.blob.byte_size > MAX_IMPORT_FILE_SIZE
+        file.purge
+        errors.add(:file, "is too large (maximum is #{MAX_IMPORT_FILE_SIZE / 1.megabyte}MB)")
+      end
+    end
+
+    def file_content_type_allowed
+      return unless file.attached?
+      unless ALLOWED_IMPORT_CONTENT_TYPES.include?(file.content_type)
+        file.purge
+        errors.add(:file, "must be a CSV or Excel file (.csv, .xlsx)")
+      end
+    end
 end

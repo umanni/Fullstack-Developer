@@ -3,6 +3,16 @@
 # If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
+
+  # Create Solid Cache/Queue/Cable databases if they don't exist
+  # These are separate PostgreSQL databases used by Rails 8 Solid adapters
+  for DB_NAME in fullstack_developer_cache fullstack_developer_queue fullstack_developer_cable; do
+    PGPASSWORD="${FULLSTACK_DEVELOPER_DATABASE_PASSWORD:-fullstack_developer}" \
+      psql -h db -U fullstack_developer -tc "SELECT 1 FROM pg_database WHERE datname = '${DB_NAME}'" \
+      | grep -q 1 || \
+      PGPASSWORD="${FULLSTACK_DEVELOPER_DATABASE_PASSWORD:-fullstack_developer}" \
+        psql -h db -U fullstack_developer -c "CREATE DATABASE ${DB_NAME}"
+  done
 fi
 
 exec "${@}"

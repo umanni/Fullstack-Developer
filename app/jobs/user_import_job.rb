@@ -30,11 +30,13 @@ class UserImportJob < ApplicationJob
         end
 
         begin
+          password = row["password"].to_s
+          password = generate_password if password.blank? || password.length < 8
           User.create!(
             full_name: row["full_name"].to_s,
             email: email,
-            password: row["password"].to_s,
-            password_confirmation: row["password"].to_s
+            password: password,
+            password_confirmation: password
           )
           user_import.increment!(:processed_rows)
         rescue ActiveRecord::RecordInvalid => e
@@ -92,6 +94,14 @@ class UserImportJob < ApplicationJob
           next if row.cells.all? { |c| c&.value.nil? }
           headers.zip(row.cells.map { |c| c&.value }).to_h
         end
+      end
+    end
+
+    def generate_password
+      chars = ("A".."Z").to_a + ("a".."z").to_a + ("0".."9").to_a + %w[! @ # $ %]
+      loop do
+        pwd = Array.new(12) { chars.sample }.join
+        break pwd if pwd.match?(/[A-Z]/) && pwd.match?(/[a-z]/) && pwd.match?(/\d/)
       end
     end
 end

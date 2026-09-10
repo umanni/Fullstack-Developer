@@ -2,8 +2,8 @@ require "test_helper"
 
 class NavigationWorkflowTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Admin", email: "nav-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
-    @user = User.create!(full_name: "Nav User", email: "nav-user@example.com", password: "password123", password_confirmation: "password123")
+    @admin = User.create!(full_name: "Admin", email: "nav-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
+    @user = User.create!(full_name: "Nav User", email: "nav-user@example.com", password: "Password123", password_confirmation: "Password123")
   end
 
   test "root redirects admin to dashboard and user to profile" do

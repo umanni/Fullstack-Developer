@@ -2,8 +2,8 @@ require "test_helper"
 
 class AdminUsersTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Admin", email: "admin3@example.com", password: "password123", password_confirmation: "password123", role: :admin)
-    @user = User.create!(full_name: "Bob", email: "bob@example.com", password: "password123", password_confirmation: "password123")
+    @admin = User.create!(full_name: "Admin", email: "admin3@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
+    @user = User.create!(full_name: "Bob", email: "bob@example.com", password: "Password123", password_confirmation: "Password123")
     sign_in_as(@admin)
   end
 
@@ -15,7 +15,7 @@ class AdminUsersTest < ActionDispatch::IntegrationTest
 
   test "create user" do
     assert_difference("User.count", 1) do
-      post admin_users_path, params: { user: { full_name: "New", email: "new@example.com", password: "password123", password_confirmation: "password123", role: "user" } }
+      post admin_users_path, params: { user: { full_name: "New", email: "new@example.com", password: "Password123", password_confirmation: "Password123", role: "user" } }
     end
     assert_redirected_to admin_users_path
   end

@@ -20,6 +20,9 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
+# Pagination for list views
+gem "kaminari"
+
 # Pin JSON < 3 for Ruby 4 kwargs compat with ActiveSupport 8.1 (JSON.parse positional hash)
 gem "json", "< 3"
 
@@ -29,6 +32,10 @@ gem "benchmark-ips"
 # Spreadsheet import (.csv/.xlsx)
 gem "csv"
 gem "rubyXL", "~> 3.4"
+
+# Release It! — error tracking and performance monitoring
+gem "sentry-ruby"
+gem "sentry-rails"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

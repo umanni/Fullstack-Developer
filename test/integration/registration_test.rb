@@ -6,7 +6,7 @@ class RegistrationTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_difference("User.count", 1) do
-      post registration_path, params: { user: { full_name: "Newbie", email: "newbie@example.com", password: "password123", password_confirmation: "password123" } }
+      post registration_path, params: { user: { full_name: "Newbie", email: "newbie@example.com", password: "Password123", password_confirmation: "Password123" } }
     end
 
     user = User.find_by(email: "newbie@example.com")
@@ -15,7 +15,7 @@ class RegistrationTest < ActionDispatch::IntegrationTest
   end
 
   test "cannot register as admin" do
-    post registration_path, params: { user: { full_name: "Evil", email: "evil@example.com", password: "password123", password_confirmation: "password123", role: "admin" } }
+    post registration_path, params: { user: { full_name: "Evil", email: "evil@example.com", password: "Password123", password_confirmation: "Password123", role: "admin" } }
     assert User.find_by(email: "evil@example.com").user?
   end
 end

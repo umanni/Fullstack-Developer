@@ -5,8 +5,8 @@ class AuthFlowTest < ApplicationSystemTestCase
     visit "/registration/new"
     fill_in placeholder: "Full name", with: "System Newbie"
     fill_in placeholder: "Email", with: "sys-newbie@example.com"
-    fill_in placeholder: "Password", with: "password123"
-    fill_in placeholder: "Confirm password", with: "password123"
+    fill_in placeholder: "Password", with: "Password123"
+    fill_in placeholder: "Confirm password", with: "Password123"
     click_on "Create account"
 
     assert_current_path "/profile"
@@ -15,11 +15,11 @@ class AuthFlowTest < ApplicationSystemTestCase
   end
 
   test "admin signs in and sees live dashboard" do
-    User.create!(full_name: "Sys Admin", email: "sys-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    User.create!(full_name: "Sys Admin", email: "sys-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
 
     visit "/session/new"
     fill_in placeholder: "you@example.com", with: "sys-admin@example.com"
-    fill_in placeholder: "Enter your password", with: "password123"
+    fill_in placeholder: "Enter your password", with: "Password123"
     within("form") { click_on "Sign in" }
 
     assert_current_path "/admin"

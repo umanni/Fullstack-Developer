@@ -2,8 +2,8 @@ require "test_helper"
 
 class AvatarManagementTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(full_name: "Avatar User", email: "avatar-mgmt@example.com", password: "password123", password_confirmation: "password123")
-    @admin = User.create!(full_name: "Avatar Admin", email: "avatar-mgmt-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    @user = User.create!(full_name: "Avatar User", email: "avatar-mgmt@example.com", password: "Password123", password_confirmation: "Password123")
+    @admin = User.create!(full_name: "Avatar Admin", email: "avatar-mgmt-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
   end
 
   test "user removes own avatar" do

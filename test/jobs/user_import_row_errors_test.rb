@@ -4,11 +4,11 @@ class UserImportRowErrorsTest < ActiveJob::TestCase
   include ActiveJob::TestHelper
 
   test "collects per-row errors with row numbers and messages" do
-    User.create!(full_name: "Taken", email: "taken@example.com", password: "password123", password_confirmation: "password123")
+    User.create!(full_name: "Taken", email: "taken@example.com", password: "Password123", password_confirmation: "Password123")
 
     import = UserImport.new(status: :pending, total_rows: 0, processed_rows: 0, failed_rows: 0)
     import.file.attach(
-      io: StringIO.new("full_name,email,password\nBlank,,password123\nDupe,taken@example.com,password123\nOk,ok-rows@example.com,password123\n"),
+      io: StringIO.new("full_name,email,password\nBlank,,Password123\nDupe,taken@example.com,Password123\nOk,ok-rows@example.com,Password123\n"),
       filename: "errors.csv",
       content_type: "text/csv"
     )
@@ -42,7 +42,7 @@ class UserImportRowErrorsTest < ActiveJob::TestCase
   test "marks import failed when an unexpected error occurs mid-loop" do
     import = UserImport.new(status: :pending, total_rows: 0, processed_rows: 0, failed_rows: 0)
     import.file.attach(
-      io: StringIO.new("full_name,email,password\nOk,boom@example.com,password123\n"),
+      io: StringIO.new("full_name,email,password\nOk,boom@example.com,Password123\n"),
       filename: "boom.csv",
       content_type: "text/csv"
     )
@@ -58,7 +58,7 @@ class UserImportRowErrorsTest < ActiveJob::TestCase
   end
 
   test "caps row_errors at 100 and flags truncation" do
-    rows = (1..150).map { |i| ",blank-#{i}@example.com,password123" }
+    rows = (1..150).map { |i| ",blank-#{i}@example.com,Password123" }
     csv = "full_name,email,password\n#{rows.join("\n")}\n"
 
     import = UserImport.new(status: :pending, total_rows: 0, processed_rows: 0, failed_rows: 0)

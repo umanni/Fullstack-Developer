@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 ENV["RUBYOPT"] = "--zjit #{ENV["RUBYOPT"].to_s}"
-ENV["RAILS_MASTER_KEY"] = File.read(File.expand_path("../config/master.key", __dir__)).strip
+
+# Release It! — gracefully handle missing master.key in CI environments
+master_key_path = File.expand_path("../config/master.key", __dir__)
+if File.exist?(master_key_path)
+  ENV["RAILS_MASTER_KEY"] = File.read(master_key_path).strip
+elsif ENV["RAILS_MASTER_KEY"].blank?
+  warn "WARNING: config/master.key not found and RAILS_MASTER_KEY not set"
+end
+
 require "active_support/continuous_integration"
 
 CI = ActiveSupport::ContinuousIntegration

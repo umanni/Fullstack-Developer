@@ -2,7 +2,7 @@ require "test_helper"
 
 class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase
   setup do
-    @user = User.create!(full_name: "Cable User", email: "cable-conn@example.com", password: "password123", password_confirmation: "password123")
+    @user = User.create!(full_name: "Cable User", email: "cable-conn@example.com", password: "Password123", password_confirmation: "Password123")
   end
 
   test "connects with valid session cookie" do

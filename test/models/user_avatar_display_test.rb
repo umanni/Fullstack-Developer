@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserAvatarDisplayTest < ActiveSupport::TestCase
   setup do
-    @user = User.create!(full_name: "Avatar User", email: "avatar-display@example.com", password: "password123", password_confirmation: "password123")
+    @user = User.create!(full_name: "Avatar User", email: "avatar-display@example.com", password: "Password123", password_confirmation: "Password123")
   end
 
   test "prefers attached image over url" do

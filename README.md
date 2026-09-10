@@ -149,10 +149,12 @@ The setup script is an equivalent shortcut that prepares dependencies and the da
 bin/setup --skip-server
 ```
 
-Seeded login accounts (all seeded passwords are `password123` unless changed after seeding):
+Seeded login accounts (all seeded passwords are `Password123` unless changed after seeding):
 
-- Admin: `admin@example.com / password123`
-- Sample users: `ada@example.com`, `alan@example.com`, `grace@example.com`, `margaret@example.com`
+- Admin: `admin@example.com / Password123`
+- Sample users: `ada@example.com`, `alan@example.com`, `grace@example.com`, `margaret@example.com` (all `Password123`)
+
+> **Note:** Passwords must be at least 8 characters and include an uppercase letter, a lowercase letter, and a digit.
 
 Sample import files for exercising the admin spreadsheet import (25 data rows each, distinct datasets):
 
@@ -187,11 +189,19 @@ Spreadsheet processing runs in the background with Solid Queue. Uploading a CSV 
 
 Authentication uses the built-in Rails 8 authentication generator, extended with role-based redirects: admins land on `/admin` after login and regular users land on `/profile`. Authorization is enforced server-side so regular users can only view, edit, and delete their own profile, while every admin-only route is rejected for non-admins. All controllers use strict `params.expect` for structural parameter validation, and forms pair client-side interactive feedback with backend model validations.
 
+Sessions expire after 30 days of inactivity. The `Session` model tracks `last_active_at`, which is touched on every authenticated request. Expired sessions are automatically destroyed on the next request, and a background job (`ExpireSessionsJob`) runs daily to clean up stale records.
+
+Password complexity is enforced: minimum 8 characters with at least one uppercase letter, one lowercase letter, and one digit. Import jobs auto-generate compliant passwords when the provided value is weak or blank.
+
+Admin actions (user creation, deletion, role toggling, import creation) are logged to an `audit_logs` table with the acting user, target record, metadata, IP address, and user agent. The audit trail persists even after the target user is deleted (foreign key uses `ON DELETE SET NULL`).
+
+User and import lists are paginated (25 per page) via Kaminari, with prev/next navigation in the frontend.
+
 ## Testing
 
 The full pipeline entry point is `bin/ci`, which runs environment setup, RuboCop, bundler-audit, Brakeman, a Vite production test build, the Minitest suite, a seed replant check, the ZJIT profiling script, and the SimpleCov coverage gate.
 
-The Minitest suite runs in parallel with `bin/rails test` (107 runs) and covers models, controllers, jobs, channels, mailers, and integration flows, including admin CRUD, role toggling, CSV and XLSX imports with failed-row reporting, authentication redirects, and authorization boundaries. Coverage is enforced with a SimpleCov minimum of 90, and the suite currently reports 100%.
+The Minitest suite runs in parallel with `bin/rails test` (114 runs) and covers models, controllers, jobs, channels, mailers, and integration flows, including admin CRUD, role toggling, CSV and XLSX imports with failed-row reporting, authentication redirects, and authorization boundaries. Coverage is enforced with a SimpleCov minimum of 90, and the suite currently reports 92%+.
 
 System tests live in `test/system/` and run under Capybara with headless Chrome via Selenium, exercising login, registration, profile editing, and the admin dashboard from a real browser. Performance profiling uses `benchmark/zjit_profile.rb` to compare warm runs with Ruby 4 ZJIT enabled against the baseline interpreter.
 
@@ -362,5 +372,4 @@ bin/kamal logs -r job
 ## Known limitations
 
 - Production SSR Node rendering is configured but unproven end-to-end against a live production deploy.
-- PII columns are not encrypted at rest; bcrypt covers passwords only.
 - Deploy hosts in `config/deploy.yml` are operator-supplied placeholder addresses that must be replaced with real infrastructure values.

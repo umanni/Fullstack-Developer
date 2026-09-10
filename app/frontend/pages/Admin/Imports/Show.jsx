@@ -1,16 +1,37 @@
-import { Link } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { Link, router } from "@inertiajs/react"
+import { useEffect, useState, useCallback } from "react"
 import Layout from "../../Shared/Layout"
 import { subscribe } from "../../../lib/cable"
 
-export default function Show({ import: initial }) {
-  const [imp, setImp] = useState(initial)
+export default function Show({ import: importRecord }) {
+  const [imp, setImp] = useState(importRecord)
+  const [connected, setConnected] = useState(false)
+
+  // Refetch current state from server after subscription connects.
+  // This closes the race window where broadcasts fired before the
+  // WebSocket subscription was confirmed.
+  const refetchState = useCallback(() => {
+    router.reload({ only: ["import"], preserveState: true, preserveScroll: true })
+  }, [])
+
   useEffect(() => {
-    const sub = subscribe("UserImportChannel", { id: initial.id }, (data) => setImp((prev) => ({ ...prev, ...data })))
+    const sub = subscribe("UserImportChannel", { id: importRecord.id }, {
+      received(data) {
+        setImp((prev) => ({ ...prev, ...data }))
+      },
+      connected() {
+        setConnected(true)
+        refetchState()
+      },
+      disconnected() {
+        setConnected(false)
+      },
+    })
     return () => sub.unsubscribe()
-  }, [initial.id])
+  }, [importRecord.id, refetchState])
 
   const pct = imp.progress_percent || 0
+  const isDone = imp.status === "completed" || imp.status === "failed"
 
   return (
     <div className="max-w-2xl mx-auto">

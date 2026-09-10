@@ -2,8 +2,8 @@ require "test_helper"
 
 class UseCaseCoverageTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Admin", email: "cover-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
-    @user = User.create!(full_name: "Cover User", email: "cover-user@example.com", password: "password123", password_confirmation: "password123")
+    @admin = User.create!(full_name: "Admin", email: "cover-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
+    @user = User.create!(full_name: "Cover User", email: "cover-user@example.com", password: "Password123", password_confirmation: "Password123")
   end
 
   # Visitor
@@ -23,7 +23,7 @@ class UseCaseCoverageTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
 
     assert_no_difference("User.count") do
-      post registration_path, params: { user: { full_name: "Dup", email: @user.email, password: "password123", password_confirmation: "password123" } }
+      post registration_path, params: { user: { full_name: "Dup", email: @user.email, password: "Password123", password_confirmation: "Password123" } }
     end
     assert_response :unprocessable_entity
   end
@@ -82,16 +82,16 @@ class UseCaseCoverageTest < ActionDispatch::IntegrationTest
   test "admin create rejects duplicate" do
     sign_in_as(@admin)
     assert_no_difference("User.count") do
-      post admin_users_path, params: { user: { full_name: "Dup", email: @user.email, password: "password123", password_confirmation: "password123" } }
+      post admin_users_path, params: { user: { full_name: "Dup", email: @user.email, password: "Password123", password_confirmation: "Password123" } }
     end
     assert_response :unprocessable_entity
   end
 
   # Model edge cases
   test "model rejects bad email and mismatch" do
-    u = User.new(full_name: "X", email: "not-an-email", password: "password123", password_confirmation: "password123")
+    u = User.new(full_name: "X", email: "not-an-email", password: "Password123", password_confirmation: "Password123")
     assert_not u.valid?
-    u2 = User.new(full_name: "X", email: "ok2@example.com", password: "password123", password_confirmation: "different")
+    u2 = User.new(full_name: "X", email: "ok2@example.com", password: "Password123", password_confirmation: "different")
     assert_not u2.valid?
   end
 

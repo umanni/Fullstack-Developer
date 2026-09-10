@@ -2,7 +2,7 @@ require "test_helper"
 
 class OnlyAdminGuardTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Solo Admin", email: "solo-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    @admin = User.create!(full_name: "Solo Admin", email: "solo-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
     sign_in_as(@admin)
   end
 
@@ -16,7 +16,7 @@ class OnlyAdminGuardTest < ActionDispatch::IntegrationTest
   end
 
   test "can delete an admin when another admin exists" do
-    other = User.create!(full_name: "Other Admin", email: "other-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    other = User.create!(full_name: "Other Admin", email: "other-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
 
     assert_difference("User.count", -1) do
       delete admin_user_path(@admin)

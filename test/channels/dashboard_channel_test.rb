@@ -2,8 +2,8 @@ require "test_helper"
 
 class DashboardChannelTest < ActionCable::Channel::TestCase
   setup do
-    @admin = User.create!(full_name: "Dash Admin", email: "dash-chan@example.com", password: "password123", password_confirmation: "password123", role: :admin)
-    @user = User.create!(full_name: "Dash User", email: "dash-user@example.com", password: "password123", password_confirmation: "password123")
+    @admin = User.create!(full_name: "Dash Admin", email: "dash-chan@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
+    @user = User.create!(full_name: "Dash User", email: "dash-user@example.com", password: "Password123", password_confirmation: "Password123")
   end
 
   test "subscribes for admin" do

@@ -2,8 +2,8 @@ require "test_helper"
 
 class AvatarUploadTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(full_name: "Pic", email: "picup@example.com", password: "password123", password_confirmation: "password123")
-    @admin = User.create!(full_name: "Admin", email: "picadmin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    @user = User.create!(full_name: "Pic", email: "picup@example.com", password: "Password123", password_confirmation: "Password123")
+    @admin = User.create!(full_name: "Admin", email: "picadmin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
   end
 
   test "profile avatar file upload attaches" do
@@ -21,7 +21,7 @@ class AvatarUploadTest < ActionDispatch::IntegrationTest
     sign_in_as(@admin)
     file = Rack::Test::UploadedFile.new(StringIO.new("img"), "image/png", original_filename: "b.png")
     assert_difference("User.count", 1) do
-      post admin_users_path, params: { user: { full_name: "Av", email: "av@example.com", password: "password123", password_confirmation: "password123", avatar_image: file } }
+      post admin_users_path, params: { user: { full_name: "Av", email: "av@example.com", password: "Password123", password_confirmation: "Password123", avatar_image: file } }
     end
     assert User.find_by(email: "av@example.com").avatar_image.attached?
   end

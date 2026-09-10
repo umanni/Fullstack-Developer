@@ -8,7 +8,28 @@ function toggleRole(id, name) {
   if (window.confirm(`Toggle role for "${name}"?`)) router.patch(`/admin/users/${id}/toggle_role`)
 }
 
-export default function Index({ users, admin_count }) {
+function Pagination({ pagination, baseUrl }) {
+  if (!pagination || pagination.total_pages <= 1) return null
+  const { current_page, total_pages } = pagination
+  const pages = []
+  for (let i = 1; i <= total_pages; i++) pages.push(i)
+
+  return (
+    <nav className="flex items-center justify-center gap-1 mt-6" aria-label="Pagination">
+      {current_page > 1 && (
+        <Link href={`${baseUrl}?page=${current_page - 1}`} className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">Prev</Link>
+      )}
+      {pages.map((p) => (
+        <Link key={p} href={`${baseUrl}?page=${p}`} className={`px-3 py-2 rounded-lg text-sm font-medium transition ${p === current_page ? "bg-blue-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>{p}</Link>
+      ))}
+      {current_page < total_pages && (
+        <Link href={`${baseUrl}?page=${current_page + 1}`} className="px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 transition">Next</Link>
+      )}
+    </nav>
+  )
+}
+
+export default function Index({ users, admin_count, pagination }) {
   const isOnlyAdmin = (user) => user.role === "admin" && admin_count === 1
   return (
     <div className="max-w-4xl mx-auto">
@@ -45,6 +66,7 @@ export default function Index({ users, admin_count }) {
           </table>
         </div>
       </div>
+      <Pagination pagination={pagination} baseUrl="/admin/users" />
     </div>
   )
 }

@@ -12,14 +12,14 @@ class ControllerQuickCoverageTest < ActionDispatch::IntegrationTest
   end
 
   test "profiles show" do
-    user = User.create!(full_name: "Quick", email: "quick@example.com", password: "password123", password_confirmation: "password123")
+    user = User.create!(full_name: "Quick", email: "quick@example.com", password: "Password123", password_confirmation: "Password123")
     sign_in_as(user)
     get profile_path
     assert_response :success
   end
 
   test "admin dashboard" do
-    admin = User.create!(full_name: "Quick Admin", email: "qadmin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    admin = User.create!(full_name: "Quick Admin", email: "qadmin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
     sign_in_as(admin)
     get admin_root_path
     assert_response :success

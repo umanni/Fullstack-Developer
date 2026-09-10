@@ -1,14 +1,26 @@
 import { Link, router } from "@inertiajs/react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import Layout from "../../Shared/Layout"
 import { subscribe } from "../../../lib/cable"
 
 export default function Show({ total_users, users_by_role }) {
   const [counts, setCounts] = useState({ total_users, users_by_role })
-  useEffect(() => {
-    const sub = subscribe("DashboardChannel", {}, (data) => setCounts(data))
-    return () => sub.unsubscribe()
+
+  const refetchState = useCallback(() => {
+    router.reload({ only: ["total_users", "users_by_role"], preserveState: true, preserveScroll: true })
   }, [])
+
+  useEffect(() => {
+    const sub = subscribe("DashboardChannel", {}, {
+      received(data) {
+        setCounts(data)
+      },
+      connected() {
+        refetchState()
+      },
+    })
+    return () => sub.unsubscribe()
+  }, [refetchState])
   return (
     <div className="max-w-5xl mx-auto">
       <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Dashboard</h1>

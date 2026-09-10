@@ -2,8 +2,8 @@ require "test_helper"
 
 class AdminDashboardTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Admin", email: "admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
-    @user = User.create!(full_name: "Regular", email: "user@example.com", password: "password123", password_confirmation: "password123", role: :user)
+    @admin = User.create!(full_name: "Admin", email: "admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
+    @user = User.create!(full_name: "Regular", email: "user@example.com", password: "Password123", password_confirmation: "Password123", role: :user)
   end
 
   test "admin dashboard shows total and by role" do

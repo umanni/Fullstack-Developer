@@ -2,7 +2,7 @@ require "test_helper"
 
 class AdminQuickCoverageTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Cover Admin", email: "cover-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
+    @admin = User.create!(full_name: "Cover Admin", email: "cover-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
   end
 
   test "admin base controller requires admin" do

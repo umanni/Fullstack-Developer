@@ -11,11 +11,13 @@ class ProfilesController < ApplicationController
 
   def update
     @user = Current.user
-    if @user.avatar_image.attached? && params[:user][:avatar_url].present?
-      @user.avatar_image.purge
-    end
-    if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
-      @user.update!(avatar_url: nil)
+    ActiveRecord::Base.transaction do
+      if @user.avatar_image.attached? && params[:user][:avatar_url].present?
+        @user.avatar_image.purge
+      end
+      if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
+        @user.update!(avatar_url: nil)
+      end
     end
     if @user.update(profile_params)
       redirect_to profile_path, notice: "Profile updated."
@@ -26,8 +28,10 @@ class ProfilesController < ApplicationController
 
   def remove_avatar
     @user = Current.user
-    @user.avatar_image.purge
-    @user.update!(avatar_url: nil)
+    ActiveRecord::Base.transaction do
+      @user.avatar_image.purge
+      @user.update!(avatar_url: nil)
+    end
     redirect_to profile_path, notice: "Avatar removed."
   end
 

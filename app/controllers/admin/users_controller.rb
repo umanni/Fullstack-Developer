@@ -3,14 +3,22 @@ module Admin
     before_action :set_user, only: %i[ show edit update destroy toggle_role remove_avatar ]
 
     def index
-      users = User.with_attached_avatar_image.order(:full_name).map do |u|
-        u.as_json(only: [ :id, :full_name, :email, :role ]).merge(
-          avatar_url: u.avatar_url,
-          avatar_image_url: (url_for(u.avatar_image) if u.avatar_image.attached?),
-          has_avatar: (u.avatar_image.attached? || u.avatar_url.present?)
-        )
-      end
-      render inertia: "Admin/Users/Index", props: { users: users, admin_count: User.admin.count }
+      users = User.with_attached_avatar_image.order(:full_name).page(params[:page]).per(25)
+      render inertia: "Admin/Users/Index", props: {
+        users: users.map { |u|
+          u.as_json(only: [ :id, :full_name, :email, :role ]).merge(
+            avatar_url: u.avatar_url,
+            avatar_image_url: (url_for(u.avatar_image) if u.avatar_image.attached?),
+            has_avatar: (u.avatar_image.attached? || u.avatar_url.present?)
+          )
+        },
+        admin_count: User.admin.count,
+        pagination: {
+          current_page: users.current_page,
+          total_pages: users.total_pages,
+          total_count: users.total_count
+        }
+      }
     end
 
     def show
@@ -25,6 +33,7 @@ module Admin
     def create
       @user = User.new(user_params)
       if @user.save
+        AuditLog.log!(action: "user_created", user: Current.user, auditable: @user, request: request)
         redirect_to admin_users_path, notice: "User created."
       else
         render inertia: "Admin/Users/New", status: :unprocessable_entity
@@ -36,11 +45,13 @@ module Admin
     end
 
     def update
-      if @user.avatar_image.attached? && params[:user][:avatar_url].present?
-        @user.avatar_image.purge
-      end
-      if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
-        @user.update!(avatar_url: nil)
+      ActiveRecord::Base.transaction do
+        if @user.avatar_image.attached? && params[:user][:avatar_url].present?
+          @user.avatar_image.purge
+        end
+        if @user.avatar_url.present? && params[:user][:avatar_image].is_a?(ActionDispatch::Http::UploadedFile)
+          @user.update!(avatar_url: nil)
+        end
       end
       if @user.update(user_params)
         redirect_to admin_users_path, notice: "User updated."
@@ -54,19 +65,30 @@ module Admin
         redirect_to admin_users_path, status: :see_other, alert: "Cannot delete the only admin on the system."
         return
       end
+      AuditLog.log!(action: "user_destroyed", user: Current.user, auditable: @user, metadata: { email: @user.email }, request: request)
       @user.destroy
       redirect_to admin_users_path, status: :see_other, notice: "User deleted."
     end
 
     def toggle_role
-      @user.admin? ? @user.update!(role: :user) : @user.update!(role: :admin)
-      redirect_to admin_users_path, notice: "Role updated."
+      new_role = @user.admin? ? :user : :admin
+      if new_role == :user && User.admin.count <= 1
+        redirect_to admin_users_path, alert: "Cannot demote the only admin on the system."
+        return
+      end
+      old_role = @user.role
+      @user.update!(role: new_role)
+      AuditLog.log!(action: "role_toggled", user: Current.user, auditable: @user, metadata: { from: old_role, to: new_role }, request: request)
+      redirect_to admin_users_path, notice: "Role updated to #{new_role}."
+    rescue ActiveRecord::RecordInvalid => e
+      redirect_to admin_users_path, alert: "Could not update role: #{e.record.errors.full_messages.join(', ')}"
     end
 
     def remove_avatar
-      @user = User.find(params[:id])
-      @user.avatar_image.purge
-      @user.update!(avatar_url: nil)
+      ActiveRecord::Base.transaction do
+        @user.avatar_image.purge
+        @user.update!(avatar_url: nil)
+      end
       redirect_to admin_users_path, notice: "Avatar removed."
     end
 

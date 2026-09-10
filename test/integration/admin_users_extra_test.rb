@@ -2,8 +2,8 @@ require "test_helper"
 
 class AdminUsersExtraTest < ActionDispatch::IntegrationTest
   setup do
-    @admin = User.create!(full_name: "Extra Admin", email: "extra-admin@example.com", password: "password123", password_confirmation: "password123", role: :admin)
-    @user = User.create!(full_name: "Extra User", email: "extra-user@example.com", password: "password123", password_confirmation: "password123")
+    @admin = User.create!(full_name: "Extra Admin", email: "extra-admin@example.com", password: "Password123", password_confirmation: "Password123", role: :admin)
+    @user = User.create!(full_name: "Extra User", email: "extra-user@example.com", password: "Password123", password_confirmation: "Password123")
     sign_in_as(@admin)
   end
 

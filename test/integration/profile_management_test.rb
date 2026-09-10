@@ -2,8 +2,8 @@ require "test_helper"
 
 class ProfileManagementTest < ActionDispatch::IntegrationTest
   setup do
-    @user = User.create!(full_name: "Me", email: "me@example.com", password: "password123", password_confirmation: "password123")
-    @other = User.create!(full_name: "Other", email: "other@example.com", password: "password123", password_confirmation: "password123")
+    @user = User.create!(full_name: "Me", email: "me@example.com", password: "Password123", password_confirmation: "Password123")
+    @other = User.create!(full_name: "Other", email: "other@example.com", password: "Password123", password_confirmation: "Password123")
   end
 
   test "edit own profile" do

@@ -9,7 +9,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create with valid credentials redirects by role" do
-    post session_path, params: { email: @user.email, password: "password" }
+    post session_path, params: { email: @user.email, password: "Password1" }
 
     assert_redirected_to(@user.admin? ? admin_root_path : profile_path)
     assert cookies[:session_id]

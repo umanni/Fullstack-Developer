@@ -4,8 +4,8 @@
 
 admin = User.find_or_create_by!(email: "admin@example.com") do |u|
   u.full_name = "Site Admin"
-  u.password = "password123"
-  u.password_confirmation = "password123"
+  u.password = "Password123"
+  u.password_confirmation = "Password123"
   u.role = :admin
 end
 puts "admin: #{admin.email} (#{admin.role})"
@@ -18,8 +18,8 @@ puts "admin: #{admin.email} (#{admin.role})"
 ].each do |full_name, email|
   user = User.find_or_create_by!(email: email) do |u|
     u.full_name = full_name
-    u.password = "password123"
-    u.password_confirmation = "password123"
+    u.password = "Password123"
+    u.password_confirmation = "Password123"
     u.role = :user
   end
   puts "user: #{user.email} (#{user.role})"

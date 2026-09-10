@@ -15,9 +15,13 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # Release It! — pool sized to accommodate Puma threads + Solid Queue workers + ActionCable
+  # RAILS_MAX_THREADS (Puma) + JOB_CONCURRENCY (Solid Queue) + overhead
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS", 5).to_i + ENV.fetch("JOB_CONCURRENCY", 2).to_i + 3 %>
+  # Release It! — bound statements to prevent runaway queries
+  variables:
+    statement_timeout: <%= ENV.fetch("PG_STATEMENT_TIMEOUT", "10s") %>
+    lock_timeout: <%= ENV.fetch("PG_LOCK_TIMEOUT", "5s") %>
 
 
 development:

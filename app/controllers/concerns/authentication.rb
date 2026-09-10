@@ -26,7 +26,17 @@ module Authentication
     end
 
     def find_session_by_cookie
-      Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+      session = Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+      return nil unless session
+
+      if session.expired?
+        session.destroy
+        cookies.delete(:session_id)
+        nil
+      else
+        session.touch_last_active!
+        session
+      end
     end
 
     def request_authentication
@@ -39,14 +49,18 @@ module Authentication
     end
 
     def start_new_session_for(user)
-      user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
+      user.sessions.create!(
+        user_agent: request.user_agent,
+        ip_address: request.remote_ip,
+        last_active_at: Time.current
+      ).tap do |session|
         Current.session = session
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
       end
     end
 
     def terminate_session
-      Current.session.destroy
+      Current.session&.destroy
       cookies.delete(:session_id)
     end
 end
