@@ -195,129 +195,49 @@ The Minitest suite runs in parallel with `bin/rails test` (107 runs) and covers 
 
 System tests live in `test/system/` and run under Capybara with headless Chrome via Selenium, exercising login, registration, profile editing, and the admin dashboard from a real browser. Performance profiling uses `benchmark/zjit_profile.rb` to compare warm runs with Ruby 4 ZJIT enabled against the baseline interpreter.
 
-## Development with Docker
+## Run with Docker
 
-You can run the whole development environment with Docker instead of installing Ruby, Node, and PostgreSQL on your machine. Three options are available, from lightest to heaviest.
-
-### Option A: PostgreSQL only (recommended for day-to-day dev)
-
-This runs just the database in a container; Rails and Vite still run on your machine with `bin/dev`. It is the fastest way to get a clean database without installing PostgreSQL locally.
+The simplest way to run the whole app is Docker — no Ruby, Node, or PostgreSQL installation needed. The `compose.yml` at the project root builds the app image and starts it together with a PostgreSQL database.
 
 Prerequisite: Docker with Compose (`docker compose version`).
 
 ```sh
-docker compose up -d
+export RAILS_MASTER_KEY="$(cat config/master.key)"
+export SECRET_KEY_BASE="$(openssl rand -hex 64)"
+docker compose up --build
 ```
 
-This starts PostgreSQL 16 on `localhost:5433` with:
+Then open **http://localhost:3000** in your browser.
 
-- user: `fullstack_developer`
-- password: `fullstack_developer`
-- database: `fullstack_developer_development`
+That's it. The first run builds the image (takes a few minutes); later runs are fast. The app runs in production mode behind the Thruster proxy, exactly like the deployed version.
 
-Then point Rails at it and set up the database:
-
-```sh
-export DATABASE_URL="postgres://fullstack_developer:fullstack_developer@localhost:5433/fullstack_developer_development"
-bin/rails db:create db:migrate db:seed
-bin/dev
-```
-
-Stop the database container when done:
+Stop the app:
 
 ```sh
 docker compose down
 ```
 
-To wipe the database volume entirely (fresh start):
+To wipe the database and start fresh:
 
 ```sh
 docker compose down -v
 ```
 
-### Option B: The app image with Thruster (production-like)
-
-This builds the multi-stage Dockerfile and runs the app exactly as production does — Puma behind the Thruster proxy (`bin/thrust`), which adds asset caching, compression, and X-Sendfile acceleration. Use this to validate the production image locally.
-
-Prerequisite: Docker (`docker --version`), and a reachable PostgreSQL (either the compose container from Option A or any other instance).
-
-Build the image:
-
-```sh
-docker build -t fullstack-developer:dev .
-```
-
-Run it, wiring the database, the Rails master key, and a secret key base:
-
-```sh
-docker run -d -p 80:80 \
-  --add-host=host.docker.internal:host-gateway \
-  -e RAILS_MASTER_KEY="$(cat config/master.key)" \
-  -e SECRET_KEY_BASE="$(openssl rand -hex 64)" \
-  -e DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_development" \
-  -e CACHE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_cache" \
-  -e QUEUE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_queue" \
-  -e CABLE_DATABASE_URL="postgres://fullstack_developer:fullstack_developer@host.docker.internal:5433/fullstack_developer_cable" \
-  --name fullstack-developer \
-  fullstack-developer:dev
-```
-
 Notes:
 
-- `host.docker.internal` reaches the PostgreSQL container running on your host (Option A). On Linux, the `--add-host=host.docker.internal:host-gateway` flag (included above) is required.
+- `RAILS_MASTER_KEY` is the contents of `config/master.key`.
 - `SECRET_KEY_BASE` is required because the image runs in production mode and the repository's credentials file does not ship a production `secret_key_base`. Generate one with `openssl rand -hex 64`.
-- The four `*_DATABASE_URL` variables are required because the production configuration uses separate databases for Solid Cache, Solid Queue, and Solid Cable. Point all four at the same PostgreSQL instance (the compose container from Option A); Rails creates the extra databases automatically on first boot.
-- The container listens on port 80; open http://localhost in your browser.
-- The image is built for production (`RAILS_ENV=production`), so it serves precompiled assets and does not run the Vite dev server.
-
-Stop and remove the container:
-
-```sh
-docker stop fullstack-developer && docker rm fullstack-developer
-```
-
-### Option C: Full local stack with Compose
-
-For a one-command local stack, extend `compose.yml` with a `web` service that builds the Dockerfile and depends on the `db` service. This is the closest local approximation of the Kamal deployment topology (web container + Postgres accessory).
-
-```yaml
-services:
-  db:
-    # ... as above ...
-  web:
-    build: .
-    ports:
-      - "80:80"
-    environment:
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_development
-      CACHE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_cache
-      QUEUE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_queue
-      CABLE_DATABASE_URL: postgres://fullstack_developer:fullstack_developer@db:5432/fullstack_developer_cable
-    depends_on:
-      db:
-        condition: service_healthy
-```
-
-Then:
-
-```sh
-export RAILS_MASTER_KEY="$(cat config/master.key)"
-export SECRET_KEY_BASE="$(openssl rand -hex 64)"
-docker compose up -d --build
-```
-
-The `web` service needs the same four `*_DATABASE_URL` variables as Option B (Solid Cache/Queue/Cable use separate databases in production mode) and a `SECRET_KEY_BASE`. Inside the compose network, the `db` service is reached on its internal port `db:5432` — the host-side `5433` mapping does not apply between containers.
+- The four `*_DATABASE_URL` variables are already set in `compose.yml`; they exist because the production configuration uses separate databases for Solid Cache, Solid Queue, and Solid Cable. Rails creates them automatically on first boot.
+- Prefer running without Docker? Follow the "Build / Seed / Run" section above and use `bin/dev` — the app also runs on http://localhost:3000.
 
 ### How Kamal relates to local development
 
-Kamal 2 (`config/deploy.yml`) is the production deployment tool — it builds the same Dockerfile, pushes the image to a registry, and rolls it out to remote servers over SSH. Locally, you are not running Kamal; you are using Docker directly (Options A–C). The relationship:
+Kamal 2 (`config/deploy.yml`) is the production deployment tool — it builds the same Dockerfile, pushes the image to a registry, and rolls it out to remote servers over SSH. Locally, you are not running Kamal; you are using Docker directly. The relationship:
 
-- **Same image**: `docker build` (Option B/C) and `bin/kamal deploy` both build from the same `Dockerfile`, so what you validate locally is what ships.
+- **Same image**: `docker compose up --build` and `bin/kamal deploy` both build from the same `Dockerfile`, so what you validate locally is what ships.
 - **Same proxy**: the image's `CMD` runs `bin/thrust` (Thruster) in both local and Kamal runs.
 - **Same database shape**: the compose `db` service mirrors the Postgres 16 accessory defined under `accessories:` in `config/deploy.yml`.
-- **Different secrets handling**: locally you pass `RAILS_MASTER_KEY` and `DATABASE_URL` as environment variables; Kamal injects them from `.kamal/secrets` via `bin/kamal secret set`.
+- **Different secrets handling**: locally you pass `RAILS_MASTER_KEY` and `SECRET_KEY_BASE` as environment variables; Kamal injects them from `.kamal/secrets` via `bin/kamal secret set`.
 
 Deployment is configured with Kamal 2 in `config/deploy.yml`. The image is published to `ghcr.io` (`ghcr.io/umanni/fullstack-developer:latest`), traffic terminates through an SSL proxy for the app host, and the stack defines `web` and `job` roles plus a Postgres 16 accessory for production data.
 
