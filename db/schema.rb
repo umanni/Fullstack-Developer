@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_035838) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_10_044809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_035838) do
     t.integer "failed_rows", default: 0, null: false
     t.string "file_name"
     t.integer "processed_rows", default: 0, null: false
+    t.jsonb "row_errors", default: [], null: false
     t.integer "status", default: 0, null: false
     t.integer "total_rows", default: 0, null: false
     t.datetime "updated_at", null: false

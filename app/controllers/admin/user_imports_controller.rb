@@ -28,7 +28,9 @@ module Admin
     def show
       @import = UserImport.find(params[:id])
       render inertia: "Admin/Imports/Show", props: {
-        import: @import.as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows ])
+        import: @import.as_json(only: [ :id, :status, :total_rows, :processed_rows, :failed_rows, :row_errors ]).merge(
+          progress_percent: @import.progress_percent
+        )
       }
     end
   end

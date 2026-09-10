@@ -6,6 +6,7 @@
 #  failed_rows    :integer          default(0), not null
 #  file_name      :string
 #  processed_rows :integer          default(0), not null
+#  row_errors     :jsonb            not null
 #  status         :integer          default(0), not null
 #  total_rows     :integer          default(0), not null
 #  created_at     :datetime         not null
@@ -20,5 +21,10 @@ class UserImport < ApplicationRecord
 
   def file_name
     file.attached? ? file.filename.to_s : nil
+  end
+
+  def progress_percent
+    return 0 if total_rows.zero?
+    ((processed_rows + failed_rows) * 100.0 / total_rows).round
   end
 end

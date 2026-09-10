@@ -2,14 +2,15 @@ class UserImportJob < ApplicationJob
   queue_as :default
 
   def perform(user_import)
-    user_import.update!(status: :processing)
+    user_import.update!(status: :processing, row_errors: [])
     rows = read_rows(user_import)
     user_import.update!(total_rows: rows.size)
 
-    rows.each do |row|
+    rows.each_with_index do |row, index|
       email = row["email"].to_s.strip.downcase
       if email.blank? || email == "email"
         user_import.increment!(:failed_rows)
+        append_error(user_import, index + 2, email, "Email is blank")
         next
       end
       begin
@@ -20,26 +21,31 @@ class UserImportJob < ApplicationJob
           password_confirmation: row["password"].to_s
         )
         user_import.increment!(:processed_rows)
-      rescue ActiveRecord::RecordInvalid
+      rescue ActiveRecord::RecordInvalid => e
         user_import.increment!(:failed_rows)
+        append_error(user_import, index + 2, email, e.record.errors.full_messages.join(", "))
       end
       user_import.reload
-      UserImportChannel.broadcast_to(
-        user_import,
-        { status: user_import.status, total_rows: user_import.total_rows,
-          processed_rows: user_import.processed_rows, failed_rows: user_import.failed_rows }
-      )
+      broadcast(user_import)
     end
 
     user_import.update!(status: user_import.failed_rows.positive? && user_import.processed_rows.zero? ? :failed : :completed)
-    UserImportChannel.broadcast_to(
-      user_import,
-      { status: user_import.status, total_rows: user_import.total_rows,
-        processed_rows: user_import.processed_rows, failed_rows: user_import.failed_rows }
-    )
+    broadcast(user_import)
   end
 
   private
+    def append_error(user_import, row_number, email, message)
+      user_import.update!(row_errors: user_import.row_errors + [ { row: row_number, email: email, error: message } ])
+    end
+
+    def broadcast(user_import)
+      UserImportChannel.broadcast_to(
+        user_import,
+        { status: user_import.status, total_rows: user_import.total_rows,
+          processed_rows: user_import.processed_rows, failed_rows: user_import.failed_rows,
+          row_errors: user_import.row_errors, progress_percent: user_import.progress_percent }
+      )
+    end
     def read_rows(user_import)
       file = user_import.file
       ext = File.extname(file.filename.to_s).downcase

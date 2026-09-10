@@ -8,7 +8,8 @@ function toggleRole(id, name) {
   if (window.confirm(`Toggle role for "${name}"?`)) router.patch(`/admin/users/${id}/toggle_role`)
 }
 
-export default function Index({ users }) {
+export default function Index({ users, admin_count }) {
+  const isOnlyAdmin = (user) => user.role === "admin" && admin_count === 1
   return (
     <div className="max-w-5xl mx-auto">
       <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Users</h1>
@@ -36,7 +37,11 @@ export default function Index({ users }) {
                   <Link href={`/admin/users/${user.id}`} className="underline text-emerald-700 hover:text-emerald-900">Profile</Link>
                   <Link href={`/admin/users/${user.id}/edit`} className="underline text-blue-700 hover:text-blue-900">Edit</Link>
                   <button onClick={() => toggleRole(user.id, user.full_name)} className="underline text-violet-700 hover:text-violet-900">Toggle role</button>
-                  <button onClick={() => destroyUser(user.id, user.full_name)} className="underline text-rose-600 hover:text-rose-800">Delete</button>
+                  {isOnlyAdmin(user) ? (
+                    <span className="text-slate-400 cursor-not-allowed" title="Cannot delete the only admin">Delete</span>
+                  ) : (
+                    <button onClick={() => destroyUser(user.id, user.full_name)} className="underline text-rose-600 hover:text-rose-800">Delete</button>
+                  )}
                 </td>
               </tr>
             ))}

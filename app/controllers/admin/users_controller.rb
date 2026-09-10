@@ -10,7 +10,7 @@ module Admin
           has_avatar: (u.avatar_image.attached? || u.avatar_url.present?)
         )
       end
-      render inertia: "Admin/Users/Index", props: { users: users }
+      render inertia: "Admin/Users/Index", props: { users: users, admin_count: User.admin.count }
     end
 
     def show
@@ -50,6 +50,10 @@ module Admin
     end
 
     def destroy
+      if @user.admin? && User.admin.count == 1
+        redirect_to admin_users_path, status: :see_other, alert: "Cannot delete the only admin on the system."
+        return
+      end
       @user.destroy
       redirect_to admin_users_path, status: :see_other, notice: "User deleted."
     end
