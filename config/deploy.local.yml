@@ -1,0 +1,51 @@
+# Local rehearsal of the production deploy, merged over config/deploy.yml.
+# The "server" is the SSH + Docker container in .kamal/local; secrets come from .kamal/secrets.local.
+#
+#   docker compose -f .kamal/local/compose.yml up -d --build
+#   bin/kamal setup -d local      # first time: boots postgres, then deploys
+#   bin/kamal deploy -d local     # afterwards
+#   open http://localhost:8080
+image: umanni-users
+
+servers:
+  web:
+    hosts:
+      - 127.0.0.1
+  job:
+    hosts:
+      - 127.0.0.1
+
+ssh:
+  user: wilbert
+  keys:
+    - ~/.ssh/id_rsa
+
+registry:
+  server: localhost:5555
+
+# Native build on Apple Silicon; production stays amd64.
+# Build the working tree (uncommitted changes included) instead of a git clone of HEAD.
+builder:
+  arch: arm64
+  context: .
+
+proxy:
+  ssl: false
+  host: localhost
+
+env:
+  clear:
+    APP_ORIGIN: http://localhost:8080
+    RAILS_FORCE_SSL: false
+    ACTIVE_STORAGE_SERVICE: local
+    WEB_CONCURRENCY: 1
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+
+volumes:
+  - "umanni_users_storage:/rails/storage"
+
+accessories:
+  postgres:
+    host: 127.0.0.1

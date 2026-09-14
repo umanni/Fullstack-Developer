@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+/* Vite's root is app/javascript, so Tailwind would not see the ERB pages (sign-in,
+   password reset) on its own and their responsive classes would never be built. */
+@source '../../views';
+
+@plugin '@tailwindcss/typography';
+@plugin '@tailwindcss/forms';
+
+/* 16px on phones: iOS Safari zooms the page into any field smaller than that. */
+@utility input {
+  @apply w-full rounded-md border border-slate-300 px-3 py-2 text-base sm:text-sm
+         focus:border-slate-500 focus:ring-1 focus:ring-slate-500
+         disabled:cursor-not-allowed disabled:bg-slate-50;
+}
+
+/*
+ * Keep content clear of the notch, rounded corners and home indicator. The page
+ * opts into drawing there with viewport-fit=cover; env() is 0 everywhere else, so
+ * these fall back to ordinary gutters on desktops and older phones.
+ */
+@utility safe-px {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+
+  @media (width >= 40rem) {
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+}
+
+@utility safe-pt {
+  padding-top: env(safe-area-inset-top);
+}
+
+@utility safe-pb {
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
+}

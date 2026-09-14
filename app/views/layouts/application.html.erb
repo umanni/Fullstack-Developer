@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-50">
+  <head>
+    <%# A server-rendered Inertia page brings its own <title> (from <Head>) in inertia_ssr_head below. %>
+    <% if inertia_ssr_head.blank? %>
+      <title data-inertia><%= content_for(:title) || "Umanni" %></title>
+    <% end %>
+    <%# viewport-fit=cover lets the page run under the notch and home indicator;
+        the safe-* utilities in application.css pad content back out of those areas. %>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="application-name" content="Umanni">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Umanni">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <%# All front-end assets come from Vite: Tailwind (entrypoints/application.css) and the Inertia/React app. %>
+    <%= vite_stylesheet_tag "application" %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_client_tag %>
+    <%= vite_typescript_tag "inertia.tsx" %>
+    <%= inertia_ssr_head %>
+  </head>
+
+  <%# No wrapper here: Inertia pages bring AppLayout, and the ERB pages bring their own <main>. %>
+  <body class="min-h-dvh bg-slate-50 text-slate-900 antialiased">
+    <%= yield %>
+  </body>
+</html>

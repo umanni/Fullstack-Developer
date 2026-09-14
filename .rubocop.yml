@@ -1,0 +1,32 @@
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+plugins:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 4.0
+  NewCops: enable
+  Exclude:
+    - "db/**/*"
+    - "bin/**/*"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+
+# Omakase disables the whole Layout department, so this cop must be enabled explicitly.
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+
+# In controller specs, `controller(...) do ... end` is a class body, where described_class isn't defined.
+RSpec/DescribedClass:
+  SkipBlocks: true
+
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 4
+
+RSpec/NestedGroups:
+  Max: 4

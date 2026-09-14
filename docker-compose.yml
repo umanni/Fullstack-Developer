@@ -1,0 +1,53 @@
+# docker-compose.yml
+services:
+  db:
+    container_name: umanni-pg
+    image: postgres:17
+    environment:
+      POSTGRES_USER: umanni
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: umanni_users_development
+    volumes:
+      - ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - umanni-test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umanni -d umanni_users_development"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    container_name: umanni-users
+    build: .
+    ports:
+      - "3000:80"
+    environment:
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - RAILS_ENV=${RAILS_ENV}
+      - RACK_ENV=${RACK_ENV}
+      - DB_HOST=umanni-pg
+      - POSTGRES_USER=umanni
+      - POSTGRES_PASSWORD=secret
+      - APP_ORIGIN=http://localhost:3000
+      - SOLID_QUEUE_IN_PUMA=true
+    volumes:
+      - storage_data:/rails/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - umanni-test
+
+volumes:
+  pg_data:
+  storage_data:
+
+networks:
+  umanni-test:
+    # If you created the network manually earlier (docker network create umanni-test),
+    # uncomment the line below and delete 'driver: bridge'
+    # external: true
+    driver: bridge

@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+# Compares the interpreter, YJIT and ZJIT on this app's hot paths, and writes
+# tmp/jit-profile/report.md and results.json. It needs a Ruby built with ZJIT, like the
+# one in the Docker image. See PERFORMANCE.md for how to run it and the latest numbers.
+require "optparse"
+require_relative "../lib/jit_profile"
+
+options = { warmup: 2.0, duration: 5.0, workloads: JitProfile::Workloads::NAMES, output: "tmp/jit-profile" }
+
+OptionParser.new do |parser|
+  parser.banner = "Usage: bin/jit-profile [options]"
+  parser.on("--warmup SECONDS", Float, "Untimed seconds per workload before measuring (default: 2)") do |seconds|
+    options[:warmup] = seconds
+  end
+  parser.on("--duration SECONDS", Float, "Timed seconds per workload (default: 5)") do |seconds|
+    options[:duration] = seconds
+  end
+  parser.on("--workloads LIST", Array, "Subset of: #{JitProfile::Workloads::NAMES.join(",")}") do |names|
+    options[:workloads] = names
+  end
+  parser.on("--output DIR", "Where to write the report (default: tmp/jit-profile)") do |dir|
+    options[:output] = dir
+  end
+end.parse!
+
+root = File.expand_path("..", __dir__)
+JitProfile::Driver
+  .new(root:, workloads: options[:workloads], warmup: options[:warmup], duration: options[:duration])
+  .run(File.expand_path(options[:output], root))

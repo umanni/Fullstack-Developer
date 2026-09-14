@@ -1,0 +1,72 @@
+# config/deploy.yml
+service: umanni-users
+image: <your-registry-user>/umanni-users
+
+servers:
+  web:
+    hosts:
+      - 192.168.0.1
+  job:
+    hosts:
+      - 192.168.0.1
+    cmd: bundle exec rake solid_queue:start
+
+proxy:
+  ssl: true
+  host: users.example.com
+  app_port: 80
+  healthcheck:
+    path: /up
+    interval: 3
+    timeout: 30
+
+registry:
+  username: <your-registry-user>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# RUBY_VERSION / NODE_VERSION defaults live in the Dockerfile, so they can't drift from .ruby-version.
+builder:
+  arch: amd64
+
+env:
+  clear:
+    APP_ORIGIN: https://users.example.com
+    RAILS_MAX_THREADS: 5
+    WEB_CONCURRENCY: 2
+    SOLID_QUEUE_IN_PUMA: false
+    INERTIA_SSR_ENABLED: true
+    # JIT compiler: yjit, zjit or off (lib/ruby_jit.rb). PERFORMANCE.md compares them on this app.
+    RUBY_JIT: yjit
+    ACTIVE_STORAGE_SERVICE: amazon
+    AWS_REGION: us-east-1
+    AWS_S3_BUCKET: umanni-users-production
+    DB_HOST: umanni-users-postgres
+    POSTGRES_USER: umanni
+  secret:
+    - RAILS_MASTER_KEY
+    - POSTGRES_PASSWORD
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+
+accessories:
+  postgres:
+    image: postgres:17
+    host: 192.168.0.1
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: umanni
+        POSTGRES_DB: umanni_users_production
+      secret:
+        - POSTGRES_PASSWORD
+    files:
+      - config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    directories:
+      - data:/var/lib/postgresql/data
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  jobs: app logs -f --roles job
