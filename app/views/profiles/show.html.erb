@@ -1,0 +1,43 @@
+<% content_for :title, "Your profile" %>
+
+<div class="mx-auto w-full max-w-2xl">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <h1 class="text-2xl font-semibold tracking-tight">Your profile</h1>
+    <%= link_to "Edit profile", edit_profile_path, class: "btn-primary" %>
+  </div>
+
+  <div class="card mt-6">
+    <div class="flex items-center gap-4 border-b border-slate-100 p-5">
+      <%= render "shared/avatar", user: @user, size: "size-16" %>
+      <div class="min-w-0">
+        <p class="truncate text-lg font-medium text-slate-900"><%= @user.full_name %></p>
+        <p class="truncate text-sm text-slate-500"><%= @user.email %></p>
+      </div>
+    </div>
+
+    <dl class="divide-y divide-slate-100">
+      <div class="flex items-center justify-between p-5">
+        <dt class="text-sm font-medium text-slate-500">Role</dt>
+        <dd><span class="<%= @user.admin? ? "badge-admin" : "badge-user" %>"><%= @user.role.capitalize %></span></dd>
+      </div>
+
+      <div class="flex items-center justify-between p-5">
+        <dt class="text-sm font-medium text-slate-500">Member since</dt>
+        <dd class="text-sm text-slate-900"><%= @user.created_at.to_date.to_fs(:long) %></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="card mt-6 p-5">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p class="text-sm font-medium text-slate-900">Delete your account</p>
+        <p class="mt-1 text-sm text-slate-500">This removes your profile and signs you out. It cannot be undone.</p>
+      </div>
+
+      <%= button_to "Delete account", profile_path, method: :delete,
+            class: "btn-danger",
+            form: { data: { turbo_confirm: "Delete your account? This cannot be undone." } } %>
+    </div>
+  </div>
+</div>

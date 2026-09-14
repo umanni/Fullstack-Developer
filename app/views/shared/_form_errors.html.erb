@@ -1,0 +1,11 @@
+<%# Only what has no field of its own to sit under; the rest renders inline. %>
+<% base_errors = model.errors[:base] %>
+<% if base_errors.any? %>
+  <div class="mb-5 rounded-lg bg-red-50 px-4 py-3 ring-1 ring-inset ring-red-200" role="alert">
+    <ul class="list-inside list-disc text-sm text-red-700">
+      <% base_errors.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

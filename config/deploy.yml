@@ -1,0 +1,57 @@
+# Kamal 2 deployment.
+#
+# Fill in the placeholders below — image owner, server IP, registry user, and the
+# APP_HOST/SMTP_ADDRESS/MAIL_FROM under env/clear — and `bin/kamal setup` is the whole
+# deploy. Mail is the one that fails loudly: production raises on delivery errors, so a
+# password reset against smtp.example.com takes the job down with it.
+# KAMAL_REGISTRY_PASSWORD and RAILS_MASTER_KEY are read from .kamal/secrets.
+
+service: umanni
+image: your-registry-user/umanni
+
+servers:
+  web:
+    - 192.0.2.1
+
+# TLS terminates here; assume_ssl and force_ssl are on in production.rb.
+proxy:
+  ssl: true
+  host: umanni.example.com
+  # Thruster listens on 80 inside the container and serves compressed, cached assets.
+  app_port: 80
+
+registry:
+  server: ghcr.io
+  username: your-registry-user
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - RAILS_MASTER_KEY
+  clear:
+    # Solid Queue runs inside Puma because SQLite is a file: a worker on another host
+    # could not reach it. Splitting jobs off means moving to PostgreSQL.
+    SOLID_QUEUE_IN_PUMA: true
+    JOB_CONCURRENCY: 2
+    # Read by config/puma.rb, and by Action Mailer for the links in a password reset.
+    APP_HOST: umanni.example.com
+    SMTP_ADDRESS: smtp.example.com
+    SMTP_PORT: 587
+    MAIL_FROM: no-reply@umanni.example.com
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole"
+
+# The four databases and every upload. The only stateful thing on the server.
+volumes:
+  - "umanni_storage:/rails/storage"
+
+# Keeps the previous version's assets so an in-flight request does not 404.
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64

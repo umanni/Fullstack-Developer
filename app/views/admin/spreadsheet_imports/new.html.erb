@@ -1,0 +1,38 @@
+<% content_for :title, "Import users" %>
+
+<div class="mx-auto w-full max-w-2xl">
+  <h1 class="text-2xl font-semibold tracking-tight">Import users</h1>
+  <p class="mt-1 text-sm text-slate-500">
+    A .csv or .xlsx file with a header row. Processing happens in the background.
+  </p>
+
+  <div class="card mt-6 p-6 sm:p-8">
+    <%= render "shared/form_errors", model: @spreadsheet_import %>
+
+    <%= form_with model: @spreadsheet_import, url: admin_spreadsheet_imports_path, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :file, "Spreadsheet", class: "field-label" %>
+        <%= form.file_field :file, required: true, accept: ".csv,.xlsx",
+              class: "field-input file:mr-3 file:rounded-md file:border-0 file:bg-slate-100
+                      file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-slate-700" %>
+        <%= field_error @spreadsheet_import, :file %>
+        <p class="field-hint">Up to 5 MB.</p>
+      </div>
+
+      <div class="rounded-lg bg-slate-50 p-4 text-sm text-slate-600">
+        <p class="font-medium text-slate-700">Expected columns</p>
+        <p class="mt-1">
+          <code class="rounded bg-white px-1.5 py-0.5 text-xs">full_name</code>, <code class="rounded bg-white px-1.5 py-0.5 text-xs">email</code>, and optionally <code class="rounded bg-white px-1.5 py-0.5 text-xs">role</code>.
+          Anything other than <code class="rounded bg-white px-1.5 py-0.5 text-xs">admin</code>
+          is imported as a plain user. Rows that fail validation are reported and skipped;
+          the rest of the file still imports.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <%= form.submit "Start import", class: "btn-primary", data: { turbo_submits_with: "Uploading…" } %>
+        <%= link_to "Cancel", admin_spreadsheet_imports_path, class: "btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

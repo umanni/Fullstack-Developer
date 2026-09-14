@@ -1,0 +1,29 @@
+<% content_for :title, "Sign in" %>
+
+<div class="mx-auto w-full max-w-md">
+  <div class="card p-6 sm:p-8">
+    <h1 class="text-2xl font-semibold tracking-tight">Sign in</h1>
+    <p class="mt-1 text-sm text-slate-500">Welcome back.</p>
+
+    <%= form_with url: session_path, scope: :session, class: "mt-6 space-y-5" do |form| %>
+      <div>
+        <%= form.label :email, class: "field-label" %>
+        <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username",
+              value: params.dig(:session, :email), placeholder: "you@company.com", class: "field-input" %>
+      </div>
+
+      <div>
+        <%= form.label :password, class: "field-label" %>
+        <%= form.password_field :password, required: true, autocomplete: "current-password",
+              maxlength: 72, placeholder: "Your password", class: "field-input" %>
+      </div>
+
+      <%= form.submit "Sign in", class: "btn-primary w-full", data: { turbo_submits_with: "Signing in…" } %>
+    <% end %>
+
+    <div class="mt-6 flex items-center justify-between text-sm">
+      <%= link_to "Create an account", new_registration_path, class: "font-medium text-brand-600 hover:text-brand-700" %>
+      <%= link_to "Forgot password?", new_password_path, class: "text-slate-500 hover:text-slate-700" %>
+    </div>
+  </div>
+</div>

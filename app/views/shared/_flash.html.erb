@@ -1,0 +1,12 @@
+<div id="flash" class="<%= "mb-6 space-y-3" if flash.any? %>">
+  <% flash.each do |type, message| %>
+    <%= tag.p message,
+          id: type,
+          role: (type == "alert" ? "alert" : "status"),
+          class: class_names(
+            "rounded-lg px-4 py-3 text-sm font-medium ring-1 ring-inset",
+            "bg-red-50 text-red-800 ring-red-200" => type == "alert",
+            "bg-emerald-50 text-emerald-800 ring-emerald-200" => type != "alert"
+          ) %>
+  <% end %>
+</div>

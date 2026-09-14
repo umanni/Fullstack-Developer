@@ -1,0 +1,56 @@
+# Rails 8 applies these pragmas by default; they are spelled out so the production
+# settings are visible without reading the adapter.
+default: &default
+  adapter: sqlite3
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  pragmas:
+    journal_mode: wal
+    synchronous: normal
+    foreign_keys: true
+    mmap_size: 134217728
+    journal_size_limit: 67108864
+    cache_size: 2000
+
+# Four databases in development too, or the Solid adapters are never exercised.
+development:
+  primary:
+    <<: *default
+    database: storage/development.sqlite3
+  cache:
+    <<: *default
+    database: storage/development_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: storage/development_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: storage/development_cable.sqlite3
+    migrations_paths: db/cable_migrate
+
+# Jobs run inline and cable in-process, so the test suite needs the primary only.
+test:
+  <<: *default
+  database: storage/test.sqlite3
+  # Twelve workers loading schema at once contend for the write lock; five seconds is
+  # not enough, and the failure is a BusyException in a random worker.
+  timeout: 30000
+
+production:
+  primary:
+    <<: *default
+    database: storage/production.sqlite3
+  cache:
+    <<: *default
+    database: storage/production_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: storage/production_queue.sqlite3
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: storage/production_cable.sqlite3
+    migrations_paths: db/cable_migrate

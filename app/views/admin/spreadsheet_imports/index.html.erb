@@ -1,0 +1,58 @@
+<% content_for :title, "Imports" %>
+
+<div class="flex flex-wrap items-center justify-between gap-4">
+  <div>
+    <h1 class="text-2xl font-semibold tracking-tight">Imports</h1>
+    <p class="mt-1 text-sm text-slate-500">Spreadsheets uploaded to create users.</p>
+  </div>
+
+  <%= link_to "New import", new_admin_spreadsheet_import_path, class: "btn-primary" %>
+</div>
+
+<div class="card table-scroll mt-6">
+  <table class="block min-w-full divide-y divide-slate-200 text-left md:table">
+    <thead class="hidden bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500 md:table-header-group">
+      <tr>
+        <th scope="col" class="px-4 py-3">File</th>
+        <th scope="col" class="px-4 py-3">Status</th>
+        <th scope="col" class="px-4 py-3">Rows</th>
+        <th scope="col" class="hidden px-4 py-3 lg:table-cell">Uploaded by</th>
+        <th scope="col" class="hidden px-4 py-3 text-right whitespace-nowrap md:table-cell">Started</th>
+      </tr>
+    </thead>
+
+    <tbody class="block divide-y divide-slate-100 md:table-row-group">
+      <% if @spreadsheet_imports.any? %>
+        <% @spreadsheet_imports.each do |spreadsheet_import| %>
+          <tr class="flex flex-wrap items-center gap-y-2 py-2 hover:bg-slate-50 md:table-row md:gap-0 md:py-0">
+            <td class="w-full px-4 pt-2 md:w-auto md:table-cell md:py-3">
+              <%= link_to spreadsheet_import.file.filename,
+                    admin_spreadsheet_import_path(spreadsheet_import),
+                    class: "block max-w-64 truncate font-medium text-brand-600 hover:text-brand-700 md:max-w-48" %>
+            </td>
+            <td class="px-4 pb-2 md:table-cell md:py-3">
+              <span class="<%= import_status_badge(spreadsheet_import) %>">
+                <%= spreadsheet_import.status.capitalize %>
+              </span>
+            </td>
+            <td class="ml-auto px-4 pb-2 text-sm whitespace-nowrap tabular-nums text-slate-600 md:ml-0 md:table-cell md:py-3">
+              <%= spreadsheet_import.imported_rows %> imported<%= ", #{spreadsheet_import.failed_rows} rejected" if spreadsheet_import.failed_rows.positive? %>
+            </td>
+            <td class="hidden px-4 py-3 text-sm text-slate-500 lg:table-cell">
+              <%= spreadsheet_import.user.full_name %>
+            </td>
+            <td class="hidden px-4 py-3 text-right text-sm whitespace-nowrap text-slate-500 md:table-cell">
+              <%= time_ago_in_words(spreadsheet_import.created_at) %> ago
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr class="block md:table-row">
+          <td colspan="5" class="block px-4 py-10 text-center text-sm text-slate-500 md:table-cell">
+            No imports yet.
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

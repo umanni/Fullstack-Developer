@@ -1,0 +1,17 @@
+<% content_for :title, "Dashboard" %>
+
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
+<%= turbo_stream_from User::DASHBOARD_STREAM %>
+
+<div class="flex flex-wrap items-center justify-between gap-4">
+  <div>
+    <h1 class="text-2xl font-semibold tracking-tight">Dashboard</h1>
+    <p class="mt-1 text-sm text-slate-500">Counts update as users are created, changed or removed.</p>
+  </div>
+
+  <%= link_to "Manage users", admin_users_path, class: "btn-primary" %>
+</div>
+
+<div class="mt-6">
+  <%= render "metrics", total: @total, counts_by_role: @counts_by_role %>
+</div>

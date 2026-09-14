@@ -1,0 +1,51 @@
+# One command to a running application: `docker compose up`.
+#
+# There is no database service — SQLite lives in the storage/ volume, and Solid Queue,
+# Solid Cache and Solid Cable sit on their own SQLite files beside it. That is the point
+# of the Rails 8 stack this test asks for: no Redis, no Postgres, no sidecar.
+#
+# The host port is 3200 rather than 3000 so this does not collide with a Rails server
+# already running on the machine. Override with `WEB_PORT=4000 docker compose up`.
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bash -c "bin/rails db:prepare && bin/dev"
+    ports:
+      - "${WEB_PORT:-3200}:3000"
+    volumes:
+      - .:/rails
+      - bundle:/usr/local/bundle
+      - storage:/rails/storage
+      # Through the bind mount these land on the host owned by root and block a local
+      # `bin/dev`. Read them with `docker compose logs`.
+      - tmp:/rails/tmp
+      - log:/rails/log
+    environment:
+      RAILS_ENV: development
+      # The port the browser reaches, so reset links in mail point somewhere real.
+      WEB_PORT: "${WEB_PORT:-3200}"
+      # Mailpit answers on the compose network, not on this container's loopback.
+      SMTP_HOST: mail
+    healthcheck:
+      test: [ "CMD", "curl", "-fsS", "http://localhost:3000/up" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  # Catches password-reset mail so the link can be clicked in development.
+  # Start it with: docker compose --profile mail up
+  mail:
+    image: axllent/mailpit
+    profiles: [ mail ]
+    ports:
+      - "1025:1025"
+      - "${MAIL_UI_PORT:-8025}:8025"
+
+volumes:
+  bundle:
+  storage:
+  tmp:
+  log:

@@ -1,0 +1,69 @@
+<% content_for :title, "Edit your profile" %>
+
+<div class="mx-auto w-full max-w-2xl">
+  <h1 class="text-2xl font-semibold tracking-tight">Edit your profile</h1>
+
+  <div class="card mt-6 p-6 sm:p-8">
+    <%= render "shared/form_errors", model: @user %>
+
+    <%= form_with model: @user, url: profile_path, method: :patch, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :full_name, "Full name", class: "field-label" %>
+        <%= form.text_field :full_name, **field_error_attributes(@user, :full_name), required: true, autofocus: true, autocomplete: "name", maxlength: 120, class: "field-input" %>
+        <%= field_error @user, :full_name %>
+      </div>
+
+      <div>
+        <%= form.label :email, class: "field-label" %>
+        <%= form.email_field :email, **field_error_attributes(@user, :email), required: true, autocomplete: "username", class: "field-input" %>
+        <%= field_error @user, :email %>
+      </div>
+
+      <div>
+        <%= form.label :avatar_image, "Avatar", class: "field-label" %>
+        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4" data-controller="image-preview">
+          <img data-image-preview-target="preview" hidden alt=""
+               class="size-14 rounded-full object-cover ring-1 ring-slate-200">
+          <span data-image-preview-target="current">
+            <%= render "shared/avatar", user: @user, size: "size-14" %>
+          </span>
+          <%= form.file_field :avatar_image, **field_error_attributes(@user, :avatar_image),
+                accept: User::AVATAR_CONTENT_TYPES.join(","),
+                data: { image_preview_target: "input", action: "image-preview#show" },
+                class: "field-input file:mr-3 file:rounded-md file:border-0 file:bg-slate-100
+                        file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-slate-700" %>
+        </div>
+        <%= field_error @user, :avatar_image %>
+        <p class="field-hint">PNG, JPEG or WebP, up to 2 MB.</p>
+        <% if @user.avatar_image.attachment&.persisted? %>
+          <label class="mt-2 flex items-center gap-2 text-sm text-slate-600">
+            <%= form.check_box :remove_avatar_image, class: "rounded border-slate-300" %>
+            Remove the current avatar
+          </label>
+        <% end %>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <%= form.label :password, "New password", class: "field-label" %>
+          <%= form.password_field :password, **field_error_attributes(@user, :password), autocomplete: "new-password", minlength: 8, maxlength: 72,
+                placeholder: "Your password", class: "field-input" %>
+          <%= field_error @user, :password %>
+          <p class="field-hint">Leave blank to keep the current password.</p>
+        </div>
+
+        <div>
+          <%= form.label :password_confirmation, "Confirm password", class: "field-label" %>
+          <%= form.password_field :password_confirmation, **field_error_attributes(@user, :password_confirmation), autocomplete: "new-password",
+                minlength: 8, maxlength: 72, placeholder: "Your password", class: "field-input" %>
+          <%= field_error @user, :password_confirmation %>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <%= form.submit "Save changes", class: "btn-primary", data: { turbo_submits_with: "Saving…" } %>
+        <%= link_to "Cancel", profile_path, class: "btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

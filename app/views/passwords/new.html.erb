@@ -1,0 +1,23 @@
+<% content_for :title, "Reset your password" %>
+
+<div class="mx-auto w-full max-w-md">
+  <div class="card p-6 sm:p-8">
+    <h1 class="text-2xl font-semibold tracking-tight">Reset your password</h1>
+    <p class="mt-1 text-sm text-slate-500">We will email you a link to choose a new one.</p>
+
+    <%= form_with url: passwords_path, scope: :password_reset, class: "mt-6 space-y-5" do |form| %>
+      <div>
+        <%= form.label :email, class: "field-label" %>
+        <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username",
+              placeholder: "you@company.com", class: "field-input" %>
+      </div>
+
+      <%= form.submit "Email reset instructions", class: "btn-primary w-full",
+          data: { turbo_submits_with: "Sending…" } %>
+    <% end %>
+
+    <p class="mt-6 text-sm">
+      <%= link_to "Back to sign in", new_session_path, class: "text-slate-500 hover:text-slate-700" %>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<% password_digest = BCrypt::Password.create("secret-password") %>
+
+admin:
+  full_name: Grace Hopper
+  email: grace@umanni.test
+  password_digest: <%= password_digest %>
+  role: admin
+
+member:
+  full_name: Ada Lovelace
+  email: ada@umanni.test
+  password_digest: <%= password_digest %>
+  role: user

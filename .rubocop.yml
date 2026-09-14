@@ -1,0 +1,82 @@
+# Omakase plus the framework cops it leaves out, the Performance and Minitest
+# plugins, and complexity ceilings.
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+plugins:
+  - rubocop-minitest
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 4.0
+  NewCops: enable
+  Exclude:
+    - bin/**/*
+    - db/schema.rb
+    - db/*_schema.rb
+    - db/migrate/*_create_active_storage_tables.active_storage.rb
+    - vendor/**/*
+    - node_modules/**/*
+    - storage/**/*
+    - tmp/**/*
+
+Metrics/AbcSize:
+  Max: 17
+Metrics/BlockLength:
+  AllowedMethods: [ configure, draw, included, class_methods ]
+  Max: 30
+Metrics/ClassLength:
+  Max: 120
+  Exclude:
+    - test/**/*
+Metrics/CyclomaticComplexity:
+  Max: 7
+Metrics/MethodLength:
+  Max: 15
+  Exclude:
+    - db/migrate/**/*
+    - test/**/*
+Metrics/ModuleLength:
+  Max: 120
+Metrics/ParameterLists:
+  Max: 5
+Metrics/PerceivedComplexity:
+  Max: 8
+
+Layout/LineLength:
+  Max: 120
+  AllowedPatterns: [ '\A#' ]
+  Exclude:
+    - db/migrate/**/*
+
+# Omakase stays quiet about naming and dead code.
+Lint/UselessAssignment:
+  Enabled: true
+Naming/PredicateMethod:
+  Enabled: true
+Style/RedundantReturn:
+  Enabled: true
+Style/GuardClause:
+  Enabled: true
+Style/IfUnlessModifier:
+  Enabled: false
+
+Rails/Delegate:
+  Enabled: true
+Rails/HasManyOrHasOneDependent:
+  Enabled: true
+Rails/InverseOf:
+  Enabled: true
+Rails/OutputSafety:
+  Enabled: true
+Rails/SkipsModelValidations:
+  Enabled: true
+  # update_counters is how the import reports progress without loading each row.
+  AllowedMethods: [ touch, update_counters ]
+Rails/UniqueValidationWithoutIndex:
+  Enabled: true
+Rails/Validation:
+  Enabled: true
+
+Minitest/MultipleAssertions:
+  Max: 12

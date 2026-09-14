@@ -1,0 +1,14 @@
+<%# No variants: that would put libvips on every machine for a 40px thumbnail. %>
+<% size = local_assigns.fetch(:size, "size-10") %>
+
+<%# Saved, not merely assigned: a failed create would ask for a URL to an id-less blob. %>
+<% if user.avatar_image.attachment&.persisted? %>
+  <%= image_tag user.avatar_image,
+        alt: user.full_name,
+        loading: "lazy",
+        class: "#{size} shrink-0 rounded-full object-cover ring-1 ring-slate-200" %>
+<% else %>
+  <span class="<%= size %> flex shrink-0 items-center justify-center rounded-full bg-brand-50
+               text-xs font-semibold text-brand-700 ring-1 ring-slate-200"
+        aria-hidden="true"><%= user.initials %></span>
+<% end %>

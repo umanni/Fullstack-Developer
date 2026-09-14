@@ -1,0 +1,20 @@
+# Solid Cable in development too, so the broadcast path that ships is the one used.
+development:
+  adapter: solid_cable
+  connects_to:
+    database:
+      writing: cable
+  polling_interval: 0.1.seconds
+  message_retention: 1.day
+
+# System tests need real delivery; the :test adapter records instead of delivering.
+test:
+  adapter: async
+
+production:
+  adapter: solid_cable
+  connects_to:
+    database:
+      writing: cable
+  polling_interval: 0.1.seconds
+  message_retention: 1.day

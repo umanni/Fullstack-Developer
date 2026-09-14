@@ -1,0 +1,5 @@
+web: bin/rails server
+# Without `always` the watcher exits when stdin is not a TTY, and foreman takes the
+# whole application down with it.
+css: bin/rails tailwindcss:watch[always]
+jobs: bin/jobs

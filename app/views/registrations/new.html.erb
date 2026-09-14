@@ -1,0 +1,48 @@
+<% content_for :title, "Create your account" %>
+
+<div class="mx-auto w-full max-w-md">
+  <div class="card p-6 sm:p-8">
+    <h1 class="text-2xl font-semibold tracking-tight">Create your account</h1>
+    <p class="mt-1 text-sm text-slate-500">Takes less than a minute.</p>
+
+    <%= render "shared/form_errors", model: @user %>
+
+    <%= form_with model: @user, url: registration_path, class: "mt-6 space-y-5" do |form| %>
+      <div>
+        <%= form.label :full_name, "Full name", class: "field-label" %>
+        <%= form.text_field :full_name, **field_error_attributes(@user, :full_name), required: true, autofocus: true, autocomplete: "name",
+              maxlength: 120, placeholder: "Ada Lovelace", class: "field-input" %>
+        <%= field_error @user, :full_name %>
+      </div>
+
+      <div>
+        <%= form.label :email, class: "field-label" %>
+        <%= form.email_field :email, **field_error_attributes(@user, :email), required: true, autocomplete: "email",
+              placeholder: "you@company.com", class: "field-input" %>
+        <%= field_error @user, :email %>
+      </div>
+
+      <div>
+        <%= form.label :password, class: "field-label" %>
+        <%= form.password_field :password, **field_error_attributes(@user, :password), required: true, autocomplete: "new-password",
+              minlength: 8, maxlength: 72, placeholder: "Your password", class: "field-input" %>
+        <%= field_error @user, :password %>
+        <p class="field-hint">At least 8 characters.</p>
+      </div>
+
+      <div>
+        <%= form.label :password_confirmation, "Confirm password", class: "field-label" %>
+        <%= form.password_field :password_confirmation, **field_error_attributes(@user, :password_confirmation), required: true, autocomplete: "new-password",
+              minlength: 8, maxlength: 72, placeholder: "Your password", class: "field-input" %>
+        <%= field_error @user, :password_confirmation %>
+      </div>
+
+      <%= form.submit "Create account", class: "btn-primary w-full", data: { turbo_submits_with: "Creating…" } %>
+    <% end %>
+
+    <p class="mt-6 text-sm text-slate-500">
+      Already have an account?
+      <%= link_to "Sign in", new_session_path, class: "font-medium text-brand-600 hover:text-brand-700" %>
+    </p>
+  </div>
+</div>

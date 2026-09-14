@@ -1,0 +1,29 @@
+<% content_for :title, "Choose a new password" %>
+
+<div class="mx-auto w-full max-w-md">
+  <div class="card p-6 sm:p-8">
+    <h1 class="text-2xl font-semibold tracking-tight">Choose a new password</h1>
+
+    <%= form_with url: password_path(params[:token]), method: :put, scope: :password_reset, class: "mt-6 space-y-5" do |form| %>
+      <%= text_field_tag :email, @user.email, autocomplete: "username", readonly: true,
+            hidden: true, tabindex: -1, "aria-hidden": true, id: nil %>
+
+      <div>
+        <%= form.label :password, "New password", class: "field-label" %>
+        <%= form.password_field :password, **field_error_attributes(@user, :password), required: true, autofocus: true, autocomplete: "new-password",
+              minlength: 8, maxlength: 72, placeholder: "Your password", class: "field-input" %>
+        <%= field_error @user, :password %>
+        <p class="field-hint">At least 8 characters.</p>
+      </div>
+
+      <div>
+        <%= form.label :password_confirmation, "Confirm password", class: "field-label" %>
+        <%= form.password_field :password_confirmation, **field_error_attributes(@user, :password_confirmation), required: true, autocomplete: "new-password",
+              minlength: 8, maxlength: 72, placeholder: "Your password", class: "field-input" %>
+        <%= field_error @user, :password_confirmation %>
+      </div>
+
+      <%= form.submit "Save password", class: "btn-primary w-full", data: { turbo_submits_with: "Saving…" } %>
+    <% end %>
+  </div>
+</div>

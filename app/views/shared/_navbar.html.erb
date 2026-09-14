@@ -1,0 +1,26 @@
+<header class="border-b border-slate-200 bg-white">
+  <nav class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2
+              px-4 py-3 sm:px-6 lg:px-8">
+    <%= link_to root_path, class: "font-semibold tracking-tight text-slate-900" do %>
+      Umanni
+    <% end %>
+
+    <div class="flex flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:gap-x-4">
+      <% if Current.user.admin? %>
+        <%= link_to "Dashboard", admin_dashboard_path, class: "text-sm font-medium text-slate-600 hover:text-slate-900" %>
+        <%= link_to "Users", admin_users_path, class: "text-sm font-medium text-slate-600 hover:text-slate-900" %>
+        <%= link_to "Imports", admin_spreadsheet_imports_path, class: "text-sm font-medium text-slate-600 hover:text-slate-900" %>
+      <% end %>
+
+      <%= link_to "Profile", profile_path, class: "text-sm font-medium text-slate-600 hover:text-slate-900" %>
+
+      <span class="hidden text-sm text-slate-400 sm:inline">|</span>
+      <span class="hidden items-center gap-2 text-sm text-slate-600 sm:inline-flex">
+        <%= render "shared/avatar", user: Current.user, size: "size-7" %>
+        <%= Current.user.full_name %>
+      </span>
+
+      <%= button_to "Sign out", session_path, method: :delete, class: "btn-secondary whitespace-nowrap" %>
+    </div>
+  </nav>
+</header>

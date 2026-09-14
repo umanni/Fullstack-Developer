@@ -1,0 +1,20 @@
+default: &default
+  store_options:
+    # Cap age of oldest cache entry to fulfill retention policies
+    # max_age: <%= 60.days.to_i %>
+    max_size: <%= 256.megabytes %>
+    namespace: <%= Rails.env %>
+
+# Without this the store falls back to the primary database, where
+# solid_cache_entries does not exist, and every rate-limited action raises.
+development:
+  database: cache
+  <<: *default
+
+# The test environment uses :null_store (config/environments/test.rb), so no database.
+test:
+  <<: *default
+
+production:
+  database: cache
+  <<: *default

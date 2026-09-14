@@ -1,0 +1,7 @@
+<%= turbo_stream.replace dom_id(@user) do %>
+  <%= render "admin/users/user", user: @user %>
+<% end %>
+
+<%= turbo_stream.replace "flash" do %>
+  <%= render "shared/flash" %>
+<% end %>

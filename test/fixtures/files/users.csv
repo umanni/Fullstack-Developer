@@ -1,0 +1,6 @@
+full_name,email,role
+Katherine Johnson,katherine@umanni.test,admin
+Dorothy Vaughan,dorothy@umanni.test,user
+Mary Jackson,mary@umanni.test,
+,no-name@umanni.test,user
+Duplicate Person,katherine@umanni.test,user

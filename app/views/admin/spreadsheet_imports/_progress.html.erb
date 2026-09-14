@@ -1,0 +1,85 @@
+<div id="<%= dom_id(spreadsheet_import, :progress) %>" class="card p-6">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <span class="<%= import_status_badge(spreadsheet_import) %>">
+        <%= spreadsheet_import.status.capitalize %>
+      </span>
+      <p class="text-sm text-slate-500">
+        <%= spreadsheet_import.file.filename %>
+      </p>
+    </div>
+
+    <p class="text-sm tabular-nums text-slate-500">
+      <%= spreadsheet_import.processed_rows %> of <%= spreadsheet_import.total_rows %> rows
+    </p>
+  </div>
+
+  <div class="mt-4 h-2 w-full overflow-hidden rounded-full bg-slate-100"
+       role="progressbar"
+       aria-valuenow="<%= spreadsheet_import.progress %>"
+       aria-valuemin="0"
+       aria-valuemax="100"
+       aria-label="Import progress">
+    <div class="h-full rounded-full <%= spreadsheet_import.failed? ? "bg-red-500" : "bg-brand-600" %>"
+         style="width: <%= spreadsheet_import.progress %>%"></div>
+  </div>
+
+  <dl class="mt-5 grid grid-cols-3 gap-4 border-t border-slate-100 pt-5">
+    <div>
+      <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Imported</dt>
+      <dd id="<%= dom_id(spreadsheet_import, :imported) %>"
+          class="mt-1 text-xl font-semibold tabular-nums"><%= spreadsheet_import.imported_rows %></dd>
+    </div>
+    <div>
+      <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Rejected</dt>
+      <dd id="<%= dom_id(spreadsheet_import, :rejected) %>"
+          class="mt-1 text-xl font-semibold tabular-nums"><%= spreadsheet_import.failed_rows %></dd>
+    </div>
+    <div>
+      <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total</dt>
+      <dd class="mt-1 text-xl font-semibold tabular-nums"><%= spreadsheet_import.total_rows %></dd>
+    </div>
+  </dl>
+
+  <% if spreadsheet_import.pending? || spreadsheet_import.processing? %>
+    <p class="mt-5 text-sm text-slate-500">This page updates itself while the import runs.</p>
+  <% elsif spreadsheet_import.imported_rows.positive? %>
+    <p class="mt-5 text-sm text-slate-500">
+      Imported people have no password yet. They set one through
+      <%= link_to "the password reset flow", new_password_path, class: "text-brand-600 hover:text-brand-700" %>.
+    </p>
+  <% end %>
+
+  <% if spreadsheet_import.failure_reason.present? %>
+    <div class="mt-5 rounded-lg bg-red-50 px-4 py-3 ring-1 ring-inset ring-red-200">
+      <p class="text-sm font-medium text-red-800">The file could not be read</p>
+      <p class="mt-1 text-sm text-red-700">
+        Check that it opens in a spreadsheet application and has a header row.
+      </p>
+      <details class="mt-2">
+        <summary class="cursor-pointer text-xs text-red-700">What the parser reported</summary>
+        <p class="mt-1 font-mono text-xs break-words text-red-600/80"><%= spreadsheet_import.failure_reason %></p>
+      </details>
+    </div>
+  <% end %>
+
+  <% if spreadsheet_import.row_errors.any? %>
+    <div class="mt-5 border-t border-slate-100 pt-5">
+      <p class="text-sm font-medium text-slate-700">Rows that could not be imported</p>
+      <% if spreadsheet_import.unlisted_failures.positive? %>
+        <p class="mt-1 text-sm text-slate-500">
+          Showing the first <%= spreadsheet_import.row_errors.size %>
+          of <%= spreadsheet_import.failed_rows %>.
+        </p>
+      <% end %>
+      <ul class="mt-2 space-y-1 text-sm text-slate-600">
+        <% spreadsheet_import.row_errors.each do |row_error| %>
+          <li>
+            <span class="font-medium tabular-nums">Line <%= row_error["line"] %></span>
+            — <%= row_error["message"] %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

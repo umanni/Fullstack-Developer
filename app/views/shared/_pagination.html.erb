@@ -1,0 +1,17 @@
+<% if page.previous? || page.next? %>
+  <nav class="mt-6 grid grid-cols-3 items-center" aria-label="Pagination">
+    <% if page.previous? %>
+      <%= link_to "← Previous", url_for(filters.merge(page: page.number - 1)), class: "btn-secondary justify-self-start" %>
+    <% else %>
+      <span></span>
+    <% end %>
+
+    <span class="text-center text-sm text-slate-500">Page <%= page.number %></span>
+
+    <% if page.next? %>
+      <%= link_to "Next →", url_for(filters.merge(page: page.number + 1)), class: "btn-secondary justify-self-end" %>
+    <% else %>
+      <span></span>
+    <% end %>
+  </nav>
+<% end %>

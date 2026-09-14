@@ -1,0 +1,9 @@
+<% content_for :title, "New user" %>
+
+<div class="mx-auto w-full max-w-2xl">
+  <h1 class="text-2xl font-semibold tracking-tight">New user</h1>
+
+  <div class="card mt-6 p-6 sm:p-8">
+    <%= render "admin/users/form", user: @user, url: admin_users_path, submit_label: "Create user" %>
+  </div>
+</div>

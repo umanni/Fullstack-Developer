@@ -1,0 +1,18 @@
+<div id="metrics" class="grid gap-4 sm:grid-cols-3">
+  <div class="card p-5">
+    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total users</p>
+    <p id="metric-total" class="mt-2 text-3xl font-semibold tabular-nums text-slate-900"><%= total %></p>
+  </div>
+
+  <% User.roles.each_key do |role| %>
+    <div class="card p-5">
+      <p class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <span class="size-2 rounded-full <%= role == "admin" ? "bg-brand-600" : "bg-slate-400" %>"></span>
+        <%= role.pluralize.capitalize %>
+      </p>
+      <p id="metric-<%= role %>" class="mt-2 text-3xl font-semibold tabular-nums text-slate-900">
+        <%= counts_by_role.fetch(role, 0) %>
+      </p>
+    </div>
+  <% end %>
+</div>

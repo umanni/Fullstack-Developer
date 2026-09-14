@@ -1,0 +1,9 @@
+<% content_for :title, "Edit #{@user.full_name}" %>
+
+<div class="mx-auto w-full max-w-2xl">
+  <h1 class="truncate text-2xl font-semibold tracking-tight">Edit <%= @user.full_name %></h1>
+
+  <div class="card mt-6 p-6 sm:p-8">
+    <%= render "admin/users/form", user: @user, url: admin_user_path(@user), submit_label: "Save changes" %>
+  </div>
+</div>
