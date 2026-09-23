@@ -1,0 +1,86 @@
+<%# locals: (user:, url:, submit_label:, show_role: false, roles: [], method: :post) %>
+<%= form_with model: user, url: url, method: local_assigns.fetch(:method, :post), multipart: true, class: "contents", data: { controller: "form-validation" } do |form| %>
+  <% if user.errors.any? %>
+    <div class="my-5 text-red-600">
+      <h2><%= pluralize(user.errors.count, "erro") %> impediram o salvamento:</h2>
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :full_name, "Nome completo" %>
+    <%= form.text_field :full_name, required: true, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full", data: { form_validation_target: "fullName", action: "input->form-validation#validate" } %>
+    <p class="text-red-600 text-sm mt-1 hidden" data-form-validation-target="fullNameError">Informe o nome completo.</p>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :email, "E-mail" %>
+    <%= form.email_field :email, required: true, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full", data: { form_validation_target: "email", action: "input->form-validation#validate" } %>
+    <p class="text-red-600 text-sm mt-1 hidden" data-form-validation-target="emailError">Informe um e-mail válido.</p>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :password, "Senha" %>
+    <%= form.password_field :password, autocomplete: "new-password", maxlength: 72, required: user.new_record?, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full", data: { form_validation_target: "password", action: "input->form-validation#validate" } %>
+    <div class="text-sm text-gray-500 mt-1"><%= user.new_record? ? "Mínimo de 8 caracteres" : "Deixe em branco para manter a senha atual" %></div>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :password_confirmation, "Confirmação de senha" %>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password", maxlength: 72, required: user.new_record?, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full", data: { form_validation_target: "passwordConfirmation", action: "input->form-validation#validate" } %>
+    <p class="text-red-600 text-sm mt-1 hidden" data-form-validation-target="passwordError">As senhas devem coincidir (mín. 8).</p>
+  </div>
+
+  <div class="my-5" data-controller="avatar-preview">
+    <%= form.label :avatar_url, "URL pública da foto" %>
+    <div class="mt-2 mb-3 flex items-center gap-3">
+      <% if user.avatar_url.present? %>
+        <img
+          data-avatar-preview-target="preview"
+          src="<%= user.avatar_url %>"
+          alt="Prévia do avatar"
+          width="64"
+          height="64"
+          class="rounded-full object-cover border border-gray-300"
+          data-action="error->avatar-preview#onError">
+        <span data-avatar-preview-target="placeholder" class="inline-block w-16 h-16 rounded-full bg-gray-200 text-center leading-[4rem] text-sm hidden">
+          <%= user.full_name.to_s[0]&.upcase %>
+        </span>
+      <% else %>
+        <img
+          data-avatar-preview-target="preview"
+          alt="Prévia do avatar"
+          width="64"
+          height="64"
+          class="rounded-full object-cover border border-gray-300 hidden"
+          data-action="error->avatar-preview#onError">
+        <span data-avatar-preview-target="placeholder" class="inline-block w-16 h-16 rounded-full bg-gray-200 text-center leading-[4rem] text-sm">
+          <%= user.full_name.to_s[0]&.upcase %>
+        </span>
+      <% end %>
+    </div>
+    <%= form.url_field :avatar_url,
+          class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 w-full",
+          data: { avatar_preview_target: "url", action: "input->avatar-preview#refresh change->avatar-preview#refresh" } %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :avatar_image, "Arquivo da foto" %>
+    <%= form.file_field :avatar_image, accept: "image/*" %>
+  </div>
+
+  <% if show_role %>
+    <div class="my-5">
+      <%= form.label :user_role_id, "Perfil" %>
+      <%= form.collection_select :user_role_id, roles, :id, :label, {}, class: "mt-2" %>
+    </div>
+  <% end %>
+
+  <div class="inline">
+    <%= form.submit submit_label, class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

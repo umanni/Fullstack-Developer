@@ -1,0 +1,10 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Editar usuário</h1>
+
+  <%= render "shared/user_form", user: @user, url: admin_user_path(@user), method: :patch, submit_label: "Atualizar usuário", show_role: true, roles: @roles %>
+
+  <div class="mt-4">
+    <%= link_to "Ver", admin_user_path(@user) %> |
+    <%= link_to "Voltar aos usuários", admin_users_path %>
+  </div>
+</div>

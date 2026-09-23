@@ -1,0 +1,38 @@
+<div
+  data-controller="import-progress"
+  data-import-progress-id-value="<%= @import.id %>">
+
+  <h1 class="font-bold text-4xl">Importação #<%= @import.id %></h1>
+  <p class="my-2"><%= @import.filename %></p>
+
+  <div class="my-5 border border-gray-300 rounded-md p-4">
+    <p>
+      Status:
+      <strong data-import-progress-target="status"><%= import_status_label(@import.status) %></strong>
+      (<span data-import-progress-target="percentLabel"><%= @import.progress_percent %>%</span>)
+    </p>
+
+    <div class="w-full bg-gray-200 h-3 rounded mt-3 mb-3">
+      <div class="bg-blue-600 h-3 rounded" data-import-progress-target="bar" style="width: <%= @import.progress_percent %>%; transition: width 0.3s;"></div>
+    </div>
+
+    <p>
+      Processados:
+      <span data-import-progress-target="processed"><%= @import.processed_rows %>/<%= @import.total_rows %></span>
+    </p>
+    <p>
+      Sucesso:
+      <span data-import-progress-target="success"><%= @import.success_count %></span>
+    </p>
+    <p>
+      Falhas:
+      <span data-import-progress-target="failure"><%= @import.failure_count %></span>
+    </p>
+
+    <p class="text-red-600 <%= 'hidden' unless @import.error_message.present? %>" data-import-progress-target="error">
+      <%= @import.error_message %>
+    </p>
+  </div>
+
+  <%= link_to "Voltar às importações", admin_imports_path %>
+</div>

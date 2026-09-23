@@ -1,0 +1,6 @@
+full_name,email,password,role,avatar_url
+Ana Souza,ana.souza@example.com,password123,no-admin,https://i.pravatar.cc/150?u=ana
+Bruno Lima,bruno.lima@example.com,password123,admin,https://i.pravatar.cc/150?u=bruno
+Carla Mendes,carla.mendes@example.com,,no-admin,
+Diego Alves,diego.alves@example.com,password123,no-admin,https://i.pravatar.cc/150?u=diego
+Elena Rocha,elena.rocha@example.com,password123,yes,https://i.pravatar.cc/150?u=elena

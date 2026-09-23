@@ -1,0 +1,9 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Criar conta</h1>
+
+  <%= render "shared/user_form", user: @user, url: registration_path, submit_label: "Criar conta", show_role: false %>
+
+  <div class="mt-4">
+    <%= link_to "Já tem conta? Entrar", new_session_path %>
+  </div>
+</div>

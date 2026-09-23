@@ -85,3 +85,10 @@ These are mandatory. Failing any of them will invalidate your submission.
 - Code's Semantics, Cleanness, and Maintainability (Senior-level object-oriented design and clean React/Stimulus component lifecycle).
 - Modern Rails 8 idiom usage (e.g., Strict structural params handling, Solid architecture separation).
 - Basic Security testing against traditional vectors (SQLi, XSS, XSRF) and proper encryption of sensitive DB columns where applicable.
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+# Detalhes do Projeto
+
+ - .desenvolvimento.md

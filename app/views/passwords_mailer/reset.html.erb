@@ -1,0 +1,5 @@
+<p>
+  Redefina sua senha nesta
+  <%= link_to "página de redefinição", edit_password_url(@user.generate_token_for(:password_reset)) %>.
+  O link expira em 15 minutos.
+</p>

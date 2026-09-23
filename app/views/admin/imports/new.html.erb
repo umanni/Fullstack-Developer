@@ -1,0 +1,35 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Nova importação</h1>
+  <p class="my-3 text-gray-600">
+    CSV/XLSX com colunas: full_name, email. Opcional: password, role, avatar_url.
+  </p>
+  <p class="mb-5 text-sm">
+    Baixar exemplo:
+    <%= link_to "usuarios_exemplo.xlsx", "/examples/usuarios_exemplo.xlsx" %>
+    ·
+    <%= link_to "usuarios_exemplo.csv", "/examples/usuarios_exemplo.csv" %>
+  </p>
+
+  <%= form_with model: @import, url: admin_imports_path, multipart: true, class: "contents" do |form| %>
+    <% if @import.errors.any? %>
+      <div class="my-5 text-red-600">
+        <ul>
+          <% @import.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="my-5">
+      <%= form.label :spreadsheet, "Planilha" %>
+      <%= form.file_field :spreadsheet, accept: ".csv,.xlsx,.xls", required: true %>
+    </div>
+
+    <%= form.submit "Iniciar importação", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <% end %>
+
+  <div class="mt-4">
+    <%= link_to "Voltar às importações", admin_imports_path %>
+  </div>
+</div>

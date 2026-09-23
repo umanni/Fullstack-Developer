@@ -1,0 +1,6 @@
+<% url = user.avatar_display_url %>
+<% if url.present? %>
+  <%= image_tag url, alt: user.full_name, width: 40, height: 40, style: "border-radius: 50%; object-fit: cover;" %>
+<% else %>
+  <span class="inline-block w-10 h-10 rounded-full bg-gray-200 text-center leading-10 text-sm"><%= user.full_name.to_s[0]&.upcase %></span>
+<% end %>

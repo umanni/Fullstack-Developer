@@ -1,0 +1,82 @@
+# config/deploy.yml — Kamal 2.12 — Fullstack Developer (Rails 8 / Ruby 4.0 / SQLite + Thruster)
+# Documentação: kamal docs servers/env/registry/proxy/builder
+# Uso:
+#   bundle exec kamal config          # valida
+#   bundle exec kamal registry login
+#   bundle exec kamal setup           # primeiro deploy (cria proxy + volumes + app)
+#   bundle exec kamal deploy
+#   bundle exec kamal app logs -f
+
+service: fullstack-developer
+image: pietrovieiradev/fullstack_developer
+
+servers:
+  web:
+    hosts:
+      - 191.252.204.221
+  # job:
+  #   hosts:
+  #     - 192.168.0.1
+  #   cmd: "./bin/jobs"
+
+proxy:
+  host: umanni.bookinglab.digital
+  ssl: false          # SSL no nginx / Cloudflare; Let's Encrypt do Kamal exige 80/443
+  app_port: 80        # Thruster no container
+  healthcheck:
+    path: /up
+    interval: 3
+    timeout: 3
+  run:
+    http_port: 8080
+    https_port: 8443
+
+registry:
+  server: registry.hub.docker.com
+  username: pietrovieiradev
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+  dockerfile: Dockerfile
+  target: production
+  context: .
+
+env:
+  clear:
+    RAILS_ENV: production
+    RAILS_SERVE_STATIC_FILES: 1
+    RAILS_LOG_TO_STDOUT: 1
+    SOLID_QUEUE_IN_PUMA: 1  # mantém jobs no Puma; mude para 0 se usar role `job` separada
+    RAILS_MAX_THREADS: 5
+    WEB_CONCURRENCY: 1
+  secret:
+    - RAILS_MASTER_KEY
+
+volumes:
+  - fullstack-developer-storage:/rails/storage
+
+asset_path: /rails/public/assets
+
+boot:
+  limit: 10
+  wait: 2
+
+aliases:
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  console: app exec --interactive --reuse "bin/rails console"
+
+# accessories:
+#   db:
+#     image: postgres:16
+#     host: 192.168.0.2
+#     port: 5432
+#     env:
+#       clear:
+#         POSTGRES_DB: fullstack_production
+#       secret:
+#         - POSTGRES_PASSWORD
+#     directories:
+#       - data:/var/lib/postgresql/data

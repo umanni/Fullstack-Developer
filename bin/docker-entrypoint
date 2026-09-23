@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+# Ensure storage dirs exist and are writable (for first run without volume)
+mkdir -p /rails/storage /rails/tmp/pids /rails/log
+
+# If running the rails server then create or migrate existing database
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+  ./bin/rails db:prepare
+fi
+
+exec "${@}"

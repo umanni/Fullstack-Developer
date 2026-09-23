@@ -1,0 +1,132 @@
+pt:
+  activerecord:
+    models:
+      user:
+        one: Usuário
+        other: Usuários
+      user_role:
+        one: Perfil
+        other: Perfis
+      import:
+        one: Importação
+        other: Importações
+    attributes:
+      user:
+        full_name: Nome completo
+        email: E-mail
+        password: Senha
+        password_confirmation: Confirmação de senha
+        password_digest: Senha
+        avatar_url: URL pública da foto
+        avatar_image: Arquivo da foto
+        user_role: Perfil
+        user_role_id: Perfil
+        created_at: Criado em
+        updated_at: Atualizado em
+      import:
+        filename: Arquivo
+        spreadsheet: Planilha
+        status: Status
+        total_rows: Total de linhas
+        processed_rows: Linhas processadas
+        success_count: Sucessos
+        failure_count: Falhas
+        error_message: Mensagem de erro
+        created_at: Criado em
+        updated_at: Atualizado em
+      user_role:
+        label: Nome
+        is_admin: Administrador
+    errors:
+      models:
+        user:
+          attributes:
+            avatar_url:
+              invalid_url: deve ser uma URL HTTP(S) válida
+            email:
+              taken: já está em uso
+              invalid: não é um e-mail válido
+            password:
+              too_short: é muito curta (mínimo %{count} caracteres)
+            password_confirmation:
+              confirmation: não confere com a senha
+            full_name:
+              blank: não pode ficar em branco
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: não pode ficar em branco
+      invalid: é inválido
+      taken: já está em uso
+      confirmation: não confere
+      too_short: é muito curta (mínimo %{count} caracteres)
+      required: é obrigatório
+      not_a_number: não é um número
+  helpers:
+    submit:
+      user:
+        create: Criar usuário
+        update: Salvar
+      create: Criar
+      update: Salvar
+      submit: Enviar
+    label:
+      user:
+        full_name: Nome completo
+        email: E-mail
+        password: Senha
+        password_confirmation: Confirmação de senha
+        avatar_url: URL pública da foto
+        avatar_image: Arquivo da foto
+        user_role_id: Perfil
+      import:
+        spreadsheet: Planilha
+      email: E-mail
+      password: Senha
+      password_confirmation: Confirmação de senha
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " e "
+      last_word_connector: " e "
+  datetime:
+    distance_in_words:
+      half_a_minute: meio minuto
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      less_than_x_minutes:
+        one: menos de um minuto
+        other: menos de %{count} minutos
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      about_x_hours:
+        one: aproximadamente 1 hora
+        other: aproximadamente %{count} horas
+      x_days:
+        one: 1 dia
+        other: "%{count} dias"
+      about_x_months:
+        one: aproximadamente 1 mês
+        other: aproximadamente %{count} meses
+      x_months:
+        one: 1 mês
+        other: "%{count} meses"
+      about_x_years:
+        one: aproximadamente 1 ano
+        other: aproximadamente %{count} anos
+      over_x_years:
+        one: mais de 1 ano
+        other: mais de %{count} anos
+      almost_x_years:
+        one: quase 1 ano
+        other: quase %{count} anos
+  number:
+    format:
+      separator: ","
+      delimiter: "."
+      precision: 3

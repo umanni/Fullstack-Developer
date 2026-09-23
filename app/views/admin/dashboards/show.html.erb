@@ -1,0 +1,52 @@
+<div
+  data-controller="dashboard"
+  data-dashboard-total-value="<%= @stats[:total] %>"
+  data-dashboard-admins-value="<%= @stats[:admins] %>"
+  data-dashboard-non-admins-value="<%= @stats[:non_admins] %>">
+
+  <h1 class="font-bold text-4xl">Painel</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-5">
+    <div class="border border-gray-300 rounded-md p-4">
+      <div class="text-sm text-gray-500">Total de usuários</div>
+      <div class="text-3xl font-bold" data-dashboard-target="total"><%= @stats[:total] %></div>
+    </div>
+    <div class="border border-gray-300 rounded-md p-4">
+      <div class="text-sm text-gray-500">Admins</div>
+      <div class="text-3xl font-bold" data-dashboard-target="admins"><%= @stats[:admins] %></div>
+    </div>
+    <div class="border border-gray-300 rounded-md p-4">
+      <div class="text-sm text-gray-500">Não-admins</div>
+      <div class="text-3xl font-bold" data-dashboard-target="nonAdmins"><%= @stats[:non_admins] %></div>
+    </div>
+  </div>
+
+  <div class="flex gap-2 mb-8">
+    <%= link_to "Gerenciar usuários", admin_users_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white font-medium" %>
+    <%= link_to "Importar planilha", new_admin_import_path, class: "rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  </div>
+
+  <h2 class="font-bold text-2xl mb-3">Importações recentes</h2>
+  <% if @recent_imports.any? %>
+    <table class="w-full text-left">
+      <thead>
+        <tr>
+          <th class="pb-2">Arquivo</th>
+          <th class="pb-2">Status</th>
+          <th class="pb-2">Progresso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @recent_imports.each do |import| %>
+          <tr class="border-t border-gray-200">
+            <td class="py-2"><%= link_to import.filename, admin_import_path(import) %></td>
+            <td class="py-2"><%= import_status_label(import.status) %></td>
+            <td class="py-2"><%= import.processed_rows %>/<%= import.total_rows %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Nenhuma importação ainda.</p>
+  <% end %>
+</div>

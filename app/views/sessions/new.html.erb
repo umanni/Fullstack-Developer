@@ -1,0 +1,25 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Entrar</h1>
+
+  <%= form_with url: session_path, class: "contents" do |form| %>
+    <div class="my-5">
+      <%= form.label :email, "E-mail" %>
+      <%= form.email_field :email, required: true, autofocus: true, autocomplete: "username", value: params[:email], class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :password, "Senha" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    </div>
+
+    <div class="inline">
+      <%= form.submit "Entrar", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+
+  <p class="mt-4">
+    <%= link_to "Esqueci a senha", new_password_path %>
+    ·
+    <%= link_to "Criar conta", new_registration_path %>
+  </p>
+</div>

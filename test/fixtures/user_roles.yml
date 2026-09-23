@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+admin:
+  label: Admin
+  is_admin: true
+
+member:
+  label: Não-admin
+  is_admin: false

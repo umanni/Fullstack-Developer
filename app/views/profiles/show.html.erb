@@ -1,0 +1,18 @@
+<div class="w-full">
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl">Perfil</h1>
+    <div class="flex gap-2">
+      <%= link_to "Editar", edit_profile_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= button_to "Excluir", profile_path, method: :delete, form: { data: { turbo_confirm: "Tem certeza?" } }, class: "rounded-lg py-3 px-5 bg-red-100 text-red-700 font-medium cursor-pointer" %>
+    </div>
+  </div>
+
+  <div class="my-5 flex gap-4 items-start">
+    <%= render "shared/avatar", user: @user %>
+    <div>
+      <p><strong>Nome:</strong> <%= @user.full_name %></p>
+      <p><strong>E-mail:</strong> <%= @user.email %></p>
+      <p><strong>Perfil:</strong> <%= @user.user_role.label %></p>
+    </div>
+  </div>
+</div>

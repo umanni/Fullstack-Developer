@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title><%= content_for(:title) || "Umanni Usuários" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= action_cable_meta_tag %>
+    <%= yield :head %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-white">
+    <% if authenticated? %>
+      <div class="border-b border-gray-300 mb-6">
+        <div class="w-full max-w-4xl mx-auto px-4 py-3 flex flex-wrap gap-4 items-center justify-between text-sm">
+          <div class="flex flex-wrap gap-4 items-center">
+            <strong><%= link_to "Umanni Usuários", root_path %></strong>
+            <% if current_user.admin? %>
+              <%= link_to "Painel", admin_dashboard_path %>
+              <%= link_to "Usuários", admin_users_path %>
+              <%= link_to "Importações", admin_imports_path %>
+            <% end %>
+            <%= link_to "Perfil", profile_path %>
+          </div>
+          <div class="flex gap-3 items-center">
+            <span class="text-gray-600"><%= current_user.email %></span>
+            <%= button_to "Sair", session_path, method: :delete, class: "underline cursor-pointer bg-transparent border-0 p-0 text-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <main class="w-full max-w-4xl mx-auto px-4 pb-10">
+      <% if notice = flash[:notice] %>
+        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+      <% end %>
+      <% if alert = flash[:alert] %>
+        <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

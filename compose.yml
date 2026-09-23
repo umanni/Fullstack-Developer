@@ -1,0 +1,140 @@
+# compose.yml — Rails 8 (Ruby 4.0) + SQLite + Solid Queue/Cable/Cache + Thruster
+# Uso rápido:
+#   cp .env.example .env          # só precisa ajustar RAILS_MASTER_KEY se usar produção
+#   docker compose up --build     # dev (http://localhost:3333)
+#   docker compose --profile prod up --build  # prod-like com Thruster em :80
+#   docker compose exec web bin/rails db:seed
+#   docker compose down
+
+name: fullstack-developer
+
+services:
+  # ──────────────────────────────────────────────────────────
+  # Desenvolvimento (padrão: `docker compose up`)
+  # ──────────────────────────────────────────────────────────
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: fullstack-developer:dev
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails db:prepare && ./bin/rails tailwindcss:build && ./bin/rails server -b 0.0.0.0 -p 3333"
+    ports:
+      - "${WEB_PORT:-3333}:3333"
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: development
+      # Solid Queue dentro do Puma (single-server). Para separar jobs, use o serviço `jobs` abaixo.
+      SOLID_QUEUE_IN_PUMA: 1
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-0}
+      # Em dev o master.key já está no volume; em CI pode vir via env
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-8c4e68dfdbf780e0f970860b84ac4fa8}
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+      # volumes anônimos para não sobrescrever builds gerados no container
+      - /rails/tmp
+      - /rails/log
+      - /rails/app/assets/builds
+      - /rails/public/assets
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3333/up || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+  # Worker separado (opcional em dev). Descomente ou rode com --profile jobs
+  # Se usar SOLID_QUEUE_IN_PUMA=1 no web, este serviço é opcional.
+  jobs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: fullstack-developer:dev
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/jobs"
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-8c4e68dfdbf780e0f970860b84ac4fa8}
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+      - /rails/tmp
+      - /rails/log
+    depends_on:
+      web:
+        condition: service_healthy
+    profiles: ["jobs"]
+    restart: unless-stopped
+
+  # ──────────────────────────────────────────────────────────
+  # Produção local (profile: prod) — `docker compose --profile prod up --build`
+  # Roda Thruster + Puma em :80 com imagem enxuta sem bind mount
+  # ──────────────────────────────────────────────────────────
+  web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: fullstack-developer:prod
+    ports:
+      - "${WEB_PROD_PORT:-80}:80"
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      RAILS_SERVE_STATIC_FILES: 1
+      RAILS_LOG_TO_STDOUT: 1
+      SOLID_QUEUE_IN_PUMA: 1
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-1}
+    volumes:
+      # Persistência real em produção (SQLite no volume, não no bind mount)
+      - storage_prod:/rails/storage
+      - log_prod:/rails/log
+      - tmp_prod:/rails/tmp
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/up || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    profiles: ["prod"]
+    restart: unless-stopped
+
+  # Worker dedicado em produção (profile: prod)
+  jobs-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: fullstack-developer:prod
+    command: ["./bin/jobs"]
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    volumes:
+      - storage_prod:/rails/storage
+      - log_prod:/rails/log
+      - tmp_prod:/rails/tmp
+    depends_on:
+      web-prod:
+        condition: service_healthy
+    profiles: ["prod"]
+    restart: unless-stopped
+
+volumes:
+  bundle_cache:
+  storage_prod:
+  log_prod:
+  tmp_prod:
